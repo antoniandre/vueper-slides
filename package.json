@@ -32,7 +32,8 @@
     "rollup-plugin-pug": "^0.1.6",
     "rollup-plugin-scss": "^0.4.0",
     "rollup-plugin-vue": "^3.0.0",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.16",
+    "vuetify": "^1.0.8"
   },
   "dependencies": {
     "vue": "^2.5.16"

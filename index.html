@@ -4,10 +4,16 @@
     <title>Vueper Slides Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://unpkg.com/vue"></script> -->
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <script src="node_modules/vuetify/dist/vuetify.min.js"></script>
+    <script src="dist/vueperslides.umd.js"></script>
+    <link href="node_modules/vuetify/dist/vuetify.min.css" rel="stylesheet" />
     <link href="./page.css" rel="stylesheet" />
     <style>
     .vueperslides__slide {
       position: relative;
+      background-position: bottom;
     }
 
     .vueperslides__slide-content--outside {
@@ -28,11 +34,11 @@
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     }
 
-    .vueperslides__slide-content .title {
+    .vueperslides__slide-content .slide-title {
       font-size: 2em;
     }
 
-    .vueperslides__slide-content .content {
+    .vueperslides__slide-content .slide-content {
       font-style: italic;
     }
 
@@ -41,10 +47,71 @@
       margin-top: 0;
     }
 
-    .vueperslides__slide .vueperslides__slide-content .content {
+    .vueperslides__slide .vueperslides__slide-content .slide-content {
       position: relative;
       top: 3em;
     }
+
+    .ex1 .vueperslides__slide {
+      background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+      background-size: 400% 400%;
+      -webkit-animation: gradient 15s ease infinite;
+      -moz-animation: gradient 15s ease infinite;
+      animation: gradient 15s ease infinite;
+    }
+
+    .ex1 .slide-title {
+      font-size: 7em;
+      opacity: 0.6;
+    }
+
+    .ex3 .vueperslides__bullet {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      box-shadow: none;
+      transition: 0.3s;
+    }
+
+    .ex3 .vueperslides__bullet--active {
+      background-color: #ff5252;
+    }
+
+    @-webkit-keyframes gradient {
+      0% {
+        background-position: 0% 50%
+      }
+      50% {
+        background-position: 100% 50%
+      }
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    @-moz-keyframes gradient {
+      0% {
+        background-position: 0% 50%
+      }
+      50% {
+        background-position: 100% 50%
+      }
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%
+      }
+      50% {
+        background-position: 100% 50%
+      }
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
     </style>
   </head>
   <body>
@@ -87,23 +154,71 @@
           <h1>Vueper Slides</h1>
         </div>
       </header>
-      <p class="max-widthed">Vueper Slides is made for VueJS and was inspired by the famous Slick Carousel.</p>
-      <h2 class="max-widthed">Vueper Slides #1</h2>
-      <p class="max-widthed">autoplay, infinite</p>
-      <vueper-slides autoplay>
+
+      <p class="intro">Vueper Slides is an easy to use responsive & touch-ready slideshow made for VueJS.
+        <br>Inspired by the famous Slick Carousel.</p>
+
+      <v-layout class="max-widthed" row align-center>
+        <p>Vueper Slides comes with a minimum of styling (using the <i>BEM</i> convention).<br>
+          You can easily override it, the aim is to let users have their own styles.</p>
+        <v-spacer></v-spacer>
+        <div class="coming-soon">
+          <h4>Coming soon...</h4>
+          <ul>
+            <li>Emit events</li>
+            <li>Breakpoints</li>
+            <li>Center mode</li>
+            <li>Nav for</li>
+            <li>Slides to scroll at once</li>
+            <li>Dragging distance</li>
+            <li>Slide with keyboard arrows</li>
+            <li>Add slides on the fly</li>
+            <li>Lazy loading</li>
+            <li>Remove / disable</li>
+          </ul>
+        </div>
+        <v-spacer></v-spacer>
+      </v-layout>
+
+      <h2>Installation</h2>
+      <h3>NPM - Coming Soon!</h3>
+      <pre>npm install vueper-slides --save</pre>
+      <h2>Examples of Use</h2>
+      <a name="simplest-ever"></a>
+      <h3><a href="#simplest-ever">Simplest Ever</a></h3>
+      <pre>&lt;vueper-slides&gt;
+  &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
+&lt;/vueper-slides&gt;</pre>
+      <vueper-slides class="ex1">
+        <vueper-slide v-for="i in 5" :key="i" :title="i"></vueper-slide>
+      </vueper-slides>
+
+      <a name="basic"></a>
+      <h3><a href="#basic">Basic with Autoplay</a></h3>
+      <p>This example uses autoplay, slide titles & contents.<br>
+        <em>The autoplay circles between all the slides and goes back to the begining after the last slide.</em></p>
+      <pre>&lt;vueper-slides&gt;
+  &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
+&lt;/vueper-slides&gt;</pre>
+      <vueper-slides class="ex2" autoplay>
         <vueper-slide
           v-for="(slide, i) in slides"
           :key="slide.id"
-          :image="'images/' + slide.image"
           :title="slide.title"
           :content="slide.content"
-          :style="'background-image: none;background-color: ' + colors[i % 4]"
+          :style="'background-color: ' + colors[i % 4]"
         ></vueper-slide>
       </vueper-slides>
 
-      <h2 class="max-widthed">Vueper Slides #2</h2>
-      <p class="max-widthed"></p>
-      <vueper-slides :infinite="false">
+      <a name="arrows-and-bullets"></a>
+      <h3><a href="#arrows-and-bullets">Arrows & bullets</a></h3>
+      <p>This example uses custom arrows and positions the bullets outside of the slideshow.<br>
+        You can also disable arrows or bullets. E.g.<code>:arrows="false"</code>, <code>:bullets="false"</code></p>
+      <pre>&lt;vueper-slides&gt; options:
+infinite: false</pre>
+      <vueper-slides class="ex3" :infinite="false" :bullets-outside="true">
+        <v-icon slot="arrowLeft" large>arrow_left</v-icon>
+        <v-icon slot="arrowRight" large>arrow_right</v-icon>
         <vueper-slide
           v-for="(slide, i) in slides"
           :key="slide.id"
@@ -113,16 +228,21 @@
         ></vueper-slide>
       </vueper-slides>
 
-      <h2 class="max-widthed">Vueper Slides #3</h2>
-      <code class="max-widthed">&lt;vueper-slides&gt; options:
-      fade: true,
-      slide-content-outside: true,
-      slide-content-outside-class: 'max-widthed'
-      slide-ratio: 1/5</code>
-      <vueper-slides fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :slide-ratio="1/5">
+      <a name="basic"></a>
+      <h3><a href="#basic">Images & Fading</a></h3>
+      <p>This example uses <b>images</b> and <b>fading</b> as the slide transition.</br>
+        The current slide title & content are shown <b>outside</b> of the slider.
+        <br>Of course you can position it with a bit of CSS.</p>
+      <pre>&lt;vueper-slides&gt; options:
+fade: true,
+slide-content-outside: true,
+slide-content-outside-class: 'max-widthed'
+slide-ratio: 1/5</pre>
+      <vueper-slides fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :slide-ratio="0.3">
         <vueper-slide
-          v-for="(slide, i) in slides"
+          v-for="(slide, i) in slides2"
           :key="slide.id"
+          :image="'images/' + slide.image"
           :title="'# ' + slide.title"
           :content="slide.content"
           :style="'background-color: ' + colors[(i + 1) % 4]"
@@ -130,11 +250,24 @@
       </vueper-slides>
     </div>
 
-    <!-- <script src="https://unpkg.com/vue"></script> -->
-    <script src="node_modules/vue/dist/vue.min.js"></script>
-    <script src="dist/vueperslides.umd.js"></script>
     <script>
-      var app = new Vue({
+      Vue.use(Vuetify, {
+          theme: {
+            primary: '#00BCD4',
+            secondary: '#666',
+            maintext: '#999',
+            lightgrey: '#f4f4f4',
+            // Default Vuetify colors.
+            // secondary: '#424242',
+            // accent: '#82B1FF',
+            // error: '#FF5252',
+            // info: '#2196F3',
+            // success: '#4CAF50',
+            // warning: '#FFC107'
+          }
+        })
+
+      new Vue({
         el: '#app',
         data: () => ({
           colors: [
@@ -145,52 +278,72 @@
           ],
           slides: [
             {
-              "id": "sweet-cocktails-2",
-              "image": "sweet-cocktails-2.jpg",
-              "title": "Slide 1",
-              "content": "Slide 1 content."
+              id: 'sweet-cocktails-2',
+              image: 'sweet-cocktails-2.jpg',
+              title: 'Slide <b style="font-size: 1.3em;color: yellow">#1</b>',
+              content: 'Slide title can be HTML.<br>And so does the slide content, <span style="font-size: 1.2em;color: yellow">why not?</span>'
             },
             {
-              "id": "sweet-cocktails",
-              "image": "sweet-cocktails.jpg",
-              "title": "Slide 2",
-              "content": "Slide 2 content."
+              id: 'sweet-cocktails',
+              image: 'sweet-cocktails.jpg',
+              title: 'Slide <b style="font-size: 1.3em">#2</b>',
+              content: 'Title can also be html.'
             },
             {
-              "id": "the-grid",
-              "image": "the-grid.jpg",
-              "title": "Slide 3",
-              "content": "Slide 3 content."
+              id: 'the-grid',
+              image: 'the-grid.jpg',
+              title: 'Slide 3',
+              content: 'Slide 3 content.'
             },
             {
-              "id": "my-snippets",
-              "image": "my-snippets.jpg",
-              "title": "Slide 4",
-              "content": "Slide 4 content."
+              id: 'my-snippets',
+              image: 'my-snippets.jpg',
+              title: 'Slide 4',
+              content: 'Slide 4 content.'
             },
             {
-              "id": "creative",
-              "image": "creative.jpg",
-              "title": "Slide 5",
-              "content": "Slide 5 content."
+              id: 'creative',
+              image: 'creative.jpg',
+              title: 'Slide 5',
+              content: 'Slide 5 content.'
             },
             {
-              "id": "prince-hotels",
-              "image": "prince-hotels.jpg",
-              "title": "Slide 6",
-              "content": "Slide 6 content."
+              id: 'prince-hotels',
+              image: 'prince-hotels.jpg',
+              title: 'Slide 6',
+              content: 'Slide 6 content.'
             },
             {
-              "id": "soneva",
-              "image": "soneva.jpg",
-              "title": "Slide 7",
-              "content": "Slide 7 content."
+              id: 'soneva',
+              image: 'soneva.jpg',
+              title: 'Slide 7',
+              content: 'Slide 7 content.'
             },
             {
-              "id": "kyoto-royal",
-              "image": "kyoto-royal.jpg",
-              "title": "Slide 8",
-              "content": "Slide 8 content."
+              id: 'kyoto-royal',
+              image: 'kyoto-royal.jpg',
+              title: 'Slide 8',
+              content: 'Slide 8 content.'
+            }
+          ],
+          slides2: [
+            {
+              id: 'mountain-1',
+              image: 'rough-horn-2146181_1280.jpg',
+              title: 'Mountain 1',
+              content: 'Slide 1 content.'
+            },
+            {
+              id: 'mountain-2',
+              image: 'snow-3212345_1280.jpg',
+              title: 'Mountain 2',
+              content: 'Slide 2 content.'
+            },
+            {
+              id: 'mountain-3',
+              image: 'snow-3237630_1280.jpg',
+              title: 'Mountain 3',
+              content: 'Slide 3 content.'
             }
           ]
         })
