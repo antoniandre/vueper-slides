@@ -1,34 +1,11 @@
 body {
-  font-family: Tahoma, Geneva, sans-serif;
+  font: 13px Tahoma, Geneva, sans-serif;
   margin: 3em 0;
-  color: #444;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-h2 {
-  margin-top: 3em;
-  color: #42b983;
-}
-
-h2, p, code {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-code {
-  padding: 0.5em;
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
-  border-radius: 4px;
-  display: block;
-  white-space: pre-line;
+  color: #777;
 }
 
 header {
-  margin: 4em auto;
+  margin: 3em auto 1.5em;
   max-width: 600px;
   position: relative;
   text-align: center;
@@ -58,6 +35,103 @@ header:after {
   z-index: -1;
 }
 
+h1, h2, h3, h4 {
+  font-weight: normal;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  margin-top: 3em;
+  font-size: 2em;
+  color: #ff5252;
+}
+
+h2:before,
+h3:before {
+  content: "# ";
+  color: #ccc;
+}
+
+h2:before {
+  font-size: 1em;
+}
+
+h3 {
+  font-size: 1.5em;
+  margin-top: 5em;
+  color: #42b983;
+}
+
+h2 + h3,
+h2 + a[name] + h3 {
+  margin-top: 0;
+}
+
+h3:before {
+  content: "# ";
+  color: #ccc;
+  font-size: 1.2em;
+}
+
+h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h4 {
+  margin-top: 2em;
+  font-size: 1.2em;
+  color: #666;
+}
+
+/* h2, h3, h4, p, code {
+  margin-left: 10px;
+  margin-right: 10px;
+} */
+
+p b {
+  color: #000;
+  font-weight: 500;
+}
+
+ul {
+  margin-top: 1em;
+  margin-left: 1.3em;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 5em;
+  color: #999;
+}
+
+.coming-soon {
+  font-style: italic;
+  color: #aaa;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 1em;
+  display: inline-block;
+}
+
+.coming-soon h4 {
+  margin-top: 0;
+}
+
+pre {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  display: block;
+  box-shadow: none;
+}
+
 .page__title {
   color: #ff5252;
   background-color: #fff;
@@ -67,12 +141,12 @@ header:after {
 }
 
 .page__logo {
-  width: 50px;
+  width: 60px;
   padding-right: 1em;
   fill: #ff5252;
 }
 
-.max-widthed {
+.max-widthed, h2, h3, p, pre {
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
