@@ -32,7 +32,7 @@ var config = {
   // slide with arrows
   // remove / unslick
 };var VueperSlides = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vueperslides-wrapper", class: { 'ready': _vm.isReady } }, [_vm.slideContentOutside ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside", class: _vm.slideContentOutsideClass }, [_c('p', { staticClass: "title" }, [_vm._v(_vm._s(_vm.slides[_vm.currentSlide].title))]), _c('p', { staticClass: "content" }, [_vm._v(_vm._s(_vm.slides[_vm.currentSlide].content))])]) : _vm._e(), _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--fade': _vm.fade } }, [_c('div', { staticClass: "vueperslides__slides-wrapper" }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: !_vm.fade ? 'transform: translate3d(-' + _vm.currentTranslation + '%, 0, 0)' : _vm.slideRatio }, [_vm._t("default", null, { currentSlide: _vm.currentSlide })], 2)]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "vueperslides__arrows" }, [_c('div', { staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vueperslides-wrapper", class: { 'ready': _vm.isReady } }, [_vm.slideContentOutside ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside", class: _vm.slideContentOutsideClass }, [_c('p', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].title) } }), _c('p', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].content) } })]) : _vm._e(), _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--fade': _vm.fade, 'vueperslides--touchable': _vm.touchable } }, [_c('div', { staticClass: "vueperslides__slides-wrapper" }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: !_vm.fade ? 'transform: translate3d(-' + _vm.currentTranslation + '%, 0, 0)' : _vm.slideRatio }, [_vm._t("default", null, { currentSlide: _vm.currentSlide })], 2)]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "vueperslides__arrows" }, [_c('div', { staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
           _vm.onArrowClick(false);
         } } }, [_vm._t("arrowLeft", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z" } })])])], 2), _c('div', { staticClass: "vueperslides__arrow vueperslides__arrow--next", on: { "click": function click($event) {
           _vm.onArrowClick();
@@ -92,6 +92,10 @@ var config = {
       default: true
     },
     infinite: {
+      type: Boolean,
+      default: true
+    },
+    touchable: {
       type: Boolean,
       default: true
     }
@@ -180,9 +184,12 @@ var config = {
     bindEvents: function bindEvents() {
       var hasTouch = "ontouchstart" in window;
 
-      this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown);
-      this.$refs.track.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove);
-      document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp);
+      if (this.touchable) {
+
+        this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown);
+        this.$refs.track.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove);
+        document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp);
+      }
 
       // Pause autoplay on mouseover.
       if (this.pauseOnHover && !hasTouch && this.autoplay) {
@@ -341,7 +348,7 @@ var _this = false;
 })();
 
 var VueperSlide = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { class: { 'vueperslides__slide': true, 'vueperslides__slide--active': _vm.conf.activeSlideUid === _vm._uid }, style: _vm.styles }, [!_vm.conf.slideContentOutside && (_vm.title || _vm.content) ? _c('div', { staticClass: "vueperslides__slide-content" }, [_c('p', { staticClass: "title", domProps: { "innerHTML": _vm._s(_vm.title) } }), _c('p', { staticClass: "content" }, [_vm._v(_vm._s(_vm.content))])]) : _vm._e()]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { class: { 'vueperslides__slide': true, 'vueperslides__slide--active': _vm.conf.activeSlideUid === _vm._uid }, style: _vm.styles }, [!_vm.conf.slideContentOutside && (_vm.title || _vm.content) ? _c('div', { staticClass: "vueperslides__slide-content" }, [_c('p', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.title) } }), _c('p', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.content) } })]) : _vm._e()]);
   }, staticRenderFns: [],
   name: 'vueper-slide',
   inject: ['config'],

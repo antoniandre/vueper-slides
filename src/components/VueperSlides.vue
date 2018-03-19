@@ -1,8 +1,8 @@
 <template lang="pug">
 div.vueperslides-wrapper(:class="{'ready': isReady}")
     div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="slideContentOutsideClass" v-if="slideContentOutside")
-        p.title {{ slides[currentSlide].title }}
-        p.content {{ slides[currentSlide].content }}
+        p.slide-title(v-html="slides[currentSlide].title")
+        p.slide-content(v-html="slides[currentSlide].content")
 
     div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchable}" ref="vueperslides")
         div.vueperslides__slides-wrapper
@@ -20,7 +20,7 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
                 slot(name="arrowRight")
                     svg(viewBox="0 0 24 24")
                         path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-        div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="pagination")
+        div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets")
             span.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" v-if="!item.clone" @click="goToSlide(i)")
                 span {{ i + 1 }}
 </template>
@@ -35,15 +35,6 @@ const config = {
   }
 }
 
-// @todo:
-// emit events
-// documentation
-// breakpoints
-// center mode
-// nav for
-// slidesToScroll
-// slide with arrows
-// remove / unslick
 export default {
   name: "vueper-slides",
   provide: {
@@ -58,7 +49,7 @@ export default {
       type: Number,
       default: 1/3
     },
-    pagination: {
+    bullets: {
       type: Boolean,
       default: true
     },
@@ -143,7 +134,6 @@ export default {
 
       this.isReady = true
       this.$emit("vueperslides.ready")
-      console.log('slideContentOutside', this.slideContentOutside)
       this.getConfig().slideContentOutside = this.slideContentOutside
     },
 
@@ -188,8 +178,9 @@ export default {
     },
 
     bindEvents () {
+      const hasTouch = "ontouchstart" in window
+
       if (this.touchable) {
-        const hasTouch = "ontouchstart" in window
 
         this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown)
         this.$refs.track.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove)

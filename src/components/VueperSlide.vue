@@ -1,8 +1,8 @@
 <template lang="pug">
 div(:class="{'vueperslides__slide': true, 'vueperslides__slide--active': conf.activeSlideUid === _uid }" :style="styles")
   div.vueperslides__slide-content(v-if="!conf.slideContentOutside && (title || content)")
-    p.title(v-html="title")
-    p.content {{ content }}
+    p.slide-title(v-html="title")
+    p.slide-content(v-html="content")
 </template>
 
 <script>
