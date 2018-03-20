@@ -112,6 +112,11 @@ export default {
     goNext: true,
     timer: null
   }),
+  created () {
+    // Set the shared config as soon as possible.
+    this.getConfig().slideRatio = this.slideRatio
+    this.getConfig().slideContentOutside = this.slideContentOutside
+  },
   mounted () {
     this.init()
   },
@@ -120,8 +125,8 @@ export default {
       this.$emit('beforeInit')
       this.slides = this.getConfig().slides
       this.slidesCount = this.slides.length
-      this.getConfig().slideRatio = this.slideRatio
-      this.getConfig().slideContentOutside = this.slideContentOutside
+      // this.getConfig().slideRatio = this.slideRatio
+      // this.getConfig().slideContentOutside = this.slideContentOutside
 
       if (this.infinite && !this.fade) {
         this.cloneSlides()

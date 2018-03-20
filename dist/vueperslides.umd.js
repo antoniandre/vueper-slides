@@ -112,6 +112,11 @@ var VueperSlides = { render: function render() {
       timer: null
     };
   },
+  created: function created() {
+    // Set the shared config as soon as possible.
+    this.getConfig().slideRatio = this.slideRatio;
+    this.getConfig().slideContentOutside = this.slideContentOutside;
+  },
   mounted: function mounted() {
     this.init();
   },
@@ -121,8 +126,8 @@ var VueperSlides = { render: function render() {
       this.$emit('beforeInit');
       this.slides = this.getConfig().slides;
       this.slidesCount = this.slides.length;
-      this.getConfig().slideRatio = this.slideRatio;
-      this.getConfig().slideContentOutside = this.slideContentOutside;
+      // this.getConfig().slideRatio = this.slideRatio
+      // this.getConfig().slideContentOutside = this.slideContentOutside
 
       if (this.infinite && !this.fade) {
         this.cloneSlides();
@@ -149,9 +154,7 @@ var VueperSlides = { render: function render() {
       // If first node in this.$slots.default is a text node take the next one.
       var firstNodeIsVnode = this.$slots.default[0].tag;
       var firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm;
-      debugger;
       var clonedFirstSlide = firstSlide.cloneNode(false);
-
       clonedFirstSlide.classList.add("vueperslides__slide--clone");
       this.$refs.track.appendChild(clonedFirstSlide);
 
@@ -286,7 +289,7 @@ var VueperSlides = { render: function render() {
 
       var noAnimation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      this.$emit("before-slide");
+      this.$emit('beforeSlide');
 
       if (this.autoplay) {
         this.clearTimer();
@@ -300,6 +303,7 @@ var VueperSlides = { render: function render() {
         if (i <= 0 || i >= this.slidesCount - 1) {
           setTimeout(function () {
             _this2.$refs.track.classList.add("vueperslides__track--no-animation");
+
             if (i <= 0) _this2.goToSlide(_this2.slidesCount - 2, true);else if (i >= _this2.slidesCount - 1) _this2.goToSlide(1, true);
           }, 500);
         }
@@ -308,6 +312,7 @@ var VueperSlides = { render: function render() {
       if (this.infinite || this.autoplay) {
         if (i < 0) this.currentSlide = this.slidesCount - 1;else if (i > this.slidesCount - 1) this.currentSlide = 0;else this.currentSlide = i;
       } else this.currentSlide = Math.min(Math.max(0, i), this.slidesCount - 1);
+
       if (!this.fade) {
         this.currentTranslation = 100 * this.currentSlide;
       }
