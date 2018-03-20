@@ -383,20 +383,25 @@ export default {
     // padding-bottom: 45%;
   }
 
-  &__track {
-    white-space: nowrap;
-    transition: 0.5s ease-in-out transform;
+  &--touchable &__track {
     cursor: ew-resize;
     cursor: -webkit-grab;
 
+    &--mousedown, &--dragging {
+      cursor: -webkit-grabbing;
+    }
+  }
+
+  &__track {
+    white-space: nowrap;
+    transition: 0.5s ease-in-out transform;
+
     &--mousedown {
       transition: 0.2s ease-in-out transform;
-      cursor: -webkit-grabbing;
     }
 
     &--dragging {
       transition: none;
-      cursor: -webkit-grabbing;
     }
 
     &--no-animation {
