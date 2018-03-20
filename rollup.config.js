@@ -1,8 +1,8 @@
 import resolve from 'rollup-plugin-node-resolve'
 import vue from 'rollup-plugin-vue'
 import babel from 'rollup-plugin-babel'
-// import scss from 'rollup-plugin-scss'
 import pug from 'rollup-plugin-pug'
+// import scss from 'rollup-plugin-scss'
 
 const pkg = require('./package.json')
 const external = Object.keys(pkg.dependencies)
@@ -10,8 +10,8 @@ const external = Object.keys(pkg.dependencies)
 export default {
   external,
   globals: { vue: 'Vue' },
-  context: 'false',
-  entry: 'src/entry.js',
+  context: null,
+  entry: 'src/index.js',
   plugins: [
     resolve(),
     vue({ compileTemplate: true, css: true }),
