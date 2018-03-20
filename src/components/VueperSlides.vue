@@ -117,21 +117,21 @@ export default {
   },
   methods: {
     init () {
+      this.$emit('beforeInit')
       this.slides = this.getConfig().slides
       this.slidesCount = this.slides.length
+      this.getConfig().slideRatio = this.slideRatio
+      this.getConfig().slideContentOutside = this.slideContentOutside
 
       if (this.infinite && !this.fade) {
         this.cloneSlides()
         this.goToSlide(this.initSlide)
       } else this.goToSlide(this.initSlide - 1)
 
-      this.getConfig().slideRatio = this.slideRatio
-
       this.bindEvents()
 
       this.isReady = true
-      this.$emit("vueperslides.ready")
-      this.getConfig().slideContentOutside = this.slideContentOutside
+      this.$emit('ready')
     },
 
     getConfig () {
@@ -147,13 +147,15 @@ export default {
     },
 
     cloneSlides () {
-      // Add a clone of the first slide at the end.
-      let firstSlide = this.$slots.default[0].elm
+      //----- Add a clone of the first slide at the end. -----//
+      // If first node in this.$slots.default is a text node take the next one.
+      let firstNodeIsVnode = this.$slots.default[0].tag
+      let firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm
       let clonedFirstSlide = firstSlide.cloneNode(false)
       clonedFirstSlide.classList.add("vueperslides__slide--clone")
       this.$refs.track.appendChild(clonedFirstSlide)
 
-      // Add a clone of the last slide at the begining.
+      //----- Add a clone of the last slide at the begining. -----//
       let lastSlide = this.$slots.default[this.$slots.default.length - 1].elm
       let clonedLastSlide = lastSlide.cloneNode(false)
       clonedLastSlide.classList.add("vueperslides__slide--clone")
@@ -261,7 +263,6 @@ export default {
         this.goToSlide(this.currentTranslation / 100)
 
         if (this.$slots.default[this.currentSlide]) {
-          this.$emit("vueperslides.slide")
           this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
         }
 
@@ -297,10 +298,11 @@ export default {
     },
 
     goToSlide (i, noAnimation = false) {
+      this.$emit('beforeSlide')
+
       if (this.autoplay) {
         this.clearTimer()
       }
-
       // Infinite sliding.
       if (this.infinite && !this.fade) {
         if (!noAnimation) {
@@ -335,7 +337,7 @@ export default {
 
       if (this.$slots.default[this.currentSlide]) {
         // console.log('emitting', this.currentSlide - 1)
-        this.$emit("vueperslides.slide")
+        this.$emit('slide')
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
       }
     }
@@ -442,6 +444,7 @@ export default {
     fill: currentColor;
     font-size: 3em;
     width: 1em;
+    text-align: center;
     transform: translateY(-50%);
     opacity: 0.7;
     z-index: 10;

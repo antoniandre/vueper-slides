@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
   if (typeof document !== 'undefined') {
     var head = document.head || document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
-        css = ".vueperslides { position: relative; } .vueperslides-wrapper { position: relative; } .vueperslides__slides-wrapper { position: relative; overflow: hidden; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; } .vueperslides__slides-wrapper::before, .vueperslides__slides-wrapper::after { content: \"\"; position: absolute; bottom: 100%; left: -1em; right: -1em; height: 2em; box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); z-index: 2; } .vueperslides__slides-wrapper::after { top: 100%; bottom: auto; } .vueperslides--fade .vueperslides__track { white-space: normal; transition: none; } .vueperslides--touchable .vueperslides__track { cursor: ew-resize; cursor: -webkit-grab; } .vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging { cursor: -webkit-grabbing; } .vueperslides__track { white-space: nowrap; transition: 0.5s ease-in-out transform; } .vueperslides__track--mousedown { transition: 0.2s ease-in-out transform; } .vueperslides__track--dragging { transition: none; } .vueperslides__track--no-animation { transition-duration: 0s; } .vueperslides__slide { white-space: normal; padding-bottom: 34%; background-position: top; background-size: cover; display: inline-block; width: 100%; height: 0; margin-bottom: -8px; } .vueperslides--fade .vueperslides__slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0; transition: .8s ease-in-out opacity; } .vueperslides--fade .vueperslides__slide--active { z-index: 1; opacity: 1; } .vueperslides__arrow { position: absolute; top: 50%; color: #fff; fill: currentColor; font-size: 3em; width: 1em; transform: translateY(-50%); opacity: 0.7; z-index: 10; transition: 0.3s ease-in-out; cursor: pointer; user-select: none; z-index: 2; } .vueperslides__arrow--prev { left: 10px; } .vueperslides__arrow--next { right: 10px; } .vueperslides__arrow:hover { opacity: 1; } .vueperslides__paused { position: absolute; top: 3%; right: 3%; opacity: 0; transition: 0.3s ease-in-out; text-shadow: 0 0 3px rgba(0, 0, 0, 0.4); } .vueperslides:hover .vueperslides__paused { opacity: 1; } .vueperslides__bullets { display: flex; justify-content: center; position: absolute; bottom: 0; left: 0; right: 0; } .vueperslides__bullets--outside { bottom: auto; top: 100%; } .vueperslides__bullet { width: 12px; height: 12px; border-radius: 12px; border: 1px solid #fff; box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 0 3px rgba(0, 0, 0, 0.3); margin: 1.5em 0.6em; display: inline-block; cursor: pointer; user-select: none; z-index: 2; } .vueperslides__bullet--active { background-color: #fff; } .vueperslides__bullet span { display: none; } @media screen and (max-width: 1000px) { .vueperslides__slide { padding-bottom: 45%; } .vueperslides--fade .vueperslides__track { padding-bottom: 45%; } } @media screen and (max-width: 700px) { .vueperslides__slide { padding-bottom: 54%; } .vueperslides--fade .vueperslides__track { padding-bottom: 54%; } } @media screen and (max-width: 400px) { .vueperslides__slide { padding-bottom: 60%; } .vueperslides--fade .vueperslides__track { padding-bottom: 60%; } } ";style.type = 'text/css';if (style.styleSheet) {
+        css = ".vueperslides { position: relative; } .vueperslides-wrapper { position: relative; } .vueperslides__slides-wrapper { position: relative; overflow: hidden; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; } .vueperslides__slides-wrapper::before, .vueperslides__slides-wrapper::after { content: \"\"; position: absolute; bottom: 100%; left: -1em; right: -1em; height: 2em; box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); z-index: 2; } .vueperslides__slides-wrapper::after { top: 100%; bottom: auto; } .vueperslides--fade .vueperslides__track { white-space: normal; transition: none; } .vueperslides--touchable .vueperslides__track { cursor: ew-resize; cursor: -webkit-grab; } .vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging { cursor: -webkit-grabbing; } .vueperslides__track { white-space: nowrap; transition: 0.5s ease-in-out transform; } .vueperslides__track--mousedown { transition: 0.2s ease-in-out transform; } .vueperslides__track--dragging { transition: none; } .vueperslides__track--no-animation { transition-duration: 0s; } .vueperslides__slide { white-space: normal; padding-bottom: 34%; background-position: top; background-size: cover; display: inline-block; width: 100%; height: 0; margin-bottom: -8px; } .vueperslides--fade .vueperslides__slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0; transition: .8s ease-in-out opacity; } .vueperslides--fade .vueperslides__slide--active { z-index: 1; opacity: 1; } .vueperslides__arrow { position: absolute; top: 50%; color: #fff; fill: currentColor; font-size: 3em; width: 1em; text-align: center; transform: translateY(-50%); opacity: 0.7; z-index: 10; transition: 0.3s ease-in-out; cursor: pointer; user-select: none; z-index: 2; } .vueperslides__arrow--prev { left: 10px; } .vueperslides__arrow--next { right: 10px; } .vueperslides__arrow:hover { opacity: 1; } .vueperslides__paused { position: absolute; top: 3%; right: 3%; opacity: 0; transition: 0.3s ease-in-out; text-shadow: 0 0 3px rgba(0, 0, 0, 0.4); } .vueperslides:hover .vueperslides__paused { opacity: 1; } .vueperslides__bullets { display: flex; justify-content: center; position: absolute; bottom: 0; left: 0; right: 0; } .vueperslides__bullets--outside { bottom: auto; top: 100%; } .vueperslides__bullet { width: 12px; height: 12px; border-radius: 12px; border: 1px solid #fff; box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 0 3px rgba(0, 0, 0, 0.3); margin: 1.5em 0.6em; display: inline-block; cursor: pointer; user-select: none; z-index: 2; } .vueperslides__bullet--active { background-color: #fff; } .vueperslides__bullet span { display: none; } @media screen and (max-width: 1000px) { .vueperslides__slide { padding-bottom: 45%; } .vueperslides--fade .vueperslides__track { padding-bottom: 45%; } } @media screen and (max-width: 700px) { .vueperslides__slide { padding-bottom: 54%; } .vueperslides--fade .vueperslides__track { padding-bottom: 54%; } } @media screen and (max-width: 400px) { .vueperslides__slide { padding-bottom: 60%; } .vueperslides--fade .vueperslides__track { padding-bottom: 60%; } } ";style.type = 'text/css';if (style.styleSheet) {
       style.styleSheet.cssText = css;
     } else {
       style.appendChild(document.createTextNode(css));
@@ -116,21 +116,21 @@ var VueperSlides = { render: function render() {
 
   methods: {
     init: function init() {
+      this.$emit('beforeInit');
       this.slides = this.getConfig().slides;
       this.slidesCount = this.slides.length;
+      this.getConfig().slideRatio = this.slideRatio;
+      this.getConfig().slideContentOutside = this.slideContentOutside;
 
       if (this.infinite && !this.fade) {
         this.cloneSlides();
         this.goToSlide(this.initSlide);
       } else this.goToSlide(this.initSlide - 1);
 
-      this.getConfig().slideRatio = this.slideRatio;
-
       this.bindEvents();
 
       this.isReady = true;
-      this.$emit("vueperslides.ready");
-      this.getConfig().slideContentOutside = this.slideContentOutside;
+      this.$emit('ready');
     },
     getConfig: function getConfig() {
       if (!config[this._uid]) {
@@ -143,13 +143,17 @@ var VueperSlides = { render: function render() {
       this.getConfig()[key] = value;
     },
     cloneSlides: function cloneSlides() {
-      // Add a clone of the first slide at the end.
-      var firstSlide = this.$slots.default[0].elm;
+      //----- Add a clone of the first slide at the end. -----//
+      // If first node in this.$slots.default is a text node take the next one.
+      var firstNodeIsVnode = this.$slots.default[0].tag;
+      var firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm;
+      debugger;
       var clonedFirstSlide = firstSlide.cloneNode(false);
+
       clonedFirstSlide.classList.add("vueperslides__slide--clone");
       this.$refs.track.appendChild(clonedFirstSlide);
 
-      // Add a clone of the last slide at the begining.
+      //----- Add a clone of the last slide at the begining. -----//
       var lastSlide = this.$slots.default[this.$slots.default.length - 1].elm;
       var clonedLastSlide = lastSlide.cloneNode(false);
       clonedLastSlide.classList.add("vueperslides__slide--clone");
@@ -243,7 +247,6 @@ var VueperSlides = { render: function render() {
         this.goToSlide(this.currentTranslation / 100);
 
         if (this.$slots.default[this.currentSlide]) {
-          this.$emit("vueperslides.slide");
           this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid);
         }
 
@@ -281,10 +284,11 @@ var VueperSlides = { render: function render() {
 
       var noAnimation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
+      this.$emit("before-slide");
+
       if (this.autoplay) {
         this.clearTimer();
       }
-
       // Infinite sliding.
       if (this.infinite && !this.fade) {
         if (!noAnimation) {
@@ -294,7 +298,6 @@ var VueperSlides = { render: function render() {
         if (i <= 0 || i >= this.slidesCount - 1) {
           setTimeout(function () {
             _this2.$refs.track.classList.add("vueperslides__track--no-animation");
-
             if (i <= 0) _this2.goToSlide(_this2.slidesCount - 2, true);else if (i >= _this2.slidesCount - 1) _this2.goToSlide(1, true);
           }, 500);
         }
@@ -303,7 +306,6 @@ var VueperSlides = { render: function render() {
       if (this.infinite || this.autoplay) {
         if (i < 0) this.currentSlide = this.slidesCount - 1;else if (i > this.slidesCount - 1) this.currentSlide = 0;else this.currentSlide = i;
       } else this.currentSlide = Math.min(Math.max(0, i), this.slidesCount - 1);
-
       if (!this.fade) {
         this.currentTranslation = 100 * this.currentSlide;
       }
@@ -314,14 +316,14 @@ var VueperSlides = { render: function render() {
 
       if (this.$slots.default[this.currentSlide]) {
         // console.log('emitting', this.currentSlide - 1)
-        this.$emit("vueperslides.slide");
+        this.$emit('slide');
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid);
       }
     }
   }
 };
 
-var _this = null;
+var _this = undefined;
 
 (function () {
   if (typeof document !== 'undefined') {
