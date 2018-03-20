@@ -5,11 +5,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.0.8/vuetify.min.js"></script>
+    <!-- DEV -->
+    <!-- <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuetify/dist/vuetify.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.0.8/vuetify.min.css" rel="stylesheet" />
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <script src="../node_modules/vuetify/dist/vuetify.css"></script>
+    <link href="./page.css" rel="stylesheet" /> -->
+
+
+    <!-- PROD -->
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
+    <script src="../dist/vueperslides.umd.js"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
     <link href="./page.css" rel="stylesheet" />
+
     <style>
     .vueperslides__slide {
       position: relative;
@@ -216,7 +230,7 @@
     :content="slide.content"
     :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
 &lt;/vueper-slides&gt;</pre>
-      <!-- <vueper-slides class="ex2" autoplay>
+      <vueper-slides class="ex2" autoplay :infinite="true">
         <v-icon slot="pausedIcon" large color="white">pause</v-icon>
         <vueper-slide
           v-for="(slide, i) in slides"
@@ -225,7 +239,7 @@
           :content="slide.content"
           :style="'background-color: ' + colors[i % 4]"
         ></vueper-slide>
-      </vueper-slides> -->
+      </vueper-slides>
 
       <a name="arrows-and-bullets"></a>
       <h3><a href="#arrows-and-bullets">Arrows & bullets</a></h3>
