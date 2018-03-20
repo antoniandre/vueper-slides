@@ -6,7 +6,7 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
 
     div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchable}" ref="vueperslides")
         div.vueperslides__slides-wrapper
-            div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(-' + currentTranslation + '%, 0, 0)' : slideRatio")
+            div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(-' + currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (this.slideRatio * 100) + '%')")
                 slot(:currentSlide="currentSlide")
 
         div.vueperslides__paused(v-if="$slots.pausedIcon")
@@ -126,9 +126,6 @@ export default {
       } else this.goToSlide(this.initSlide - 1)
 
       this.getConfig().slideRatio = this.slideRatio
-      if (this.fade) {
-        this.slideRatio = `padding-bottom: ${this.slideRatio * 100}%`
-      }
 
       this.bindEvents()
 
