@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- DEV -->
-    <!--
+
     <script src="../node_modules/vue/dist/vue.js"></script>
     <script src="../node_modules/vuetify/dist/vuetify.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-    <\!-- <script src="../node_modules/vuetify/dist/vuetify.css"></script> --\>
-    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <script src="../node_modules/vuetify/dist/vuetify.css"></script>
+    <!-- <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"> -->
     <link href="./page.css" rel="stylesheet" />
-    -->
+
 
     <!-- PROD -->
-
+    <!--
     <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
@@ -26,7 +26,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
     <link href="./page.css" rel="stylesheet" />
-
+    -->
 
     <style>
     .vueperslides__slide {
@@ -298,8 +298,7 @@ touchable: [Boolean], default: true</precode>
     :key="slide.id"
     :title="slide.title"
     :content="slide.content"
-    :style="'background-color: ' + colors[(i + 1) % 4]"
-  &gt;&lt;/vueper-slide&gt;
+    :style="'background-color: ' + colors[(i + 1) % 4]"&gt;&lt;/vueper-slide&gt;
 &lt;/vueper-slides&gt;</precode>
       <vueper-slides class="ex3" :infinite="false" :bullets-outside="true">
         <v-icon slot="arrowLeft" x-large>undo</v-icon>
@@ -326,7 +325,6 @@ touchable: [Boolean], default: true</precode>
     :image="'images/' + slide.image"
     :title="'# ' + slide.title"
     :content="slide.content"&gt;&lt;/vueper-slide&gt;
-  &lt;/vueper-slide&gt;
 &lt;/vueper-slides&gt;</precode>
       <vueper-slides
         fade
@@ -364,7 +362,7 @@ touchable: [Boolean], default: true</precode>
 
     <script>
       Vue.component('precode', {
-        template: '<pre v-html="content" :data-type="language"></precode>',
+        template: '<pre v-html="content" :data-type="language"></pre>',
         props: [
           'language'
         ],
