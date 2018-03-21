@@ -148,3 +148,43 @@ pre {
   margin-left: auto;
   margin-right: auto;
 }
+
+
+/* Syntax highlighting */
+pre .txt {color: #333;}
+pre .comment {font-style: italic;color: #aaa;}
+pre .comment * {color: #aaa !important;}
+pre .quote {color: #c11;}
+pre .quote * {color: #c11 !important;}
+pre .number {color: #c11;}
+pre .boolean {color: #c11;}
+pre .keyword {color: #11c;font-weight: bold;}
+pre .ponctuation {color: #99f;}
+pre .dollar,
+pre .special {color: #f63;}
+pre .variable {color: #29e;}
+pre .objAttr {color: #0bc;}
+
+pre[data-type="html"] .tag-name {color: #11c;}
+pre[data-type="html"] .attribute {color: #f63;}
+
+pre[data-type="html-vue"] .tag-name {color: #42b983;}
+pre[data-type="html-vue"] .ponctuation {color: #128953;}
+pre[data-type="html-vue"] .attribute {color: #ff5252;}
+
+pre[data-type="xml"] .tag-name {color: #11c;}
+pre[data-type="xml"] .attribute {color: #f93;}
+
+pre[data-type="css"] .selector {color: #f0d;}
+pre[data-type="css"] .selector.class-id {color: #f0d;}
+pre[data-type="css"] .pseudo {color: #f35;}
+pre[data-type="css"] .selector.keyword {color: #f5f;}
+pre[data-type="css"] .selector.keyword.vendor {color: #0c8;}
+pre[data-type="css"] .keyword {color: #c06;}
+pre[data-type="css"] .attribute {color: #70d;}
+pre[data-type="css"] .attribute.keyword {color: #e28;}
+pre[data-type="css"] .attribute.keyword.vendor {color: #0c8;}
+pre[data-type="css"] .value {color: #c11;}
+pre[data-type="css"] .value.vendor {color: #0c8;}
+pre[data-type="css"] .color {background: #eee;padding: 0px 3px;border: 1px solid rgba(0,0,0,.1);}
+pre[data-type="css"] .unit {color: #0bc;}

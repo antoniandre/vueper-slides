@@ -17,8 +17,8 @@
     <link href="./page.css" rel="stylesheet" />
     -->
 
-
     <!-- PROD -->
+
     <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
@@ -26,6 +26,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
     <link href="./page.css" rel="stylesheet" />
+
 
     <style>
     .vueperslides__slide {
@@ -198,21 +199,21 @@
       <a name="installation"></a>
       <h2><a href="#installation">Installation</a></h2>
       <h3>NPM - Coming Soon!</h3>
-      <pre>npm install vueper-slides --save</pre>
+      <precode>npm install vueper-slides --save</precode>
 
       <h3>Browser Use</h3>
       <p>Place this in your document &lt;head&gt;</p>
-      <pre>&lt;head&gt;
+      <precode language="html">&lt;head&gt;
   ...
   &lt;script src="https://unpkg.com/vue/dist/vue.min.js"&gt;&lt;/script&gt;
   &lt;script src="https://unpkg.com/vuetify/dist/vuetify.min.js"&gt;&lt;/script&gt;
   &lt;script src="../dist/vueperslides.umd.js"&gt;&lt;/script&gt;
   &lt;link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"&gt;
-&lt;/head&gt;</pre>
+&lt;/head&gt;</precode>
       <p>Then use like this:</p>
-      <pre>&lt;vueper-slides&gt;
+      <precode language="html-vue">&lt;vueper-slides&gt;
   &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
-&lt;/vueper-slides&gt;</pre>
+&lt;/vueper-slides&gt;</precode>
 
       <a name="vueper-slides-api"></a>
       <h2><a href="#vueper-slides-api">&lt;vueper-slides&gt; API</a></h2>
@@ -223,7 +224,7 @@
       <a name="vueper-slides-settings"></a>
       <h3><a href="#vueper-slides-settings">Settings</a></h3>
       <p>Settings</p>
-      <pre>initSlide: [Number], default: 1
+      <precode>initSlide: [Number], default: 1
 slideRatio: [Number], default: 1/3
 bullets: [Boolean], default: true
 arrows: [Boolean], default: true
@@ -235,7 +236,7 @@ autoplay: [Boolean], default: false
 speed: [Number, String], default: 4000
 pauseOnHover: [Boolean], default: true
 infinite: [Boolean], default: true
-touchable: [Boolean], default: true</pre>
+touchable: [Boolean], default: true</precode>
 
       <a name="events"></a>
       <h3><a href="#events">Events - IN PROGRESS</a></h3>
@@ -255,9 +256,9 @@ touchable: [Boolean], default: true</pre>
 
       <a name="ex--simplest-ever"></a>
       <h3><a href="#ex--simplest-ever">Simplest Ever</a></h3>
-      <pre>&lt;vueper-slides&gt;
+      <precode language="html-vue">&lt;vueper-slides&gt;
   &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
-&lt;/vueper-slides&gt;</pre>
+&lt;/vueper-slides&gt;</precode>
       <vueper-slides class="ex1">
         <vueper-slide v-for="i in 5" :key="i" :title="i.toString()"></vueper-slide>
       </vueper-slides>
@@ -266,14 +267,14 @@ touchable: [Boolean], default: true</pre>
       <h3><a href="#ex--basic">Basic with Autoplay</a></h3>
       <p>This example uses autoplay, slide titles & contents.<br>
         <em>The autoplay circles between all the slides and goes back to the begining after the last slide.</em></p>
-      <pre>&lt;vueper-slides autoplay&gt;
+      <precode language="html-vue">&lt;vueper-slides autoplay&gt;
   &lt;v-icon slot="pausedIcon" large color="white"&gt;pause&lt;/v-icon&gt;
   &lt;vueper-slide v-for="(slide, i) in slides"
     :key="slide.id"
     :title="slide.title"
     :content="slide.content"
     :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
-&lt;/vueper-slides&gt;</pre>
+&lt;/vueper-slides&gt;</precode>
       <vueper-slides class="ex2" autoplay :infinite="true">
         <v-icon slot="pausedIcon" large color="white">pause</v-icon>
         <vueper-slide
@@ -289,9 +290,9 @@ touchable: [Boolean], default: true</pre>
       <h3><a href="#ex--arrows-and-bullets">Arrows & bullets</a></h3>
       <p>This example uses custom arrows and positions the bullets outside of the slideshow.<br>
         You can also disable arrows or bullets. E.g.<code>:arrows="false"</code>, <code>:bullets="false"</code></p>
-      <pre>&lt;vueper-slides :infinite="false" <b>:bullets-outside="true"</b>&gt;
-  <b>&lt;v-icon slot="arrowLeft" large&gt;arrow_left&lt;/v-icon&gt;
-  &lt;v-icon slot="arrowRight" large&gt;arrow_right&lt;/v-icon&gt;</b>
+      <precode language="html-vue">&lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
+  &lt;v-icon slot="arrowLeft" large&gt;arrow_left&lt;/v-icon&gt;
+  &lt;v-icon slot="arrowRight" large&gt;arrow_right&lt;/v-icon&gt;
   &lt;vueper-slide
     v-for="(slide, i) in slides"
     :key="slide.id"
@@ -299,7 +300,7 @@ touchable: [Boolean], default: true</pre>
     :content="slide.content"
     :style="'background-color: ' + colors[(i + 1) % 4]"
   &gt;&lt;/vueper-slide&gt;
-&lt;/vueper-slides&gt;</pre>
+&lt;/vueper-slides&gt;</precode>
       <vueper-slides class="ex3" :infinite="false" :bullets-outside="true">
         <v-icon slot="arrowLeft" x-large>undo</v-icon>
         <v-icon slot="arrowRight" x-large>redo</v-icon>
@@ -318,19 +319,15 @@ touchable: [Boolean], default: true</pre>
         The <b>dragging</b> ability to change slide is <b>disabled</b>.<br>
         The current slide title & content are shown <b>outside</b> of the slider.
         <br>Of course you can position it with a bit of CSS.</p>
-      <pre>&lt;vueper-slides
-  <b>fade :slide-content-outside="true"
-  slide-content-outside-class="max-widthed"
-  :touchable="false"
-  :slide-ratio="0.3"</b>&gt;
+      <precode language="html-vue">&lt;vueper-slides&gt;
   &lt;vueper-slide
     v-for="slide in slides2"
     :key="slide.id"
-    <b>:image="'images/' + slide.image"</b>
+    :image="'images/' + slide.image"
     :title="'# ' + slide.title"
-    :content="slide.content"
-  &gt;&lt;/vueper-slide&gt;
-&lt;/vueper-slides&gt;</pre>
+    :content="slide.content"&gt;&lt;/vueper-slide&gt;
+  &lt;/vueper-slide&gt;
+&lt;/vueper-slides&gt;</precode>
       <vueper-slides
         fade
         :slide-content-outside="true"
@@ -350,7 +347,7 @@ touchable: [Boolean], default: true</pre>
       <h3><a href="#ex--events">Events - IN PROGRESS</a></h3>
       <p>This example demonstrates how to use the vueper slides provided events.</br>
         The box bellow will be populated by all the events triggered while using the slideshow.</p>
-      <pre style="height: 100px;overflow: auto;">listening...<p v-html="events"></p></pre>
+      <pre style="min-height: 120px">listening...<p v-html="events"></p></pre>
       <vueper-slides
         @before-init="logEvents('before init')"
         @ready="logEvents('ready')"
@@ -358,7 +355,7 @@ touchable: [Boolean], default: true</pre>
         @slide="logEvents('slide')"
         :slide-ratio="0.1">
         <vueper-slide
-          v-for="i in 5"
+          v-for="i in 6"
           :key="i"
           :title="i.toString()"
           :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"></vueper-slide>
@@ -366,6 +363,220 @@ touchable: [Boolean], default: true</pre>
     </div>
 
     <script>
+      Vue.component('precode', {
+        template: '<pre v-html="content" :data-type="language"></precode>',
+        props: [
+          'language'
+        ],
+        data: () => ({
+          content: ''
+        }),
+        methods: {
+          htmlize (string) {
+            return string.replace(/&(lt|gt|amp);/g, function (m0, m1) { return { lt: '<', gt: '>', amp: '&' }[m1] })
+          },
+          unhtmlize (string) {
+            return string.replace(/[<>]/g, function (m) { return { '<': '&lt;', '>': '&gt;' }[m] })
+          },
+
+          processContent (string) {
+            if (this.language === 'html' || this.language === 'html-vue') {
+              string = this.unhtmlize(string)
+
+              let regexBasics =
+                {
+                  quote: /("(?:\\"|[^"])*")|('(?:\\'|[^'])*')/,// Match simple and double quotes by pair.
+                  comment: /(\/\/.*|\/\*[\s\S]*?\*\/)/,// Comments blocks (/* ... */) or trailing comments (// ...).
+                  htmlTag: /(<([^>])*>)/,
+                  ponctuation: /(!==?|(?:[\[\](){}.:;,+\-?=]|&lt;|&gt;)+|&&|\|\|)/,// Ponctuation not in html tag.
+                  number: /(-?(?:\.\d+|\d+(?:\.\d+)?))/,
+                  boolean: /\b(true|false)\b/,
+                },
+                dictionnary =
+                  {
+                    xml:
+                      {
+                        quote: regexBasics.quote,
+                        comment: /(&lt;!--[\s\S]*?--&gt;)/,
+                        tag: /(&lt;\/?)([a-zA-Z\-\:]+)(.*?)(\/?&gt;)/,
+                        // Treated inside tag because javascript does not support lookbehind,
+                        // so be more specific inside tag first match:
+                        // ponctuation: /([=/]+|&lt;\/?|\/?&gt;)/,
+                        // tagName: /([a-z]\w+)\b/,
+                        // attribute:   /([a-zA-Z\-]+)(?=\s*(?:=|\/?&gt;))/,
+                      },
+                    html:
+                      {
+                        quote: regexBasics.quote,
+                        comment: /(&lt;!--[\s\S]*?--&gt;)/,
+                        tag: /(&lt;\/?)([a-z]\w*)(.*?)(\/?&gt;)/,
+                        // Treated inside tag because javascript does not support lookbehind,
+                        // so be more specific inside tag first match:
+                        // ponctuation: /([=/]+|&lt;\/?|\/?&gt;)/,
+                        // tagName: /([a-z]\w+)\b/,
+                        // attribute:   /([a-zA-Z\-]+)(?=\s*(?:=|\/?&gt;))/,
+                      },
+                    "html-vue":
+                      {
+                        quote: regexBasics.quote,
+                        comment: /(&lt;!--[\s\S]*?--&gt;)/,
+                        tag: /(&lt;\/?)([a-z][a-z_\-]*)((?:.|\s)*?)(\/?&gt;)/,
+                        // Treated inside tag because javascript does not support lookbehind,
+                        // so be more specific inside tag first match:
+                        // ponctuation: /([=/]+|&lt;\/?|\/?&gt;)/,
+                        // tagName: /([a-z]\w+)\b/,
+                        // attribute:   /([a-zA-Z\-]+)(?=\s*(?:=|\/?&gt;))/,
+                      },
+                    css:
+                      {
+                        quote: regexBasics.quote,
+                        comment: /(\/\*[\s\S]*?\*\/)/,
+                        pseudo: /(:(?:hover|active|focus|visited|before|after|(?:first|last|nth)-child))/,
+                        "selector keyword vendor": /(@-(?:moz|o|webkit|ms)-(?=keyframes\s))/,
+                        "selector keyword": /((?:@(?:import|media|font-face|keyframes)|screen|print|and)(?=[\s({])|keyframes|\s(?:ul|ol|li|table|div|pre|p|a|img|br|hr|h[1-6]|em|strong|span|html|body|iframe|video|audio|input|button|form|label|fieldset|small|abbr|i|dd|dt)\b)/,
+                        selector: /((?:[.#-\w\*+ >:,~\n]|&gt;)+)(?=\s*\{)/,// Any part before '{'.
+                        "attribute keyword vendor": /(-(?:moz|o|webkit|ms)-(?=transform|transition|user-select|animation|background-size|box-shadow))/,
+                        "attribute keyword": /\b(content|float|display|position|top|left|right|bottom|(?:(?:max|min)-)?width|(?:(?:max|min|line)-)?height|font(?:-(?:family|style|size|weight|variant|stretch))?|vertical-align|color|opacity|visibility|z-index|transform(?:-(?:origin|style|delay|duration|property|timing-function))?|transition(?:-(?:delay|duration))?|animation(?:-(?:name|delay|duration|direction|fill-mode))?|background(?:-(?:color|position|image|repeat|size))?|(?:padding|margin|border)(?:-(?:top|left|right|bottom))?|border(?:-radius)|white-space|text-(?:align|transform|decoration|shadow|indent)|overflow(?:-(?:x|y))?|letter-spacing|box-(?:sizing|shadow)|stroke(?:-(?:width|opacity|dasharray|dashoffset|linecap|linejoin))?|fill|speak|outline|user-select|cursor)(?=\s*:)/,
+                        "value keyword vendor": /(-(?:moz|o|webkit|ms)-(?=linear-gradient))/,
+                        "value keyword": /\b(inline-block|inline|block|absolute|relative|static|fixed|inherit|initial|none|auto|hidden|visible|top|left|right|bottom|center|middle|baseline|pre|wrap|nowrap|(?:upper|lower)case|capitalize|linear(?:-gradient)?|ease(?:-in)?(?:-out)?|all|infinite|cubic-bezier|(?:translate|rotate)(?:[X-Z]|3d)?|skew[XY]?|scale|(?:no-)?repeat|repeat(?:-x|-y)|contain|cover|!important|url|inset|pointer|flex)(?=\s*[,;}(]|\s+[\da-z])/,
+                        number: regexBasics.number,
+                        color: /(transparent|#(?:[\da-fA-F]{6}|[\da-fA-F]{3})|rgba?\([\d., ]*\))/,
+                        // ponctuation: /([:,;{}@#()]+)/,// @todo Why can't use this one if text contains '<' or '>' ??
+                        htmlentity: /(&.*?;)/,
+                        ponctuation: /([:,;{}@#()]+|&lt;|&gt;)/,
+                        attribute: /([a-zA-Z\-]+)(?=\s*:)/,
+                        unit: /(px|pt|%|r?em|m?s|deg|vh|vw|vmin|vmax)(?=(?:\s*[;,{}}\)]|\s+[\-\da-z#]))/
+                      },
+                    json:
+                      {
+                        quote: regexBasics.quote,
+                        comment: regexBasics.comment,
+                        number: regexBasics.number,
+                        boolean: regexBasics.boolean,
+                        ponctuation: /([\[\](){}:;,\-]+)/,// Override default to simplify.
+                      },
+                    js:
+                      {
+                        quote: regexBasics.quote,
+                        comment: regexBasics.comment,
+                        number: /\b(\d+(?:\.\d+)?|null)\b/,
+                        boolean: regexBasics.boolean,
+                        keyword: /\b(new|getElementsBy(?:Tag|Class|)Name|getElementById|arguments|if|else|do|return|case|default|function|typeof|undefined|instanceof|this|document|window|while|for|switch|in|break|continue|length|var|(?:clear|set)(?:Timeout|Interval)|Math(?=\.)|Date)(?=\W)/,
+                        ponctuation: /(!==?|(?:[\[\](){}:;,+\-%*\/?=]|&lt;|&gt;)+|\.+(?![a-zA-Z])|&amp;&amp;|\|\|)/,// Override default since '.' can be part of js variable.
+                        variable: /(\.?[a-zA-Z]\w*)/,
+                        htmlentity: /(&.*?;)/,
+                        dollar: /(\$|jQuery)(?=\W|$)/,// jQuery or $.
+                      },
+                    php:
+                      {
+                        quote: regexBasics.quote,
+                        comment: regexBasics.comment,
+                        ponctuation: regexBasics.ponctuation,
+                        number: regexBasics.number,
+                        boolean: regexBasics.boolean,
+                        keyword: /\b(define|echo|die|print_r|var_dump|if|else|do|return|case|default|function|\$this|while|for|switch|in|break|continue)(?=\W|$)/,
+                        variable: /(?:(?=\W))(\$\w+)/
+                      },
+                    sql:
+                      {
+                        quote: regexBasics.quote,
+                        comment: regexBasics.comment,
+                        ponctuation: regexBasics.ponctuation,
+                        number: /\b(\d+(?:\.\d+)?|null)\b/,
+                        boolean: regexBasics.boolean,
+                        keyword: /\b(\*|CREATE|ALL|DATABASE|TABLE|GRANT|PRIVILEGES|IDENTIFIED|FLUSH|SELECT|UPDATE|DELETE|INSERT|FROM|WHERE|(?:ORDER|GROUP) BY|LIMIT|(?:(?:LEFT|RIGHT|INNER|OUTER) |)JOIN|AS|ON|COUNT|CASE|TO|IF|WHEN|BETWEEN|AND|OR|CONCAT)(?=\W|$)/
+                      }
+                  },
+                classMap = [],
+                regexPattern = ''
+
+              for (let Class in dictionnary[this.language]) {
+                classMap.push(Class)
+
+                if (Class === 'quote') {
+                  // Add twice cause 2 captures in quote regexp.
+                  classMap.push(Class)
+                }
+
+                if ((this.language === 'html' || this.language === 'html-vue' || this.language === 'xml') && Class === 'tag') {
+                  classMap.push(Class, Class, Class)
+                }
+
+                regexPattern += (regexPattern ? '|' : '') + dictionnary[this.language][Class].source
+              }
+
+              let VueInstance = this
+              string = string.replace(new RegExp(regexPattern, 'g'), function () {
+                let match, Class,
+                  // "arguments.length - 2" because the function is called with arguments like so:
+                  // function(strMatch, c1, c2, ..., cn, matchOffset, sourceString){}. With c = the captures.
+                  dictionnaryMatches = Array.prototype.slice.call(arguments, 1, arguments.length - 2)
+                  for (let i = 0; i < dictionnaryMatches.length; i++) {
+                    if (dictionnaryMatches[i]) {
+                      match = dictionnaryMatches[i]
+                    Class = classMap[i]
+
+                    break
+                  }
+                }
+
+                if (Class === 'quote') match = VueInstance.unhtmlize(arguments[1] || arguments[2])
+                if (Class === 'comment') match = VueInstance.unhtmlize(match)
+                if (Class === 'tag' && (VueInstance.language === 'html' || VueInstance.language === 'html-vue' || VueInstance.language === 'xml')) {
+                  let tagPieces = dictionnaryMatches.slice(3),
+                    xmlAttributesRegex = /(\s*)([a-zA-Z\-:]+)=("|')(.*?)\3/g,
+                    htmlAttributesRegex = /(\s*)([a-zA-Z\-]+)=("|')(.*?)\3/g,
+                    htmlVueAttributesRegex = /(\s*)(:?[a-zA-Z\-]+)(?:(?:=("|')(.*?)\3)|)/g,
+                    renderAttributesList = function () {
+                      return arguments[1] + '<span class="attribute">' + arguments[2] + '</span>'
+                        + (arguments[4] ? '<span class="ponctuation">=</span>' : '')
+                        + '<span class="quote">' + (arguments[3] || '') + (arguments[4] || '') + (arguments[3] || '') + '</span>'
+                    }
+
+                  let htmlTag = '<span class="ponctuation">' + tagPieces[0] + '</span>'
+                           + '<span class="tag-name">' + tagPieces[1] + '</span>'
+
+                  if (VueInstance.language === 'xml') {
+                    htmlTag += (tagPieces[2] || '').replace(xmlAttributesRegex, renderAttributesList)
+                  } else if (VueInstance.language === 'html') {
+                    htmlTag += (tagPieces[2] || '').replace(htmlAttributesRegex, renderAttributesList)
+                  } else if (VueInstance.language === 'html-vue') {
+                    htmlTag += (tagPieces[2] || '').replace(htmlVueAttributesRegex, renderAttributesList)
+                  }
+
+                  htmlTag += '<span class="ponctuation">' + tagPieces[3] + '</span>'
+
+                  return htmlTag
+                }
+
+                if (Class === 'color' && VueInstance.language === 'css') {
+                  const styles = ' style="background-color:' + match + ';color: #' + (isColorDark(match) ? 'fff' : '000') + '"'
+                }
+                if (Class === 'variable' && match[0] === '.' && VueInstance.language === 'js') {
+                  /**
+                   * @todo don't apply variable color if char before '.' is not '\w'.
+                   */
+                  return '<span class="ponctuation">.</span><span class="objAttr">' + match.substr(1) + '</span>'
+                }
+
+                return '<span class="' + Class + '"' + (styles !== undefined ? styles : '') + '>' + match + '</span>'
+              })
+            }
+
+            return string
+          }
+        },
+        created () {
+          this.$slots.default.forEach(pieceOfCode => {
+            if (pieceOfCode.text) {
+              // console.log(pieceOfCode)
+              this.content += pieceOfCode.text
+            }
+          })
+          this.content = this.processContent(this.content)
+        }
+      })
+
       Vue.use(Vuetify, {
           theme: {
             primary: '#00BCD4',
@@ -457,7 +668,7 @@ touchable: [Boolean], default: true</pre>
         }),
 
         methods: {
-          logEvents: (eventName) => {
+          logEvents (eventName) {
             this.events += eventName + '<br>'
           }
         }
