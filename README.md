@@ -10,5 +10,5 @@ NPM - Coming Soon!
 npm install vueper-slides --save
 ```
 
-## Demo & Documentation - Coming Soon!
-> https://antoniandre.github.io/vueper-slides
+## Demo & Documentation
+> https://antoniandre.github.io/vueper-slides/documentation
