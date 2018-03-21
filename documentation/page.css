@@ -1,5 +1,5 @@
 body {
-  font: 13px Tahoma, Geneva, sans-serif;
+  font: 13px Roboto, Tahoma, Geneva, sans-serif;
   margin: 3em 0;
   color: #777;
 }
@@ -42,22 +42,15 @@ h1, h2, h3, h4 {
 
 h1 {
   font-size: 2.5em;
+  margin-bottom: 0;
 }
 
 h2 {
   margin-top: 3em;
   font-size: 2em;
   color: #ff5252;
-}
-
-h2:before,
-h3:before {
-  content: "# ";
-  color: #ccc;
-}
-
-h2:before {
-  font-size: 1em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #ddd;
 }
 
 h3 {
@@ -71,14 +64,19 @@ h2 + a[name] + h3 {
   margin-top: 0;
 }
 
-h3:before {
-  content: "# ";
-  color: #ccc;
-  font-size: 1.2em;
-}
-
 h3 a {
   color: inherit;
+}
+
+h3 a:before {
+  content: "# ";
+  color: #ddd;
+  font-size: 1.2em;
+  transition: 0.3s;
+}
+
+h3 a:hover:before {
+  color: #ccc;
 }
 
 h4 {

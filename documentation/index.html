@@ -6,23 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- DEV -->
-    <!-- <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue/dist/vue.js"></script>
     <script src="../node_modules/vuetify/dist/vuetify.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-    <script src="../node_modules/vuetify/dist/vuetify.css"></script>
-    <link href="./page.css" rel="stylesheet" /> -->
+    <!-- <script src="../node_modules/vuetify/dist/vuetify.css"></script> -->
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link href="./page.css" rel="stylesheet" />
 
 
     <!-- PROD -->
-    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <!-- <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
-    <link href="./page.css" rel="stylesheet" />
+    <link href="./page.css" rel="stylesheet" /> -->
 
     <style>
     .vueperslides__slide {
@@ -192,25 +193,66 @@
         <v-spacer></v-spacer>
       </v-layout>
 
-      <h2>Installation</h2>
+      <a name="installation"></a>
+      <h2><a href="#installation">Installation</a></h2>
       <h3>NPM - Coming Soon!</h3>
       <pre>npm install vueper-slides --save</pre>
-      <h2>&lt;vueper-slides&gt; API</h2>
+
+      <h3>Browser Use</h3>
+      <p>Place this in your document &lt;head&gt;</p>
+      <pre>&lt;head&gt;
+  ...
+  &lt;script src="https://unpkg.com/vue/dist/vue.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://unpkg.com/vuetify/dist/vuetify.min.js"&gt;&lt;/script&gt;
+  &lt;script src="../dist/vueperslides.umd.js"&gt;&lt;/script&gt;
+  &lt;link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"&gt;
+&lt;/head&gt;</pre>
+      <p>Then use like this:</p>
+      <pre>&lt;vueper-slides&gt;
+  &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
+&lt;/vueper-slides&gt;</pre>
+
+      <a name="vueper-slides-api"></a>
+      <h2><a href="#vueper-slides-api">&lt;vueper-slides&gt; API</a></h2>
       <p>This is the main tag for the slider.<br>
         You can set different options in html attributes.<br>
         You can also override the default arrows and `paused` indicator if you want.
       </p>
-      <h3>Settings</h3>
+      <a name="vueper-slides-settings"></a>
+      <h3><a href="#vueper-slides-settings">Settings</a></h3>
       <p>Settings</p>
-      <h3>Events</h3>
+      <pre>initSlide: [Number], default: 1
+slideRatio: [Number], default: 1/3
+bullets: [Boolean], default: true
+arrows: [Boolean], default: true
+fade: [Boolean], default: false
+slideContentOutside: [Boolean], default: false
+slideContentOutsideClass: [String], default: ""
+bulletsOutside: [Boolean], default: false
+autoplay: [Boolean], default: false
+speed: [Number, String], default: 4000
+pauseOnHover: [Boolean], default: true
+infinite: [Boolean], default: true
+touchable: [Boolean], default: true</pre>
+
+      <a name="events"></a>
+      <h3><a href="#events">Events</a></h3>
+      <p><code>before-init</code></p>
       <p><code>ready</code></p>
+      <p><code>before-slide</code></p>
       <p><code>slide</code></p>
-      <h2>&lt;vueper-slide&gt; API</h2>
-      <h3>Settings</h3>
+
+      <a name="vueper-slide-api"></a>
+      <h2><a href="#vueper-slide-api">&lt;vueper-slide&gt; API</a></h2>
+      <a name="vueper-slide-settings"></a>
+      <h3><a href="#vueper-slide-settings">Settings</a></h3>
       <p>Settings</p>
-      <h2>Examples of Use</h2>
-      <a name="simplest-ever"></a>
-      <h3><a href="#simplest-ever">Simplest Ever</a></h3>
+
+      <a name="examples"></a>
+      <h2><a href="#examples">Examples of Use</a></h2>
+
+      <a name="ex--simplest-ever"></a>
+      <h3><a href="#ex--simplest-ever">Simplest Ever</a></h3>
       <pre>&lt;vueper-slides&gt;
   &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
 &lt;/vueper-slides&gt;</pre>
@@ -218,8 +260,8 @@
         <vueper-slide v-for="i in 5" :key="i" :title="i.toString()"></vueper-slide>
       </vueper-slides>
 
-      <a name="basic"></a>
-      <h3><a href="#basic">Basic with Autoplay</a></h3>
+      <a name="ex--basic"></a>
+      <h3><a href="#ex--basic">Basic with Autoplay</a></h3>
       <p>This example uses autoplay, slide titles & contents.<br>
         <em>The autoplay circles between all the slides and goes back to the begining after the last slide.</em></p>
       <pre>&lt;vueper-slides autoplay&gt;
@@ -241,8 +283,8 @@
         ></vueper-slide>
       </vueper-slides>
 
-      <a name="arrows-and-bullets"></a>
-      <h3><a href="#arrows-and-bullets">Arrows & bullets</a></h3>
+      <a name="ex--arrows-and-bullets"></a>
+      <h3><a href="#ex--arrows-and-bullets">Arrows & bullets</a></h3>
       <p>This example uses custom arrows and positions the bullets outside of the slideshow.<br>
         You can also disable arrows or bullets. E.g.<code>:arrows="false"</code>, <code>:bullets="false"</code></p>
       <pre>&lt;vueper-slides :infinite="false" <b>:bullets-outside="true"</b>&gt;
@@ -257,8 +299,8 @@
   &gt;&lt;/vueper-slide&gt;
 &lt;/vueper-slides&gt;</pre>
       <vueper-slides class="ex3" :infinite="false" :bullets-outside="true">
-        <v-icon slot="arrowLeft" large>arrow_left</v-icon>
-        <v-icon slot="arrowRight" large>arrow_right</v-icon>
+        <v-icon slot="arrowLeft" x-large>undo</v-icon>
+        <v-icon slot="arrowRight" x-large>redo</v-icon>
         <vueper-slide
           v-for="(slide, i) in slides"
           :key="slide.id"
@@ -268,8 +310,8 @@
         ></vueper-slide>
       </vueper-slides>
 
-      <a name="basic"></a>
-      <h3><a href="#basic">Images & Fading</a></h3>
+      <a name="ex--images-and-fading"></a>
+      <h3><a href="#ex--images-and-fading">Images & Fading</a></h3>
       <p>This example uses <b>images</b> and <b>fading</b> as the slide transition.</br>
         The <b>dragging</b> ability to change slide is <b>disabled</b>.<br>
         The current slide title & content are shown <b>outside</b> of the slider.
@@ -301,6 +343,24 @@
           :content="slide.content"
         ></vueper-slide>
       </vueper-slides>
+
+      <a name="ex--events"></a>
+      <h3><a href="#ex--events">Events</a></h3>
+      <p>This example demonstrates how to use the vueper slides provided events.</br>
+        The box bellow will be populated by all the events triggered while using the slideshow.</p>
+      <pre style="height: 100px;overflow: auto;">listening...<p v-html="events"></p></pre>
+      <vueper-slides
+        @before-init="logEvents('before init')"
+        @ready="logEvents('ready')"
+        @before-slide="logEvents('before slide')"
+        @slide="logEvents('slide')"
+        :slide-ratio="0.1">
+        <vueper-slide
+          v-for="i in 5"
+          :key="i"
+          :title="i.toString()"
+          :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"></vueper-slide>
+      </vueper-slides>
     </div>
 
     <script>
@@ -323,6 +383,7 @@
       new Vue({
         el: '#app',
         data: () => ({
+          events: '',
           colors: [
             '#4caf50',
             '#2196f3',
@@ -391,7 +452,13 @@
               content: 'Slide 3 content.'
             }
           ]
-        })
+        }),
+
+        methods: {
+          logEvents: (eventName) => {
+            this.events += eventName + '<br>'
+          }
+        }
       })
     </script>
   </body>
