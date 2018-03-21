@@ -88,11 +88,21 @@
       border: none;
       box-shadow: none;
       transition: 0.3s;
+      width: 16px;
+      height: 16px;
     }
 
     .ex3 .vueperslides__bullet--active {
       background-color: #ff5252;
     }
+
+    .ex3 .vueperslides__bullet span {
+      display: block;
+      color: #fff;
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
 
     @-webkit-keyframes gradient {
       0% {
@@ -289,7 +299,9 @@ touchable: [Boolean], default: true</precode>
       <a name="ex--arrows-and-bullets"></a>
       <h3><a href="#ex--arrows-and-bullets">Arrows & bullets</a></h3>
       <p>This example uses custom arrows and positions the bullets outside of the slideshow.<br>
-        You can also disable arrows or bullets. E.g.<code>:arrows="false"</code>, <code>:bullets="false"</code></p>
+        The bullets are showing slide indexes which is disabled by default.<br>
+        You can also disable arrows and/or bullets. E.g.<code>:arrows="false"</code>, <code>:bullets="false"</code></p>
+      <p><code>Vue Template:</code></p>
       <precode language="html-vue">&lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
   &lt;v-icon slot="arrowLeft" large&gt;arrow_left&lt;/v-icon&gt;
   &lt;v-icon slot="arrowRight" large&gt;arrow_right&lt;/v-icon&gt;
@@ -300,6 +312,26 @@ touchable: [Boolean], default: true</precode>
     :content="slide.content"
     :style="'background-color: ' + colors[(i + 1) % 4]"&gt;&lt;/vueper-slide&gt;
 &lt;/vueper-slides&gt;</precode>
+      <p><code>CSS:</code></p>
+      <precode language="css">.ex3 .vueperslides__bullet {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  box-shadow: none;
+  transition: 0.3s;
+  width: 16px;
+  height: 16px;
+}
+
+.ex3 .vueperslides__bullet--active {
+  background-color: #ff5252;
+}
+
+.ex3 .vueperslides__bullet span {
+  display: block;
+  color: #fff;
+  font-size: 10px;
+  opacity: 0.8;
+}</precode>
       <vueper-slides class="ex3" :infinite="false" :bullets-outside="true">
         <v-icon slot="arrowLeft" x-large>undo</v-icon>
         <v-icon slot="arrowRight" x-large>redo</v-icon>
@@ -367,6 +399,7 @@ touchable: [Boolean], default: true</precode>
           'language'
         ],
         data: () => ({
+          knownLanguages: ['html', 'html-vue', 'css', 'js', 'json', 'php', 'sql'],
           content: ''
         }),
         methods: {
@@ -377,8 +410,27 @@ touchable: [Boolean], default: true</precode>
             return string.replace(/[<>]/g, function (m) { return { '<': '&lt;', '>': '&gt;' }[m] })
           },
 
+          isColorDark (colorString) {
+            let rgbColor, hexColor, rDark, gDark, bDark
+
+            if (rgbColor = colorString.match(/rgba?\((.*),\s*(.*),\s*(.*)[^)]*\)/)) {
+              rDark = parseInt(rgbColor[1]) <= 100
+              gDark = parseInt(rgbColor[2]) <= 100
+              bDark = parseInt(rgbColor[3]) <= 100
+            }
+            else if (hexColor = colorString.match(/#([\da-f]{3}(?:[\da-f]{3})?)/)) {
+              let has3chars = hexColor[1].length === 3
+              rDark = parseInt(hexColor[1][0]) <= 9
+              gDark = parseInt(hexColor[1][has3chars ? 1 : 2]) <= 9
+              bDark = parseInt(hexColor[1][has3chars ? 2 : 4]) <= 9
+            }
+
+            // #00f blue is also a dark color...
+            return (rDark && gDark && bDark) || (rDark && gDark && !bDark) || (!rDark && gDark && bDark)
+          },
+
           processContent (string) {
-            if (this.language === 'html' || this.language === 'html-vue') {
+            if (this.knownLanguages.indexOf(this.language) !== -1) {
               string = this.unhtmlize(string)
 
               let regexBasics =
@@ -547,8 +599,9 @@ touchable: [Boolean], default: true</precode>
                   return htmlTag
                 }
 
+                let styles = ''
                 if (Class === 'color' && VueInstance.language === 'css') {
-                  const styles = ' style="background-color:' + match + ';color: #' + (isColorDark(match) ? 'fff' : '000') + '"'
+                  styles = ' style="background-color:' + match + ';color: #' + (VueInstance.isColorDark(match) ? 'fff' : '000') + '"'
                 }
                 if (Class === 'variable' && match[0] === '.' && VueInstance.language === 'js') {
                   /**
@@ -557,7 +610,7 @@ touchable: [Boolean], default: true</precode>
                   return '<span class="ponctuation">.</span><span class="objAttr">' + match.substr(1) + '</span>'
                 }
 
-                return '<span class="' + Class + '"' + (styles !== undefined ? styles : '') + '>' + match + '</span>'
+                return '<span class="' + Class + '"' + styles + '>' + match + '</span>'
               })
             }
 

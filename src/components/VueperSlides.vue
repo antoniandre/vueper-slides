@@ -424,6 +424,15 @@ export default {
     // Remove whitespace due to text nodes in combination with display
     // inline block and whitespace nowrap.
     margin-bottom: -8px;
+
+  }
+
+  &__slide-content {
+    user-select: none;
+
+    &--outside {
+      user-select: initial;
+    }
   }
 
   &--fade &__slide {
@@ -507,6 +516,9 @@ export default {
     cursor: pointer;
     user-select: none;
     z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &--active {
       background-color: #fff;
