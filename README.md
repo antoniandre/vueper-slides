@@ -11,4 +11,4 @@ npm install vueper-slides --save
 ```
 
 ## Demo & Documentation
-> https://antoniandre.github.io/vueper-slides/documentation
+> [https://antoniandre.github.io/vueper-slides/documentation](https://antoniandre.github.io/vueper-slides/documentation)
