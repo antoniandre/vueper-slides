@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     init () {
-      this.$emit('beforeInit')
+      this.$emit('before-init')
       this.slides = this.getConfig().slides
       this.slidesCount = this.slides.length
       // this.getConfig().slideRatio = this.slideRatio
@@ -303,7 +303,10 @@ export default {
     },
 
     goToSlide (i, noAnimation = false) {
-      this.$emit('beforeSlide')
+      // First use of gotoSlide is while init, so should not propagate an event.
+      if (this.isReady) {
+        this.$emit('before-slide')
+      }
 
       if (this.autoplay) {
         this.clearTimer()
@@ -341,8 +344,10 @@ export default {
       }
 
       if (this.$slots.default[this.currentSlide]) {
-        // console.log('emitting', this.currentSlide - 1)
-        this.$emit('slide')
+        // First use of gotoSlide is while init, so should not propagate an event.
+        if (this.isReady) {
+          this.$emit('slide')
+        }
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
       }
     }

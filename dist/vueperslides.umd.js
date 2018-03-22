@@ -123,7 +123,7 @@ var VueperSlides = { render: function render() {
 
   methods: {
     init: function init() {
-      this.$emit('beforeInit');
+      this.$emit('before-init');
       this.slides = this.getConfig().slides;
       this.slidesCount = this.slides.length;
       // this.getConfig().slideRatio = this.slideRatio
@@ -289,7 +289,10 @@ var VueperSlides = { render: function render() {
 
       var noAnimation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      this.$emit('beforeSlide');
+      // First use of gotoSlide is while init, so should not propagate an event.
+      if (this.isReady) {
+        this.$emit('before-slide');
+      }
 
       if (this.autoplay) {
         this.clearTimer();
@@ -322,8 +325,10 @@ var VueperSlides = { render: function render() {
       }
 
       if (this.$slots.default[this.currentSlide]) {
-        // console.log('emitting', this.currentSlide - 1)
-        this.$emit('slide');
+        // First use of gotoSlide is while init, so should not propagate an event.
+        if (this.isReady) {
+          this.$emit('slide');
+        }
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid);
       }
     }
