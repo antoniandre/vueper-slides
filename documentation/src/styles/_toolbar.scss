@@ -1,0 +1,111 @@
+.toolbar {
+  z-index: 100;
+  position: absolute;
+  border-bottom: 1px solid transparent !important;
+  transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
+  top: 0;
+
+  &__title {
+    position: relative;
+    overflow: visible;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 22em;
+    transition: 0.3s ease-in-out;
+    font-size: 1em;
+    padding: 0 1em;
+    background-color: #fff;
+
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -40%;
+      right: -40%;
+      display: block;
+      z-index: -1;
+    }
+
+    &:before {
+      margin-top: -1px;
+      border: 2px solid $primary;
+    }
+
+    &:after {
+      margin-top: 5px;
+      border: 1px solid $secondary;
+    }
+  }
+
+  &__logo {
+    width: 60px;
+    padding-right: 1em;
+    fill: $primary;
+    vertical-align: middle;
+    transition: 0.2s 0s ease-in-out;
+  }
+
+  &__logo-link {
+    display: inline-block;
+  }
+
+  &__logo-title {
+    display: inline-block;
+    vertical-align: middle;
+    transition: 0.3s ease-in-out;
+  }
+
+  &__items {
+    position: absolute;
+    right: 0;
+    transition: 0.3s ease-in-out;
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  .intro {
+    position: absolute;
+    top: 5em;
+    left: 0;
+    right: 0;
+    color: #999;
+    opacity: 1;
+    transform: translateY(0em);
+    transition: 0.3s .4s ease-in-out;
+    text-align: center;
+    font-style: italic;
+  }
+
+
+  &.scrolled {
+    transition: 0.6s ease-in-out all, 0.3s 0.5s ease-in-out border-color;
+    border-bottom-color: $lighter-text !important;
+    position: fixed;
+
+    & .toolbar__title {
+      width: 100%;
+      transition: 0.6s ease-in-out all, 0.3s 0.3s ease-in-out background-color;
+    }
+
+    & .toolbar__logo {
+      width: 50px;
+    }
+
+    & .toolbar__logo-title {
+      font-size: 1.7em;
+    }
+
+    & .toolbar__items {
+      transition: 0.3s 0.3s ease-in-out all;
+      transform: translateX(0%);
+      opacity: 1;
+    }
+
+    .intro {
+      transition: 0.2s 0s ease-in-out all;
+      transform: translateY(1em);
+      opacity: 0;
+    }
+
+  }
+}
