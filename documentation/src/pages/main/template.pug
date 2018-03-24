@@ -50,15 +50,18 @@ div.documentation
   h3 NPM - Coming Soon!
   precode(language="shell") npm install vueper-slides --save
   p Then import the 2 components and use it:
-  precode(language="js") import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides.umd'
   precode(language="js").
-    export default {
-    components: {
-      VueperSlides,
-      VueperSlide
-    },
-    template: ...,
+    import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides.umd'
     ...
+
+    export default {
+      components: {
+        VueperSlides,
+        VueperSlide
+      },
+      template: ...,
+      ...
+    }
 
 
   h3 Browser Use
