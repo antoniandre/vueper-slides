@@ -1,61 +1,15 @@
-$primary: #ff5252;
-$secondary: #42b983;
-$main-text: #888;
-// $light-text: #ccc;
-// $light-link: #fff;
-// $h3-text: #444;
-// $page-max-width: 880px;
-
-header {
-  margin: 3em auto 1.5em;
-  max-width: 600px;
-  position: relative;
-  text-align: center;
-  z-index: 1;
-}
-
-header:before {
-  content: "";
-  position: absolute;
-  margin-top: -1px;
-  top: 50%;
-  left: 0;
-  right: 0;
-  border: 2px solid $primary;
-  display: block;
-  z-index: -1;
-}
-
-header:after {
-  content: "";
-  position: absolute;
-  margin-top: 5px;
-  top: 50%;
-  left: 0;
-  right: 0;
-  border: 1px solid $secondary;
-  display: block;
-  z-index: -1;
-}
-
-.intro {
-  text-align: center;
-  margin-bottom: 5em;
-  color: #999;
-}
+@import '../../styles/variables';
 
 .coming-soon {
   font-style: italic;
 }
 
 .coming-soon .card__title {
-  color: #aaa;
   padding-bottom: 0;
   font-size: 1.2em;
 }
 
 .coming-soon .chip {
-  // opacity: 0.8;
   margin: 2px 0;
 }
 
@@ -64,42 +18,3 @@ header:after {
   color: rgba(0, 0, 0, .25);
   margin: 0 7px 0 -7px;
 }
-
-/* Syntax highlighting */
-pre .txt {color: #333;}
-pre .comment {font-style: italic;color: #aaa;}
-pre .comment * {color: #aaa !important;}
-pre .quote {color: #c11;}
-pre .quote * {color: #c11 !important;}
-pre .number {color: #c11;}
-pre .boolean {color: #c11;}
-pre .keyword {color: #11c;font-weight: bold;}
-pre .ponctuation {color: #99f;}
-pre .dollar,
-pre .special {color: #f63;}
-pre .variable {color: #29e;}
-pre .objAttr {color: #0bc;}
-
-pre[data-type="html"] .tag-name {color: #11c;}
-pre[data-type="html"] .attribute {color: #f63;}
-
-pre[data-type="html-vue"] .tag-name {color: #42b983;}
-pre[data-type="html-vue"] .ponctuation {color: #128953;}
-pre[data-type="html-vue"] .attribute {color: #ff5252;}
-
-pre[data-type="xml"] .tag-name {color: #11c;}
-pre[data-type="xml"] .attribute {color: #f93;}
-
-pre[data-type="css"] .selector {color: #f0d;}
-pre[data-type="css"] .selector.class-id {color: #f0d;}
-pre[data-type="css"] .pseudo {color: #f35;}
-pre[data-type="css"] .selector.keyword {color: #f5f;}
-pre[data-type="css"] .selector.keyword.vendor {color: #0c8;}
-pre[data-type="css"] .keyword {color: #c06;}
-pre[data-type="css"] .attribute {color: #70d;}
-pre[data-type="css"] .attribute.keyword {color: #e28;}
-pre[data-type="css"] .attribute.keyword.vendor {color: #0c8;}
-pre[data-type="css"] .value {color: #c11;}
-pre[data-type="css"] .value.vendor {color: #0c8;}
-pre[data-type="css"] .color {background: #eee;padding: 0px 3px;border: 1px solid rgba(0,0,0,.1);}
-pre[data-type="css"] .unit {color: #0bc;}

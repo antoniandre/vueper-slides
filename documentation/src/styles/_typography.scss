@@ -1,0 +1,68 @@
+body {
+  font: 13px Roboto, Tahoma, Geneva, sans-serif;
+  color: $main-text;
+}
+
+.application.theme--light,
+.application .theme--light.card, .theme--light .card {
+  color: inherit;
+}
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 0;
+}
+
+h2 {
+  margin-top: 3em;
+  font-size: 2em;
+  color: $primary;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid $lighter-text;
+}
+
+h3 {
+  font-size: 1.5em;
+  margin-top: 5em;
+  color: $secondary;
+}
+
+h2 + h3,
+h2 + a[name] + h3 {
+  margin-top: 0;
+}
+
+h3 a {
+  color: inherit !important;
+}
+
+h3 a:before {
+  content: "# ";
+  color: $lighter-text;
+  font-size: 1.2em;
+  transition: 0.3s;
+}
+
+h3 a:hover:before {
+  color: $light-text;
+}
+
+h4 {
+  margin-top: 2em;
+  font-size: 1.2em;
+  color: $dark-text;
+}
+
+a {
+  text-decoration: none;
+}
+
+p b {
+  color: $darker-text;
+  font-weight: 500;
+}

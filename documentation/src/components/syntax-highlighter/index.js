@@ -1,3 +1,5 @@
+import './style.scss'
+
 const regexBasics = {
   quote: /("(?:\\"|[^"])*")|('(?:\\'|[^'])*')/, // Match simple and double quotes by pair.
   comment: /(\/\/.*|\/\*[\s\S]*?\*\/)/, // Comments blocks (/* ... */) or trailing comments (// ...).
@@ -10,6 +12,12 @@ const regexBasics = {
 // The html tags names, attribute and inner special chars are treated inside the
 // htmlTag regex above because javascript does not support lookbehind.
 const dictionnary = {
+  shell: {
+    quote: regexBasics.quote,
+    comment: /(#.*?)\n/,
+    keyword: /(?:^|\b)(npm|yarn|install|run)(?:\b|$)/,
+    param: /( --(?:save|save-dev))(?:\s|$)/
+  },
   xml: {
     quote: regexBasics.quote,
     comment: /(&lt;!--[\s\S]*?--&gt;)/,
@@ -56,7 +64,7 @@ const dictionnary = {
     comment: regexBasics.comment,
     number: /\b(\d+(?:\.\d+)?|null)\b/,
     boolean: regexBasics.boolean,
-    keyword: /\b(new|getElementsBy(?:Tag|Class|)Name|getElementById|arguments|if|else|do|return|case|default|function|typeof|undefined|instanceof|this|document|window|while|for|switch|in|break|continue|length|var|(?:clear|set)(?:Timeout|Interval)|Math(?=\.)|Date)(?=\W)/,
+    keyword: /\b(new|getElementsBy(?:Tag|Class|)Name|getElementById|arguments|if|else|do|return|case|default|function|typeof|undefined|instanceof|this|document|window|while|for|forEach|switch|in|break|continue|length|var|let|const|export|import|from|Number|Boolean|String|Array|Object|(?:clear|set)(?:Timeout|Interval)|Math(?=\.)|Date)(?=\W)/,
     ponctuation: /(!==?|(?:[[\](){}:;,+\-%*/?=]|&lt;|&gt;)+|\.+(?![a-zA-Z])|&amp;&amp;|\|\|)/, // Override default since '.' can be part of js variable.
     variable: /(\.?[a-zA-Z]\w*)/,
     htmlentity: /(&.*?;)/,
@@ -87,7 +95,6 @@ const attributesRegex = {
   'html-vue': /(\s*)(:?[a-zA-Z\-]+)(?:(?:=("|')(.*?)\3)|)/g
 }
 
-
 export const precode = {
   name: 'precode',
   template: '<pre v-html="content" :data-type="language"></pre>',
@@ -98,15 +105,15 @@ export const precode = {
     }
   },
   data: () => ({
-    knownLanguages: ['html', 'html-vue', 'css', 'js', 'json', 'php', 'sql'],
+    knownLanguages: Object.keys(dictionnary),
     content: ''
   }),
   methods: {
     htmlize (string) {
-      return string.replace(/&(lt|gt|amp);/g, function (m0, m1) { return { lt: '<', gt: '>', amp: '&' }[m1] })
+      return string.replace(/&(lt|gt|amp);/g, (m0, m1) => ({ lt: '<', gt: '>', amp: '&' }[m1]))
     },
     unhtmlize (string) {
-      return string.replace(/[<>]/g, function (m) { return { '<': '&lt;', '>': '&gt;' }[m] })
+      return string.replace(/[<>]/g, m => ({ '<': '&lt;', '>': '&gt;' }[m]))
     },
     isColorDark (colorString) {
       let rgbColor, hexColor, rDark, gDark, bDark
@@ -170,11 +177,11 @@ export const precode = {
       // `<tag-name attrs>` or `<tag-name attrs />` or `</tag-name>`,
       return (
         // Will be the tag opening: `</` or `<`.
-        `<span class="ponctuation">${tagPieces[0]}</span>` + 
+        `<span class="ponctuation">${tagPieces[0]}</span>` +
         // Will be the tag-name + attributes list if any.
-        `<span class="tag-name">${tagPieces[1]}</span>` + attributesList +  
+        `<span class="tag-name">${tagPieces[1]}</span>` + attributesList +
         // Will be the tag end `>` or `/>`.
-        `<span class="ponctuation">${tagPieces[3]}</span>` 
+        `<span class="ponctuation">${tagPieces[3]}</span>`
       )
     },
     syntaxHighlightContent (string) {
@@ -208,7 +215,7 @@ export const precode = {
               */
             return `<span class="ponctuation">.</span><span class="objAttr">${match.substr(1)}</span>`
           }
-          
+
           let styles = ''
           if (Class === 'color' && this.language === 'css') {
             styles = ` style="background-color: ${match};color: #${this.isColorDark(match) ? 'fff' : '000'}"`
