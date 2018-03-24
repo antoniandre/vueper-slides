@@ -1,0 +1,240 @@
+div.documentation
+  header
+    div(class="page__title")
+      svg(class="page__logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 442 442")
+        g
+          path(d="M166.636,225.195c3.941,15.981,27.265,26.307,59.421,26.307c24.085,0,39.358-8.799,45.619-17.032 c4.127-5.425,5.304-11.479,3.498-17.994c-3.601-12.994-22.35-19.318-52.796-28.189l-8.495-2.479 c-31.046-9.043-66.234-19.293-73.691-46.198c-3.764-13.58-1.119-27.262,7.447-38.526c0.341-0.448,0.694-0.889,1.052-1.328 c2.441-2.992,2.942-7.122,1.287-10.611c-1.656-3.489-5.172-5.712-9.034-5.712h-35.127c-2.912,0-5.679,1.269-7.579,3.476l-43.038,50 c-3.228,3.75-3.228,9.297,0,13.048l74.285,86.302c2.859,3.32,7.544,4.393,11.563,2.648c4.019-1.745,6.433-5.903,5.958-10.258 c-0.54-4.949,2.697-9.58,7.531-10.771c0.795-0.196,1.605-0.295,2.409-0.295C161.546,217.583,165.532,220.713,166.636,225.195z   M149.746,198.46c-6.929,1.708-12.766,5.77-16.8,11.164l-56.974-66.191l34.431-40h12.92c-5.458,12.997-6.348,27.293-2.405,41.518 c10.435,37.647,53.094,50.074,87.369,60.057l8.493,2.478c8.507,2.479,18.15,5.289,26.049,8.284 c8.659,3.285,11.886,5.539,12.992,6.508c-0.02,0.026-0.04,0.054-0.062,0.083c-2.794,3.674-13.009,9.14-29.7,9.14 c-27.185,0-39.002-8.284-40.002-11.095c-3.313-13.438-15.284-22.824-29.112-22.824C154.527,197.583,152.106,197.879,149.746,198.46 z")
+          path(d="M263.197,264.516c-10.906,4.57-23.749,6.986-37.14,6.986c-18.762,0-35.732-3.221-49.077-9.313 c-4.274-1.952-9.329-0.665-12.149,3.091c-2.821,3.756-2.648,8.969,0.417,12.53l48.173,55.966c1.9,2.207,4.667,3.476,7.579,3.476 s5.679-1.269,7.579-3.476l46.062-53.513c3.026-3.516,3.237-8.651,0.51-12.403C272.424,264.107,267.476,262.723,263.197,264.516z   M221,311.922l-19.034-22.113c7.686,1.12,15.757,1.692,24.091,1.692c4.414,0,8.791-0.224,13.093-0.666L221,311.922z")
+          path(d="M336.185,83.434h-36.583c-3.924,0-7.485,2.295-9.106,5.867c-1.622,3.573-1.004,7.764,1.58,10.717 c7.581,8.665,11.425,18.845,11.425,30.258c0,5.514-4.486,10-10,10s-10-4.486-10-10c0-25.24-34.223-36.538-68.141-36.538 c-27.285,0-44.649,10.049-51.802,19.454c-4.832,6.353-6.208,13.444-4.093,21.076c4.159,15.004,27.497,22.868,60.008,32.337 l8.496,2.479c30.671,8.937,59.641,17.377,66.479,42.049c1.536,5.544,1.931,11.109,1.174,16.54 c-0.612,4.393,1.743,8.665,5.785,10.493c1.325,0.599,2.727,0.889,4.116,0.889c2.847,0,5.637-1.217,7.583-3.477l73.698-85.62 c3.228-3.75,3.228-9.297,0-13.048l-43.038-50C341.864,84.703,339.097,83.434,336.185,83.434z M313.378,204.602 c-10.316-34.469-47.216-45.221-79.811-54.718l-8.497-2.479c-9.928-2.892-21.182-6.17-30.645-9.91 c-12.553-4.962-15.322-8.215-15.757-8.831c-0.352-1.365-0.253-1.969,0.809-3.365c3.041-3.999,14.455-11.561,35.883-11.561 c27.553,0,48.141,8.732,48.141,16.538c0,16.542,13.458,30,30,30s30-13.458,30-30c0-9.448-1.934-18.504-5.679-26.842h13.777 l34.431,40L313.378,204.602z")
+          path(d="M439.579,136.91l-77.468-90c-1.9-2.207-4.667-3.476-7.579-3.476H87.468c-2.912,0-5.679,1.269-7.579,3.476l-77.468,90 c-3.228,3.75-3.228,9.297,0,13.048l211,245.132c1.9,2.207,4.667,3.477,7.579,3.477s5.679-1.27,7.579-3.477l211-245.132 C442.807,146.208,442.807,140.661,439.579,136.91z M221,373.238L23.194,143.434l68.861-80h257.89l68.861,80L221,373.238z")
+      h1 Vueper Slides
+
+  p.intro.
+    Vueper Slides is an easy to use responsive & touch-ready slideshow made for VueJS.
+    #[br] Inspired by #[a(href="http://kenwheeler.github.io/slick/" target="_blank") Slick].
+
+  v-layout.max-widthed(row align-center)
+    p.
+      Vueper Slides comes with a minimum of styling (using the #[i BEM] convention).#[br]
+      You can easily override it, the aim is to let users have their own styles.
+    v-spacer
+    v-card.coming-soon
+      v-card-title To Do...
+      v-card-text
+        v-layout(column)
+          v-chip(color="light-green lighten-1" text-color="white" small)
+            v-icon check_circle
+            | Emit events with params
+          v-chip(color="amber lighten-2" text-color="white" small)
+            v-icon access_time
+            | Emit events with params
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Breakpoints
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Center mode
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Nav for
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Slides to scroll at once
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Dragging distance
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Slide with keyboard arrows
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Add slides on the fly
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Lazy loading
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Remove / disable
+    v-spacer
+
+
+  a(name="installation")
+  h2
+    a(href="#installation") Installation
+  h3 NPM - Coming Soon!
+  precode npm install vueper-slides --save
+
+  h3 Browser Use
+  p Place this in your document &lt;head&gt;
+  precode(language="html").
+    &lt;head&gt;
+      ...
+      &lt;script src="https://unpkg.com/vue/dist/vue.min.js"&gt;&lt;/script&gt;
+      &lt;script src="https://unpkg.com/vuetify/dist/vuetify.min.js"&gt;&lt;/script&gt;
+      &lt;script src="../dist/vueperslides.umd.js"&gt;&lt;/script&gt;
+      &lt;link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"&gt;
+    &lt;/head&gt;
+  p Then use like this:
+  precode(language="html-vue").
+    &lt;vueper-slides&gt;
+      &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  a(name="vueper-slides-api")
+  h2
+    a(href="#vueper-slides-api") &lt;vueper-slides&gt; API
+  p.
+    This is the main tag for the slider.#[br]
+    You can set different options in html attributes.#[br]
+    You can also override the default arrows and `paused` indicator if you want.
+
+  a(name="vueper-slides-settings")
+  h3
+    a(href="#vueper-slides-settings") Settings
+  p Settings
+  precode(language="js").
+    initSlide:                [Number],         default: 1
+    slideRatio:               [Number],         default: 1/3
+    bullets:                  [Boolean],        default: true
+    arrows:                   [Boolean],        default: true
+    fade:                     [Boolean],        default: false
+    slideContentOutside:      [Boolean],        default: false
+    slideContentOutsideClass: [String],         default: ""
+    bulletsOutside:           [Boolean],        default: false
+    autoplay:                 [Boolean],        default: false
+    speed:                    [Number, String], default: 4000
+    pauseOnHover:             [Boolean],        default: true
+    infinite:                 [Boolean],        default: true
+    touchable:                [Boolean],        default: true
+
+  a(name="events")
+  h3
+    a(href="#events") Events - IN PROGRESS
+  p
+    code before-init
+  p
+    code ready
+  p
+    code before-slide
+  p
+    code slide
+
+  a(name="vueper-slide-api")
+  h2
+    a(href="#vueper-slide-api") &lt;vueper-slide&gt; API
+  a(name="vueper-slide-settings")
+  h3
+    a(href="#vueper-slide-settings") Settings
+  p Settings
+
+  a(name="examples")
+  h2
+    a(href="#examples") Examples of Use
+
+  a(name="ex--simplest-ever")
+  h3
+    a(href="#ex--simplest-ever") Simplest Ever
+  precode(language="html-vue").
+    &lt;vueper-slides&gt;
+      &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  vueper-slides.ex1
+    vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
+
+  a(name="ex--basic")
+  h3
+    a(href="#ex--basic") Basic with Autoplay
+  p
+    | This example uses autoplay, slide titles & contents.#[br]
+    em The autoplay circles between all the slides and goes back to the begining after the last slide.
+  precode(language="html-vue").
+    &lt;vueper-slides autoplay&gt;
+      &lt;v-icon slot="pausedIcon" large color="white"&gt;pause&lt;/v-icon&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides"
+        :key="slide.id"
+        :title="slide.title"
+        :content="slide.content"
+        :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  vueper-slides.ex2(autoplay :infinite="true")
+    v-icon(slot="pausedIcon" large color="white") pause
+    vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
+
+  a(name="ex--arrows-and-bullets")
+  h3
+    a(href="#ex--arrows-and-bullets") Arrows & bullets
+  p.
+    This example uses custom arrows and positions the bullets outside of the slideshow.#[br]
+    The bullets are showing slide indexes which is disabled by default.#[br]
+    You can also disable arrows and/or bullets. E.g. #[code :arrows="false"], #[code :bullets="false"]
+  p
+    code Vue Template:
+  precode(language="html-vue").
+    &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
+      &lt;v-icon slot="arrowLeft" large&gt;arrow_left&lt;/v-icon&gt;
+      &lt;v-icon slot="arrowRight" large&gt;arrow_right&lt;/v-icon&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="slide.id"
+        :title="slide.title"
+        :content="slide.content"
+        :style="'background-color: ' + colors[(i + 1) % 4]"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  p
+    code CSS:
+  precode(language="css").
+    .ex3 .vueperslides__bullet {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      box-shadow: none;
+      transition: 0.3s;
+      width: 16px;
+      height: 16px;
+    }
+
+    .ex3 .vueperslides__bullet--active {
+      background-color: #ff5252;
+    }
+
+    .ex3 .vueperslides__bullet span {
+      display: block;
+      color: #fff;
+      font-size: 10px;
+      opacity: 0.8;
+    }
+  vueper-slides.ex3(:infinite="false" :bullets-outside="true")
+    v-icon(slot="arrowLeft" x-large) undo
+    v-icon(slot="arrowRight" x-large) redo
+    vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
+
+  a(name="ex--images-and-fading")
+  h3
+    a(href="#ex--images-and-fading") Images & Fading
+  p.
+    This example uses #[b images] and #[b fading] as the slide transition.#[br]
+    The #[b dragging] ability to change slide is #[b disabled].#[br]
+    The current slide title & content are shown #[b outside] of the slider.
+    #[br]Of course you can position it with a bit of CSS.
+  precode(language="html-vue").
+    &lt;vueper-slides&gt;
+      &lt;vueper-slide
+        v-for="slide in slides2"
+        :key="slide.id"
+        :image="'images/' + slide.image"
+        :title="'# ' + slide.title"
+        :content="slide.content"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  vueper-slides(fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3")
+    vueper-slide(v-for="slide in slides2" :key="slide.id" :image="'images/' + slide.image" :title="'# ' + slide.title" :content="slide.content")
+
+  a(name="ex--events")
+  h3
+    a(href="#ex--events") Events
+  p.
+    This example demonstrates how to use the vueper slides provided events.#[br]
+    The box bellow will be populated by all the events triggered while using the slideshow.
+  pre(style="min-height: 120px")
+    | listening...
+    p(v-html="events")
+  vueper-slides(@before-init="logEvents('before init')" @ready="logEvents('ready')" @before-slide="logEvents('before slide')" @slide="logEvents('slide')" :slide-ratio="0.2")
+    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")

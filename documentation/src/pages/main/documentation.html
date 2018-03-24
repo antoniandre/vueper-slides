@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- DEV -->
-    <!--
+
     <script src="../node_modules/vue/dist/vue.js"></script>
     <script src="../node_modules/vuetify/dist/vuetify.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <script src="../node_modules/vuetify/dist/vuetify.css"></script>
-    <\!-- <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"> --\>
+    <!-- <\!-- <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"> --\> -->
     <link href="./page.css" rel="stylesheet" />
-    -->
+
 
 
     <!-- PROD -->
-
+    <!--
     <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
     <script src="../dist/vueperslides.umd.js"></script>
@@ -27,120 +27,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
     <link href="./page.css" rel="stylesheet" />
-
-
-    <style>
-    .vueperslides__slide {
-      position: relative;
-      background-position: bottom;
-    }
-
-    .vueperslides__slide-content--outside {
-      position: static;
-      transform: none;
-      text-align: left;
-      color: #444;
-    }
-
-    .vueperslides__slide .vueperslides__slide-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: #fff;
-      font-family: Tahoma, Geneva, sans-serif;
-      text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .vueperslides__slide-content .slide-title {
-      font-size: 2em;
-    }
-
-    .vueperslides__slide-content .slide-content {
-      font-style: italic;
-    }
-
-    .vueperslides__slide-content--outside .content {
-      padding-left: 2em;
-      margin-top: 0;
-    }
-
-    .vueperslides__slide .vueperslides__slide-content .slide-content {
-      position: relative;
-      top: 3em;
-    }
-
-    .ex1 .vueperslides__slide {
-      background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-      background-size: 400% 400%;
-      -webkit-animation: gradient 15s ease infinite;
-      -moz-animation: gradient 15s ease infinite;
-      animation: gradient 15s ease infinite;
-    }
-
-    .ex1 .slide-title {
-      font-size: 7em;
-      opacity: 0.6;
-    }
-
-    .ex3 .vueperslides__bullet {
-      background-color: rgba(0, 0, 0, 0.3);
-      border: none;
-      box-shadow: none;
-      transition: 0.3s;
-      width: 16px;
-      height: 16px;
-    }
-
-    .ex3 .vueperslides__bullet--active {
-      background-color: #ff5252;
-    }
-
-    .ex3 .vueperslides__bullet span {
-      display: block;
-      color: #fff;
-      font-size: 10px;
-      opacity: 0.8;
-    }
-
-
-    @-webkit-keyframes gradient {
-      0% {
-        background-position: 0% 50%
-      }
-      50% {
-        background-position: 100% 50%
-      }
-      100% {
-        background-position: 0% 50%
-      }
-    }
-
-    @-moz-keyframes gradient {
-      0% {
-        background-position: 0% 50%
-      }
-      50% {
-        background-position: 100% 50%
-      }
-      100% {
-        background-position: 0% 50%
-      }
-    }
-
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%
-      }
-      50% {
-        background-position: 100% 50%
-      }
-      100% {
-        background-position: 0% 50%
-      }
-    }
-    </style>
+    -->
   </head>
   <body>
     <div id="app">
@@ -191,18 +78,48 @@
         <v-spacer></v-spacer>
         <div class="coming-soon">
           <h4>Coming soon...</h4>
-          <ul>
-            <li>Emit events</li>
-            <li>Breakpoints</li>
-            <li>Center mode</li>
-            <li>Nav for</li>
-            <li>Slides to scroll at once</li>
-            <li>Dragging distance</li>
-            <li>Slide with keyboard arrows</li>
-            <li>Add slides on the fly</li>
-            <li>Lazy loading</li>
-            <li>Remove / disable</li>
-          </ul>
+          <v-layout column>
+            <v-chip color="amber" text-color="white" small>
+              <v-icon>access_time</v-icon>
+              Emit events with params
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Breakpoints
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Center mode
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Nav for
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Slides to scroll at once
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Dragging distance
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Slide with keyboard arrows
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Add slides on the fly
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Lazy loading
+            </v-chip>
+            <v-chip color="red" text-color="white" small>
+              <v-icon>remove_circle</v-icon>
+              Remove / disable
+            </v-chip>
+          </v-layout>
         </div>
         <v-spacer></v-spacer>
       </v-layout>
@@ -235,19 +152,19 @@
       <a name="vueper-slides-settings"></a>
       <h3><a href="#vueper-slides-settings">Settings</a></h3>
       <p>Settings</p>
-      <precode>initSlide: [Number], default: 1
-slideRatio: [Number], default: 1/3
-bullets: [Boolean], default: true
-arrows: [Boolean], default: true
-fade: [Boolean], default: false
-slideContentOutside: [Boolean], default: false
-slideContentOutsideClass: [String], default: ""
-bulletsOutside: [Boolean], default: false
-autoplay: [Boolean], default: false
-speed: [Number, String], default: 4000
-pauseOnHover: [Boolean], default: true
-infinite: [Boolean], default: true
-touchable: [Boolean], default: true</precode>
+      <precode language="js">initSlide:                [Number],         default: 1
+slideRatio:               [Number],         default: 1/3
+bullets:                  [Boolean],        default: true
+arrows:                   [Boolean],        default: true
+fade:                     [Boolean],        default: false
+slideContentOutside:      [Boolean],        default: false
+slideContentOutsideClass: [String],         default: ""
+bulletsOutside:           [Boolean],        default: false
+autoplay:                 [Boolean],        default: false
+speed:                    [Number, String], default: 4000
+pauseOnHover:             [Boolean],        default: true
+infinite:                 [Boolean],        default: true
+touchable:                [Boolean],        default: true</precode>
 
       <a name="events"></a>
       <h3><a href="#events">Events - IN PROGRESS</a></h3>
@@ -384,7 +301,7 @@ touchable: [Boolean], default: true</precode>
         @ready="logEvents('ready')"
         @before-slide="logEvents('before slide')"
         @slide="logEvents('slide')"
-        :slide-ratio="0.1">
+        :slide-ratio="0.2">
         <vueper-slide
           v-for="i in 6"
           :key="i"

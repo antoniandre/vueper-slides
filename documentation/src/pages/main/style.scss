@@ -1,14 +1,17 @@
-body {
-  font: 13px Roboto, Tahoma, Geneva, sans-serif;
-  margin: 3em 0;
-  color: #777;
-}
+$primary: #ff5252;
+$secondary: #42b983;
+$main-text: #888;
+// $light-text: #ccc;
+// $light-link: #fff;
+// $h3-text: #444;
+// $page-max-width: 880px;
 
 header {
   margin: 3em auto 1.5em;
   max-width: 600px;
   position: relative;
   text-align: center;
+  z-index: 1;
 }
 
 header:before {
@@ -18,7 +21,7 @@ header:before {
   top: 50%;
   left: 0;
   right: 0;
-  border: 2px solid #ff5252;
+  border: 2px solid $primary;
   display: block;
   z-index: -1;
 }
@@ -30,74 +33,9 @@ header:after {
   top: 50%;
   left: 0;
   right: 0;
-  border: 1px solid #42b983;
+  border: 1px solid $secondary;
   display: block;
   z-index: -1;
-}
-
-h1, h2, h3, h4 {
-  font-weight: normal;
-  margin-bottom: 0.5em;
-}
-
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 0;
-}
-
-h2 {
-  margin-top: 3em;
-  font-size: 2em;
-  color: #ff5252;
-  padding-bottom: 0.3em;
-  border-bottom: 1px solid #ddd;
-}
-
-h3 {
-  font-size: 1.5em;
-  margin-top: 5em;
-  color: #42b983;
-}
-
-h2 + h3,
-h2 + a[name] + h3 {
-  margin-top: 0;
-}
-
-h3 a {
-  color: inherit;
-}
-
-h3 a:before {
-  content: "# ";
-  color: #ddd;
-  font-size: 1.2em;
-  transition: 0.3s;
-}
-
-h3 a:hover:before {
-  color: #ccc;
-}
-
-h4 {
-  margin-top: 2em;
-  font-size: 1.2em;
-  color: #666;
-}
-
-a {
-  color: #ff5252;
-  text-decoration: none;
-}
-
-p b {
-  color: #000;
-  font-weight: 500;
-}
-
-ul {
-  margin-top: 1em;
-  margin-left: 1.3em;
 }
 
 .intro {
@@ -108,47 +46,24 @@ ul {
 
 .coming-soon {
   font-style: italic;
+}
+
+.coming-soon .card__title {
   color: #aaa;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  padding: 1em;
-  display: inline-block;
+  padding-bottom: 0;
+  font-size: 1.2em;
 }
 
-.coming-soon h4 {
-  margin-top: 0;
+.coming-soon .chip {
+  // opacity: 0.8;
+  margin: 2px 0;
 }
 
-pre {
-  padding: 0.5em;
-  margin: 1.5em 0;
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
-  border-radius: 4px;
-  display: block;
-  box-shadow: none;
+.chip i.icon {
+  position: relative;
+  color: rgba(0, 0, 0, .25);
+  margin: 0 7px 0 -7px;
 }
-
-.page__title {
-  color: #ff5252;
-  background-color: #fff;
-  padding: 1.5em;
-  display: inline-flex;
-  align-items: center;
-}
-
-.page__logo {
-  width: 60px;
-  padding-right: 1em;
-  fill: #ff5252;
-}
-
-.max-widthed, h2, h3, p, pre {
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 
 /* Syntax highlighting */
 pre .txt {color: #333;}
