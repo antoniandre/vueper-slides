@@ -1,7 +1,7 @@
 v-app(light v-scroll="onScroll")
   v-toolbar(app light color="white" dense flat fixed align-center :class="{'scrolled': offsetTop > 104}")
     v-toolbar-title
-      router-link.toolbar__logo-link(to="examples")
+      router-link.toolbar__logo-link(to="/")
         svg.toolbar__logo(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 442 442")
           g
             path(d="M166.636,225.195c3.941,15.981,27.265,26.307,59.421,26.307c24.085,0,39.358-8.799,45.619-17.032 c4.127-5.425,5.304-11.479,3.498-17.994c-3.601-12.994-22.35-19.318-52.796-28.189l-8.495-2.479 c-31.046-9.043-66.234-19.293-73.691-46.198c-3.764-13.58-1.119-27.262,7.447-38.526c0.341-0.448,0.694-0.889,1.052-1.328 c2.441-2.992,2.942-7.122,1.287-10.611c-1.656-3.489-5.172-5.712-9.034-5.712h-35.127c-2.912,0-5.679,1.269-7.579,3.476l-43.038,50 c-3.228,3.75-3.228,9.297,0,13.048l74.285,86.302c2.859,3.32,7.544,4.393,11.563,2.648c4.019-1.745,6.433-5.903,5.958-10.258 c-0.54-4.949,2.697-9.58,7.531-10.771c0.795-0.196,1.605-0.295,2.409-0.295C161.546,217.583,165.532,220.713,166.636,225.195z   M149.746,198.46c-6.929,1.708-12.766,5.77-16.8,11.164l-56.974-66.191l34.431-40h12.92c-5.458,12.997-6.348,27.293-2.405,41.518 c10.435,37.647,53.094,50.074,87.369,60.057l8.493,2.478c8.507,2.479,18.15,5.289,26.049,8.284 c8.659,3.285,11.886,5.539,12.992,6.508c-0.02,0.026-0.04,0.054-0.062,0.083c-2.794,3.674-13.009,9.14-29.7,9.14 c-27.185,0-39.002-8.284-40.002-11.095c-3.313-13.438-15.284-22.824-29.112-22.824C154.527,197.583,152.106,197.879,149.746,198.46 z")
@@ -11,7 +11,7 @@ v-app(light v-scroll="onScroll")
         h1.primary--text.toolbar__logo-title Vueper Slides
     p.intro.
       Vueper Slides is an easy to use responsive & touch-ready slideshow made for VueJS.
-      #[br] Inspired by #[a(href="http://kenwheeler.github.io/slick/" target="_blank") Slick].
+      #[br]- Inspired by #[a(href="http://kenwheeler.github.io/slick/" target="_blank") Slick] -
     v-toolbar-items
       //- router-link(to="examples")
       v-btn(flat color="secondary")

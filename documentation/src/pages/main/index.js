@@ -13,7 +13,6 @@ export default Vue.extend({
   },
   template: require('./template.pug'),
   data: () => ({
-    pageReady: false,
     events: '',
     colors: [
       '#4caf50',
@@ -88,10 +87,5 @@ export default Vue.extend({
     logEvents (eventName) {
       this.events += eventName + '<br>'
     }
-  },
-  mounted () {
-    setTimeout(() => {
-      this.pageReady = true
-    }, 500)
   }
 })

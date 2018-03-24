@@ -8,8 +8,7 @@ Vue.use(Vuetify, {
   theme: {
     primary: '#ff5252',
     secondary: '#42b983',
-    maintext: '#999',
-    lightgrey: '#f4f4f4'
+    maintext: '#999'
     // Default Vuetify colors.
     // secondary: '#424242',
     // accent: '#82B1FF',
