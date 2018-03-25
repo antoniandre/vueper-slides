@@ -122,11 +122,9 @@ export default {
   },
   methods: {
     init () {
-      this.$emit('before-init')
+      this.emit('before-init', false)
       this.slides = this.getConfig().slides
       this.slidesCount = this.slides.length
-      // this.getConfig().slideRatio = this.slideRatio
-      // this.getConfig().slideContentOutside = this.slideContentOutside
 
       if (this.infinite && !this.fade) {
         this.cloneSlides()
@@ -136,7 +134,31 @@ export default {
       this.bindEvents()
 
       this.isReady = true
-      this.$emit('ready')
+      this.emit('ready')
+    },
+
+    emit(name, includeCurrentSlide = true, includeNextSlide = false) {
+      let args = [name]
+
+      if (includeCurrentSlide || includeNextSlide) {
+        args[1] = {}
+        if (includeCurrentSlide) {
+          args[1].currentSlide = {
+            index: this.currentSlide,
+            title: this.slides[this.currentSlide].title,
+            content: this.slides[this.currentSlide].content
+          }
+        }
+        if (includeNextSlide) {
+          args[1].nextSlide = {
+            index: this.currentSlide,
+            title: this.slides[this.currentSlide].title,
+            content: this.slides[this.currentSlide].content
+          }
+        }
+      }
+
+      this.$emit(name, ...args)
     },
 
     getConfig () {
@@ -304,19 +326,14 @@ export default {
 
     goToSlide (i, noAnimation = false) {
       // First use of gotoSlide is while init, so should not propagate an event.
-      if (this.isReady) {
-        this.$emit('before-slide')
-      }
+      if (this.isReady) this.emit('before-slide', true, true)
 
-      if (this.autoplay) {
-        this.clearTimer()
-      }
+      if (this.autoplay) this.clearTimer()
+
       // Infinite sliding.
       if (this.infinite && !this.fade) {
         if (!noAnimation) {
-          this.$refs.track.classList.remove(
-            "vueperslides__track--no-animation"
-          )
+          this.$refs.track.classList.remove("vueperslides__track--no-animation")
         }
 
         if (i <= 0 || i >= this.slidesCount - 1) {
@@ -345,9 +362,7 @@ export default {
 
       if (this.$slots.default[this.currentSlide]) {
         // First use of gotoSlide is while init, so should not propagate an event.
-        if (this.isReady) {
-          this.$emit('slide')
-        }
+        if (this.isReady) this.emit('slide')
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
       }
     }

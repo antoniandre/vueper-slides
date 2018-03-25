@@ -232,5 +232,5 @@ div.documentation
   pre(style="min-height: 120px")
     | listening...
     p(v-html="events")
-  vueper-slides(@before-init="logEvents('before init')" @ready="logEvents('ready')" @before-slide="logEvents('before slide')" @slide="logEvents('slide')" :slide-ratio="0.2")
+  vueper-slides(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")

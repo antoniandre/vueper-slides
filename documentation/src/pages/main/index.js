@@ -84,8 +84,8 @@ export default Vue.extend({
     ]
   }),
   methods: {
-    logEvents (eventName) {
-      this.events += eventName + '<br>'
+    logEvents: function (eventName, params) {
+      this.events += `<b>Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
     }
   }
 })
