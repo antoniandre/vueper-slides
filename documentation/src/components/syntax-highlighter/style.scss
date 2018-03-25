@@ -1,41 +1,65 @@
-/* Syntax highlighting */
-pre .txt {color: #333;}
-pre .comment {font-style: italic;color: #aaa;}
-pre .comment * {color: #aaa !important;}
-pre .quote {color: #c11;}
-pre .quote * {color: #c11 !important;}
-pre .number {color: #c11;}
-pre .boolean {color: #c11;}
-pre .keyword {color: #11c;font-weight: bold;}
-pre .ponctuation {color: #99f;}
-pre .dollar,
-pre .special {color: #f63;}
-pre .variable {color: #29e;}
-pre .objAttr {color: #0bc;}
+pre.precode {
+  position: relative;
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  display: block;
 
-pre[data-type="shell"] .keyword {color: #ff5252;}
-pre[data-type="shell"] .param {color: #f63;}
+  &[data-label]:before {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 100%;
+    right: 1em;
+    padding: 0.1em 0.5em;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 3px;
+    margin-bottom: -1px;
+    font-size: 11px;
+  }
 
-pre[data-type="html"] .tag-name {color: #11c;}
-pre[data-type="html"] .attribute {color: #f63;}
+  /* Syntax highlighting */
+  .txt {color: #333;}
+  .comment {font-style: italic;color: #aaa;}
+  .comment * {color: #aaa !important;}
+  .quote {color: #c11;}
+  .quote * {color: #c11 !important;}
+  .number {color: #c11;}
+  .boolean {color: #c11;}
+  .keyword {color: #11c;font-weight: bold;}
+  .ponctuation {color: #99f;}
+  .dollar,
+  .special {color: #f63;}
+  .variable {color: #29e;}
+  .objAttr {color: #0bc;}
 
-pre[data-type="html-vue"] .tag-name {color: #42b983;}
-pre[data-type="html-vue"] .ponctuation {color: #128953;}
-pre[data-type="html-vue"] .attribute {color: #ff5252;}
+  &[data-type="shell"] .keyword {color: #ff5252;}
+  &[data-type="shell"] .param {color: #f63;}
 
-pre[data-type="xml"] .tag-name {color: #11c;}
-pre[data-type="xml"] .attribute {color: #f93;}
+  &[data-type="html"] .tag-name {color: #11c;}
+  &[data-type="html"] .attribute {color: #f63;}
 
-pre[data-type="css"] .selector {color: #f0d;}
-pre[data-type="css"] .selector.class-id {color: #f0d;}
-pre[data-type="css"] .pseudo {color: #f35;}
-pre[data-type="css"] .selector.keyword {color: #f5f;}
-pre[data-type="css"] .selector.keyword.vendor {color: #0c8;}
-pre[data-type="css"] .keyword {color: #c06;}
-pre[data-type="css"] .attribute {color: #70d;}
-pre[data-type="css"] .attribute.keyword {color: #e28;}
-pre[data-type="css"] .attribute.keyword.vendor {color: #0c8;}
-pre[data-type="css"] .value {color: #c11;}
-pre[data-type="css"] .value.vendor {color: #0c8;}
-pre[data-type="css"] .color {background: #eee;padding: 0px 3px;border: 1px solid rgba(0,0,0,.1);}
-pre[data-type="css"] .unit {color: #0bc;}
+  &[data-type="html-vue"] .tag-name {color: #42b983;}
+  &[data-type="html-vue"] .ponctuation {color: #128953;}
+  &[data-type="html-vue"] .attribute {color: #ff5252;}
+
+  &[data-type="xml"] .tag-name {color: #11c;}
+  &[data-type="xml"] .attribute {color: #f93;}
+
+  &[data-type="css"] .selector {color: #f0d;}
+  &[data-type="css"] .selector.class-id {color: #f0d;}
+  &[data-type="css"] .pseudo {color: #f35;}
+  &[data-type="css"] .selector.keyword {color: #f5f;}
+  &[data-type="css"] .selector.keyword.vendor {color: #0c8;}
+  &[data-type="css"] .keyword {color: #c06;}
+  &[data-type="css"] .attribute {color: #70d;}
+  &[data-type="css"] .attribute.keyword {color: #e28;}
+  &[data-type="css"] .attribute.keyword.vendor {color: #0c8;}
+  &[data-type="css"] .value {color: #c11;}
+  &[data-type="css"] .value.vendor {color: #0c8;}
+  &[data-type="css"] .color {background: #eee;padding: 0px 3px;border: 1px solid rgba(0,0,0,.1);}
+  &[data-type="css"] .unit {color: #0bc;}
+}

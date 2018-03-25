@@ -97,11 +97,15 @@ const attributesRegex = {
 
 export const precode = {
   name: 'precode',
-  template: '<pre v-html="content" :data-type="language"></pre>',
+  template: '<pre class="precode" v-html="content" :data-type="language" :data-label="label"></pre>',
   props: {
     language: {
       type: String,
       default: ''
+    },
+    label: {
+      type: [String, Boolean],
+      default: false
     }
   },
   data: () => ({
@@ -231,7 +235,6 @@ export const precode = {
   created () {
     this.$slots.default.forEach(pieceOfCode => {
       if (pieceOfCode.text) {
-        // console.log(pieceOfCode)
         this.content += pieceOfCode.text
       }
     })

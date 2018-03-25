@@ -48,11 +48,11 @@ div.documentation
   h2
     a(href="#installation") Installation
   h3 NPM - Coming Soon!
-  precode(language="shell") npm install vueper-slides --save
+  precode(language="shell" label="Shell") npm install vueper-slides --save
   p Then import the 2 components and use it:
-  precode(language="js").
+  precode(language="js" label="Javascript").
     import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides.umd'
-    ...
+
 
     export default {
       components: {
@@ -66,7 +66,7 @@ div.documentation
 
   h3 Browser Use
   p Place this in your document &lt;head&gt;
-  precode(language="html").
+  precode(language="html" label="HTML").
     &lt;head&gt;
       ...
       &lt;script src="https://unpkg.com/vue/dist/vue.min.js"&gt;&lt;/script&gt;
@@ -75,7 +75,7 @@ div.documentation
       &lt;link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"&gt;
     &lt;/head&gt;
   p Then use like this:
-  precode(language="html-vue").
+  precode(language="html-vue" label="HTML Vue").
     &lt;vueper-slides&gt;
       &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -134,7 +134,7 @@ div.documentation
   a(name="ex--simplest-ever")
   h3
     a(href="#ex--simplest-ever") Simplest Ever
-  precode(language="html-vue").
+  precode(language="html-vue" label="HTML Vue").
     &lt;vueper-slides&gt;
       &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -147,7 +147,7 @@ div.documentation
   p
     | This example uses autoplay, slide titles & contents.#[br]
     em The autoplay circles between all the slides and goes back to the begining after the last slide.
-  precode(language="html-vue").
+  precode(language="html-vue" label="HTML Vue").
     &lt;vueper-slides autoplay&gt;
       &lt;v-icon slot="pausedIcon" large color="white"&gt;pause&lt;/v-icon&gt;
       &lt;vueper-slide v-for="(slide, i) in slides"
@@ -169,7 +169,7 @@ div.documentation
     You can also disable arrows and/or bullets. E.g. #[code :arrows="false"], #[code :bullets="false"]
   p
     code Vue Template:
-  precode(language="html-vue").
+  precode(language="html-vue" label="HTML Vue").
     &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
       &lt;v-icon slot="arrowLeft" large&gt;arrow_left&lt;/v-icon&gt;
       &lt;v-icon slot="arrowRight" large&gt;arrow_right&lt;/v-icon&gt;
@@ -182,7 +182,7 @@ div.documentation
     &lt;/vueper-slides&gt;
   p
     code CSS:
-  precode(language="css").
+  precode(language="css" label="CSS").
     .ex3 .vueperslides__bullet {
       background-color: rgba(0, 0, 0, 0.3);
       border: none;
@@ -215,7 +215,7 @@ div.documentation
     The #[b dragging] ability to change slide is #[b disabled].#[br]
     The current slide title & content are shown #[b outside] of the slider.
     #[br]Of course you can position it with a bit of CSS.
-  precode(language="html-vue").
+  precode(language="html-vue" label="HTML Vue").
     &lt;vueper-slides&gt;
       &lt;vueper-slide
         v-for="slide in slides2"
