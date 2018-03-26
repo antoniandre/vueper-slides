@@ -5,6 +5,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
+const srcDir = path.join(__dirname, 'src')
+const distDir = __dirname
+
 module.exports = {
   entry: {
     app: './src/index.js'
@@ -15,21 +18,22 @@ module.exports = {
     // ]
   },
   output: {
-    filename: '[name].[hash].js', // Hash is different on each build, allows smart caching/flushing of file.
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name].js', // Hash is different on each build, allows smart caching/flushing of file.
+    path: distDir,
     // To use with express server.
-    // publicPath: '/'
+    // publicPath: './'
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: './dist',
+    // contentBase: './dist',
+    contentBase: distDir,
     host: '0.0.0.0',
     port: 5555,
     hot: true,
     historyApiFallback: true
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    // new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
@@ -56,7 +60,20 @@ module.exports = {
   module: {
     rules: [
       { test: /\.vue$/, loader: 'vue-loader' },
-      { test: /\.html$/, loader: 'html-loader' },
+      // { test: /\.html$/, loader: 'html-loader' },
+      {
+        test: /\.html$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            interpolate: true,
+            root: srcDir,
+            minimize: true,
+            collapseWhitespace: true,
+            removeComments: true
+          }
+        }
+      },
       { test: /\.pug$/, exclude: /node_modules/, use: ['html-loader', 'pug-html-loader'] },
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.scss$/, exclude: /node_modules/, use: ['style-loader', 'css-loader', 'sass-loader'] },

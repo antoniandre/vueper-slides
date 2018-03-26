@@ -8,12 +8,12 @@ export default new VueRouter({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/vueper-slides/documentation',
       component: main
     },
     {
       path: '*',
-      redirect: '/'
+      redirect: '/vueper-slides/documentation'
     }
   ]
 })
