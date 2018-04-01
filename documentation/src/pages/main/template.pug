@@ -8,7 +8,7 @@ div.documentation
       v-card-title To Do...
       v-card-text
         v-layout(column)
-          v-chip(color="light-green lighten-1" text-color="white" small)
+          //- v-chip(color="light-green lighten-1" text-color="white" small)
             v-icon check_circle
             | Emit events with params
           v-chip(color="amber lighten-2" text-color="white" small)
@@ -52,7 +52,7 @@ div.documentation
   p Then import the 2 components and use it:
   precode(language="js" label="Javascript").
     import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides.umd'
-
+    ...
 
     export default {
       components: {
@@ -169,8 +169,8 @@ div.documentation
     You can also disable arrows and/or bullets. E.g. #[code :arrows="false"], #[code :bullets="false"]
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
-      &lt;v-icon slot="arrowLeft" large&gt;arrow_left&lt;/v-icon&gt;
-      &lt;v-icon slot="arrowRight" large&gt;arrow_right&lt;/v-icon&gt;
+      &lt;v-icon slot="arrowLeft" color="white" large&gt;arrow_left&lt;/v-icon&gt;
+      &lt;v-icon slot="arrowRight" color="white" large&gt;arrow_right&lt;/v-icon&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="slide.id"
@@ -199,8 +199,8 @@ div.documentation
       opacity: 0.8;
     }
   vueper-slides.ex3(:infinite="false" :bullets-outside="true")
-    v-icon(slot="arrowLeft" x-large) undo
-    v-icon(slot="arrowRight" x-large) redo
+    v-icon(slot="arrowLeft" color="white" x-large) undo
+    v-icon(slot="arrowRight" color="white" x-large) redo
     vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
 
   a(name="ex--images-and-fading")
@@ -221,7 +221,7 @@ div.documentation
         :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   vueper-slides(fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3")
-    vueper-slide(v-for="slide in slides2" :key="slide.id" :image="'images/' + slide.image" :title="'# ' + slide.title" :content="slide.content")
+    vueper-slide(v-for="slide in slides2" :key="slide.id" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
 
   a(name="ex--events")
   h3

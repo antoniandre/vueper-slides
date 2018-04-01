@@ -2,44 +2,40 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+// const CopyWebpackPlugin = require('copy-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
+const src = path.join(__dirname, 'src')
+const dist = path.join(__dirname, 'dist')
+
 module.exports = {
-  entry: {
-    app: './src/index.js'
-    // Also a good practice to separate third-party libs into a vendor chunk
-    // (less likely to change than local source code):
-    // vendor: ['lodash']
-  },
+  entry: src + '/index.js',
   output: {
     filename: '[name].[hash:8].js', // Hash is different on each build, allows smart caching/flushing of file.
-    path: path.resolve(__dirname, 'dist')
+    path: dist
     // To use with express server.
     // publicPath: './'
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: './dist',
+    contentBase: dist,
     host: '0.0.0.0',
     port: 5555,
-    hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    hot: true
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin([dist]),
     new HtmlWebpackPlugin({
       filename: '../index.html',
-      template: './src/index.html',
+      template: src + '/index.html',
       inject: true,
       minify: {
         collapseWhitespace: true,
         removeComments: true
       }
     }),
-    new CopyWebpackPlugin([
-      'static'
-    ]),
+    // new CopyWebpackPlugin([src + '/assets']),
     new UglifyJSPlugin({ sourceMap: true }),
 
     // Allow the use of environment variables. E.g:
@@ -62,7 +58,13 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.scss$/, exclude: /node_modules/, use: ['style-loader', 'css-loader', 'sass-loader'] },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.(png|svg|jpe?g|gif|ico)$/, use: ['file-loader?name=static/[name].[hash:8].[ext]'] },
+      {
+        test: /\.(png|svg|jpe?g|gif|ico)$/,
+        use: {
+          loader: 'file-loader',
+          options: { name: 'images/[name].[hash:8].[ext]', publicPath: './dist' }
+        }
+      },
       { test: /\.(woff|woff2|eot|ttf|otf)$/, use: ['file-loader'] }
     ]
   }

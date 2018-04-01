@@ -4,6 +4,10 @@ import { precode } from '../../components/syntax-highlighter'
 
 import './style.scss'
 import './examples.scss'
+// require('../../assets/images/rough-horn-2146181_1280.jpg')
+// require('../../assets/images/snow-3212345_1280.jpg')
+// require('../../assets/images/snow-3237630_1280.jpg')
+// console.log(myImage)
 
 export default Vue.extend({
   components: {
@@ -14,6 +18,7 @@ export default Vue.extend({
   template: require('./template.pug'),
   data: () => ({
     events: '',
+    imagesRoot: process.env.NODE_ENV === 'production' ? './dist/images/' : './images/',
     colors: [
       '#4caf50',
       '#2196f3',
@@ -65,19 +70,19 @@ export default Vue.extend({
     slides2: [
       {
         id: 'mountain-1',
-        image: 'rough-horn-2146181_1280.jpg',
+        image: require('../../assets/images/rough-horn-2146181_1280.jpg'),
         title: 'Mountain 1',
         content: 'Slide 1 content.'
       },
       {
         id: 'mountain-2',
-        image: 'snow-3212345_1280.jpg',
+        image: require('../../assets/images/snow-3212345_1280.jpg'),
         title: 'Mountain 2',
         content: 'Slide 2 content.'
       },
       {
         id: 'mountain-3',
-        image: 'snow-3237630_1280.jpg',
+        image: require('../../assets/images/snow-3237630_1280.jpg'),
         title: 'Mountain 3',
         content: 'Slide 3 content.'
       }

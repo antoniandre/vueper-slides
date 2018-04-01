@@ -10,7 +10,6 @@ const external = Object.keys(pkg.dependencies)
 export default {
   external,
   globals: { vue: 'Vue' },
-  context: null,
   entry: 'src/index.js',
   plugins: [
     resolve(),
