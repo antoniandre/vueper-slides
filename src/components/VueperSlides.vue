@@ -144,10 +144,12 @@ export default {
       this.emit('ready')
     },
 
+    // Emit a named event outside the component with 2 possible parameters:
+    // current slide info & next slide info.
     emit(name, includeCurrentSlide = true, includeNextSlide = false) {
       let args = [name]
 
-      if (includeCurrentSlide || includeNextSlide) {
+      if (includeCurrentSlide || typeof includeNextSlide === "number") {
         args[1] = {}
         if (includeCurrentSlide) {
           args[1].currentSlide = {
@@ -156,11 +158,12 @@ export default {
             content: this.slides[this.currentSlide].content
           }
         }
-        if (includeNextSlide) {
+        if (typeof includeNextSlide === "number") {
+          let nextSlide = this.getSlideInRange(includeNextSlide)
           args[1].nextSlide = {
-            index: this.currentSlide,
-            title: this.slides[this.currentSlide].title,
-            content: this.slides[this.currentSlide].content
+            index: nextSlide,
+            title: this.slides[nextSlide].title,
+            content: this.slides[nextSlide].content
           }
         }
       }
@@ -214,7 +217,6 @@ export default {
       const hasTouch = "ontouchstart" in window
 
       if (this.touchable) {
-
         this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown)
         document.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove)
         document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp)
@@ -362,7 +364,7 @@ export default {
       let nextSlide = this.getSlideInRange(i)
 
       // First use of `goToSlide` is while init, so should not propagate an event.
-      if (this.isReady) this.emit('before-slide', true, true)
+      if (this.isReady) this.emit('before-slide', true, nextSlide)
 
       if (this.autoplay) this.clearTimer()
 

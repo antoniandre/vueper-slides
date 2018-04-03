@@ -142,13 +142,17 @@ var VueperSlides = { render: function render() {
       this.isReady = true;
       this.emit('ready');
     },
+
+
+    // Emit a named event outside the component with 2 possible parameters:
+    // current slide info & next slide info.
     emit: function emit(name) {
       var includeCurrentSlide = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var includeNextSlide = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
       var args = [name];
 
-      if (includeCurrentSlide || includeNextSlide) {
+      if (includeCurrentSlide || typeof includeNextSlide === "number") {
         args[1] = {};
         if (includeCurrentSlide) {
           args[1].currentSlide = {
@@ -157,11 +161,12 @@ var VueperSlides = { render: function render() {
             content: this.slides[this.currentSlide].content
           };
         }
-        if (includeNextSlide) {
+        if (typeof includeNextSlide === "number") {
+          var nextSlide = this.getSlideInRange(includeNextSlide);
           args[1].nextSlide = {
-            index: this.currentSlide,
-            title: this.slides[this.currentSlide].title,
-            content: this.slides[this.currentSlide].content
+            index: nextSlide,
+            title: this.slides[nextSlide].title,
+            content: this.slides[nextSlide].content
           };
         }
       }
@@ -211,7 +216,6 @@ var VueperSlides = { render: function render() {
       var hasTouch = "ontouchstart" in window;
 
       if (this.touchable) {
-
         this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown);
         document.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove);
         document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp);
@@ -350,7 +354,7 @@ var VueperSlides = { render: function render() {
       var nextSlide = this.getSlideInRange(i);
 
       // First use of `goToSlide` is while init, so should not propagate an event.
-      if (this.isReady) this.emit('before-slide', true, true);
+      if (this.isReady) this.emit('before-slide', true, nextSlide);
 
       if (this.autoplay) this.clearTimer();
 
