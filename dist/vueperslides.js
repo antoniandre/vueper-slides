@@ -51,7 +51,8 @@ var VueperSlides = { render: function render() {
       type: Boolean,
       default: true
     },
-    disableArrowsOnEdges: { // Only if not infinite mode.
+    // Ability to disable arrows on slideshow edges. Only if not infinite mode.
+    disableArrowsOnEdges: {
       type: Boolean,
       default: false
     },
@@ -212,7 +213,7 @@ var VueperSlides = { render: function render() {
       if (this.touchable) {
 
         this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown);
-        this.$refs.track.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove);
+        document.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove);
         document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp);
       }
 

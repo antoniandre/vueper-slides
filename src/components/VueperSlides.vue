@@ -216,7 +216,7 @@ export default {
       if (this.touchable) {
 
         this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown)
-        this.$refs.track.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove)
+        document.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove)
         document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp)
       }
 
