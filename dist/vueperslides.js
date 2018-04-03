@@ -31,7 +31,7 @@ var VueperSlides = { render: function render() {
         } } }, [_vm._t("arrowRight", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z" } })])])], 2)]) : _vm._e(), _vm.bullets ? _c('div', { staticClass: "vueperslides__bullets", class: { 'vueperslides__bullets--outside': _vm.bulletsOutside } }, _vm._l(_vm.slides, function (item, i) {
       return !item.clone ? _c('span', { key: i, staticClass: "vueperslides__bullet", class: { 'vueperslides__bullet--active': _vm.currentSlide === i }, on: { "click": function click($event) {
             _vm.goToSlide(i);
-          } } }, [_c('span', [_vm._v(_vm._s(i + 1))])]) : _vm._e();
+          } } }, [_c('span', [_vm._v(_vm._s(_vm.infinite ? i : i + 1))])]) : _vm._e();
     })) : _vm._e()])]);
   }, staticRenderFns: [],
   name: "vueper-slides",
@@ -188,13 +188,13 @@ var VueperSlides = { render: function render() {
       // If first node in this.$slots.default is a text node take the next one.
       var firstNodeIsVnode = this.$slots.default[0].tag;
       var firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm;
-      var clonedFirstSlide = firstSlide.cloneNode(false);
+      var clonedFirstSlide = firstSlide.cloneNode(true);
       clonedFirstSlide.classList.add("vueperslides__slide--clone");
       this.$refs.track.appendChild(clonedFirstSlide);
 
       //----- Add a clone of the last slide at the begining. -----//
       var lastSlide = this.$slots.default[this.$slots.default.length - 1].elm;
-      var clonedLastSlide = lastSlide.cloneNode(false);
+      var clonedLastSlide = lastSlide.cloneNode(true);
       clonedLastSlide.classList.add("vueperslides__slide--clone");
       this.$refs.track.insertBefore(clonedLastSlide, firstSlide);
 
@@ -211,6 +211,8 @@ var VueperSlides = { render: function render() {
         clone: true
       });
       this.slidesCount = this.slides.length;
+
+      this.getConfig().slides = this.slides;
     },
     bindEvents: function bindEvents() {
       var hasTouch = "ontouchstart" in window;
@@ -349,6 +351,8 @@ var VueperSlides = { render: function render() {
       return i;
     },
     goToSlide: function goToSlide(i) {
+      var _this2 = this;
+
       var noAnimation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       var nextSlide = this.getSlideInRange(i);
@@ -358,8 +362,6 @@ var VueperSlides = { render: function render() {
 
       if (this.autoplay) this.clearTimer();
 
-      console.log('current slide = ' + this.currentSlide + ', next slide = ' + nextSlide);
-
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.arrows && this.disableArrowsOnEdges) {
         this.arrowPrevDisabled = nextSlide === 0;
@@ -368,22 +370,24 @@ var VueperSlides = { render: function render() {
 
       this.currentSlide = nextSlide;
 
-      // Infinite sliding.
-      // if (this.infinite && !this.fade) {
-      //   if (!noAnimation) {
-      //     this.$refs.track.classList.remove("vueperslides__track--no-animation")
-      //   }
+      // Infinite sliding with cloned slides:
+      // When reaching last slide and going next the cloned slide of the first slide
+      // shows up, when the animation ends the real change to the first slide is done
+      // immediately with no animation.
+      // Same principle when going beyond first slide.
+      if (this.infinite && !this.fade) {
+        if (!noAnimation) {
+          this.$refs.track.classList.remove("vueperslides__track--no-animation");
+        }
 
-      //   if (i <= 0 || i >= this.slidesCount - 1) {
-      //     setTimeout(() => {
-      //       this.$refs.track.classList.add("vueperslides__track--no-animation")
+        if (i <= 0 || i >= this.slidesCount - 1) {
+          setTimeout(function () {
+            _this2.$refs.track.classList.add("vueperslides__track--no-animation");
 
-      //       if (i <= 0) this.goToSlide(this.slidesCount - 2, true)
-      //       else if (i >= this.slidesCount - 1) this.goToSlide(1, true)
-      //     }, 500)
-      //   }
-      //   this.currentSlide = i
-      // }
+            if (i <= 0) _this2.goToSlide(_this2.slidesCount - 2, true);else if (i >= _this2.slidesCount - 1) _this2.goToSlide(1, true);
+          }, 400);
+        }
+      }
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.fade) {

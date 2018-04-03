@@ -22,7 +22,7 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
     div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets")
       span.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" v-if="!item.clone" @click="goToSlide(i)")
-        span {{ i + 1 }}
+        span {{ infinite ? i : (i + 1) }}
 </template>
 
 <script>
@@ -188,13 +188,13 @@ export default {
       // If first node in this.$slots.default is a text node take the next one.
       let firstNodeIsVnode = this.$slots.default[0].tag
       let firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm
-      let clonedFirstSlide = firstSlide.cloneNode(false)
+      let clonedFirstSlide = firstSlide.cloneNode(true)
       clonedFirstSlide.classList.add("vueperslides__slide--clone")
       this.$refs.track.appendChild(clonedFirstSlide)
 
       //----- Add a clone of the last slide at the begining. -----//
       let lastSlide = this.$slots.default[this.$slots.default.length - 1].elm
-      let clonedLastSlide = lastSlide.cloneNode(false)
+      let clonedLastSlide = lastSlide.cloneNode(true)
       clonedLastSlide.classList.add("vueperslides__slide--clone")
       this.$refs.track.insertBefore(clonedLastSlide, firstSlide)
 
@@ -211,6 +211,8 @@ export default {
         clone: true
       })
       this.slidesCount = this.slides.length
+
+      this.getConfig().slides = this.slides
     },
 
     bindEvents () {
@@ -368,8 +370,6 @@ export default {
 
       if (this.autoplay) this.clearTimer()
 
-      console.log(`current slide = ${this.currentSlide}, next slide = ${nextSlide}`)
-
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.arrows && this.disableArrowsOnEdges) {
         this.arrowPrevDisabled = nextSlide === 0
@@ -378,23 +378,25 @@ export default {
 
       this.currentSlide = nextSlide
 
+      // Infinite sliding with cloned slides:
+      // When reaching last slide and going next the cloned slide of the first slide
+      // shows up, when the animation ends the real change to the first slide is done
+      // immediately with no animation.
+      // Same principle when going beyond first slide.
+      if (this.infinite && !this.fade) {
+        if (!noAnimation) {
+          this.$refs.track.classList.remove("vueperslides__track--no-animation")
+        }
 
-      // Infinite sliding.
-      // if (this.infinite && !this.fade) {
-      //   if (!noAnimation) {
-      //     this.$refs.track.classList.remove("vueperslides__track--no-animation")
-      //   }
+        if (i <= 0 || i >= this.slidesCount - 1) {
+          setTimeout(() => {
+            this.$refs.track.classList.add("vueperslides__track--no-animation")
 
-      //   if (i <= 0 || i >= this.slidesCount - 1) {
-      //     setTimeout(() => {
-      //       this.$refs.track.classList.add("vueperslides__track--no-animation")
-
-      //       if (i <= 0) this.goToSlide(this.slidesCount - 2, true)
-      //       else if (i >= this.slidesCount - 1) this.goToSlide(1, true)
-      //     }, 500)
-      //   }
-      //   this.currentSlide = i
-      // }
+            if (i <= 0) this.goToSlide(this.slidesCount - 2, true)
+            else if (i >= this.slidesCount - 1) this.goToSlide(1, true)
+          }, 400)
+        }
+      }
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.fade) {
