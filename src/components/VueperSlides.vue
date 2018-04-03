@@ -1,28 +1,28 @@
 <template lang="pug">
 div.vueperslides-wrapper(:class="{'ready': isReady}")
-    div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="slideContentOutsideClass" v-if="slideContentOutside")
-        p.slide-title(v-html="slides[currentSlide].title")
-        p.slide-content(v-html="slides[currentSlide].content")
+  div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="slideContentOutsideClass" v-if="slideContentOutside")
+      p.slide-title(v-html="slides[currentSlide].title")
+      p.slide-content(v-html="slides[currentSlide].content")
 
-    div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchable}" ref="vueperslides")
-        div.vueperslides__slides-wrapper
-            div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(-' + currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (this.slideRatio * 100) + '%')")
-                slot(:currentSlide="currentSlide")
+  div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchable}" ref="vueperslides")
+    div.vueperslides__slides-wrapper
+      div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(' + - currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (this.slideRatio * 100) + '%')")
+        slot(:currentSlide="currentSlide")
 
-        div.vueperslides__paused(v-if="$slots.pausedIcon")
-            slot(name="pausedIcon")
-        div.vueperslides__arrows(v-if="arrows")
-            div.vueperslides__arrow.vueperslides__arrow--prev(@click="onArrowClick(false)")
-                slot(name="arrowLeft")
-                    svg(viewBox="0 0 24 24")
-                        path(d="M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z")
-            div.vueperslides__arrow.vueperslides__arrow--next(@click="onArrowClick()")
-                slot(name="arrowRight")
-                    svg(viewBox="0 0 24 24")
-                        path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-        div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets")
-            span.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" v-if="!item.clone" @click="goToSlide(i)")
-                span {{ i + 1 }}
+    div.vueperslides__paused(v-if="$slots.pausedIcon")
+      slot(name="pausedIcon")
+    div.vueperslides__arrows(v-if="arrows")
+      div.vueperslides__arrow.vueperslides__arrow--prev(@click="onArrowClick(false)" v-show="!arrowPrevDisabled")
+        slot(name="arrowLeft")
+          svg(viewBox="0 0 24 24")
+            path(d="M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z")
+      div.vueperslides__arrow.vueperslides__arrow--next(@click="onArrowClick()" v-show="!arrowNextDisabled")
+        slot(name="arrowRight")
+          svg(viewBox="0 0 24 24")
+            path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
+    div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets")
+      span.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" v-if="!item.clone" @click="goToSlide(i)")
+        span {{ i + 1 }}
 </template>
 
 <script>
@@ -49,13 +49,22 @@ export default {
       type: Number,
       default: 1/3
     },
+    arrows: {
+      type: Boolean,
+      default: true
+    },
+    // Ability to disable arrows on slideshow edges. Only if not infinite mode.
+    disableArrowsOnEdges: {
+      type: Boolean,
+      default: false
+    },
     bullets: {
       type: Boolean,
       default: true
     },
-    arrows: {
+    bulletsOutside: {
       type: Boolean,
-      default: true
+      default: false
     },
     fade: {
       type: Boolean,
@@ -68,10 +77,6 @@ export default {
     slideContentOutsideClass: {
       type: String,
       default: ""
-    },
-    bulletsOutside: {
-      type: Boolean,
-      default: false
     },
     autoplay: {
       type: Boolean,
@@ -110,7 +115,9 @@ export default {
     dragStartX: 0,
     dragStartY: 0,
     goNext: true,
-    timer: null
+    timer: null,
+    arrowPrevDisabled: false,
+    arrowNextDisabled: false
   }),
   created () {
     // Set the shared config as soon as possible.
@@ -225,12 +232,9 @@ export default {
     getDragPercentage(e) {
       this.dragStartX = "ontouchstart" in window ? e.touches[0].clientX : e.clientX
       this.dragStartY = "ontouchstart" in window ? e.touches[0].clientY : e.clientY
+      let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 
-      let windowWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-      return this.dragStartX * 100 / windowWidth
+      return this.dragStartX / windowWidth
     },
 
     onMouseIn () {
@@ -258,11 +262,10 @@ export default {
 
       let dragPercentage = this.getDragPercentage(e)
 
-      this.goNext = dragPercentage >= 50
+      // Set a flag for use while dragging in `onMouseMove` to know if drag was toward left or right.
+      this.goNext = dragPercentage >= 0.5
 
-      this.currentTranslation =
-        100 * this.currentSlide +
-        (this.goNext ? 100 - dragPercentage : -dragPercentage)
+      this.currentTranslation = 100 * (this.currentSlide + (this.goNext ? 1 : 0) - dragPercentage)
     },
 
     onMouseMove (e) {
@@ -271,10 +274,7 @@ export default {
         this.dragging = true
 
         let dragPercentage = this.getDragPercentage(e)
-
-        this.currentTranslation =
-          100 * this.currentSlide +
-          (this.goNext ? 100 - dragPercentage : -dragPercentage)
+        this.currentTranslation = 100 * (this.currentSlide + (this.goNext ? 1 : 0) - dragPercentage)
       }
     },
 
@@ -286,11 +286,23 @@ export default {
         // this.currentTranslation = Math.min(Math.max(0, Math.round(this.currentTranslation / 100) * 100), (this.slidesCount - 1) * 100)
         // this.currentSlide = this.currentTranslation / 100
 
-        this.currentTranslation = Math.round(this.currentTranslation / 100) * 100
-        this.goToSlide(this.currentTranslation / 100)
+        // When the drag is realeased, calculate if the drag ends before or after the 50%-slideshow-width threshold.
+        // Then finish the sliding toward that slide.
+        let slideOnDragEnd = Math.round(this.currentTranslation / 100)
+        let nextSlide = this.getSlideInRange(slideOnDragEnd)
 
-        if (this.$slots.default[this.currentSlide]) {
-          this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
+        // If drag is not allowed (`arrowNextDisabled` = true) and dragging beyond last slide,
+        // cancel sliding and snap back to last slide.
+        if (this.arrowNextDisabled && this.autoplay && nextSlide === 0) {
+          nextSlide = this.slidesCount - 1
+        }
+
+        // Apply transition to finish sliding.
+        this.currentTranslation = nextSlide * 100
+
+        // Only call `goToSlide` if the final slide is different than the one before drag event started.
+        if (nextSlide !== this.currentSlide) {
+          this.goToSlide(nextSlide)
         }
 
         this.enableScroll()
@@ -324,34 +336,65 @@ export default {
       this.goToSlide(this.currentSlide + (next ? 1 : -1))
     },
 
+    getSlideInRange (i) {
+      // If infinite enabled, going out of range takes the first slide from the other end.
+      if (this.infinite) {
+        if (i < 0) i = this.slidesCount - 1
+        else if (i > this.slidesCount - 1) i = 0
+      }
+
+      // If not infinite, can't go lower than 0 or beyond `slidesCount` with `disableArrowsOnEdges`.
+      // If `disableArrowsOnEdges` is enabled going out of range will take first slide from the other end
+      // of the slideshow.
+      else {
+        if (i < 0) i = this.disableArrowsOnEdges ? 0 : this.slidesCount - 1
+        else if (i > this.slidesCount - 1) {
+          // If autoplay is on but disableArrowsOnEdges is enabled, going beyond the last one will also bring
+          // the first one in.
+          i = this.disableArrowsOnEdges ? (this.autoplay ? 0 : this.slidesCount - 1) : 0
+        }
+      }
+
+      return i
+    },
+
     goToSlide (i, noAnimation = false) {
-      // First use of gotoSlide is while init, so should not propagate an event.
+      let nextSlide = this.getSlideInRange(i)
+
+      // First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady) this.emit('before-slide', true, true)
 
       if (this.autoplay) this.clearTimer()
 
-      // Infinite sliding.
-      if (this.infinite && !this.fade) {
-        if (!noAnimation) {
-          this.$refs.track.classList.remove("vueperslides__track--no-animation")
-        }
+      console.log(`current slide = ${this.currentSlide}, next slide = ${nextSlide}`)
 
-        if (i <= 0 || i >= this.slidesCount - 1) {
-          setTimeout(() => {
-            this.$refs.track.classList.add("vueperslides__track--no-animation")
-
-            if (i <= 0) this.goToSlide(this.slidesCount - 2, true)
-            else if (i >= this.slidesCount - 1) this.goToSlide(1, true)
-          }, 500)
-        }
-        this.currentSlide = i
+      // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
+      if (this.arrows && this.disableArrowsOnEdges) {
+        this.arrowPrevDisabled = nextSlide === 0
+        this.arrowNextDisabled = nextSlide === this.slidesCount - 1
       }
-      if (this.infinite || this.autoplay) {
-        if (i < 0) this.currentSlide = this.slidesCount - 1
-        else if (i > this.slidesCount - 1) this.currentSlide = 0
-        else this.currentSlide = i
-      } else this.currentSlide = Math.min(Math.max(0, i), this.slidesCount - 1)
 
+      this.currentSlide = nextSlide
+
+
+      // Infinite sliding.
+      // if (this.infinite && !this.fade) {
+      //   if (!noAnimation) {
+      //     this.$refs.track.classList.remove("vueperslides__track--no-animation")
+      //   }
+
+      //   if (i <= 0 || i >= this.slidesCount - 1) {
+      //     setTimeout(() => {
+      //       this.$refs.track.classList.add("vueperslides__track--no-animation")
+
+      //       if (i <= 0) this.goToSlide(this.slidesCount - 2, true)
+      //       else if (i >= this.slidesCount - 1) this.goToSlide(1, true)
+      //     }, 500)
+      //   }
+      //   this.currentSlide = i
+      // }
+
+      // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.fade) {
         this.currentTranslation = 100 * this.currentSlide
       }
@@ -361,7 +404,7 @@ export default {
       }
 
       if (this.$slots.default[this.currentSlide]) {
-        // First use of gotoSlide is while init, so should not propagate an event.
+        // First use of goToSlide is while init, so should not propagate an event.
         if (this.isReady) this.emit('slide')
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
       }

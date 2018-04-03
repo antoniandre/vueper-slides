@@ -26,9 +26,9 @@ var config = {
 };
 
 var VueperSlides = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vueperslides-wrapper", class: { 'ready': _vm.isReady } }, [_vm.slideContentOutside ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside", class: _vm.slideContentOutsideClass }, [_c('p', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].title) } }), _c('p', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].content) } })]) : _vm._e(), _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--fade': _vm.fade, 'vueperslides--touchable': _vm.touchable } }, [_c('div', { staticClass: "vueperslides__slides-wrapper" }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: !_vm.fade ? 'transform: translate3d(-' + _vm.currentTranslation + '%, 0, 0)' : 'padding-bottom: ' + this.slideRatio * 100 + '%' }, [_vm._t("default", null, { currentSlide: _vm.currentSlide })], 2)]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "vueperslides__arrows" }, [_c('div', { staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vueperslides-wrapper", class: { 'ready': _vm.isReady } }, [_vm.slideContentOutside ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside", class: _vm.slideContentOutsideClass }, [_c('p', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].title) } }), _c('p', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].content) } })]) : _vm._e(), _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--fade': _vm.fade, 'vueperslides--touchable': _vm.touchable } }, [_c('div', { staticClass: "vueperslides__slides-wrapper" }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: !_vm.fade ? 'transform: translate3d(' + -_vm.currentTranslation + '%, 0, 0)' : 'padding-bottom: ' + this.slideRatio * 100 + '%' }, [_vm._t("default", null, { currentSlide: _vm.currentSlide })], 2)]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.arrows ? _c('div', { staticClass: "vueperslides__arrows" }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowPrevDisabled, expression: "!arrowPrevDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
           _vm.onArrowClick(false);
-        } } }, [_vm._t("arrowLeft", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z" } })])])], 2), _c('div', { staticClass: "vueperslides__arrow vueperslides__arrow--next", on: { "click": function click($event) {
+        } } }, [_vm._t("arrowLeft", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z" } })])])], 2), _c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowNextDisabled, expression: "!arrowNextDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--next", on: { "click": function click($event) {
           _vm.onArrowClick();
         } } }, [_vm._t("arrowRight", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z" } })])])], 2)]) : _vm._e(), _vm.bullets ? _c('div', { staticClass: "vueperslides__bullets", class: { 'vueperslides__bullets--outside': _vm.bulletsOutside } }, _vm._l(_vm.slides, function (item, i) {
       return !item.clone ? _c('span', { key: i, staticClass: "vueperslides__bullet", class: { 'vueperslides__bullet--active': _vm.currentSlide === i }, on: { "click": function click($event) {
@@ -49,13 +49,21 @@ var VueperSlides = { render: function render() {
       type: Number,
       default: 1 / 3
     },
+    arrows: {
+      type: Boolean,
+      default: true
+    },
+    disableArrowsOnEdges: { // Only if not infinite mode.
+      type: Boolean,
+      default: false
+    },
     bullets: {
       type: Boolean,
       default: true
     },
-    arrows: {
+    bulletsOutside: {
       type: Boolean,
-      default: true
+      default: false
     },
     fade: {
       type: Boolean,
@@ -68,10 +76,6 @@ var VueperSlides = { render: function render() {
     slideContentOutsideClass: {
       type: String,
       default: ""
-    },
-    bulletsOutside: {
-      type: Boolean,
-      default: false
     },
     autoplay: {
       type: Boolean,
@@ -109,7 +113,9 @@ var VueperSlides = { render: function render() {
       dragStartX: 0,
       dragStartY: 0,
       goNext: true,
-      timer: null
+      timer: null,
+      arrowPrevDisabled: false,
+      arrowNextDisabled: false
     };
   },
   created: function created() {
@@ -223,9 +229,9 @@ var VueperSlides = { render: function render() {
     getDragPercentage: function getDragPercentage(e) {
       this.dragStartX = "ontouchstart" in window ? e.touches[0].clientX : e.clientX;
       this.dragStartY = "ontouchstart" in window ? e.touches[0].clientY : e.clientY;
-
       var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      return this.dragStartX * 100 / windowWidth;
+
+      return this.dragStartX / windowWidth;
     },
     onMouseIn: function onMouseIn() {
       this.mouseOver = true;
@@ -250,9 +256,10 @@ var VueperSlides = { render: function render() {
 
       var dragPercentage = this.getDragPercentage(e);
 
-      this.goNext = dragPercentage >= 50;
+      // Set a flag for use while dragging in `onMouseMove` to know if drag was toward left or right.
+      this.goNext = dragPercentage >= 0.5;
 
-      this.currentTranslation = 100 * this.currentSlide + (this.goNext ? 100 - dragPercentage : -dragPercentage);
+      this.currentTranslation = 100 * (this.currentSlide + (this.goNext ? 1 : 0) - dragPercentage);
     },
     onMouseMove: function onMouseMove(e) {
       if (this.mouseDown || this.dragging) {
@@ -260,8 +267,7 @@ var VueperSlides = { render: function render() {
         this.dragging = true;
 
         var dragPercentage = this.getDragPercentage(e);
-
-        this.currentTranslation = 100 * this.currentSlide + (this.goNext ? 100 - dragPercentage : -dragPercentage);
+        this.currentTranslation = 100 * (this.currentSlide + (this.goNext ? 1 : 0) - dragPercentage);
       }
     },
     onMouseUp: function onMouseUp() {
@@ -272,11 +278,23 @@ var VueperSlides = { render: function render() {
         // this.currentTranslation = Math.min(Math.max(0, Math.round(this.currentTranslation / 100) * 100), (this.slidesCount - 1) * 100)
         // this.currentSlide = this.currentTranslation / 100
 
-        this.currentTranslation = Math.round(this.currentTranslation / 100) * 100;
-        this.goToSlide(this.currentTranslation / 100);
+        // When the drag is realeased, calculate if the drag ends before or after the 50%-slideshow-width threshold.
+        // Then finish the sliding toward that slide.
+        var slideOnDragEnd = Math.round(this.currentTranslation / 100);
+        var nextSlide = this.getSlideInRange(slideOnDragEnd);
 
-        if (this.$slots.default[this.currentSlide]) {
-          this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid);
+        // If drag is not allowed (`arrowNextDisabled` = true) and dragging beyond last slide,
+        // cancel sliding and snap back to last slide.
+        if (this.arrowNextDisabled && this.autoplay && nextSlide === 0) {
+          nextSlide = this.slidesCount - 1;
+        }
+
+        // Apply transition to finish sliding.
+        this.currentTranslation = nextSlide * 100;
+
+        // Only call `goToSlide` if the final slide is different than the one before drag event started.
+        if (nextSlide !== this.currentSlide) {
+          this.goToSlide(nextSlide);
         }
 
         this.enableScroll();
@@ -308,35 +326,63 @@ var VueperSlides = { render: function render() {
 
       this.goToSlide(this.currentSlide + (next ? 1 : -1));
     },
-    goToSlide: function goToSlide(i) {
-      var _this2 = this;
+    getSlideInRange: function getSlideInRange(i) {
+      // If infinite enabled, going out of range takes the first slide from the other end.
+      if (this.infinite) {
+        if (i < 0) i = this.slidesCount - 1;else if (i > this.slidesCount - 1) i = 0;
+      }
 
+      // If not infinite, can't go lower than 0 or beyond `slidesCount` with `disableArrowsOnEdges`.
+      // If `disableArrowsOnEdges` is enabled going out of range will take first slide from the other end
+      // of the slideshow.
+      else {
+          if (i < 0) i = this.disableArrowsOnEdges ? 0 : this.slidesCount - 1;else if (i > this.slidesCount - 1) {
+            // If autoplay is on but disableArrowsOnEdges is enabled, going beyond the last one will also bring
+            // the first one in.
+            i = this.disableArrowsOnEdges ? this.autoplay ? 0 : this.slidesCount - 1 : 0;
+          }
+        }
+
+      return i;
+    },
+    goToSlide: function goToSlide(i) {
       var noAnimation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-      // First use of gotoSlide is while init, so should not propagate an event.
+      var nextSlide = this.getSlideInRange(i);
+
+      // First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady) this.emit('before-slide', true, true);
 
       if (this.autoplay) this.clearTimer();
 
-      // Infinite sliding.
-      if (this.infinite && !this.fade) {
-        if (!noAnimation) {
-          this.$refs.track.classList.remove("vueperslides__track--no-animation");
-        }
+      console.log('current slide = ' + this.currentSlide + ', next slide = ' + nextSlide);
 
-        if (i <= 0 || i >= this.slidesCount - 1) {
-          setTimeout(function () {
-            _this2.$refs.track.classList.add("vueperslides__track--no-animation");
-
-            if (i <= 0) _this2.goToSlide(_this2.slidesCount - 2, true);else if (i >= _this2.slidesCount - 1) _this2.goToSlide(1, true);
-          }, 500);
-        }
-        this.currentSlide = i;
+      // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
+      if (this.arrows && this.disableArrowsOnEdges) {
+        this.arrowPrevDisabled = nextSlide === 0;
+        this.arrowNextDisabled = nextSlide === this.slidesCount - 1;
       }
-      if (this.infinite || this.autoplay) {
-        if (i < 0) this.currentSlide = this.slidesCount - 1;else if (i > this.slidesCount - 1) this.currentSlide = 0;else this.currentSlide = i;
-      } else this.currentSlide = Math.min(Math.max(0, i), this.slidesCount - 1);
 
+      this.currentSlide = nextSlide;
+
+      // Infinite sliding.
+      // if (this.infinite && !this.fade) {
+      //   if (!noAnimation) {
+      //     this.$refs.track.classList.remove("vueperslides__track--no-animation")
+      //   }
+
+      //   if (i <= 0 || i >= this.slidesCount - 1) {
+      //     setTimeout(() => {
+      //       this.$refs.track.classList.add("vueperslides__track--no-animation")
+
+      //       if (i <= 0) this.goToSlide(this.slidesCount - 2, true)
+      //       else if (i >= this.slidesCount - 1) this.goToSlide(1, true)
+      //     }, 500)
+      //   }
+      //   this.currentSlide = i
+      // }
+
+      // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.fade) {
         this.currentTranslation = 100 * this.currentSlide;
       }
@@ -346,7 +392,7 @@ var VueperSlides = { render: function render() {
       }
 
       if (this.$slots.default[this.currentSlide]) {
-        // First use of gotoSlide is while init, so should not propagate an event.
+        // First use of goToSlide is while init, so should not propagate an event.
         if (this.isReady) this.emit('slide');
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid);
       }
