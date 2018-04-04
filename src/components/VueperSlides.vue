@@ -12,16 +12,16 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
     div.vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
     div.vueperslides__arrows(v-if="arrows")
-      div.vueperslides__arrow.vueperslides__arrow--prev(@click="onArrowClick(false)" v-show="!arrowPrevDisabled")
+      button.vueperslides__arrow.vueperslides__arrow--prev(@click="onArrowClick(false)" v-show="!arrowPrevDisabled")
         slot(name="arrowLeft")
           svg(viewBox="0 0 24 24")
             path(d="M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z")
-      div.vueperslides__arrow.vueperslides__arrow--next(@click="onArrowClick()" v-show="!arrowNextDisabled")
+      button.vueperslides__arrow.vueperslides__arrow--next(@click="onArrowClick()" v-show="!arrowNextDisabled")
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
     div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets")
-      span.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" v-if="!item.clone" @click="goToSlide(i)")
+      button.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" v-if="!item.clone" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
         span {{ infinite ? i : (i + 1) }}
 </template>
 
@@ -332,7 +332,7 @@ export default {
 
     setTimer () {
       this.timer = setTimeout(() => {
-        this.goToSlide(this.currentSlide + 1)
+        this.goToSlide(this.currentSlide + 1, false, true)
       }, this.speed)
     },
 
@@ -362,7 +362,7 @@ export default {
       return i
     },
 
-    goToSlide (i, noAnimation = false) {
+    goToSlide (i, noAnimation = false, autosliding = false) {
       let nextSlide = this.getSlideInRange(i)
 
       // First use of `goToSlide` is while init, so should not propagate an event.
@@ -392,8 +392,8 @@ export default {
           setTimeout(() => {
             this.$refs.track.classList.add("vueperslides__track--no-animation")
 
-            if (i <= 0) this.goToSlide(this.slidesCount - 2, true)
-            else if (i >= this.slidesCount - 1) this.goToSlide(1, true)
+            if (i <= 0) this.goToSlide(this.slidesCount - 2, true, autosliding)
+            else if (i >= this.slidesCount - 1) this.goToSlide(1, true, autosliding)
           }, 400)
         }
       }
@@ -411,6 +411,9 @@ export default {
         // First use of goToSlide is while init, so should not propagate an event.
         if (this.isReady) this.emit('slide')
         this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
+      }
+      if (!autosliding && this.$refs.bullet[this.currentSlide]) {
+        this.$refs.bullet[this.currentSlide].focus()
       }
     }
   }
@@ -532,6 +535,7 @@ export default {
     transition: 0.3s ease-in-out;
     cursor: pointer;
     user-select: none;
+    outline: none;
     z-index: 2;
 
     &--prev {
@@ -582,6 +586,7 @@ export default {
     display: inline-block;
     cursor: pointer;
     user-select: none;
+    outline: none;
     z-index: 2;
     display: flex;
     justify-content: center;
