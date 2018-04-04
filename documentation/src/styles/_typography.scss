@@ -37,18 +37,18 @@ h2 + a[name] + h3 {
   margin-top: 0;
 }
 
-h3 a {
+h3 a[href] {
   color: inherit !important;
 }
 
-h3 a:before {
+h3 a[href]:before {
   content: "# ";
   color: $lighter-text;
   font-size: 1.2em;
   transition: 0.3s;
 }
 
-h3 a:hover:before {
+h3 a[href]:hover:before {
   color: $light-text;
 }
 

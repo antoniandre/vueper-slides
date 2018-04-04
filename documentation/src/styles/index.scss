@@ -4,9 +4,15 @@
 
 // GLOBAL
 //=================================================//
+a[name] {
+  position: relative;
+  top: -4em;
+  display: block;
+}
+
 ul {
   margin-top: 1em;
-  margin-left: 1.3em;
+  padding-left: 1.3em;
 }
 
 pre {
@@ -27,7 +33,7 @@ pre {
   align-items: center;
 }
 
-.max-widthed, h2, h3, p, pre {
+.max-widthed, h2, h3, h4, p, pre {
   max-width: $page-max-width;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -50,31 +56,30 @@ pre {
 // FOOTER
 //=================================================//
 .application--wrap footer.footer {
-    background: none;
-    font-style: italic;
-    color: $main-text;
-    font-size: .9em;
+  background: none;
+  font-style: italic;
+  color: $main-text;
+  font-size: .9em;
 
-    i {
-        font-size: 1.2em;
-        vertical-align: middle;
-        transition: 1s ease-out;
-        cursor: pointer;
+  i {
+    font-size: 1.2em;
+    vertical-align: middle;
+    transition: 1s ease-out;
+    cursor: pointer;
 
-        &.fa-css3 {
-            font-size: 1.1em;
-        }
-
-        &.fa-html5:hover, &.fa-css3:hover {
-            transform: rotate(360deg);
-        }
-
-        &.heart:hover {
-            animation: pulse 1.8s ease-out infinite;
-        }
+    &.fa-css3 {
+      font-size: 1.1em;
     }
-}
 
+    &.fa-html5:hover, &.fa-css3:hover {
+      transform: rotate(360deg);
+    }
+
+    &.heart:hover {
+      animation: pulse 1.8s ease-out infinite;
+    }
+  }
+}
 
 @keyframes pulse {
 	0%, 20%, 30%, 35%, 45%, 100% {transform: scale(1);}

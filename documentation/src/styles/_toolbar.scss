@@ -71,11 +71,10 @@
     color: #999;
     opacity: 1;
     transform: translateY(0em);
-    transition: 0.3s .4s ease-in-out;
+    transition: 0.3s .4s ease-in-out, 0s 0s top;
     text-align: center;
     font-style: italic;
   }
-
 
   &.scrolled {
     transition: 0.6s ease-in-out all, 0.3s 0.5s ease-in-out border-color;
@@ -102,10 +101,10 @@
     }
 
     .intro {
-      transition: 0.2s 0s ease-in-out all;
+      transition: 0.2s 0s ease-in-out all, 0s 0.3s top;
       transform: translateY(1em);
       opacity: 0;
+      top: -5em;
     }
-
   }
 }
