@@ -15,6 +15,9 @@ div.documentation
             v-icon check_circle
             | Slide with keyboard arrows
           v-chip(color="amber lighten-2" text-color="white" small)
+            v-icon remove_circle
+            | Add / remove slides
+          v-chip(color="amber lighten-2" text-color="white" small)
             v-icon access_time
             | Center mode
           v-chip(color="deep-orange lighten-1" text-color="white" small)
@@ -29,9 +32,6 @@ div.documentation
           v-chip(color="deep-orange lighten-1" text-color="white" small)
             v-icon remove_circle
             | Dragging distance
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Add slides on the fly
           v-chip(color="deep-orange lighten-1" text-color="white" small)
             v-icon remove_circle
             | Lazy loading
@@ -159,7 +159,7 @@ div.documentation
     a(href="#ex--basic") Basic with Autoplay
     a(name="ex--basic")
   p
-    | This example uses autoplay, slide titles & contents.#[br]
+    | This example uses autoplay, slide titles & contents & an infinite mode (by default).#[br]
     em The autoplay circles between all the slides and goes back to the begining after the last slide.
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides autoplay&gt;
@@ -170,7 +170,7 @@ div.documentation
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  vueper-slides.ex2(autoplay :infinite="true")
+  vueper-slides.ex2(autoplay)
     v-icon(slot="pausedIcon" large color="white") pause
     vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
@@ -228,14 +228,14 @@ div.documentation
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
       &lt;vueper-slide
-        v-for="slide in slides2"
-        :key="slide.id"
+        v-for="(slide, i) in slides2"
+        :key="i"
         :image="'images/' + slide.image"
         :title="'# ' + slide.title"
         :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   vueper-slides(fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3")
-    vueper-slide(v-for="slide in slides2" :key="slide.id" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
 
   h3
     a(href="#ex--events") Events
@@ -249,3 +249,19 @@ div.documentation
     p(v-html="events")
   vueper-slides(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+
+  h3
+    a(href="#ex--events") Add & Remove slides
+    a(name="ex--events")
+  p
+    | This example demonstrates how to use the vueper slides provided events.#[br]
+    | The box bellow will be populated by all the events triggered while using the slideshow.#[br]
+    | You can change slides to see new events.
+    v-btn(color="primary" @click="appendSlide" small)
+      v-icon add
+      | &nbsp; Add Slide
+    v-btn(color="primary" @click="removeSlide" small)
+      v-icon remove
+      | &nbsp; Remove Slide
+  vueper-slides(:slide-ratio="0.2" :infinite="false")
+    vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")

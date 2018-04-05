@@ -1,6 +1,6 @@
 <template lang="pug">
-div(:class="{'vueperslides__slide': true, 'vueperslides__slide--active': conf.activeSlideUid === _uid }" :style="styles")
-  div.vueperslides__slide-content(v-if="!conf.slideContentOutside && (title || content)")
+div(:class="{'vueperslides__slide': true, 'vueperslides__slide--active': $parent.activeSlideUid === _uid }" :style="styles")
+  div.vueperslides__slide-content(v-if="!$parent.slideContentOutside && (title || content)")
     p.slide-title(v-html="title")
     p.slide-content(v-html="content")
 </template>
@@ -23,25 +23,28 @@ export default {
       default: ''
     }
   },
-  data: () => ({
-    conf: () => this.config.defaults// Make configs reactive.
-  }),
-  methods: {
-    getConfig () {
-      if (!this.config[this.$parent._uid]) {
-        this.config[this.$parent._uid] = JSON.parse(JSON.stringify(this.config.defaults))
-      }
-
-      return this.config[this.$parent._uid]
-    }
-  },
   created () {
-    this.conf = this.getConfig()
-    this.conf.slides.push({
+    this.$parent.slides.push({
       _uid: this._uid,
       image: this.image,
       title: this.title,
       content: this.content
+    })
+  },
+  // When removing a slide programmatically, remove it from the config so vueperslides
+  // component is aware of the change.
+  destroyed () {
+    this.$parent.slides.some((slide, i) => {
+      if (slide._uid === this._uid) {
+        // If the slide to remove is the current slide, slide to the previous slide.
+        if (this._uid === this.$parent.activeSlideUid) {
+          if (this.$parent.slides) this.$parent.goToSlide(i - 1, false, true)
+        }
+
+        // Then remove the slide.
+        this.$parent.slides.splice(i, 1)
+        return true // Break the `Array.some` loop.
+      }
     })
   },
   computed: {
@@ -50,8 +53,8 @@ export default {
       if (this.image) {
         styles.backgroundImage = `url(${this.image})`
       }
-      if (this.conf.slideRatio) {
-        styles.paddingBottom = `${this.conf.slideRatio * 100}%`
+      if (this.$parent.slideRatio) {
+        styles.paddingBottom = `${this.$parent.slideRatio * 100}%`
       }
       return styles
     }

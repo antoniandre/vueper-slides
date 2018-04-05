@@ -69,28 +69,44 @@ export default Vue.extend({
     ],
     slides2: [
       {
-        id: 'mountain-1',
-        image: require('../../assets/images/rough-horn-2146181_1280.jpg'),
         title: 'Mountain 1',
+        content: 'Slide 1 content.',
+        image: require('../../assets/images/rough-horn-2146181_1280.jpg')
+      },
+      {
+        title: 'Mountain 2',
+        content: 'Slide 2 content.',
+        image: require('../../assets/images/snow-3212345_1280.jpg')
+      },
+      {
+        title: 'Mountain 3',
+        content: 'Slide 3 content.',
+        image: require('../../assets/images/snow-3237630_1280.jpg')
+      }
+    ],
+    slides3: [
+      {
+        title: 'Slide 1',
         content: 'Slide 1 content.'
       },
       {
-        id: 'mountain-2',
-        image: require('../../assets/images/snow-3212345_1280.jpg'),
-        title: 'Mountain 2',
+        title: 'Slide 2',
         content: 'Slide 2 content.'
-      },
-      {
-        id: 'mountain-3',
-        image: require('../../assets/images/snow-3237630_1280.jpg'),
-        title: 'Mountain 3',
-        content: 'Slide 3 content.'
       }
     ]
   }),
   methods: {
-    logEvents: function (eventName, params) {
+    logEvents (eventName, params) {
       this.events += `<b>Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
+    },
+    appendSlide () {
+      this.slides3.push({
+        title: `Programmagically appended slide ${this.slides3.length + 1}`,
+        content: `Programmagically appended slide ${this.slides3.length + 1} content.`
+      })
+    },
+    removeSlide () {
+      this.slides3.pop()
     }
   }
 })

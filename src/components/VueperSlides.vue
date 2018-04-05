@@ -1,8 +1,8 @@
 <template lang="pug">
 div.vueperslides-wrapper(:class="{'ready': isReady}")
   div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="slideContentOutsideClass" v-if="slideContentOutside")
-      p.slide-title(v-html="slides[currentSlide].title")
-      p.slide-content(v-html="slides[currentSlide].content")
+    p.slide-title(v-html="slides[currentSlide] ? slides[currentSlide].title : ''")
+    p.slide-content(v-html="slides[currentSlide] ? slides[currentSlide].content : ''")
 
   div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchable}" ref="vueperslides")
     div.vueperslides__slides-wrapper
@@ -101,12 +101,9 @@ export default {
   },
   data: () => ({
     isReady: false,
-    slides: [
-      {
-        content: {}
-      }
-    ],
+    slides: [],
     slidesCount: 0,
+    activeSlideUid: null,
     mouseDown: false,
     mouseOver: false,
     dragging: false,
@@ -119,18 +116,12 @@ export default {
     arrowPrevDisabled: false,
     arrowNextDisabled: false
   }),
-  created () {
-    // Set the shared config as soon as possible.
-    this.getConfig().slideRatio = this.slideRatio
-    this.getConfig().slideContentOutside = this.slideContentOutside
-  },
   mounted () {
     this.init()
   },
   methods: {
     init () {
       this.emit('before-init', false)
-      this.slides = this.getConfig().slides
       this.slidesCount = this.slides.length
 
       if (this.infinite && !this.fade) {
@@ -171,18 +162,6 @@ export default {
       this.$emit(name, ...args)
     },
 
-    getConfig () {
-      if (!config[this._uid]) {
-        config[this._uid] = JSON.parse(JSON.stringify(config.defaults))
-      }
-
-      return config[this._uid]
-    },
-
-    setConfig (key, value) {
-      this.getConfig()[key] = value
-    },
-
     cloneSlides () {
       //----- Add a clone of the first slide at the end. -----//
       // If first node in this.$slots.default is a text node take the next one.
@@ -211,8 +190,6 @@ export default {
         clone: true
       })
       this.slidesCount = this.slides.length
-
-      this.getConfig().slides = this.slides
     },
 
     bindEvents () {
@@ -407,14 +384,24 @@ export default {
         this.setTimer()
       }
 
-      if (this.$slots.default[this.currentSlide]) {
-        // First use of goToSlide is while init, so should not propagate an event.
-        if (this.isReady) this.emit('slide')
-        this.setConfig('activeSlideUid', this.getConfig().slides[this.currentSlide]._uid)
+      if (this.slides.length) {
+        this.activeSlideUid = this.slides[this.currentSlide]._uid
+
+        if (this.$slots.default[this.currentSlide]) {
+          // First use of goToSlide is while init, so should not propagate an event.
+          if (this.isReady) this.emit('slide')
+        }
+
+        if (this.isReady && !autosliding && this.$refs.bullet[this.currentSlide]) {
+          this.$refs.bullet[this.currentSlide].focus()
+        }
       }
-      if (!autosliding && this.$refs.bullet[this.currentSlide]) {
-        this.$refs.bullet[this.currentSlide].focus()
-      }
+
+    }
+  },
+  watch: {
+    slides: function () {
+      this.slidesCount = this.slides.length
     }
   }
 }
