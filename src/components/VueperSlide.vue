@@ -7,9 +7,11 @@ div(:class="{'vueperslides__slide': true, 'vueperslides__slide--active': $parent
 
 <script>
 export default {
-  name: 'vueper-slide',
-  inject: ['config'],
   props: {
+    clone: {
+      type: Number,
+      default: null
+    },
     image: {
       type: String,
       default: ''
@@ -24,28 +26,18 @@ export default {
     }
   },
   created () {
-    this.$parent.slides.push({
+    this.$parent.addSlide({
       _uid: this._uid,
       image: this.image,
       title: this.title,
-      content: this.content
+      content: this.content,
+      clone: this.clone
     })
   },
   // When removing a slide programmatically, remove it from the config so vueperslides
   // component is aware of the change.
   destroyed () {
-    this.$parent.slides.some((slide, i) => {
-      if (slide._uid === this._uid) {
-        // If the slide to remove is the current slide, slide to the previous slide.
-        if (this._uid === this.$parent.activeSlideUid) {
-          if (this.$parent.slides) this.$parent.goToSlide(i - 1, false, true)
-        }
-
-        // Then remove the slide.
-        this.$parent.slides.splice(i, 1)
-        return true // Break the `Array.some` loop.
-      }
-    })
+    this.$parent.removeSlide(this._uid)
   },
   computed: {
     styles () {

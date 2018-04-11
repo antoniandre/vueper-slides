@@ -7,7 +7,9 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
   div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchable}" ref="vueperslides")
     div.vueperslides__slides-wrapper
       div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(' + - currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (this.slideRatio * 100) + '%')")
+        vueper-slide.vueperslides__slide--clone(v-if="clones[0]" :clone="1" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
         slot(:currentSlide="currentSlide")
+        vueper-slide.vueperslides__slide--clone(v-if="clones[1]" :clone="2" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style")
 
     div.vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
@@ -26,19 +28,12 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
 </template>
 
 <script>
-const config = {
-  defaults: {
-    slides: [],
-    slideRatio: 1/3,
-    slideContentOutside: false,
-    activeSlideUid: null
-  }
-}
+import VueperSlide from './VueperSlide.vue'
 
 export default {
-  name: "vueper-slides",
-  provide: {
-    config
+  name: 'vueper-slides',
+  components: {
+    VueperSlide
   },
   props: {
     initSlide: {
@@ -114,7 +109,8 @@ export default {
     goNext: true,
     timer: null,
     arrowPrevDisabled: false,
-    arrowNextDisabled: false
+    arrowNextDisabled: false,
+    clones: []
   }),
   mounted () {
     this.init()
@@ -142,7 +138,7 @@ export default {
 
       if (includeCurrentSlide || typeof includeNextSlide === "number") {
         args[1] = {}
-        if (includeCurrentSlide) {
+        if (includeCurrentSlide && this.activeSlideUid) {
           args[1].currentSlide = {
             index: this.currentSlide,
             title: this.slides[this.currentSlide].title,
@@ -162,34 +158,33 @@ export default {
       this.$emit(name, ...args)
     },
 
+    uncloneSlides () {
+      this.slides = this.slides.filter(slide => !slide.clone)
+      this.slidesCount = this.slides.length
+      this.clones = []
+    },
+
     cloneSlides () {
-      //----- Add a clone of the first slide at the end. -----//
-      // If first node in this.$slots.default is a text node take the next one.
       let firstNodeIsVnode = this.$slots.default[0].tag
       let firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm
-      let clonedFirstSlide = firstSlide.cloneNode(true)
-      clonedFirstSlide.classList.add("vueperslides__slide--clone")
-      this.$refs.track.appendChild(clonedFirstSlide)
-
-      //----- Add a clone of the last slide at the begining. -----//
       let lastSlide = this.$slots.default[this.$slots.default.length - 1].elm
-      let clonedLastSlide = lastSlide.cloneNode(true)
-      clonedLastSlide.classList.add("vueperslides__slide--clone")
-      this.$refs.track.insertBefore(clonedLastSlide, firstSlide)
 
-      this.slides.unshift({
-        _uid: this.slides[this.slidesCount - 1]._uid,
-        title: this.slides[this.slidesCount - 1].title,
-        content: this.slides[this.slidesCount - 1].content,
-        clone: true
-      })
-      this.slides.push({
-        _uid: this.slides[0]._uid,
-        title: this.slides[0].title,
-        content: this.slides[0].content,
-        clone: true
-      })
-      this.slidesCount = this.slides.length
+      // The first & last slide that are not clones.
+      let firstSlideIndex = this.slides[0].clone ? 1 : 0
+      let lastSlideIndex = this.slidesCount - (this.slides[this.slidesCount - 1].clone ? 2 : 1)
+
+      this.clones[0] = {
+        title: this.slides[lastSlideIndex].title,
+        content: this.slides[lastSlideIndex].content,
+        image: this.slides[lastSlideIndex].image,
+        style: lastSlide && lastSlide.attributes.style ? lastSlide.attributes.style.value : null
+      }
+      this.clones[1] = {
+        title: this.slides[firstSlideIndex].title,
+        content: this.slides[firstSlideIndex].content,
+        image: this.slides[firstSlideIndex].image,
+        style: firstSlide && lastSlide.attributes.style ? firstSlide.attributes.style.value : null
+      }
     },
 
     bindEvents () {
@@ -340,20 +335,19 @@ export default {
     },
 
     goToSlide (i, noAnimation = false, autosliding = false) {
+      if (this.slidesCount <= 1) return
+      if (this.autoplay) this.clearTimer()
+
       let nextSlide = this.getSlideInRange(i)
 
       // First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady) this.emit('before-slide', true, nextSlide)
-
-      if (this.autoplay) this.clearTimer()
 
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.arrows && this.disableArrowsOnEdges) {
         this.arrowPrevDisabled = nextSlide === 0
         this.arrowNextDisabled = nextSlide === this.slidesCount - 1
       }
-
-      this.currentSlide = nextSlide
 
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
@@ -375,6 +369,10 @@ export default {
         }
       }
 
+      this.currentSlide = nextSlide
+      this.activeSlideUid = this.slides[this.currentSlide]._uid
+      console.log('this.currentSlide ', this.currentSlide, this.slides, this.slides[this.currentSlide])
+
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.fade) {
         this.currentTranslation = 100 * this.currentSlide
@@ -385,8 +383,6 @@ export default {
       }
 
       if (this.slides.length) {
-        this.activeSlideUid = this.slides[this.currentSlide]._uid
-
         if (this.$slots.default[this.currentSlide]) {
           // First use of goToSlide is while init, so should not propagate an event.
           if (this.isReady) this.emit('slide')
@@ -396,12 +392,59 @@ export default {
           this.$refs.bullet[this.currentSlide].focus()
         }
       }
+    },
 
-    }
-  },
-  watch: {
-    slides: function () {
+    addSlide(newSlide) {
+      const needReclone = this.infinite && !this.fade && this.isReady && !newSlide.clone
+
+      // Add the slide in the slides array & update slidesCount.
+      var position = null
+      switch (true) {
+        case (newSlide.clone === 1):
+          position = 0
+          break
+        case (newSlide.clone === 2):
+          position = this.slidesCount
+          break
+        default:
+          position = this.slidesCount - (this.clones[1] ? 1 : 0)
+          break
+      }
+
+      newSlide.clone = newSlide.clone > 0
+
+      this.slides.splice(position, 0, newSlide)
       this.slidesCount = this.slides.length
+
+      if (needReclone) {
+        this.$nextTick(() => this.cloneSlides())
+      }
+    },
+
+    removeSlide(uid) {
+      let needReclone = this.infinite && !this.fade && this.isReady
+
+      this.slides.some((slide, i) => {
+        if (slide._uid === uid) {
+          needReclone = needReclone && !slide.clone
+
+          // Then remove the slide.
+          this.slides.splice(i, 1)
+          this.slidesCount = this.slides.length
+
+          // If the slide to remove is the current slide, slide to the previous slide.
+          if (uid === this.activeSlideUid) {
+            this.activeSlideUid = null
+            this.goToSlide(i - 1, false, true)
+          }
+
+          return true // Break the `Array.some` loop.
+        }
+      })
+
+      if (needReclone) {
+        this.cloneSlides()
+      }
     }
   }
 }

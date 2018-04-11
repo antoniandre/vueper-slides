@@ -4,10 +4,6 @@ import { precode } from '../../components/syntax-highlighter'
 
 import './style.scss'
 import './examples.scss'
-// require('../../assets/images/rough-horn-2146181_1280.jpg')
-// require('../../assets/images/snow-3212345_1280.jpg')
-// require('../../assets/images/snow-3237630_1280.jpg')
-// console.log(myImage)
 
 export default Vue.extend({
   components: {
