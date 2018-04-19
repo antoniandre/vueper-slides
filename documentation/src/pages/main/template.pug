@@ -15,11 +15,14 @@ div.documentation
             v-icon check_circle
             | Slide with keyboard arrows
           v-chip(color="amber lighten-2" text-color="white" small)
-            v-icon remove_circle
+            v-icon access_time
             | Add / remove slides
           v-chip(color="amber lighten-2" text-color="white" small)
             v-icon access_time
             | Center mode
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Minify VueperSlides
           v-chip(color="deep-orange lighten-1" text-color="white" small)
             v-icon remove_circle
             | Breakpoints
@@ -38,6 +41,9 @@ div.documentation
           v-chip(color="deep-orange lighten-1" text-color="white" small)
             v-icon remove_circle
             | Remove / disable
+          v-chip(color="deep-orange lighten-1" text-color="white" small)
+            v-icon remove_circle
+            | Parallax
     v-spacer
 
 
@@ -263,5 +269,5 @@ div.documentation
     v-btn(color="primary" @click="removeSlide" small)
       v-icon remove
       | &nbsp; Remove Slide
-  vueper-slides(:slide-ratio="0.2" :infinite="false")
+  vueper-slides(:slide-ratio="0.2" :infinite="true")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")

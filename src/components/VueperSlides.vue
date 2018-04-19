@@ -1,19 +1,19 @@
 <template lang="pug">
 div.vueperslides-wrapper(:class="{'ready': isReady}")
   div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="slideContentOutsideClass" v-if="slideContentOutside")
-    p.slide-title(v-html="slides[currentSlide] ? slides[currentSlide].title : ''")
-    p.slide-content(v-html="slides[currentSlide] ? slides[currentSlide].content : ''")
+    p.slide-title(v-if="slidesCount && slides[currentSlide].title" v-html="slides[currentSlide].title")
+    p.slide-content(v-if="slidesCount && slides[currentSlide].content" v-html="slides[currentSlide].content")
 
-  div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchable}" ref="vueperslides")
+  div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchEnabled}" ref="vueperslides")
     div.vueperslides__slides-wrapper
-      div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(' + - currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (this.slideRatio * 100) + '%')")
-        vueper-slide.vueperslides__slide--clone(v-if="clones[0]" :clone="1" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
+      div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (this.slideRatio * 100) + '%')")
+        vueper-slide.vueperslides__slide--clone(v-if="slidesCount && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
         slot(:currentSlide="currentSlide")
-        vueper-slide.vueperslides__slide--clone(v-if="clones[1]" :clone="2" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style")
+        vueper-slide.vueperslides__slide--clone(v-if="slidesCount && clones[1]" :clone="1" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style")
 
     div.vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
-    div.vueperslides__arrows(v-if="arrows")
+    div.vueperslides__arrows(v-if="arrows && slidesCount > 1")
       button.vueperslides__arrow.vueperslides__arrow--prev(@click="onArrowClick(false)" v-show="!arrowPrevDisabled")
         slot(name="arrowLeft")
           svg(viewBox="0 0 24 24")
@@ -22,9 +22,9 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-    div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets")
-      button.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" v-if="!item.clone" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
-        span {{ infinite ? i : (i + 1) }}
+    div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets && slidesCount > 1")
+      button.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
+        span {{ i + 1 }}
 </template>
 
 <script>
@@ -110,6 +110,7 @@ export default {
     timer: null,
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
+    touchEnabled: true,
     clones: []
   }),
   mounted () {
@@ -119,12 +120,13 @@ export default {
     init () {
       this.emit('before-init', false)
       this.slidesCount = this.slides.length
+      this.touchEnabled = this.touchable
 
       if (this.infinite && !this.fade) {
         this.cloneSlides()
-        this.goToSlide(this.initSlide)
-      } else this.goToSlide(this.initSlide - 1)
+      }
 
+      this.goToSlide(this.initSlide - 1)
       this.bindEvents()
 
       this.isReady = true
@@ -146,7 +148,7 @@ export default {
           }
         }
         if (typeof includeNextSlide === "number") {
-          let nextSlide = this.getSlideInRange(includeNextSlide)
+          let { nextSlide } = this.getSlideInRange(includeNextSlide)
           args[1].nextSlide = {
             index: nextSlide,
             title: this.slides[nextSlide].title,
@@ -158,31 +160,21 @@ export default {
       this.$emit(name, ...args)
     },
 
-    uncloneSlides () {
-      this.slides = this.slides.filter(slide => !slide.clone)
-      this.slidesCount = this.slides.length
-      this.clones = []
-    },
-
     cloneSlides () {
       let firstNodeIsVnode = this.$slots.default[0].tag
       let firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm
       let lastSlide = this.$slots.default[this.$slots.default.length - 1].elm
 
-      // The first & last slide that are not clones.
-      let firstSlideIndex = this.slides[0].clone ? 1 : 0
-      let lastSlideIndex = this.slidesCount - (this.slides[this.slidesCount - 1].clone ? 2 : 1)
-
       this.clones[0] = {
-        title: this.slides[lastSlideIndex].title,
-        content: this.slides[lastSlideIndex].content,
-        image: this.slides[lastSlideIndex].image,
+        title: this.slides[this.slidesCount - 1].title,
+        content: this.slides[this.slidesCount - 1].content,
+        image: this.slides[this.slidesCount - 1].image,
         style: lastSlide && lastSlide.attributes.style ? lastSlide.attributes.style.value : null
       }
       this.clones[1] = {
-        title: this.slides[firstSlideIndex].title,
-        content: this.slides[firstSlideIndex].content,
-        image: this.slides[firstSlideIndex].image,
+        title: this.slides[0].title,
+        content: this.slides[0].content,
+        image: this.slides[0].image,
         style: firstSlide && lastSlide.attributes.style ? firstSlide.attributes.style.value : null
       }
     },
@@ -190,7 +182,7 @@ export default {
     bindEvents () {
       const hasTouch = "ontouchstart" in window
 
-      if (this.touchable) {
+      if (this.touchEnabled) {
         this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown)
         document.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove)
         document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp)
@@ -230,6 +222,8 @@ export default {
     },
 
     onMouseDown (e) {
+      if (!this.touchEnabled) return
+
       if (!e.touches) {
         e.preventDefault()
       }
@@ -241,7 +235,7 @@ export default {
       // Set a flag for use while dragging in `onMouseMove` to know if drag was toward left or right.
       this.goNext = dragPercentage >= 0.5
 
-      this.currentTranslation = 100 * (this.currentSlide + (this.goNext ? 1 : 0) - dragPercentage)
+      this.currentTranslation = - 100 * (this.currentSlide + (this.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
     },
 
     onMouseMove (e) {
@@ -250,7 +244,7 @@ export default {
         this.dragging = true
 
         let dragPercentage = this.getDragPercentage(e)
-        this.currentTranslation = 100 * (this.currentSlide + (this.goNext ? 1 : 0) - dragPercentage)
+        this.currentTranslation = - 100 * (this.currentSlide + (this.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
       }
     },
 
@@ -264,8 +258,8 @@ export default {
 
         // When the drag is realeased, calculate if the drag ends before or after the 50%-slideshow-width threshold.
         // Then finish the sliding toward that slide.
-        let slideOnDragEnd = Math.round(this.currentTranslation / 100)
-        let nextSlide = this.getSlideInRange(slideOnDragEnd)
+        let slideOnDragEnd = - (Math.round(this.currentTranslation / 100) + (this.clones.length ? 1 : 0))
+        let { nextSlide } = this.getSlideInRange(slideOnDragEnd)
 
         // If drag is not allowed (`arrowNextDisabled` = true) and dragging beyond last slide,
         // cancel sliding and snap back to last slide.
@@ -273,12 +267,12 @@ export default {
           nextSlide = this.slidesCount - 1
         }
 
-        // Apply transition to finish sliding.
-        this.currentTranslation = nextSlide * 100
-
-        // Only call `goToSlide` if the final slide is different than the one before drag event started.
+        // Only call `goToSlide` if the drag ends on a slide that is different than the currentSlide.
         if (nextSlide !== this.currentSlide) {
-          this.goToSlide(nextSlide)
+          this.goToSlide(slideOnDragEnd)
+        } else {
+          // Apply transition to snap back to current slide.
+          this.currentTranslation = - (this.currentSlide + (this.clones.length ? 1 : 0)) * 100
         }
 
         this.enableScroll()
@@ -304,7 +298,7 @@ export default {
 
     setTimer () {
       this.timer = setTimeout(() => {
-        this.goToSlide(this.currentSlide + 1, false, true)
+        this.goToSlide(this.currentSlide + 1, true, true)
       }, this.speed)
     },
 
@@ -313,10 +307,18 @@ export default {
     },
 
     getSlideInRange (i) {
+      let clone = null
+
       // If infinite enabled, going out of range takes the first slide from the other end.
-      if (this.infinite) {
-        if (i < 0) i = this.slidesCount - 1
-        else if (i > this.slidesCount - 1) i = 0
+      if (this.clones.length) {
+        if (i < 0) {
+          i = this.slidesCount - 1
+          clone = 0
+        }
+        else if (i > this.slidesCount - 1) {
+          i = 0
+          clone = 1
+        }
       }
 
       // If not infinite, can't go lower than 0 or beyond `slidesCount` with `disableArrowsOnEdges`.
@@ -331,14 +333,15 @@ export default {
         }
       }
 
-      return i
+      return { nextSlide: i, clone: clone }
     },
 
-    goToSlide (i, noAnimation = false, autosliding = false) {
-      if (this.slidesCount <= 1) return
+    goToSlide (i, animation = true, autoSliding = false) {
+      if (!this.slidesCount) return
+
       if (this.autoplay) this.clearTimer()
 
-      let nextSlide = this.getSlideInRange(i)
+      let { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(i)
 
       // First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady) this.emit('before-slide', true, nextSlide)
@@ -349,46 +352,42 @@ export default {
         this.arrowNextDisabled = nextSlide === this.slidesCount - 1
       }
 
+      this.$refs.track.classList[animation ? 'remove' : 'add']("vueperslides__track--no-animation")
+
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
       // shows up, when the animation ends the real change to the first slide is done
       // immediately with no animation.
       // Same principle when going beyond first slide.
-      if (this.infinite && !this.fade) {
-        if (!noAnimation) {
-          this.$refs.track.classList.remove("vueperslides__track--no-animation")
-        }
-
-        if (i <= 0 || i >= this.slidesCount - 1) {
-          setTimeout(() => {
-            this.$refs.track.classList.add("vueperslides__track--no-animation")
-
-            if (i <= 0) this.goToSlide(this.slidesCount - 2, true, autosliding)
-            else if (i >= this.slidesCount - 1) this.goToSlide(1, true, autosliding)
-          }, 400)
-        }
+      if (nextSlideIsClone !== null) {
+        setTimeout(() => {
+          this.goToSlide(nextSlideIsClone ? 0 : this.slidesCount - 1, false, autoSliding)
+        }, 400)
       }
 
       this.currentSlide = nextSlide
-      this.activeSlideUid = this.slides[this.currentSlide]._uid
-      console.log('this.currentSlide ', this.currentSlide, this.slides, this.slides[this.currentSlide])
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.fade) {
-        this.currentTranslation = 100 * this.currentSlide
+        if (nextSlideIsClone !== null) {
+          this.currentTranslation = - 100 * (nextSlideIsClone ? this.slidesCount + 1 : 0)
+        }
+        else this.currentTranslation = - 100 * (this.currentSlide + (this.clones.length ? 1 : 0))
       }
+
+      this.activeSlideUid = this.slides[this.currentSlide]._uid
 
       if (this.autoplay && !this.mouseOver) {
         this.setTimer()
       }
 
-      if (this.slides.length) {
+      if (this.slidesCount) {
         if (this.$slots.default[this.currentSlide]) {
           // First use of goToSlide is while init, so should not propagate an event.
           if (this.isReady) this.emit('slide')
         }
 
-        if (this.isReady && !autosliding && this.$refs.bullet[this.currentSlide]) {
+        if (this.isReady && !autoSliding && this.$refs.bullet[this.currentSlide]) {
           this.$refs.bullet[this.currentSlide].focus()
         }
       }
@@ -397,24 +396,19 @@ export default {
     addSlide(newSlide) {
       const needReclone = this.infinite && !this.fade && this.isReady && !newSlide.clone
 
-      // Add the slide in the slides array & update slidesCount.
-      var position = null
-      switch (true) {
-        case (newSlide.clone === 1):
-          position = 0
-          break
-        case (newSlide.clone === 2):
-          position = this.slidesCount
-          break
-        default:
-          position = this.slidesCount - (this.clones[1] ? 1 : 0)
-          break
+      if (newSlide.clone !== null) {
+        this.clones[newSlide.clone] = newSlide
       }
 
-      newSlide.clone = newSlide.clone > 0
+      else {
+        // Add the slide in the slides array & update slidesCount.
+        this.slides.push(newSlide)
+        this.slidesCount = this.slides.length
+      }
 
-      this.slides.splice(position, 0, newSlide)
-      this.slidesCount = this.slides.length
+      if (this.slidesCount > 1) {
+        this.touchEnabled = true
+      }
 
       if (needReclone) {
         this.$nextTick(() => this.cloneSlides())
@@ -422,27 +416,32 @@ export default {
     },
 
     removeSlide(uid) {
-      let needReclone = this.infinite && !this.fade && this.isReady
+      // let needReclone = this.infinite && !this.fade && this.isReady
+      let needReclone = false
 
       this.slides.some((slide, i) => {
         if (slide._uid === uid) {
-          needReclone = needReclone && !slide.clone
-
-          // Then remove the slide.
+          // Remove the slide.
           this.slides.splice(i, 1)
           this.slidesCount = this.slides.length
 
           // If the slide to remove is the current slide, slide to the previous slide.
           if (uid === this.activeSlideUid) {
             this.activeSlideUid = null
-            this.goToSlide(i - 1, false, true)
+            this.goToSlide(i - 1, true, true)
           }
+
+          if (this.slidesCount <= 1) {
+            this.touchEnabled = false
+          }
+
+          if (this.clones.length && this.isReady && !slide.clone) needReclone = true
 
           return true // Break the `Array.some` loop.
         }
       })
 
-      if (needReclone) {
+      if (this.slidesCount && needReclone) {
         this.cloneSlides()
       }
     }

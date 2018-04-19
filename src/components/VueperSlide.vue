@@ -37,7 +37,7 @@ export default {
   // When removing a slide programmatically, remove it from the config so vueperslides
   // component is aware of the change.
   destroyed () {
-    this.$parent.removeSlide(this._uid)
+    if (this.clone === null) this.$parent.removeSlide(this._uid)
   },
   computed: {
     styles () {
