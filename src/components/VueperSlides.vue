@@ -4,7 +4,7 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
     p.slide-title(v-if="slidesCount && slides[currentSlide].title" v-html="slides[currentSlide].title")
     p.slide-content(v-if="slidesCount && slides[currentSlide].content" v-html="slides[currentSlide].content")
 
-  div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchEnabled}" ref="vueperslides")
+  div.vueperslides(:class="{'vueperslides--fade': fade, 'vueperslides--touchable': touchEnabled && !disable}" ref="vueperslides")
     div.vueperslides__slides-wrapper
       div.vueperslides__track(:class="{'vueperslides__track--dragging': dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (this.slideRatio * 100) + '%')")
         vueper-slide.vueperslides__slide--clone(v-if="slidesCount && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
@@ -13,7 +13,7 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
 
     div.vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
-    div.vueperslides__arrows(v-if="arrows && slidesCount > 1")
+    div.vueperslides__arrows(v-if="arrows && slidesCount > 1 && !disable")
       button.vueperslides__arrow.vueperslides__arrow--prev(@click="onArrowClick(false)" v-show="!arrowPrevDisabled")
         slot(name="arrowLeft")
           svg(viewBox="0 0 24 24")
@@ -22,7 +22,7 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-    div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets && slidesCount > 1")
+    div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': bulletsOutside}" v-if="bullets && slidesCount > 1 && !disable")
       button.vueperslides__bullet(:class="{'vueperslides__bullet--active': currentSlide === i}" v-for="(item, i) in slides" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
         span {{ i + 1 }}
 </template>
@@ -50,7 +50,7 @@ export default {
     },
     // Ability to disable arrows on slideshow edges. Only if not infinite mode.
     disableArrowsOnEdges: {
-      type: Boolean,
+      type: [Boolean, String],
       default: false
     },
     bullets: {
@@ -92,6 +92,10 @@ export default {
     touchable: {
       type: Boolean,
       default: true
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -222,7 +226,7 @@ export default {
     },
 
     onMouseDown (e) {
-      if (!this.touchEnabled) return
+      if (!this.touchEnabled || this.disable) return
 
       if (!e.touches) {
         e.preventDefault()
@@ -337,7 +341,7 @@ export default {
     },
 
     goToSlide (i, animation = true, autoSliding = false) {
-      if (!this.slidesCount) return
+      if (!this.slidesCount || this.disable) return
 
       if (this.autoplay) this.clearTimer()
 

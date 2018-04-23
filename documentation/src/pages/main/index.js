@@ -14,6 +14,7 @@ export default Vue.extend({
   template: require('./template.pug'),
   data: () => ({
     events: '',
+    slideshowDisabled: false,
     imagesRoot: process.env.NODE_ENV === 'production' ? './dist/images/' : './images/',
     colors: [
       '#4caf50',
@@ -103,6 +104,17 @@ export default Vue.extend({
     },
     removeSlide () {
       this.slides3.pop()
+    },
+    toggleSlideshow () {
+      this.slideshowDisabled = !this.slideshowDisabled
     }
+  },
+  created () {
+    setTimeout(() => {
+      this.disabled = true
+    }, 3000)
+    setTimeout(() => {
+      this.disabled = false
+    }, 6000)
   }
 })

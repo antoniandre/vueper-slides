@@ -72,6 +72,19 @@
   opacity: 0.8;
 }
 
+.ex-events .vueperslides__slide--active:before {
+  content: 'This slide is active!';
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  padding: 4px 25px;
+  background: orange;
+  color: #fff;
+  font-size: 10px;
+  transform: translateX(30%) rotate(45deg);
+  transform-origin: 0 0;
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+}
 
 @-webkit-keyframes gradient {
   0% {

@@ -14,14 +14,17 @@ div.documentation
           v-chip(color="light-green lighten-1" text-color="white" small)
             v-icon check_circle
             | Slide with keyboard arrows
-          v-chip(color="amber lighten-2" text-color="white" small)
-            v-icon access_time
+          v-chip(color="light-green lighten-1" text-color="white" small)
+            v-icon check_circle
             | Add / remove slides
+          v-chip(color="light-green lighten-1" text-color="white" small)
+            v-icon check_circle
+            | Disable / enable slideshow
           v-chip(color="amber lighten-2" text-color="white" small)
             v-icon access_time
             | Center mode
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
+          v-chip(color="amber lighten-2" text-color="white" small)
+            v-icon access_time
             | Minify VueperSlides
           v-chip(color="deep-orange lighten-1" text-color="white" small)
             v-icon remove_circle
@@ -38,9 +41,6 @@ div.documentation
           v-chip(color="deep-orange lighten-1" text-color="white" small)
             v-icon remove_circle
             | Lazy loading
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Remove / disable
           v-chip(color="deep-orange lighten-1" text-color="white" small)
             v-icon remove_circle
             | Parallax
@@ -110,6 +110,7 @@ div.documentation
     pauseOnHover:             [Boolean],        default: true
     infinite:                 [Boolean],        default: true
     touchable:                [Boolean],        default: true
+    disable:                  [Boolean],        default: false
 
   h3
     a(href="#events") Events
@@ -247,18 +248,32 @@ div.documentation
     a(href="#ex--events") Events
     a(name="ex--events")
   p.
-    This example demonstrates how to use the vueper slides provided events.#[br]
-    The box bellow will be populated by all the events triggered while using the slideshow.#[br]
+    This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
+    The events box bellow will log all the events (and the given params) triggered while using the slideshow.#[br]
     You can change slides to see new events.
-  pre(style="min-height: 120px")
+  precode(language="css" label="CSS").
+    .ex--events .vueperslides__slide--active:before {
+      content: 'This slide is active!';
+      position: absolute;
+      top: -18px;
+      right: -18px;
+      padding: 4px 25px;
+      background: orange;
+      color: #fff;
+      font-size: 10px;
+      transform: translateX(30%) rotate(45deg);
+      transform-origin: 0 0;
+      box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+    }
+  pre.precode(data-label="Event box" style="min-height: 120px")
     | listening...
     p(v-html="events")
-  vueper-slides(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
+  vueper-slides.ex-events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
 
   h3
-    a(href="#ex--events") Add & Remove slides
-    a(name="ex--events")
+    a(href="#ex--add-remove-slides--disable") Add / remove slides & disable slideshow
+    a(name="ex--add-remove-slides--disable")
   p
     | This example demonstrates how to use the vueper slides provided events.#[br]
     | The box bellow will be populated by all the events triggered while using the slideshow.#[br]
@@ -269,5 +284,8 @@ div.documentation
     v-btn(color="primary" @click="removeSlide" small)
       v-icon remove
       | &nbsp; Remove Slide
-  vueper-slides(:slide-ratio="0.2" :infinite="true")
+    v-btn(color="secondary" @click="toggleSlideshow" small)
+      v-icon remove
+      | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
+  vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")

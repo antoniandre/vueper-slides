@@ -78,11 +78,11 @@ var VueperSlide = { render: function render() {
 })();
 
 var VueperSlides = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vueperslides-wrapper", class: { 'ready': _vm.isReady } }, [_vm.slideContentOutside ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside", class: _vm.slideContentOutsideClass }, [_vm.slidesCount && _vm.slides[_vm.currentSlide].title ? _c('p', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].title) } }) : _vm._e(), _vm.slidesCount && _vm.slides[_vm.currentSlide].content ? _c('p', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].content) } }) : _vm._e()]) : _vm._e(), _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--fade': _vm.fade, 'vueperslides--touchable': _vm.touchEnabled } }, [_c('div', { staticClass: "vueperslides__slides-wrapper" }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: !_vm.fade ? 'transform: translate3d(' + _vm.currentTranslation + '%, 0, 0)' : 'padding-bottom: ' + this.slideRatio * 100 + '%' }, [_vm.slidesCount && _vm.clones[0] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[0].style, attrs: { "clone": 0, "title": _vm.clones[0].title, "content": _vm.clones[0].content, "image": _vm.clones[0].image } }) : _vm._e(), _vm._t("default", null, { currentSlide: _vm.currentSlide }), _vm.slidesCount && _vm.clones[1] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[1].style, attrs: { "clone": 1, "title": _vm.clones[1].title, "content": _vm.clones[1].content, "image": _vm.clones[1].image } }) : _vm._e()], 2)]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.arrows && _vm.slidesCount > 1 ? _c('div', { staticClass: "vueperslides__arrows" }, [_c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowPrevDisabled, expression: "!arrowPrevDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "vueperslides-wrapper", class: { 'ready': _vm.isReady } }, [_vm.slideContentOutside ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside", class: _vm.slideContentOutsideClass }, [_vm.slidesCount && _vm.slides[_vm.currentSlide].title ? _c('p', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].title) } }) : _vm._e(), _vm.slidesCount && _vm.slides[_vm.currentSlide].content ? _c('p', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides[_vm.currentSlide].content) } }) : _vm._e()]) : _vm._e(), _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--fade': _vm.fade, 'vueperslides--touchable': _vm.touchEnabled && !_vm.disable } }, [_c('div', { staticClass: "vueperslides__slides-wrapper" }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: !_vm.fade ? 'transform: translate3d(' + _vm.currentTranslation + '%, 0, 0)' : 'padding-bottom: ' + this.slideRatio * 100 + '%' }, [_vm.slidesCount && _vm.clones[0] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[0].style, attrs: { "clone": 0, "title": _vm.clones[0].title, "content": _vm.clones[0].content, "image": _vm.clones[0].image } }) : _vm._e(), _vm._t("default", null, { currentSlide: _vm.currentSlide }), _vm.slidesCount && _vm.clones[1] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[1].style, attrs: { "clone": 1, "title": _vm.clones[1].title, "content": _vm.clones[1].content, "image": _vm.clones[1].image } }) : _vm._e()], 2)]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.arrows && _vm.slidesCount > 1 && !_vm.disable ? _c('div', { staticClass: "vueperslides__arrows" }, [_c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowPrevDisabled, expression: "!arrowPrevDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
           _vm.onArrowClick(false);
         } } }, [_vm._t("arrowLeft", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z" } })])])], 2), _c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowNextDisabled, expression: "!arrowNextDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--next", on: { "click": function click($event) {
           _vm.onArrowClick();
-        } } }, [_vm._t("arrowRight", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z" } })])])], 2)]) : _vm._e(), _vm.bullets && _vm.slidesCount > 1 ? _c('div', { staticClass: "vueperslides__bullets", class: { 'vueperslides__bullets--outside': _vm.bulletsOutside } }, _vm._l(_vm.slides, function (item, i) {
+        } } }, [_vm._t("arrowRight", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z" } })])])], 2)]) : _vm._e(), _vm.bullets && _vm.slidesCount > 1 && !_vm.disable ? _c('div', { staticClass: "vueperslides__bullets", class: { 'vueperslides__bullets--outside': _vm.bulletsOutside } }, _vm._l(_vm.slides, function (item, i) {
       return _c('button', { key: i, ref: "bullet", refInFor: true, staticClass: "vueperslides__bullet", class: { 'vueperslides__bullet--active': _vm.currentSlide === i }, on: { "click": function click($event) {
             _vm.goToSlide(i);
           }, "keyup": [function ($event) {
@@ -119,7 +119,7 @@ var VueperSlides = { render: function render() {
     },
     // Ability to disable arrows on slideshow edges. Only if not infinite mode.
     disableArrowsOnEdges: {
-      type: Boolean,
+      type: [Boolean, String],
       default: false
     },
     bullets: {
@@ -161,6 +161,10 @@ var VueperSlides = { render: function render() {
     touchable: {
       type: Boolean,
       default: true
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data: function data() {
@@ -294,7 +298,7 @@ var VueperSlides = { render: function render() {
       }
     },
     onMouseDown: function onMouseDown(e) {
-      if (!this.touchEnabled) return;
+      if (!this.touchEnabled || this.disable) return;
 
       if (!e.touches) {
         e.preventDefault();
@@ -331,8 +335,7 @@ var VueperSlides = { render: function render() {
         var slideOnDragEnd = -(Math.round(this.currentTranslation / 100) + (this.clones.length ? 1 : 0));
 
         var _getSlideInRange2 = this.getSlideInRange(slideOnDragEnd),
-            nextSlide = _getSlideInRange2.nextSlide,
-            nextSlideIsClone = _getSlideInRange2.clone;
+            nextSlide = _getSlideInRange2.nextSlide;
 
         // If drag is not allowed (`arrowNextDisabled` = true) and dragging beyond last slide,
         // cancel sliding and snap back to last slide.
@@ -412,7 +415,7 @@ var VueperSlides = { render: function render() {
       var animation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var autoSliding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-      if (!this.slidesCount) return;
+      if (!this.slidesCount || this.disable) return;
 
       if (this.autoplay) this.clearTimer();
 
