@@ -178,7 +178,7 @@ div.documentation
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   vueper-slides.ex2(autoplay)
-    v-icon(slot="pausedIcon" large color="white") pause
+    v-icon(slot="pausedIcon" large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
   h3
@@ -285,7 +285,7 @@ div.documentation
       v-icon remove
       | &nbsp; Remove Slide
     v-btn(color="secondary" @click="toggleSlideshow" small)
-      v-icon remove
+      v-icon {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
   vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
