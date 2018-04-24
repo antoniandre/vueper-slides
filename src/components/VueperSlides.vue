@@ -71,7 +71,7 @@ export default {
     },
     slideContentOutsideClass: {
       type: String,
-      default: ""
+      default: ''
     },
     autoplay: {
       type: Boolean,
@@ -142,7 +142,7 @@ export default {
     emit(name, includeCurrentSlide = true, includeNextSlide = false) {
       let args = [name]
 
-      if (includeCurrentSlide || typeof includeNextSlide === "number") {
+      if (includeCurrentSlide || typeof includeNextSlide === 'number') {
         args[1] = {}
         if (includeCurrentSlide && this.activeSlideUid) {
           args[1].currentSlide = {
@@ -151,7 +151,7 @@ export default {
             content: this.slides[this.currentSlide].content
           }
         }
-        if (typeof includeNextSlide === "number") {
+        if (typeof includeNextSlide === 'number') {
           let { nextSlide } = this.getSlideInRange(includeNextSlide)
           args[1].nextSlide = {
             index: nextSlide,
@@ -184,26 +184,26 @@ export default {
     },
 
     bindEvents () {
-      const hasTouch = "ontouchstart" in window
+      const hasTouch = 'ontouchstart' in window
 
       if (this.touchEnabled) {
-        this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown)
-        document.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove)
-        document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp)
+        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown)
+        document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove)
+        document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp)
       }
 
       // Pause autoplay on mouseover.
       if (this.pauseOnHover && !hasTouch && this.autoplay) {
-        this.$refs.vueperslides.addEventListener("mouseover", this.onMouseIn)
-        this.$refs.vueperslides.addEventListener("mouseout", this.onMouseOut)
+        this.$refs.vueperslides.addEventListener('mouseover', this.onMouseIn)
+        this.$refs.vueperslides.addEventListener('mouseout', this.onMouseOut)
       }
 
       // window.addEventListener('resize', this.getSlideshowWidth)
     },
 
     getDragPercentage(e) {
-      this.dragStartX = "ontouchstart" in window ? e.touches[0].clientX : e.clientX
-      this.dragStartY = "ontouchstart" in window ? e.touches[0].clientY : e.clientY
+      this.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
+      this.dragStartY = 'ontouchstart' in window ? e.touches[0].clientY : e.clientY
       let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 
       return this.dragStartX / windowWidth
@@ -356,7 +356,7 @@ export default {
         this.arrowNextDisabled = nextSlide === this.slidesCount - 1
       }
 
-      this.$refs.track.classList[animation ? 'remove' : 'add']("vueperslides__track--no-animation")
+      this.$refs.track.classList[animation ? 'remove' : 'add']('vueperslides__track--no-animation')
 
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide

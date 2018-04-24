@@ -142,7 +142,7 @@ var VueperSlides = { render: function render() {
     },
     slideContentOutsideClass: {
       type: String,
-      default: ""
+      default: ''
     },
     autoplay: {
       type: Boolean,
@@ -220,7 +220,7 @@ var VueperSlides = { render: function render() {
 
       var args = [name];
 
-      if (includeCurrentSlide || typeof includeNextSlide === "number") {
+      if (includeCurrentSlide || typeof includeNextSlide === 'number') {
         args[1] = {};
         if (includeCurrentSlide && this.activeSlideUid) {
           args[1].currentSlide = {
@@ -229,7 +229,7 @@ var VueperSlides = { render: function render() {
             content: this.slides[this.currentSlide].content
           };
         }
-        if (typeof includeNextSlide === "number") {
+        if (typeof includeNextSlide === 'number') {
           var _getSlideInRange = this.getSlideInRange(includeNextSlide),
               nextSlide = _getSlideInRange.nextSlide;
 
@@ -262,25 +262,25 @@ var VueperSlides = { render: function render() {
       };
     },
     bindEvents: function bindEvents() {
-      var hasTouch = "ontouchstart" in window;
+      var hasTouch = 'ontouchstart' in window;
 
       if (this.touchEnabled) {
-        this.$refs.track.addEventListener(hasTouch ? "touchstart" : "mousedown", this.onMouseDown);
-        document.addEventListener(hasTouch ? "touchmove" : "mousemove", this.onMouseMove);
-        document.addEventListener(hasTouch ? "touchend" : "mouseup", this.onMouseUp);
+        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown);
+        document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove);
+        document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp);
       }
 
       // Pause autoplay on mouseover.
       if (this.pauseOnHover && !hasTouch && this.autoplay) {
-        this.$refs.vueperslides.addEventListener("mouseover", this.onMouseIn);
-        this.$refs.vueperslides.addEventListener("mouseout", this.onMouseOut);
+        this.$refs.vueperslides.addEventListener('mouseover', this.onMouseIn);
+        this.$refs.vueperslides.addEventListener('mouseout', this.onMouseOut);
       }
 
       // window.addEventListener('resize', this.getSlideshowWidth)
     },
     getDragPercentage: function getDragPercentage(e) {
-      this.dragStartX = "ontouchstart" in window ? e.touches[0].clientX : e.clientX;
-      this.dragStartY = "ontouchstart" in window ? e.touches[0].clientY : e.clientY;
+      this.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX;
+      this.dragStartY = 'ontouchstart' in window ? e.touches[0].clientY : e.clientY;
       var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
       return this.dragStartX / windowWidth;
@@ -436,7 +436,7 @@ var VueperSlides = { render: function render() {
         this.arrowNextDisabled = nextSlide === this.slidesCount - 1;
       }
 
-      this.$refs.track.classList[animation ? 'remove' : 'add']("vueperslides__track--no-animation");
+      this.$refs.track.classList[animation ? 'remove' : 'add']('vueperslides__track--no-animation');
 
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
@@ -533,10 +533,9 @@ var VueperSlides = { render: function render() {
   }
 };
 
-// expose component to global scope
 if (typeof window !== 'undefined' && window.Vue) {
-  Vue.component('vueper-slides', VueperSlides);
-  Vue.component('vueper-slide', VueperSlide);
+  window.Vue.component('vueper-slides', VueperSlides);
+  window.Vue.component('vueper-slide', VueperSlide);
 }
 
 exports.VueperSlides = VueperSlides;

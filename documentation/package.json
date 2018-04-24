@@ -30,7 +30,7 @@
     "vue-agile": "^0.4.0-alpha.3",
     "vue-loader": "^13.7.0",
     "vue-router": "^3.0.1",
-    "vuetify": "^0.17.6",
+    "vuetify": "^0.17.7",
     "webpack": "^3.11.0",
     "webpack-dev-middleware": "^2.0.4",
     "webpack-dev-server": "^2.11.0"
