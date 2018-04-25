@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides.umd'
+import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
 import { precode } from '../../components/syntax-highlighter'
 
 import './style.scss'

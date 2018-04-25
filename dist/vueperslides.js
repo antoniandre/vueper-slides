@@ -1,6 +1,8 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(factory((global.VueperSlides = global.VueperSlides || {})));
+}(this, (function (exports) { 'use strict';
 
 (function () {
   if (typeof document !== 'undefined') {
@@ -538,4 +540,8 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 exports.VueperSlides = VueperSlides;
 exports.VueperSlide = VueperSlide;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
 //# sourceMappingURL=vueperslides.js.map

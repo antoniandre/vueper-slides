@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "lint": "eslint ./*.js --ext .js,.vue src --cache",
-    "build:dev": "cross-env rollup -c -w",
+    "build:dev": "node build.js",
+    "build:dev2": "cross-env rollup -c -w",
     "build:prod": "cross-env NODE_ENV=production rollup -c"
   },
   "devDependencies": {
