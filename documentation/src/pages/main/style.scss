@@ -1,5 +1,13 @@
 @import '../../styles/variables';
 
+.features {
+  line-height: 1.8;
+
+  .icon {
+    line-height: 0.8;
+  }
+}
+
 .coming-soon {
   font-style: italic;
 }

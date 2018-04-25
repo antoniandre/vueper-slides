@@ -1,50 +1,69 @@
 div.documentation
-  v-layout.max-widthed(row align-center)
-    p.
-      Vueper Slides comes with a minimum of styling (using the #[i BEM] convention).#[br]
-      You can easily override it, the aim is to let users have their own styles.
-    v-spacer
+  v-layout.max-widthed(row)
+    v-layout(column)
+      div.mb-3.title Features
+      div.features
+        v-icon.pr-2(color="secondary") check
+        | Vueper Slides is #[strong fully responsive] and scales with its container.#[br]
+        v-icon.pr-2(color="secondary") check
+        | Uses #[strong CSS for animations] & comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
+        v-icon.pr-2(color="secondary") check
+        | #[strong Touch ready] & mouse dragging for desktop.#[br]
+        v-icon.pr-2(color="secondary") check
+        | Navigate with #[strong keyboard arrows].#[br]
+        v-icon.pr-2(color="secondary") check
+        | Separate settings per #[strong breakpoint] - coming soon!#[br]
+        v-icon.pr-2(color="secondary") check
+        | #[strong Infinite looping], custom arrows or disable arrow on a slideshow end, autoplay.#[br]
+        v-icon.pr-2(color="secondary") check
+        | Slide content supports #[strong title & description, inside OR outside] the current slide.#[br]
+        v-icon.pr-2(color="secondary") check
+        | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
+        v-icon.pr-2(color="secondary") check
+        | #[strong Events] for callbacks, etc...
     v-card.coming-soon
-      v-card-title To Do...
+      v-card-title
+        div To do...
       v-card-text
-        v-layout(column)
-          v-chip(color="light-green lighten-1" text-color="white" small)
-            v-icon check_circle
-            | Emit events with params
-          v-chip(color="light-green lighten-1" text-color="white" small)
-            v-icon check_circle
-            | Slide with keyboard arrows
-          v-chip(color="light-green lighten-1" text-color="white" small)
-            v-icon check_circle
-            | Add / remove slides
-          v-chip(color="light-green lighten-1" text-color="white" small)
-            v-icon check_circle
-            | Disable / enable slideshow
-          v-chip(color="amber lighten-2" text-color="white" small)
-            v-icon access_time
-            | Center mode
-          v-chip(color="amber lighten-2" text-color="white" small)
-            v-icon access_time
-            | Minify VueperSlides
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Breakpoints
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Nav for
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Slides to scroll at once
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Dragging distance
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Lazy loading
-          v-chip(color="deep-orange lighten-1" text-color="white" small)
-            v-icon remove_circle
-            | Parallax
-    v-spacer
+        v-layout(row)
+          v-layout(column)
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Breakpoints
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Nav for
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Slides to scroll at once
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Dragging distance
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Lazy loading
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Parallax
+            v-chip(color="amber lighten-2" text-color="white" small)
+              v-icon access_time
+              | Center mode
+            v-chip(color="amber lighten-2" text-color="white" small)
+              v-icon access_time
+              | Minify VueperSlides
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Emit events with params
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Slide with keyboard arrows
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Add / remove slides
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Disable / enable slideshow
+  br
 
 
   h2
