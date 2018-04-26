@@ -312,7 +312,6 @@ div.documentation
     You can change slides to see new events.
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides
-      class="ex--events"
       @before-init="logEvents"
       @ready="logEvents"
       @before-slide="logEvents"
@@ -325,7 +324,7 @@ div.documentation
         :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   precode(language="css" label="CSS").
-    .ex--events .vueperslides__slide--active:before {
+    .vueperslides__slide--active:before {
       content: 'This slide is active!';
       position: absolute;
       top: -18px;
@@ -361,6 +360,59 @@ div.documentation
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
   p.highlight.info Note that the slideshow disables controls if you have only 1 slide or none.
 
+  precode(language="html-vue" label="HTML Vue Template").
+    &lt;v-btn color="primary" @click="appendSlide" small&gt;
+      &lt;v-icon&gt;add&lt;/v-icon&gt; Add Slide
+    &lt;/v-btn&gt;
+    &lt;v-btn color="primary" @click="removeSlide" small&gt;
+      &lt;v-icon&gt;remove&lt;/v-icon&gt; Remove Slide
+    &lt;/v-btn&gt;
+    &lt;v-btn color="secondary" @click="toggleSlideshow" small&gt;
+      &lt;v-icon&gt; {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}&lt;/v-icon&gt; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
+    &lt;/v-btn&gt;
+
+    &lt;vueper-slides
+      :slide-ratio="0.2"
+      :infinite="false"
+      disableArrowsOnEdges
+      :disable="slideshowDisabled"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides3"
+        :key="i"
+        :title="slide.title"
+        :content="slide.content"
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  precode(language="js" label="Javascript").
+    // In your Vue component.
+
+    data: () => ({
+      slides: [
+        {
+          title: 'Slide 1',
+          content: 'Slide 1 content.'
+        },
+        {
+          title: 'Slide 2',
+          content: 'Slide 2 content.'
+        }
+      ]
+    }),
+    methods: {
+      appendSlide () {
+        this.slides.push({
+          title: `Programmagically appended slide ${this.slides.length + 1}`,
+          content: `Programmagically appended slide ${this.slides.length + 1} content.`
+        })
+      },
+      removeSlide () {
+        this.slides.pop()
+      },
+      toggleSlideshow () {
+        this.slideshowDisabled = !this.slideshowDisabled
+      }
+    }
+
   vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
 
@@ -381,5 +433,5 @@ div.documentation
       width: 600px;
       margin: auto;
     }
-  vueper-slides.ex--center-mode(:infinite="false")
+  vueper-slides.ex--center-mode
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
