@@ -1,7 +1,7 @@
 {
   "name": "vueperslides-documentation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Documentation page for Vueper Slides",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack.config.dev.js --progress --watch",
@@ -30,6 +30,7 @@
     "vue-agile": "^0.4.0-alpha.3",
     "vue-loader": "^13.7.0",
     "vue-router": "^3.0.1",
+    "vueperslides": "file:../vueperslides-1.0.0.tgz",
     "vuetify": "^0.17.7",
     "webpack": "^3.11.0",
     "webpack-dev-middleware": "^2.0.4",
