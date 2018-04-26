@@ -1,4 +1,4 @@
-import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
+import { VueperSlides, VueperSlide } from 'vueperslides'
 import { precode } from '../../components/syntax-highlighter'
 
 import './style.scss'
