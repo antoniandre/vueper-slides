@@ -47,12 +47,12 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Center mode
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Release on NPM
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
               | Breakpoints
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Release on NPM
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Dragging distance
@@ -73,8 +73,8 @@ div.documentation
     a(href="#installation") Installation
     a(name="installation")
   p You have two options: NPM or Browser inclusion.
-  h3 NPM - Coming Soon!
-  precode(language="shell" label="Shell") npm install vueper-slides --save
+  h3 NPM
+  precode(language="shell" label="Shell") npm install vueperslides --save-dev
   p Then import the 2 components and use it:
   precode(language="js" label="Javascript").
     import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
@@ -216,7 +216,7 @@ div.documentation
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   precode(language="js" label="Javascript").
-    import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
+    import { VueperSlides, VueperSlide } from 'vueperslides'
 
     export default {
       components: {

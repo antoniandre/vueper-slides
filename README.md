@@ -3,10 +3,9 @@
 A touch ready and responsive slideshow made with Vue JS and inspired by Slick Carousel.
 
 ## Installation
-NPM - Coming Soon!
 
 ```
-npm install vueper-slides --save
+npm install vueperslides --save-dev
 ```
 
 ## Demo & Documentation
