@@ -5,7 +5,7 @@
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
   "license": "MIT",
   "main": "dist/vueperslides.js",
-  "module": "dist/vueperslides.umd.js",
+  "unpkg": "dist/vueperslides.min.js",
   "keywords": [
     "carousel",
     "slideshow",
