@@ -6,6 +6,7 @@ pre.precode {
   background-color: #f8f8f8;
   border-radius: 4px;
   display: block;
+  white-space: pre-wrap;
 
   &[data-label]:before {
     content: attr(data-label);
@@ -60,6 +61,6 @@ pre.precode {
   &[data-type="css"] .attribute.keyword.vendor {color: #0c8;}
   &[data-type="css"] .value {color: #c11;}
   &[data-type="css"] .value.vendor {color: #0c8;}
-  &[data-type="css"] .color {background: #eee;padding: 0px 3px;border: 1px solid rgba(0,0,0,.1);}
+  &[data-type="css"] .color {background: #eee;padding: 0px 3px;border: 1px solid rgba(0,0,0,.1);border-radius: 3px;}
   &[data-type="css"] .unit {color: #0bc;}
 }
