@@ -52,7 +52,7 @@
   opacity: 0.6;
 }
 
-.ex3 .vueperslides__bullet {
+.ex--arrows-and-bullets .vueperslides__bullet {
   background-color: rgba(0, 0, 0, 0.3);
   border: none;
   box-shadow: none;
@@ -61,18 +61,18 @@
   height: 16px;
 }
 
-.ex3 .vueperslides__bullet--active {
+.ex--arrows-and-bullets .vueperslides__bullet--active {
   background-color: #ff5252;
 }
 
-.ex3 .vueperslides__bullet span {
+.ex--arrows-and-bullets .vueperslides__bullet span {
   display: block;
   color: #fff;
   font-size: 10px;
   opacity: 0.8;
 }
 
-.ex-events .vueperslides__slide--active:before {
+.ex--events .vueperslides__slide--active:before {
   content: 'This slide is active!';
   position: absolute;
   top: -18px;
@@ -84,6 +84,11 @@
   transform: translateX(30%) rotate(45deg);
   transform-origin: 0 0;
   box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+}
+
+.ex--center-mode {
+  width: 600px;
+  margin: auto;
 }
 
 @-webkit-keyframes gradient {

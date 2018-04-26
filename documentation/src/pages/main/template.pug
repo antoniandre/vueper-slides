@@ -6,15 +6,17 @@ div.documentation
         v-icon.pr-2(color="secondary") check
         | Vueper Slides is #[strong fully responsive] and scales with its container.#[br]
         v-icon.pr-2(color="secondary") check
+        | #[strong Touch ready] & mouse dragging for desktop.#[br]
+        v-icon.pr-2(color="secondary") check
         | Uses #[strong CSS for animations] & comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
         v-icon.pr-2(color="secondary") check
-        | #[strong Touch ready] & mouse dragging for desktop.#[br]
+        | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
+        v-icon.pr-2(color="secondary") check
+        | Customizable bullets with or without numeric index.#[br]
         v-icon.pr-2(color="secondary") check
         | Navigate with #[strong keyboard arrows].#[br]
         v-icon.pr-2(color="secondary") check
         | Separate settings per #[strong breakpoint] - coming soon!#[br]
-        v-icon.pr-2(color="secondary") check
-        | #[strong Infinite looping], custom arrows or disable arrow on a slideshow end, autoplay.#[br]
         v-icon.pr-2(color="secondary") check
         | Slide content supports #[strong title & description, inside OR outside] the current slide.#[br]
         v-icon.pr-2(color="secondary") check
@@ -27,29 +29,8 @@ div.documentation
       v-card-text
         v-layout(row)
           v-layout(column)
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Breakpoints
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Nav for
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Slides to scroll at once
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Dragging distance
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Lazy loading
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Parallax
-            v-chip(color="amber lighten-2" text-color="white" small)
-              v-icon access_time
-              | Center mode
-            v-chip(color="amber lighten-2" text-color="white" small)
-              v-icon access_time
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
               | Minify VueperSlides
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
@@ -63,17 +44,40 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Disable / enable slideshow
-  br
-
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Center mode
+            v-chip(color="amber lighten-2" text-color="white" small)
+              v-icon access_time
+              | Breakpoints
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Release on NPM
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Dragging distance
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Slides to scroll at once
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Parallax
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Lazy loading
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Nav for
 
   h2
     a(href="#installation") Installation
     a(name="installation")
+  p You have two options: NPM or Browser inclusion.
   h3 NPM - Coming Soon!
   precode(language="shell" label="Shell") npm install vueper-slides --save
   p Then import the 2 components and use it:
   precode(language="js" label="Javascript").
-    import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides.umd'
+    import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
     ...
 
     export default {
@@ -82,32 +86,48 @@ div.documentation
         VueperSlide
       },
       template: ...,
+      data: () => ({
+        ...
+      }),
       ...
     }
 
-
   h3 Browser Use
-  p Place this in your document &lt;head&gt;
+  p Include the VueperSlides script in your document #[code &lt;head&gt;] as follows:
   precode(language="html" label="HTML").
     &lt;head&gt;
       ...
       &lt;script src="https://unpkg.com/vue/dist/vue.min.js"&gt;&lt;/script&gt;
-      &lt;script src="https://unpkg.com/vuetify/dist/vuetify.min.js"&gt;&lt;/script&gt;
-      &lt;script src="../dist/vueperslides.umd.js"&gt;&lt;/script&gt;
-      &lt;link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet"&gt;
+      &lt;script src="../dist/vueperslides.js"&gt;&lt;/script&gt;
     &lt;/head&gt;
-  p Then use like this:
+
+  h2
+    a(href="#how-to-use") How to use
+    a(name="how-to-use")
+  p Once included in your project, use as follows. The #[a(href="#examples") example section] may be more talkative to you.
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
-      &lt;vueper-slide v-for="i in 5" :key="i" :title="i"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :title="slide.title" :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
+
+  precode(language="js" label="Javascript").
+    data: () => ({
+      slides: [
+        {
+          title: 'Slide #1',
+          content: 'Slide content.'
+        },
+        ...
+      ]
+    })
+  p.highlight.info If you don't need a #[code v-for] loop, you don't need to place your slides data in your VueJs component's data.
 
   h2
     a(href="#vueper-slides-api") &lt;vueper-slides&gt; API
     a(name="vueper-slides-api")
   p.
     This is the main tag for the slider.#[br]
-    You can set different options in html attributes.#[br]
+    You can set different options directly through html attributes.#[br]
     You can also override the default arrows and `paused` indicator if you want.
 
   h3
@@ -166,7 +186,6 @@ div.documentation
     title:   [String], default: ''
     content: [String], default: ''
 
-
   h2
     a(href="#examples") Examples of Use
     a(name="examples")
@@ -189,13 +208,34 @@ div.documentation
     em The autoplay circles between all the slides and goes back to the begining after the last slide.
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides autoplay&gt;
-      &lt;v-icon slot="pausedIcon" large color="white"&gt;pause&lt;/v-icon&gt;
+      &lt;v-icon slot="pausedIcon" large color="white"&gt;pause_circle_outline&lt;/v-icon&gt;
       &lt;vueper-slide v-for="(slide, i) in slides"
         :key="slide.id"
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
+  precode(language="js" label="Javascript").
+    import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
+
+    export default {
+      components: {
+        VueperSlides,
+        VueperSlide
+      },
+      template: ...,
+      data: () => ({
+        slides: [
+          {
+            id: 'slide-1',
+            title: 'Slide <b style="font-size: 1.3em;color: yellow">#1</b>',
+            content: 'Slide title can be HTML.<br>And so does the slide content, <span style="font-size: 1.2em;color: yellow">why not?</span>'
+          },
+          ...
+        ]
+      }),
+      ...
+    }
   vueper-slides.ex2(autoplay)
     v-icon(slot="pausedIcon" large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
@@ -219,7 +259,7 @@ div.documentation
         :style="'background-color: ' + colors[(i + 1) % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   precode(language="css" label="CSS").
-    .ex3 .vueperslides__bullet {
+    .vueperslides__bullet {
       background-color: rgba(0, 0, 0, 0.3);
       border: none;
       box-shadow: none;
@@ -228,17 +268,17 @@ div.documentation
       height: 16px;
     }
 
-    .ex3 .vueperslides__bullet--active {
+    .vueperslides__bullet--active {
       background-color: #ff5252;
     }
 
-    .ex3 .vueperslides__bullet span {
+    .vueperslides__bullet span {
       display: block;
       color: #fff;
       font-size: 10px;
       opacity: 0.8;
     }
-  vueper-slides.ex3(:infinite="false" :bullets-outside="true")
+  vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
     v-icon(slot="arrowLeft" color="white" x-large) undo
     v-icon(slot="arrowRight" color="white" x-large) redo
     vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
@@ -252,7 +292,7 @@ div.documentation
     The current slide title & content are shown #[b outside] of the slider.
     #[br]Of course you can position it with a bit of CSS.
   precode(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides&gt;
+    &lt;vueper-slides fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides2"
         :key="i"
@@ -270,6 +310,20 @@ div.documentation
     This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
     The events box bellow will log all the events (and the given params) triggered while using the slideshow.#[br]
     You can change slides to see new events.
+  precode(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides
+      class="ex--events"
+      @before-init="logEvents"
+      @ready="logEvents"
+      @before-slide="logEvents"
+      @slide="logEvents"
+      :slide-ratio="0.2"&gt;
+      &lt;vueper-slide
+        v-for="i in 6"
+        :key="i"
+        :title="i.toString()"
+        :content="slide.content"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
   precode(language="css" label="CSS").
     .ex--events .vueperslides__slide--active:before {
       content: 'This slide is active!';
@@ -287,16 +341,15 @@ div.documentation
   pre.precode(data-label="Event box" style="min-height: 120px")
     | listening...
     p(v-html="events")
-  vueper-slides.ex-events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
+  vueper-slides.ex--events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
 
   h3
     a(href="#ex--add-remove-slides--disable") Add / remove slides & disable slideshow
     a(name="ex--add-remove-slides--disable")
   p
-    | This example demonstrates how to use the vueper slides provided events.#[br]
-    | The box bellow will be populated by all the events triggered while using the slideshow.#[br]
-    | You can change slides to see new events.
+    | This example illustrates how to add or remove slides on the fly from a running VueperSlides instance.#[br]
+    | You can also completely freeze the slideshow and unfreeze when you want to.#[br]
     v-btn(color="primary" @click="appendSlide" small)
       v-icon add
       | &nbsp; Add Slide
@@ -306,5 +359,27 @@ div.documentation
     v-btn(color="secondary" @click="toggleSlideshow" small)
       v-icon {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
+  p.highlight.info Note that the slideshow disables controls if you have only 1 slide or none.
+
   vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+
+  h3
+    a(href="#ex--center-mode") Center mode slideshow
+    a(name="ex--center-mode")
+  p This example demonstrates how to use the vueper slides in a center mode.#[br]
+  precode(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides&gt;
+      &lt;vueper-slide
+        v-for="i in 6"
+        :key="i"
+        :title="i.toString()"
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  precode(language="css" label="CSS").
+    .ex--center-mode {
+      width: 600px;
+      margin: auto;
+    }
+  vueper-slides.ex--center-mode(:infinite="false")
+    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")

@@ -1,11 +1,10 @@
-import Vue from 'vue'
 import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
 import { precode } from '../../components/syntax-highlighter'
 
 import './style.scss'
 import './examples.scss'
 
-export default Vue.extend({
+export default {
   components: {
     VueperSlides,
     VueperSlide,
@@ -117,4 +116,4 @@ export default Vue.extend({
       this.disabled = false
     }, 6000)
   }
-})
+}

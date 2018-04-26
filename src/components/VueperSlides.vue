@@ -203,10 +203,13 @@ export default {
 
     getDragPercentage(e) {
       this.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
-      this.dragStartY = 'ontouchstart' in window ? e.touches[0].clientY : e.clientY
-      let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 
-      return this.dragStartX / windowWidth
+      // For full window width slideshow only.
+      // let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+      // return this.dragStartX / windowWidth
+
+      const vueperslidesWrapper = this.$refs.vueperslides.offsetParent
+      return (this.dragStartX - vueperslidesWrapper.offsetLeft) / vueperslidesWrapper.clientWidth
     },
 
     onMouseIn () {
@@ -487,7 +490,6 @@ export default {
   &--fade &__track {
     white-space: normal;
     transition: none;
-    // padding-bottom: 45%;
   }
 
   &--touchable &__track {
@@ -527,7 +529,6 @@ export default {
     // Remove whitespace due to text nodes in combination with display
     // inline block and whitespace nowrap.
     margin-bottom: -8px;
-
   }
 
   &__slide-content {
@@ -551,7 +552,6 @@ export default {
       z-index: 1;
       opacity: 1;
     }
-
   }
 
   &__arrow {

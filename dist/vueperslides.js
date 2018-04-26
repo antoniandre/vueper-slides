@@ -1,8 +1,6 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.VueperSlides = global.VueperSlides || {})));
-}(this, (function (exports) { 'use strict';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
 
 (function () {
   if (typeof document !== 'undefined') {
@@ -280,10 +278,13 @@ var VueperSlides = { render: function render() {
     },
     getDragPercentage: function getDragPercentage(e) {
       this.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX;
-      this.dragStartY = 'ontouchstart' in window ? e.touches[0].clientY : e.clientY;
-      var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-      return this.dragStartX / windowWidth;
+      // For full window width slideshow only.
+      // let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+      // return this.dragStartX / windowWidth
+
+      var vueperslidesWrapper = this.$refs.vueperslides.offsetParent;
+      return (this.dragStartX - vueperslidesWrapper.offsetLeft) / vueperslidesWrapper.clientWidth;
     },
     onMouseIn: function onMouseIn() {
       this.mouseOver = true;
@@ -533,6 +534,7 @@ var VueperSlides = { render: function render() {
   }
 };
 
+// Expose component to global scope.
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.component('vueper-slides', VueperSlides);
   window.Vue.component('vueper-slide', VueperSlide);
@@ -540,8 +542,4 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 exports.VueperSlides = VueperSlides;
 exports.VueperSlide = VueperSlide;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
 //# sourceMappingURL=vueperslides.js.map
