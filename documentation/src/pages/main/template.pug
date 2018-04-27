@@ -133,7 +133,7 @@ div.documentation
   h3
     a(href="#vueper-slides-settings") Settings
     a(name="vueper-slides-settings")
-  p Settings
+  p Here is the list of all the parameters you can define on a #[code &lt;vueper-slides&gt;] tag.
   precode(language="js").
     initSlide:                [Number],         default: 1
     slideRatio:               [Number],         default: 1/3
@@ -151,28 +151,138 @@ div.documentation
     touchable:                [Boolean],        default: true
     disable:                  [Boolean],        default: false
 
+  ul.max-widthed.settings-list
+    li
+      | #[code initSlide], #[strong Type:] [Number], #[strong Default:] 1
+      p Init the slideshow with a specific slide as the active slide.
+
+    li
+      | #[code slideRatio], #[strong Type:] [Number], #[strong Default:] 1/3
+      p Sets the slideshow ratio so it will naturally stay ratio-ed on different browser width.#[br]
+      p.highlight.info Setting the ratio avoid heavier javascript width and height calculations on resize.
+
+    li
+      | #[code arrows], #[strong Type:] [Boolean], #[strong Default:] true
+      p.
+        Disable or enable the navigation arrows.#[br]
+        You can also override the arrows by providing them in the html content of
+        the #[code &lt;vueper-slides&gt;]. See the #[a(href="#ex--arrows-and-bullets") Arrows & bullets] example.
+
+    li
+      | #[code disableArrowsOnEdges], #[strong Type:] [Boolean], #[strong Default:] false
+      p Disable the left or right arrow when respectively, no previous or no next slides are available.
+      | Check the #[a(href="#ex--add-remove-slides--disable") Add / remove slides & disable slideshow] example.
+      p.highlight.info.
+        Setting `disableArrowsOnEdges` to true will also prevent infinite sliding
+        and dragging behavior beyond limits.
+
+    li
+      | #[code bullets], #[strong Type:] [Boolean], #[strong Default:] true
+      p Disable or enable the slides index.
+
+    li
+      | #[code bulletsOutside], #[strong Type:] [Boolean], #[strong Default:] false
+      p If bullets is set to true, place the slides index inside or outside the slideshow track.
+
+    li
+      | #[code fade], #[strong Type:] [Boolean], #[strong Default:] false
+      p.
+        Sets the transition type to fade when changing slide.#[br]
+        By default the transition is slide (with fade set to false).
+
+    li
+      | #[code slideContentOutside], #[strong Type:] [Boolean], #[strong Default:] false
+      p.
+        Display the current slide title & content outside the slide.#[br]
+        You can position and style it with CSS.
+
+    li
+      | #[code slideContentOutsideClass], #[strong Type:] [String], #[strong Default:] ""
+      p.
+        With this option you can have a specific CSS class to style your slide contents
+        when it's outside the active slide.
+
+    li
+      | #[code autoplay], #[strong Type:] [Boolean], #[strong Default:] false
+      p.
+        Plays a slideshow automatically. Changing slide after a defined amount
+        of time (set in `speed`).
+
+    li
+      | #[code speed], #[strong Type:] [Number, String], #[strong Default:] 4000
+      p.
+        Defines an amount of time in milliseconds before the autoplaying slideshow
+        changes slide automatically.
+
+      p.highlight.info.
+        If `pauseOnHover` is set to true the autoplay stops while hovering then resets
+        to the defined `speed` when you stop hovering.
+
+    li
+      | #[code pauseOnHover], #[strong Type:] [Boolean], #[strong Default:] true
+      p.
+        If `autoplay` is on, setting `pauseOnHover`  stops the autoplay while hovering
+        then resets to the defined `speed` when you stop hovering.
+
+    li
+      | #[code infinite], #[strong Type:] [Boolean], #[strong Default:] true
+      p.
+        When set to true, the slideshow acts like a carousel.#[br]
+        Going to the next slide or previous slide when respectively on last slide
+        or first slide, will seemlessly take the other end's slide and continue from
+        that slide position but not breaking the transition direction.
+
+      p.highlight.
+        How it works: when creating the slideshow or adding / removing slides, the first
+        and last slides are cloned at each opposite end of the slideshow. When clicking an
+        arrow or dragging beyond the first or last slide, the clone will appear then it will
+        snap back to the same real slide at the other end of slideshow without you noticing.
+
+      p.highlight.info Infinite slide is only happening on sliding transitions, as a fading slideshow does not need such trick.
+
+    li
+      | #[code touchable], #[strong Type:] [Boolean], #[strong Default:] true
+      p Description coming soon.
+
+    li
+      | #[code disable], #[strong Type:] [Boolean], #[strong Default:] false
+      p Description coming soon.
+
+
   h3
     a(href="#events") Events
     a(name="events")
-  p To see the events in action you can check the #[a(href="#ex--events") Events example].
+  p.highlight.info To see the events in action you can check the #[a(href="#ex--events") Events example].
   ul.max-widthed
     li
       h4
         code before-init
+      p.
+        Triggered in the first place before the initialization of the slideshow.
+        #[br]No parameter available.
     li
       h4
         code ready
+      p.
+        Triggered right after the initialization of the slideshow is complete.
+        #[br]No parameter available.
     li
       h4
         code before-slide
-      p This event is emitted with:
+      p.
+        Triggered on slide change, just before the effective change.
+        #[br]This event is emitted with:
       ul
         li a #[code currentSlide] object containing the slide index, title & content of the current slide.
         li a #[code nextSlide] object containing the slide index, title & content of the next slide.
     li
       h4
         code slide
-      p comes with information about the new current slide.
+      p.
+        Triggered on slide change, just after the effective change.
+        #[br]This event is emitted with:
+      ul
+        li a #[code currentSlide] object containing the slide index, title & content of the new current slide.
 
   h2
     a(href="#vueper-slide-api") &lt;vueper-slide&gt; API
@@ -180,7 +290,7 @@ div.documentation
   h3
     a(href="#vueper-slide-settings") Settings
     a(name="vueper-slide-settings")
-  p Settings
+  p This settings can be applied to every #[code &lt;vueper-slide&gt;] tag.
   precode(language="js").
     image:   [String], default: ''
     title:   [String], default: ''
@@ -431,6 +541,7 @@ div.documentation
   precode(language="css" label="CSS").
     .ex--center-mode {
       width: 600px;
+      max-width: 100%;
       margin: auto;
     }
   vueper-slides.ex--center-mode

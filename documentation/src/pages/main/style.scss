@@ -28,6 +28,7 @@
 }
 
 .highlight {
+  margin-top: 5px;
   padding: 8px 10px;
   border-left: 3px solid;
     background-color: rgba(#09f, 0.08) !important;
@@ -51,5 +52,17 @@
   &.error {
     background-color: rgba(#f33, 0.08) !important;
     border-color: #f33 !important;
+  }
+}
+
+.settings-list {
+  li {
+    padding: 10px;
+  }
+
+  code {
+    font-size: 1.1em;
+    margin-right: 10px;
+    margin-bottom: 10px;
   }
 }
