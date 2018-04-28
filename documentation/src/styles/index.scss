@@ -85,3 +85,10 @@ pre {
 	0%, 20%, 30%, 35%, 45%, 100% {transform: scale(1);}
 	25%, 40% {transform: scale(1.3);}
 }
+
+@media screen and (max-width: 1119px) {
+  .max-widthed, h2, h3, h4, p, pre {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+}

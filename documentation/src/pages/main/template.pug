@@ -1,6 +1,6 @@
 div.documentation
-  v-layout.max-widthed(row)
-    v-layout(column)
+  v-layout.max-widthed(row wrap align-center-center justify-center)
+    v-layout.flex.xs12.md9(column align-center-center)
       div.mb-3.title Features
       div.features
         v-icon.pr-2(color="secondary") check
@@ -23,7 +23,7 @@ div.documentation
         | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
         v-icon.pr-2(color="secondary") check
         | #[strong Events] for callbacks, etc...
-    v-card.coming-soon
+    v-card.md3.coming-soon(align-center-center)
       v-card-title
         div To do...
       v-card-text
