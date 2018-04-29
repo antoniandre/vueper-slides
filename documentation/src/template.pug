@@ -10,8 +10,8 @@ v-app(light v-scroll="onScroll")
             path(d="M439.579,136.91l-77.468-90c-1.9-2.207-4.667-3.476-7.579-3.476H87.468c-2.912,0-5.679,1.269-7.579,3.476l-77.468,90 c-3.228,3.75-3.228,9.297,0,13.048l211,245.132c1.9,2.207,4.667,3.477,7.579,3.477s5.679-1.27,7.579-3.477l211-245.132 C442.807,146.208,442.807,140.661,439.579,136.91z M221,373.238L23.194,143.434l68.861-80h257.89l68.861,80L221,373.238z")
         h1.primary--text.toolbar__logo-title Vueper Slides
     p.intro.
-      Vueper Slides is an easy to use responsive & touch-ready slideshow made for VueJS.
-      #[br]- Inspired by #[a(href="http://kenwheeler.github.io/slick/" target="_blank") Slick] -
+      Vueper Slides is an easy to use responsive & touch-ready slideshow made for VueJS.#[br]
+      #[em - Inspired by #[a(href="http://kenwheeler.github.io/slick/" target="_blank") Slick] -]
     v-toolbar-items
       v-btn(flat color="secondary" href="#examples")
         v-icon apps
@@ -24,6 +24,6 @@ v-app(light v-scroll="onScroll")
   div
     router-view
     v-footer.max-widthed
-      span.copyright Copyright © 2018 Antoni André, all rights reserved.
-      v-spacer
-      span.made-with This site is made with &nbsp; VueJS, #[v-icon.heart favorite]
+      v-layout(row wrap justify-center)
+        span.flex.copyright Copyright © 2018 Antoni André, all rights reserved.
+        span.made-with This documentation is made with VueJS, Vuetify & #[v-icon.heart favorite]
