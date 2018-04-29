@@ -7,7 +7,7 @@ pre.precode {
   border-radius: 4px;
   display: block;
   white-space: pre-wrap;
-  overflow: auto;
+  word-break: break-word;
 
   &[data-label]:before {
     content: attr(data-label);

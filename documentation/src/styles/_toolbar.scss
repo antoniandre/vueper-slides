@@ -4,6 +4,7 @@
   border-bottom: 1px solid transparent !important;
   transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
   top: 0;
+  overflow-x: hidden;
 
   &__title {
     position: relative;

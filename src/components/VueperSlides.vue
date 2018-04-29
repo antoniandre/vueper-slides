@@ -604,8 +604,7 @@ export default {
     right: 0;
 
     &--outside {
-      bottom: auto;
-      top: 100%;
+      position: relative;
     }
   }
 

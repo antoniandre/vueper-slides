@@ -2,23 +2,29 @@
 
 .features {
   line-height: 1.8;
+  margin-bottom: 3em;
+  padding-left: 2.2em;
+  position: relative;
 
   .icon {
     line-height: 0.8;
+    position: absolute;
+    left: 0;
+    padding-top: 0.1em;
   }
 }
 
 .coming-soon {
   font-style: italic;
-}
 
-.coming-soon .card__title {
-  padding-bottom: 0;
-  font-size: 1.2em;
-}
+  .card__title {
+    padding-bottom: 0;
+    font-size: 1.2em;
+  }
 
-.coming-soon .chip {
-  margin: 2px 0;
+  .chip {
+    margin: 2px 0;
+  }
 }
 
 .chip i.icon {
@@ -65,4 +71,8 @@
     margin-right: 10px;
     margin-bottom: 10px;
   }
+}
+
+.code {
+  font-family: monospace,monospace;
 }
