@@ -4,7 +4,6 @@
   border-bottom: 1px solid transparent !important;
   transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
   top: 0;
-  overflow-x: hidden;
 
   &__title {
     position: relative;
@@ -107,5 +106,15 @@
       opacity: 0;
       top: -5em;
     }
+  }
+}
+
+@media screen and (max-width: 449px) {
+  .toolbar__items .btn {
+    min-width: 50px;
+  }
+
+  .toolbar__items a span {
+    display: none;
   }
 }
