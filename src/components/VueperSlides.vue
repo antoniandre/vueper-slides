@@ -469,6 +469,7 @@ export default {
     overflow: hidden;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    z-index: 1;
 
     &::before,
     &::after {
@@ -590,7 +591,9 @@ export default {
     opacity: 0;
     transition: 0.3s ease-in-out;
     text-shadow: 0 0 3px rgba(#000, .4);
+    z-index: 1;
   }
+
   &:hover &__paused {
     opacity: 1;
   }
