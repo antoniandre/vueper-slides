@@ -482,6 +482,7 @@ export default {
       box-shadow: 0 0 20px rgba(#000, 0.25);
       z-index: 2;
     }
+
     &::after {
       top: 100%;
       bottom: auto;
@@ -558,6 +559,8 @@ export default {
   &__arrow {
     position: absolute;
     top: 50%;
+    background-color: transparent;
+    border: none;
     color: #fff;
     fill: currentColor;
     font-size: 3em;
@@ -575,6 +578,7 @@ export default {
     &--prev {
       left: 10px;
     }
+
     &--next {
       right: 10px;
     }
@@ -616,8 +620,10 @@ export default {
     height: 12px;
     border-radius: 12px;
     border: 1px solid #fff;
+    background-color: transparent;
     box-shadow: 0 0 1px rgba(#000, 0.5), 0 0 3px rgba(#000, 0.3);
     margin: 1.5em 0.6em;
+    padding: 0;
     display: inline-block;
     cursor: pointer;
     user-select: none;
@@ -630,6 +636,7 @@ export default {
     &--active {
       background-color: #fff;
     }
+
     span {display: none;}
   }
 }
