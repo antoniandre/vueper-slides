@@ -11,7 +11,8 @@
     "carousel",
     "slideshow",
     "vue",
-    "rollup"
+    "vuejs",
+    "ui"
   ],
   "files": [
     "dist/",
