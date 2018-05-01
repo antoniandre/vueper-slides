@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .vueperslides__slide {
   position: relative;
   background-position: bottom;
@@ -36,9 +38,19 @@
 
 .vueperslides__slide .vueperslides__slide-content .slide-content {
   position: relative;
-  // top: 3em;
 }
 
+.vueperslides__bullets--outside  .vueperslides__bullet {
+  border-color: $secondary;
+  box-shadow: none;
+}
+
+.vueperslides__bullets--outside  .vueperslides__bullet--active {
+  background-color: $secondary;
+}
+
+/* Examples */
+/*===================================*/
 .ex1 .vueperslides__slide {
   background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
   background-size: 400% 400%;
@@ -55,21 +67,20 @@
 .ex--arrows-and-bullets .vueperslides__bullet {
   background-color: rgba(0, 0, 0, 0.3);
   border: none;
-  box-shadow: none;
   transition: 0.3s;
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 
 .ex--arrows-and-bullets .vueperslides__bullet--active {
-  background-color: #ff5252;
+  background-color: $secondary;
 }
 
 .ex--arrows-and-bullets .vueperslides__bullet span {
   display: block;
   color: #fff;
   font-size: 10px;
-  opacity: 0.8;
+  line-height: 15px;
 }
 
 .ex--events .vueperslides__slide--active:before {

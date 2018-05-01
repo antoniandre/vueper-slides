@@ -1,6 +1,6 @@
 <template lang="pug">
 div(:class="{'vueperslides__slide': true, 'vueperslides__slide--active': $parent.activeSlideUid === _uid }" :style="styles")
-  div.vueperslides__slide-content(v-if="!$parent.slideContentOutside && (title || content)")
+  div.vueperslides__slide-content(v-if="!$parent.conf.slideContentOutside && (title || content)")
     p.slide-title(v-html="title")
     p.slide-content(v-html="content")
 </template>
@@ -45,8 +45,8 @@ export default {
       if (this.image) {
         styles.backgroundImage = `url(${this.image})`
       }
-      if (this.$parent.slideRatio) {
-        styles.paddingBottom = `${this.$parent.slideRatio * 100}%`
+      if (this.$parent.conf.slideRatio) {
+        styles.paddingBottom = `${this.$parent.conf.slideRatio * 100}%`
       }
       return styles
     }

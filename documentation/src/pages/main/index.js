@@ -1,4 +1,4 @@
-import { VueperSlides, VueperSlide } from 'vueperslides'
+import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
 import { precode } from '../../components/syntax-highlighter'
 
 import './style.scss'
@@ -15,6 +15,22 @@ export default {
     events: '',
     slideshowDisabled: false,
     imagesRoot: process.env.NODE_ENV === 'production' ? './dist/images/' : './images/',
+    breakpoints: {
+      1200: {
+        slideRatio: 1 / 5
+      },
+      1100: {
+        slideRatio: 1 / 4
+      },
+      900: {
+        slideRatio: 1 / 3
+      },
+      600: {
+        slideRatio: 1 / 2,
+        arrows: false,
+        bulletsOutside: true
+      }
+    },
     colors: [
       '#4caf50',
       '#2196f3',

@@ -53,11 +53,11 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Release on NPM
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Settings per breakpoint
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
-              | Settings per breakpoint
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
               | Dragging distance
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
@@ -188,7 +188,7 @@ div.documentation
   p.
     This example uses custom arrows and positions the bullets outside of the slideshow.#[br]
     The bullets are showing slide indexes which is disabled by default.#[br]
-    You can also disable arrows and/or bullets. E.g. #[code :arrows="false"], #[code :bullets="false"]
+    You can also disable arrows and/or bullets. E.g. #[span.code :arrows="false"], #[span.code :bullets="false"]
   vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
     v-icon(slot="arrowLeft" color="white" x-large) undo
     v-icon(slot="arrowRight" color="white" x-large) redo
@@ -378,6 +378,51 @@ div.documentation
       margin: auto;
     }
 
+  h3
+    a(href="#ex--breakpoints") Using breakpoints
+    a(name="ex--breakpoints")
+  p.
+    This example demonstrates how to set different configurations per breakpoint.#[br]
+    Define your breakpoints as an object in your component and pass the object to the #[span.code &lt;vueper-slides&gt;] tag.#[br]
+    Any breakpoint config you define will be applied when screen width is decresed to this value and under until next breakpoint.#[br]
+    Above the first breakpoint, the main configuration is applied. E.g.
+  precode(language="js").
+    1200: { ... }, // From width = 1200px to width = 901.
+    900: { ... }, // From width = 900px to width = 601.
+    600: { ... } // From width = 600px to width = 0.
+  vueper-slides.ex--breakpoints(:breakpoints="breakpoints")
+    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  precode(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :breakpoints="breakpoints"&gt;
+      &lt;vueper-slide
+        v-for="i in 6"
+        :key="i"
+        :title="i.toString()"
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  precode(language="js" label="Javascript").
+    // In your Vue component.
+
+    data: () => ({
+      breakpoints: {
+        1200: {
+          slideRatio: 1 / 5
+        },
+        900: {
+          slideRatio: 1 / 3
+        },
+        600: {
+          slideRatio: 1 / 2,
+          arrows: false,
+          bulletsOutside: true
+        },
+        // Breakpoints are sorted so the order you list them does not matter.
+        1100: {
+          slideRatio: 1 / 4
+        }
+      },
+    })
+
   h2
     a(href="#vueper-slides--api") #[span.code &lt;vueper-slides&gt;] API
     a(name="vueper-slides--api")
@@ -406,6 +451,7 @@ div.documentation
     infinite:                 [Boolean],        default: true
     touchable:                [Boolean],        default: true
     disable:                  [Boolean],        default: false
+    breakpoints:              [Object],         default: {}
 
   ul.max-widthed.settings-list
     li
@@ -532,6 +578,13 @@ div.documentation
       p.
         Disable or enable the whole slideshow. All the slides will remain as is and the
         slideshow freezes on the current slide. No autoplay and no possible action.
+
+    li
+      | #[code breakpoints], #[strong Type:] #[span.code [Object]], #[strong Default:] #[span.code {}]
+      p.
+        With this option you can provide different configurations to apply to the slideshow at a particular screen width.#[br]
+        See this setting in action in the #[a(href="#ex--breakpoints") Breakpoints] example.
+
 
   h3
     a(href="#events") Events
