@@ -34,7 +34,7 @@ div.documentation
           v-layout(column)
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
-              | Minify VueperSlides
+              | Minify Vueper Slides
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Emit events with params
@@ -56,15 +56,15 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Settings per breakpoint
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Dragging distance
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
-              | Dragging distance
+              | Parallax
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Slides to scroll at once
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | Parallax
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Lazy loading
@@ -84,10 +84,7 @@ div.documentation
     ...
 
     export default {
-      components: {
-        VueperSlides,
-        VueperSlide
-      },
+      components: { VueperSlides, VueperSlide },
       template: ...,
       data: () => ({
         ...
@@ -96,7 +93,7 @@ div.documentation
     }
 
   h3 Via #[span.code &lt;script&gt;] tag
-  p Include the VueperSlides script in your document #[span.code &lt;head&gt;] as follows:
+  p Include the Vueper Slides script in your document #[span.code &lt;head&gt;] as follows:
   precode(language="html" label="HTML").
     &lt;head&gt;
       ...
@@ -164,10 +161,7 @@ div.documentation
     import { VueperSlides, VueperSlide } from 'vueperslides'
 
     export default {
-      components: {
-        VueperSlides,
-        VueperSlide
-      },
+      components: { VueperSlides, VueperSlide },
       template: ...,
       data: () => ({
         slides: [
@@ -289,7 +283,7 @@ div.documentation
     a(href="#ex--add-remove-slides--disable") Add / remove slides & disable slideshow
     a(name="ex--add-remove-slides--disable")
   p
-    | This example illustrates how to add or remove slides on the fly from a running VueperSlides instance.#[br]
+    | This example illustrates how to add or remove slides on the fly from a running Vueper Slides instance.#[br]
     | You can also completely freeze the slideshow and unfreeze when you want to.#[br]
     v-btn(color="primary" @click="appendSlide" small)
       v-icon add
@@ -360,7 +354,7 @@ div.documentation
   h3
     a(href="#ex--center-mode") Center mode slideshow
     a(name="ex--center-mode")
-  p This example demonstrates how to use the vueper slides in a center mode.#[br]
+  p This example demonstrates how to use Vueper Slides in a center mode.#[br]
   vueper-slides.ex--center-mode
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   precode(language="html-vue" label="HTML Vue Template").
@@ -384,9 +378,10 @@ div.documentation
   p.
     This example demonstrates how to set different configurations per breakpoint.#[br]
     Define your breakpoints as an object in your component and pass the object to the #[span.code &lt;vueper-slides&gt;] tag.#[br]
-    Any breakpoint config you define will be applied when screen width is decresed to this value and under until next breakpoint.#[br]
+    Any breakpoint config you define will be applied when screen width is decreased to this value and under until next breakpoint.#[br]
     Above the first breakpoint, the main configuration is applied. E.g.
   precode(language="js").
+    // Above 1200: main config.
     1200: { ... }, // From width = 1200px to width = 901.
     900: { ... }, // From width = 900px to width = 601.
     600: { ... } // From width = 600px to width = 0.
@@ -422,6 +417,27 @@ div.documentation
         }
       },
     })
+  h3
+    a(href="#ex--dragging-distance") Dragging distance for touch-enabled slideshows
+    a(name="ex--dragging-distance")
+  p.
+    This example demonstrates how to define a dragging distange for touch enabled slideshows.#[br]
+    By default the dragging distance is #[span.code 50%] of the slideshow width.#[br]
+    This means that when you start dragging from one side you have to pass half-slide
+    to change slide.#[br]
+    With this configuration the behavior is slightly different and to change slide you need
+    to drag more that the specified distance in pixels.#[br]
+    If the dragging distance is lower than the specified one, the current slide remains the same.
+  vueper-slides.ex--dragging-distance(:dragging-distance="70")
+    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  precode(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :dragging-distance="70"&gt;
+      &lt;vueper-slide
+        v-for="i in 6"
+        :key="i"
+        :title="i.toString()"
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
 
   h2
     a(href="#vueper-slides--api") #[span.code &lt;vueper-slides&gt;] API
@@ -452,6 +468,7 @@ div.documentation
     touchable:                [Boolean],        default: true
     disable:                  [Boolean],        default: false
     breakpoints:              [Object],         default: {}
+    draggingDistance:         [Number],         default: null
 
   ul.max-widthed.settings-list
     li
@@ -584,6 +601,12 @@ div.documentation
       p.
         With this option you can provide different configurations to apply to the slideshow at a particular screen width.#[br]
         See this setting in action in the #[a(href="#ex--breakpoints") Breakpoints] example.
+
+    li
+      | #[code draggingDistance], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code null]
+      p.
+        With this option you can provide a specific dragging distance for touch-enabled slideshows.#[br]
+        See this setting in action in the #[a(href="#ex--dragging-distance") Dragging distance] example.
 
 
   h3
