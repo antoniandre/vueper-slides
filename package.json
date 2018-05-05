@@ -26,6 +26,8 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "eslint": "^3.17.1",
     "eslint-plugin-html": "^2.0.1",
