@@ -32,7 +32,7 @@ export default {
       }
     },
     colors: [
-      '#4caf50',
+      '#42b983',
       '#2196f3',
       '#ffc107',
       '#ff5252'

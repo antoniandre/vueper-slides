@@ -80,6 +80,7 @@ div.documentation
   precode(language="shell" label="Shell") npm install vueperslides --save-dev
   p Then import the 2 components and use it:
   precode(language="js" label="Javascript").
+    // In your VueJS component.
     import { VueperSlides, VueperSlide } from 'vueperslides'
     ...
 
@@ -113,6 +114,7 @@ div.documentation
     &lt;/vueper-slides&gt;
 
   precode(language="js" label="Javascript").
+    // In your VueJS component.
     data: () => ({
       slides: [
         {
@@ -158,6 +160,7 @@ div.documentation
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   precode(language="js" label="Javascript").
+    // In your VueJS component.
     import { VueperSlides, VueperSlide } from 'vueperslides'
 
     export default {
@@ -322,7 +325,7 @@ div.documentation
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   precode(language="js" label="Javascript").
-    // In your Vue component.
+    // In your VueJS component.
 
     data: () => ({
       slides: [
@@ -396,7 +399,7 @@ div.documentation
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   precode(language="js" label="Javascript").
-    // In your Vue component.
+    // In your VueJS component.
 
     data: () => ({
       breakpoints: {

@@ -1,12 +1,12 @@
 <template lang="pug">
-div.vueperslides-wrapper(:class="{'ready': isReady}")
+div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--touchable': touch.enabled && !disable }" ref="vueperslides")
   div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside")
     p.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
     p.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
 
-  div.vueperslides(:class="{'vueperslides--fade': conf.fade, 'vueperslides--touchable': touch.enabled && !disable}" ref="vueperslides")
-    div.vueperslides__slides-wrapper
-      div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ('padding-bottom: ' + (conf.slideRatio * 100) + '%')")
+  div.vueperslides__inner(:style="'padding-bottom:' + (this.conf.slideRatio * 100) + '%'")
+    div.vueperslides__track-wrapper
+      div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ''")
         vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
         slot(:currentSlide="slides.current")
         vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[1]" :clone="1" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style")
@@ -22,9 +22,9 @@ div.vueperslides-wrapper(:class="{'ready': isReady}")
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-    div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': conf.bulletsOutside}" v-if="conf.bullets && slides.count > 1 && !disable")
-      button.vueperslides__bullet(:class="{'vueperslides__bullet--active': slides.current === i}" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
-        span {{ i + 1 }}
+  div.vueperslides__bullets(:class="{'vueperslides__bullets--outside': conf.bulletsOutside}" v-if="conf.bullets && slides.count > 1 && !disable")
+    button.vueperslides__bullet(:class="{'vueperslides__bullet--active': slides.current === i}" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
+      span {{ i + 1 }}
 </template>
 
 <script>
@@ -94,7 +94,7 @@ export default {
     // By default when touch is enabled you have to drag from a slide side and pass 50% of slideshow width to change
     // slide. This setting changes this behavior to a horizontal pixel amount from anywhere on slideshow.
     draggingDistance: {
-      type: [Number],
+      type: Number,
       default: null
     },
     disable: {
@@ -195,12 +195,6 @@ export default {
     setBreakpointConfig (breakpoint) {
       this.breakpointsData.current = breakpoint
       this.conf = { ...this.$props, ...(this.$props.breakpoints[breakpoint] || {}) }
-
-      // Re-apply slide ratio on clones.
-      if (this.clones.length && this.conf.slideRatio) {
-        this.clones[0].style['padding-bottom'] = `${this.conf.slideRatio * 100}%`
-        this.clones[1].style['padding-bottom'] = `${this.conf.slideRatio * 100}%`
-      }
     },
 
     cloneSlides () {
@@ -212,14 +206,13 @@ export default {
         title: this.slides.list[this.slides.count - 1].title,
         content: this.slides.list[this.slides.count - 1].content,
         image: this.slides.list[this.slides.count - 1].image,
-        // Need to define CSS style in an object format for possible later override of paddingBottom in setBreakpointConfig().
-        style: { cssText: lastSlide && lastSlide.attributes.style ? lastSlide.attributes.style.value : null }
+        style: lastSlide && lastSlide.attributes.style ? lastSlide.attributes.style.value : ''
       }
       this.clones[1] = {
         title: this.slides.list[0].title,
         content: this.slides.list[0].content,
         image: this.slides.list[0].image,
-        style: { cssText: firstSlide && lastSlide.attributes.style ? firstSlide.attributes.style.value : null }
+        style: firstSlide && lastSlide.attributes.style ? firstSlide.attributes.style.value : ''
       }
     },
 
@@ -294,7 +287,7 @@ export default {
 
         if (this.draggingDistance) {
           this.touch.dragAmount = this.getDragAmount(e)
-          let dragAmountPercentage = this.touch.dragAmount / this.$refs.vueperslides.offsetParent.clientWidth
+          let dragAmountPercentage = this.touch.dragAmount / this.$refs.vueperslides.clientWidth
 
           this.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
         } else {
@@ -312,7 +305,7 @@ export default {
         let slideOnDragEnd
         if (this.draggingDistance) {
           let dragAmount = this.touch.dragAmount
-          let dragAmountPercentage = dragAmount / this.$refs.vueperslides.offsetParent.clientWidth
+          let dragAmountPercentage = dragAmount / this.$refs.vueperslides.clientWidth
 
           slideOnDragEnd = this.slides.current
           if (Math.abs(dragAmount) >= this.draggingDistance) {
@@ -353,7 +346,7 @@ export default {
       // let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
       // return dragStartX / windowWidth
 
-      const vueperslidesWrapper = this.$refs.vueperslides.offsetParent
+      const vueperslidesWrapper = this.$refs.vueperslides
       return (dragStartX - vueperslidesWrapper.offsetLeft) / vueperslidesWrapper.clientWidth
     },
 
@@ -491,7 +484,7 @@ export default {
         this.slides.count = this.slides.list.length
       }
 
-      if (this.slides.count > 1) {
+      if (this.slides.count > 1 && this.touchable) {
         this.touch.enabled = true
       }
 
@@ -538,15 +531,18 @@ export default {
 .vueperslides {
   position: relative;
 
-  &-wrapper {
+  &__inner {
     position: relative;
+    padding-bottom: 33.33%;
   }
 
-  &__slides-wrapper {
-    position: relative;
+  &__track-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     overflow: hidden;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
     z-index: 1;
 
     &::before,
@@ -575,15 +571,18 @@ export default {
   &--touchable &__track {
     cursor: ew-resize;
     cursor: -webkit-grab;
+    cursor: grab;
 
     &--mousedown, &--dragging {
       cursor: -webkit-grabbing;
+      cursor: grabbing;
     }
   }
 
   &__track {
     white-space: nowrap;
     transition: 0.5s ease-in-out transform;
+    height: 100%;
 
     &--mousedown {
       transition: 0.2s ease-in-out transform;
@@ -600,15 +599,11 @@ export default {
 
   &__slide {
     white-space: normal;
-    padding-bottom: 34%;
     background-position: top;
     background-size: cover;
     display: inline-block;
     width: 100%;
-    height: 0;
-    // Remove whitespace due to text nodes in combination with display
-    // inline block and whitespace nowrap.
-    margin-bottom: -8px;
+    height: 100%;
   }
 
   &__slide-content {
@@ -646,7 +641,6 @@ export default {
     text-align: center;
     transform: translateY(-50%);
     opacity: 0.7;
-    z-index: 10;
     transition: 0.3s ease-in-out;
     cursor: pointer;
     user-select: none;
@@ -715,34 +709,13 @@ export default {
       background-color: #fff;
     }
 
-    span {display: none;}
-  }
-}
+    &::-moz-focus-inner {
+      border: 0;
+    }
 
-@media screen and (max-width: 1000px) {
-  .vueperslides__slide {
-    padding-bottom: 45%;
-  }
-  .vueperslides--fade .vueperslides__track {
-    padding-bottom: 45%;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .vueperslides__slide {
-    padding-bottom: 54%;
-  }
-  .vueperslides--fade .vueperslides__track {
-    padding-bottom: 54%;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .vueperslides__slide {
-    padding-bottom: 60%;
-  }
-  .vueperslides--fade .vueperslides__track {
-    padding-bottom: 60%;
+    span {
+      display: none;
+    }
   }
 }
 </style>
