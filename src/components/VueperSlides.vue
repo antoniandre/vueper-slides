@@ -1,11 +1,11 @@
 <template lang="pug">
-div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--touchable': touch.enabled && !disable }" ref="vueperslides")
+div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable }" ref="vueperslides")
   div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside")
     p.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
     p.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
 
   div.vueperslides__inner(:style="'padding-bottom:' + (this.conf.slideRatio * 100) + '%'")
-    div.vueperslides__track-wrapper
+    div.vueperslides__track-wrapper(:style="conf.parallax ? 'transform: translateY(-' + parallaxData.translation + '%)' : ''")
       div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ''")
         vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
         slot(:currentSlide="slides.current")
@@ -87,6 +87,10 @@ export default {
       type: Boolean,
       default: true
     },
+    parallax: {
+      type: Boolean,
+      default: false
+    },
     touchable: {
       type: Boolean,
       default: true
@@ -108,6 +112,7 @@ export default {
   },
   data: () => ({
     isReady: false,
+    container: null,
     slides: { list: [], count: 0, activeUid: null, current: 0, clones: [] },
     clones: [],
     mouseDown: false,
@@ -118,6 +123,7 @@ export default {
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
     breakpointsData: { list: [], current: null },
+    parallaxData: { translation: 0, slideshowOffsetTop: null },
     conf: null
   }),
   created () {
@@ -131,6 +137,8 @@ export default {
     init () {
       this.emit('before-init', false)
       this.slides.count = this.slides.list.length
+
+      this.container = this.$refs.vueperslides
 
       if (Object.keys(this.breakpoints).length) {
         this.setBreakpointsList()
@@ -219,6 +227,7 @@ export default {
     bindEvents () {
       const hasTouch = 'ontouchstart' in window
 
+      // Touch enabled slideshow.
       if (this.touch.enabled) {
         this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown)
         document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove)
@@ -227,19 +236,71 @@ export default {
 
       // Pause autoplay on mouseover.
       if (this.conf.pauseOnHover && !hasTouch && this.conf.autoplay) {
-        this.$refs.vueperslides.addEventListener('mouseover', this.onMouseIn)
-        this.$refs.vueperslides.addEventListener('mouseout', this.onMouseOut)
+        this.container.addEventListener('mouseover', this.onMouseIn)
+        this.container.addEventListener('mouseout', this.onMouseOut)
       }
 
-      if (this.breakpointsData.list.length) {
+      // Breakpoints or parallax need a resize event.
+      if (this.breakpointsData.list.length || this.parallax) {
         window.addEventListener('resize', this.onResize)
+      }
+
+      // Parallax slideshow.
+      if (this.parallax) {
+        document.addEventListener('scroll', this.onScroll)
+      }
+    },
+
+    // Recursively sum all the offsetTop values from current element up the tree until body.
+    // By doing so a padding or margin on a parent won't cause a wrong calculation.
+    getSlideshowOffsetTop (force = false) {
+      if (this.parallaxData.slideshowOffsetTop === null || force) {
+        let el = this.container
+        let top = el.offsetTop
+
+        while (el = el.offsetParent) {
+          top += el.offsetTop
+        }
+
+        this.parallaxData.slideshowOffsetTop = top
+      }
+
+      return this.parallaxData.slideshowOffsetTop
+    },
+
+    onScroll (e) {
+      let doc = document.documentElement
+      let scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+      let windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+      let slideshowHeight = this.container.clientHeight
+      let slideshowTopOffset = this.getSlideshowOffsetTop()
+
+      // The distance between the bottom line of the current vueperslides slideshow and top of window.
+      // Negative value means the slideshow is totally above the current window box.
+      let vsBottom2WinTop = slideshowTopOffset + slideshowHeight - scrollTop
+      // The distance between the top line of the current vueperslides slideshow and bottom of window.
+      // Negative value means the slideshow is totally bellow the current window box.
+      let vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset
+
+      // Only apply translation when slideshow is visible.
+      if (vsBottom2WinTop > 0 && vsTop2winBottom > 0) {
+        let heightToCoverWithTranslation = windowHeight + slideshowHeight
+        let translatePercentage = 100 - (vsBottom2WinTop * 100 / heightToCoverWithTranslation)
+        this.parallaxData.translation = 50 - translatePercentage / 2
       }
     },
 
     onResize () {
-      let breakpoint = this.getCurrentBreakpoint()
-      if (this.hasBreakpointChanged(breakpoint)) {
-        this.setBreakpointConfig(breakpoint)
+      if (this.breakpointsData.list.length) {
+        let breakpoint = this.getCurrentBreakpoint()
+        if (this.hasBreakpointChanged(breakpoint)) {
+          this.setBreakpointConfig(breakpoint)
+        }
+      }
+
+      if (this.parallax) {
+        // Only refresh parallaxData.slideshowOffsetTop value on resize for better performance.
+        this.getSlideshowOffsetTop(true)
       }
     },
 
@@ -287,7 +348,7 @@ export default {
 
         if (this.draggingDistance) {
           this.touch.dragAmount = this.getDragAmount(e)
-          let dragAmountPercentage = this.touch.dragAmount / this.$refs.vueperslides.clientWidth
+          let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
           this.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
         } else {
@@ -305,7 +366,7 @@ export default {
         let slideOnDragEnd
         if (this.draggingDistance) {
           let dragAmount = this.touch.dragAmount
-          let dragAmountPercentage = dragAmount / this.$refs.vueperslides.clientWidth
+          let dragAmountPercentage = dragAmount / this.container.clientWidth
 
           slideOnDragEnd = this.slides.current
           if (Math.abs(dragAmount) >= this.draggingDistance) {
@@ -346,8 +407,7 @@ export default {
       // let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
       // return dragStartX / windowWidth
 
-      const vueperslidesWrapper = this.$refs.vueperslides
-      return (dragStartX - vueperslidesWrapper.offsetLeft) / vueperslidesWrapper.clientWidth
+      return (dragStartX - this.container.offsetLeft) / this.container.clientWidth
     },
 
     /**
@@ -536,10 +596,14 @@ export default {
     padding-bottom: 33.33%;
   }
 
+  &--parallax &__inner {
+    overflow: hidden;
+  }
+
   &__track-wrapper {
     position: absolute;
     top: 0;
-    bottom: 0;
+    height: 100%;
     left: 0;
     right: 0;
     overflow: hidden;
@@ -561,6 +625,11 @@ export default {
       top: 100%;
       bottom: auto;
     }
+  }
+
+  &--parallax &__track-wrapper {
+    height: 200%;
+    transform: translateY(0);
   }
 
   &--fade &__track {
