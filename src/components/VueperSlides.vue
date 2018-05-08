@@ -4,12 +4,13 @@ div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': 
     p.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
     p.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
 
-  div.vueperslides__inner(:style="'padding-bottom:' + (this.conf.slideRatio * 100) + '%'")
-    div.vueperslides__track-wrapper(:style="conf.parallax ? 'transform: translateY(-' + parallaxData.translation + '%)' : ''")
-      div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ''")
-        vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
-        slot(:currentSlide="slides.current")
-        vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[1]" :clone="1" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style")
+  div.vueperslides__inner
+    div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (this.conf.slideRatio * 100) + '%'")
+      div.vueperslides__track-wrapper(:style="conf.parallax ? 'transform: translateY(-' + parallaxData.translation + '%)' : ''")
+        div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ''")
+          vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
+          slot(:currentSlide="slides.current")
+          vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[1]" :clone="1" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style")
 
     div.vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
@@ -593,21 +594,12 @@ export default {
 
   &__inner {
     position: relative;
+  }
+
+  &__parallax-wrapper {
+    position: relative;
     padding-bottom: 33.33%;
-  }
-
-  &--parallax &__inner {
     overflow: hidden;
-  }
-
-  &__track-wrapper {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    left: 0;
-    right: 0;
-    overflow: hidden;
-    z-index: 1;
 
     &::before,
     &::after {
@@ -625,6 +617,17 @@ export default {
       top: 100%;
       bottom: auto;
     }
+  }
+
+  &__track-wrapper {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 1;
+
   }
 
   &--parallax &__track-wrapper {
