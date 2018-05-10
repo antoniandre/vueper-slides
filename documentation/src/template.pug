@@ -22,9 +22,10 @@ v-app(light v-scroll="onScroll")
         | &nbsp;
         span API
   router-view
-  v-footer.max-widthed
-    v-layout(row wrap justify-center)
-      span.flex.copyright.
-        Copyright © 2018 Antoni André, all rights reserved.#[br]
-        View project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") Github].
-      span.made-with This documentation is made with VueJS, Vuetify & #[v-icon.heart favorite]
+  v-footer
+    v-layout.max-widthed(row wrap align-center justify-center)
+      v-flex.xs12.sm6.text-xs-center.text-sm-left.copyright.
+        Copyright © 2018 Antoni André, all rights reserved.
+      v-flex.xs12.sm6.text-xs-center.text-sm-right.made-with.
+        This documentation is made with VueJS, Vuetify & #[v-icon.heart favorite]#[br]
+        View project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") #[v-icon fa-github] Github].
