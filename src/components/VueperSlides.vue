@@ -6,8 +6,8 @@ div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': 
 
   div.vueperslides__inner
     div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (this.conf.slideRatio * 100) + '%'")
-      div.vueperslides__track-wrapper(:style="conf.parallax ? 'transform: translateY(-' + parallaxData.translation + '%)' : ''")
-        div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translate3d(' + currentTranslation + '%, 0, 0)' : ''")
+      div.vueperslides__track-wrapper(:style="trackWrapperStyles")
+        div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translateX(' + currentTranslation + '%)' : ''")
           vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
           slot(:currentSlide="slides.current")
           vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[1]" :clone="1" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style")
@@ -89,7 +89,7 @@ export default {
       default: true
     },
     parallax: {
-      type: Boolean,
+      type: [Boolean, Number],
       default: false
     },
     touchable: {
@@ -124,7 +124,7 @@ export default {
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
     breakpointsData: { list: [], current: null },
-    parallaxData: { translation: 0, slideshowOffsetTop: null },
+    parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false },
     conf: null
   }),
   created () {
@@ -242,12 +242,12 @@ export default {
       }
 
       // Breakpoints or parallax need a resize event.
-      if (this.breakpointsData.list.length || this.parallax) {
+      if (this.breakpointsData.list.length || this.conf.parallax) {
         window.addEventListener('resize', this.onResize)
       }
 
       // Parallax slideshow.
-      if (this.parallax) {
+      if (this.conf.parallax) {
         document.addEventListener('scroll', this.onScroll)
       }
     },
@@ -272,7 +272,7 @@ export default {
     onScroll (e) {
       let doc = document.documentElement
       let scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
-      let windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+      let windowHeight = window.innerHeight || doc.clientHeight || document.body.clientHeight
       let slideshowHeight = this.container.clientHeight
       let slideshowTopOffset = this.getSlideshowOffsetTop()
 
@@ -283,11 +283,14 @@ export default {
       // Negative value means the slideshow is totally bellow the current window box.
       let vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset
 
+      this.parallaxData.isVisible = vsBottom2WinTop > 0 && vsTop2winBottom > 0
+
       // Only apply translation when slideshow is visible.
-      if (vsBottom2WinTop > 0 && vsTop2winBottom > 0) {
+      if (this.parallaxData.isVisible) {
         let heightToCoverWithTranslation = windowHeight + slideshowHeight
-        let translatePercentage = 100 - (vsBottom2WinTop * 100 / heightToCoverWithTranslation)
-        this.parallaxData.translation = 50 - translatePercentage / 2
+        let percentage = vsBottom2WinTop * 100 / heightToCoverWithTranslation
+        let translatePercentage = this.conf.parallax === -1 ? 100 - percentage : percentage
+        this.parallaxData.translation = - translatePercentage / 2
       }
     },
 
@@ -299,7 +302,7 @@ export default {
         }
       }
 
-      if (this.parallax) {
+      if (this.conf.parallax) {
         // Only refresh parallaxData.slideshowOffsetTop value on resize for better performance.
         this.getSlideshowOffsetTop(true)
       }
@@ -584,6 +587,22 @@ export default {
         this.cloneSlides()
       }
     }
+  },
+
+  computed: {
+    trackWrapperStyles () {
+      let styles = {}
+
+      if (this.conf.parallax) {
+        styles.transform = 'translateY(' + this.parallaxData.translation + '%)'
+
+        // Increase browser optimizations by allocating more machine resource.
+        //!\ To be used wisely so deactivate when not needed.
+        styles.willChange = this.parallaxData.isVisible ? 'transform' : 'auto'
+      }
+
+      return styles
+    }
   }
 }
 </script>
@@ -594,6 +613,9 @@ export default {
 
   &__inner {
     position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
   }
 
   &__parallax-wrapper {
@@ -627,7 +649,6 @@ export default {
     right: 0;
     overflow: hidden;
     z-index: 1;
-
   }
 
   &--parallax &__track-wrapper {
@@ -676,14 +697,6 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
-  }
-
-  &__slide-content {
-    user-select: none;
-
-    &--outside {
-      user-select: initial;
-    }
   }
 
   &--fade &__slide {
