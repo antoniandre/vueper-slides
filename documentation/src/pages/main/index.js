@@ -16,6 +16,7 @@ export default {
   data: () => ({
     events: '',
     slideshowDisabled: false,
+    parallax: 1,
     imagesRoot: process.env.NODE_ENV === 'production' ? './dist/images/' : './images/',
     breakpoints: {
       1200: {

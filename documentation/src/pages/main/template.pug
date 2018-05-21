@@ -450,9 +450,11 @@ div.documentation
   h3
     a(href="#ex--parallax") Parallax Effect
     a(name="ex--parallax")
-  p.
-    This example demonstrates how to create a parallax effect on your slideshow.#[br]
-  vueper-slides.ex--parallax(:parallax='1')
+  p
+    | This example demonstrates how to create a parallax effect on your slideshow.#[br]
+    v-btn(small color="primary" @click.native="parallax *= -1") reverse parallax effect
+    | parallax value: #[span.code {{ parallax.toString() }}]
+  vueper-slides.ex--parallax(:parallax='parallax')
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides parallax&gt;

@@ -5,7 +5,7 @@ div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': 
     p.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
 
   div.vueperslides__inner
-    div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (this.conf.slideRatio * 100) + '%'")
+    div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'")
       div.vueperslides__track-wrapper(:style="trackWrapperStyles")
         div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translateX(' + currentTranslation + '%)' : ''")
           vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
@@ -125,12 +125,7 @@ export default {
     arrowNextDisabled: false,
     breakpointsData: { list: [], current: null },
     parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false },
-    conf: null
   }),
-  created () {
-    this.conf = { ...this.$props }
-    delete this.conf.breakpoints // Prevent cyclic redundancy.
-  },
   mounted () {
     this.init()
   },
@@ -203,7 +198,7 @@ export default {
 
     setBreakpointConfig (breakpoint) {
       this.breakpointsData.current = breakpoint
-      this.conf = { ...this.$props, ...(this.$props.breakpoints[breakpoint] || {}) }
+      // this.conf gets updated by itself when this.breakpointsData.current changes.
     },
 
     cloneSlides () {
@@ -590,6 +585,15 @@ export default {
   },
 
   computed: {
+    // this.conf needs to be reactive so user can change a Vueper Slides option and everything gets updated.
+    conf () {
+      // Read config from the props then check if breakpoints are defined. If so override the config with
+      // the breakpoint ones.
+      return {
+        ...this.$props,
+        ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {})
+      }
+    },
     trackWrapperStyles () {
       let styles = {}
 
