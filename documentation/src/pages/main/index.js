@@ -1,5 +1,6 @@
 import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
 import { precode } from '../../components/syntax-highlighter'
+import { highlight } from '../../components/highlight-message'
 
 import './style.scss'
 import './examples.scss'
@@ -8,7 +9,8 @@ export default {
   components: {
     VueperSlides,
     VueperSlide,
-    precode
+    precode,
+    highlight
   },
   template: require('./template.pug'),
   data: () => ({
@@ -109,7 +111,7 @@ export default {
   }),
   methods: {
     logEvents (eventName, params) {
-      this.events += `<b>Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
+      this.events += `<b>&bull; Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
     },
     appendSlide () {
       this.slides3.push({

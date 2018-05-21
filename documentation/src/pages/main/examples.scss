@@ -80,6 +80,10 @@
   line-height: 15px;
 }
 
+.events-box p {
+  margin-bottom: 0;
+}
+
 .ex--events .vueperslides__slide--active:before {
   content: 'This slide is active!';
   position: absolute;
