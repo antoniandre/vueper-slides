@@ -452,14 +452,27 @@ div.documentation
     a(name="ex--parallax")
   p
     | This example demonstrates how to create a parallax effect on your slideshow.#[br]
-    v-btn(small color="primary" @click.native="parallax *= -1") reverse parallax effect
-    | parallax value: #[span.code {{ parallax.toString() }}]
+    v-btn(small color="primary" @click="parallax *= -1")
+      v-icon sync
+      | &nbsp; reverse parallax effect
+    | #[span.code parallax = {{ parallax.toString() }}], scroll to see the difference.
   vueper-slides.ex--parallax(:parallax='parallax')
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
-  precode(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides parallax&gt;
+  precode(language="html-vue" label="HTML Vue Template" v-pre).
+    &lt;v-btn small color="primary" @click="parallax *= -1"&gt;
+      &lt;v-icon&gt;sync&lt;/v-icon&gt;
+      reverse parallax effect
+    &lt;/v-btn&gt;
+    parallax value: {{ parallax.toString() }}
+
+    &lt;vueper-slides :parallax="parallax"&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
+  precode(language="js" label="Javascript").
+    // In your VueJS component.
+    data: () => ({
+      parallax: 1
+    })
   highlight.
     If you are experiencing image jumps on scroll, keep in mind that this page is considerably big and
     uses more than 10 instances of Vueper Slides.
