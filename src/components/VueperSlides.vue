@@ -14,7 +14,7 @@ div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': 
 
     div.vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
-    div.vueperslides__arrows(v-if="conf.arrows && slides.count > 1 && !disable")
+    div.vueperslides__arrows(:class="{'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
       button.vueperslides__arrow.vueperslides__arrow--prev(@click="onArrowClick(false)" v-show="!arrowPrevDisabled")
         slot(name="arrowLeft")
           svg(viewBox="0 0 24 24")
@@ -46,6 +46,10 @@ export default {
     arrows: {
       type: Boolean,
       default: true
+    },
+    arrowsOutside: {
+      type: Boolean,
+      default: false
     },
     // Ability to disable arrows on slideshow edges. Only if not infinite mode.
     disableArrowsOnEdges: {
@@ -718,12 +722,19 @@ export default {
     }
   }
 
+  &__arrows {
+    color: #fff;
+
+    &--outside {
+      color: #000;
+    }
+  }
+
   &__arrow {
     position: absolute;
     top: 50%;
     background-color: transparent;
     border: none;
-    color: #fff;
     fill: currentColor;
     font-size: 3em;
     width: 1em;
@@ -747,6 +758,14 @@ export default {
     &:hover {
       opacity: 1;
     }
+  }
+
+  &__arrows--outside &__arrow--prev {
+    left: -40px;
+  }
+
+  &__arrows--outside &__arrow--next {
+    right: -40px;
   }
 
   &__paused {

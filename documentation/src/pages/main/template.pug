@@ -61,14 +61,14 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Parallax
-            v-chip(color="amber lighten-2" text-color="white" small)
-              v-icon access_time
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
               | More parallax options
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Arrows outside
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
-              | Arrows outside
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
               | Slides to scroll at once
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
@@ -185,7 +185,7 @@ div.documentation
     }
 
   h3
-    a(href="#ex--arrows-and-bullets") Arrows & bullets
+    a(href="#ex--arrows-and-bullets") Arrows & Bullets
     a(name="ex--arrows-and-bullets")
   p.
     This example uses custom arrows and positions the bullets outside of the slideshow.#[br]
@@ -360,13 +360,13 @@ div.documentation
     }
 
   h3
-    a(href="#ex--center-mode") Center mode slideshow
+    a(href="#ex--center-mode") Center Mode
     a(name="ex--center-mode")
   p This example demonstrates how to use Vueper Slides in a center mode.#[br]
-  vueper-slides.ex--center-mode
+  vueper-slides.ex--center-mode(arrows-outside bullets-outside)
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   precode(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides&gt;
+    &lt;vueper-slides arrows-outside bullets-outside&gt;
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
@@ -381,7 +381,7 @@ div.documentation
     }
 
   h3
-    a(href="#ex--breakpoints") Using breakpoints
+    a(href="#ex--breakpoints") Using Breakpoints
     a(name="ex--breakpoints")
   p.
     This example demonstrates how to set a different configuration per breakpoint. (Try resizing your browser above/bellow 600px width)#[br]
@@ -493,6 +493,7 @@ div.documentation
     initSlide:                [Number],          default: 1
     slideRatio:               [Number],          default: 1/3
     arrows:                   [Boolean],         default: true
+    arrowsOutside:            [Boolean],         default: false
     disableArrowsOnEdges:     [Boolean],         default: false
     bullets:                  [Boolean],         default: true
     bulletsOutside:           [Boolean],         default: false
@@ -532,7 +533,15 @@ div.documentation
         Disable or enable the navigation arrows.#[br]
         You can also override the arrows by providing them in the html content of the
         #[span.code &lt;vueper-slides&gt;].#[br]
-        See the #[a(href="#ex--arrows-and-bullets") Arrows & bullets] example.
+        See this setting in action in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
+
+    li
+      | #[code arrowsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      p.
+        Place the navigation arrows outside of the slideshow (on left and right).#[br]
+        See this setting in action in the #[a(href="#ex--center-mode") Center mode] example.
+      highlight(type="warning").
+        If you place arrows outside on a full screen slideshow you won't be able to see the arrows.
 
     li
       | #[code disableArrowsOnEdges], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
@@ -550,7 +559,7 @@ div.documentation
       | #[code bulletsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p.
         If bullets is set to #[span.code true], place the slides index inside or outside the slideshow track.#[br]
-        See this setting in action in the #[a(href="#ex--arrows-and-bullets") Arrows & bullets] example.
+        See this setting in action in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
 
     li
       | #[code fade], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
@@ -665,7 +674,7 @@ div.documentation
       | #[code breakpoints], #[strong Type:] #[span.code [Object]], #[strong Default:] #[span.code {}]
       p.
         With this option you can provide different configurations to apply to the slideshow at a particular screen width.#[br]
-        See this setting in action in the #[a(href="#ex--breakpoints") Breakpoints] example.
+        See this setting in action in the #[a(href="#ex--breakpoints") Using Breakpoints] example.
 
 
   h3

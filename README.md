@@ -25,7 +25,7 @@ ___
 
 ## Release Notes
 
-- __Version 1.3.2__ The Vueper Slides config is now vuejs-reactive
+- __Version 1.3.2__ Add option to place arrows outside. The config is now vuejs-reactive
 - __Version 1.3.1__ More options & improvements of parallax feature
 - __Version 1.3.0__ Add parallax feature
 - __Version 1.2.1__ Code cleanup, improvements & minor HTML structure change

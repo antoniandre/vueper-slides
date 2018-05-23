@@ -104,6 +104,10 @@
   margin: auto;
 }
 
+.ex--center-mode .vueperslides__arrows--outside {
+    color: $secondary;
+  }
+
 @-webkit-keyframes gradient {
   0% {
     background-position: 0% 50%
