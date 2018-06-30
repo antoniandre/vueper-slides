@@ -67,6 +67,9 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Arrows outside
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Complex slide title & content
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
               | Slides to scroll at once
@@ -476,6 +479,31 @@ div.documentation
   highlight.
     If you are experiencing image jumps on scroll, keep in mind that this page is considerably big and
     uses more than 10 instances of Vueper Slides.
+  h3
+    a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content
+    a(name="ex--complex-slide-title-and-content")
+  p.
+    This example shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
+    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] & #[span.code slideContent]
+    if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
+
+  vueper-slides
+    vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+      div(slot="slideContent")
+        v-icon(color="white") check
+        | Complex content {{ i.toString() }} with vueJS {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like components &  #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
+  precode(language="html-vue" label="HTML Vue Template" v-pre).
+    &lt;vueper-slides&gt;
+      &lt;vueper-slide
+        v-for="i in 4"
+        :key="i"
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
+        &lt;div slot="slideContent"&gt;
+         &lt;v-icon color="white"&gt;check&lt;/v-icon&gt;
+         Complex content with vueJS {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content & &lt;span v-pre&gt;{{ mustaches }}&lt;/span&gt;.
+        &lt;/div&gt;
+      &lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
 
   h2
     a(href="#vueper-slides--api") #[span.code &lt;vueper-slides&gt;] API

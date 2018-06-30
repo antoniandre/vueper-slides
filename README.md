@@ -25,6 +25,7 @@ ___
 
 ## Release Notes
 
+- __Version 1.4.0__ Allow complex slide title & content
 - __Version 1.3.2__ Add option to place arrows outside. The config is now vuejs-reactive
 - __Version 1.3.1__ More options & improvements of parallax feature
 - __Version 1.3.0__ Add parallax feature
