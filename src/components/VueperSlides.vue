@@ -1,5 +1,5 @@
 <template lang="pug">
-div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable }" ref="vueperslides")
+div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--animated': true }" ref="vueperslides")
   div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside")
     div.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
     div.slide-title(v-if="slides.count && slides.list[slides.current].titleSlot" v-html="slides.list[slides.current].titleSlot")
@@ -9,7 +9,7 @@ div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': 
   div.vueperslides__inner
     div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'")
       div.vueperslides__track-wrapper(:style="trackWrapperStyles")
-        div.vueperslides__track(:class="{'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown}" ref="track" :style="!conf.fade ? 'transform: translateX(' + currentTranslation + '%)' : ''")
+        div.vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" ref="track" :style="trackStyles")
           vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style")
             div(v-if="clones[0].titleSlot" slot="slideTitle" v-html="clones[0].titleSlot")
             div(v-if="clones[0].contentSlot" slot="slideContent" v-html="clones[0].contentSlot")
@@ -29,9 +29,9 @@ div.vueperslides(:class="{'vueperslides--ready': isReady, 'vueperslides--fade': 
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-  div.vueperslides__bullets(:class="{ 'vueperslides__bullets--outside': conf.bulletsOutside }" v-if="conf.bullets && slides.count > 1 && !disable")
-    button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i }" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
-      span {{ i + 1 }}
+    div.vueperslides__bullets(:class="{ 'vueperslides__bullets--outside': conf.bulletsOutside }" v-if="conf.bullets && slides.count > 1 && !disable")
+      button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i }" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
+        span {{ i + 1 }}
 </template>
 
 <script>
@@ -75,7 +75,7 @@ export default {
       default: false
     },
     slideContentOutside: {
-      type: Boolean,
+      type: [Boolean, String],
       default: false
     },
     slideContentOutsideClass: {
@@ -89,6 +89,10 @@ export default {
     speed: {
       type: [Number, String],
       default: 4000
+    },
+    animationSpeed: {
+      type: [Number, String],
+      default: 800
     },
     pauseOnHover: {
       type: Boolean,
@@ -129,7 +133,7 @@ export default {
     mouseDown: false,
     mouseOver: false,
     touch: { enabled: true, dragging: false, dragStartX: 0, dragAmount: 0, goNext: true },
-    currentTranslation: 0,
+    transition: { currentTranslation: 0, speed: 0 },
     timer: null,
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
@@ -144,6 +148,7 @@ export default {
       this.emit('before-init', false)
       this.container = this.$refs.vueperslides
       this.touch.enabled = this.conf.touchable
+      this.transition.speed = this.conf.animationSpeed
 
       if (Object.keys(this.breakpoints).length) {
         this.setBreakpointsList()
@@ -366,7 +371,7 @@ export default {
         // Set a flag for use while dragging in `onMouseMove` to know if drag was toward left or right.
         this.touch.goNext = dragPercentage >= 0.5
 
-        this.currentTranslation = - 100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
+        this.transition.currentTranslation = - 100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
       }
     },
 
@@ -379,10 +384,10 @@ export default {
           this.touch.dragAmount = this.getDragAmount(e)
           let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
-          this.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
+          this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
         } else {
           let dragPercentage = this.getDragPercentage(e)
-          this.currentTranslation = - 100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
+          this.transition.currentTranslation = - 100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
         }
       }
     },
@@ -404,7 +409,7 @@ export default {
         } else {
           // When the drag is realeased, calculate if the drag ends before or after the 50%-slideshow-width threshold.
           // Then finish the sliding toward that slide.
-          slideOnDragEnd = - (Math.round(this.currentTranslation / 100) + (this.clones.length ? 1 : 0))
+          slideOnDragEnd = - (Math.round(this.transition.currentTranslation / 100) + (this.clones.length ? 1 : 0))
         }
 
         let { nextSlide } = this.getSlideInRange(slideOnDragEnd)
@@ -420,7 +425,7 @@ export default {
           this.goToSlide(slideOnDragEnd)
         } else {
           // Apply transition to snap back to current slide.
-          this.currentTranslation = - (this.slides.current + (this.clones.length ? 1 : 0)) * 100
+          this.transition.currentTranslation = - (this.slides.current + (this.clones.length ? 1 : 0)) * 100
         }
 
         this.touch.dragStartX = null
@@ -519,17 +524,25 @@ export default {
         this.arrowNextDisabled = nextSlide === this.slides.count - 1
       }
 
-      this.$refs.track.classList[animation ? 'remove' : 'add']('vueperslides__track--no-animation')
-
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
       // shows up, when the animation ends the real change to the first slide is done
       // immediately with no animation.
       // Same principle when going beyond first slide.
-      if (nextSlideIsClone !== null) {
+      if (nextSlideIsClone !== null) {// Gives clone id (0 or 1 or null).
         setTimeout(() => {
-          this.goToSlide(nextSlideIsClone ? 0 : this.slides.count - 1, false, autoSliding)
-        }, 400)
+          // inside the callback, also check if it is not too late to apply next slide
+          // (user may have slid fast multiple times) if so cancel callback.
+          let passedCloneBackward = i === -1 && this.slides.current !== this.slides.count - 1
+          let passedCloneForward = i === this.slides.count && this.slides.current !== 0
+          let tooLateToSetTimeout = passedCloneBackward || passedCloneForward
+
+          if (!tooLateToSetTimeout) {
+            this.transition.speed = 0
+            this.goToSlide(nextSlideIsClone ? 0 : this.slides.count - 1, false, autoSliding)
+            setTimeout(() => { this.transition.speed = this.conf.animationSpeed }, 10)
+          }
+        }, this.transition.speed - 50)
       }
 
       this.slides.current = nextSlide
@@ -537,9 +550,9 @@ export default {
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.conf.fade) {
         if (nextSlideIsClone !== null) {
-          this.currentTranslation = - 100 * (nextSlideIsClone ? this.slides.count + 1 : 0)
+          this.transition.currentTranslation = - 100 * (nextSlideIsClone ? this.slides.count + 1 : 0)
         }
-        else this.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0))
+        else this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0))
       }
 
       this.slides.activeUid = this.slides.list[this.slides.current]._uid
@@ -623,6 +636,17 @@ export default {
         ...this.$props,
         ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {})
       }
+    },
+    trackStyles () {
+      let styles = {}
+
+      styles.transitionDuration = this.transition.speed + 'ms'
+
+      if (!this.conf.fade) {
+        styles.transform = 'translateX(' + this.transition.currentTranslation + '%)'
+      }
+
+      return styles
     },
     trackWrapperStyles () {
       let styles = {}
@@ -712,7 +736,7 @@ export default {
     height: 100%;
 
     &--mousedown {
-      transition: 0.2s ease-in-out transform;
+      transition: 0.2s ease-in-out transform !important;
     }
 
     &--dragging {
