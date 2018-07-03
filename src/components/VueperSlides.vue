@@ -1,6 +1,6 @@
 <template lang="pug">
 div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--animated': true }" ref="vueperslides")
-  div.vueperslides__slide-content.vueperslides__slide-content--outside(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside")
+  div.vueperslides__slide-content.vueperslides__slide-content--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
     div.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
     div.slide-title(v-if="slides.count && slides.list[slides.current].titleSlot" v-html="slides.list[slides.current].titleSlot")
     div.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
@@ -29,9 +29,19 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-    div.vueperslides__bullets(:class="{ 'vueperslides__bullets--outside': conf.bulletsOutside }" v-if="conf.bullets && slides.count > 1 && !disable")
+    div.vueperslides__bullets(v-if="conf.bullets && slides.count > 1 && !disable && !conf.bulletsOutside")
       button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i }" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
         span {{ i + 1 }}
+
+  div.vueperslides__bullets.vueperslides__bullets--outside(v-if="conf.bullets && slides.count > 1 && !disable && conf.bulletsOutside")
+    button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i }" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="onArrowClick(false)" @keyup.right="onArrowClick()" ref="bullet")
+      span {{ i + 1 }}
+
+  div.vueperslides__slide-content.vueperslides__slide-content--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
+    div.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
+    div.slide-title(v-if="slides.count && slides.list[slides.current].titleSlot" v-html="slides.list[slides.current].titleSlot")
+    div.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
+    div.slide-content(v-if="slides.count && slides.list[slides.current].contentSlot" v-html="slides.list[slides.current].contentSlot")
 </template>
 
 <script>

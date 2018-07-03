@@ -70,6 +70,9 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Complex slide title & content
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Content outside Top / Bottom
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
               | Slides to scroll at once
@@ -236,12 +239,13 @@ div.documentation
   p.
     This example uses #[b images] and #[b fading] as the slide transition.#[br]
     The #[b dragging] ability to change slide is #[b disabled].#[br]
-    The current slide title & content are shown #[b outside] of the slider.
-    #[br]Of course you can position it with a bit of CSS.
-  vueper-slides(fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3")
+    The current slide title & content are shown #[b outside] of the slider, you can place it above
+    or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
+    #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
+  vueper-slides(fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
   precode(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides fade :slide-content-outside="true" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
+    &lt;vueper-slides fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides2"
         :key="i"
@@ -526,7 +530,7 @@ div.documentation
     bullets:                  [Boolean],         default: true
     bulletsOutside:           [Boolean],         default: false
     fade:                     [Boolean],         default: false
-    slideContentOutside:      [Boolean],         default: false
+    slideContentOutside:      [Boolean, String], default: false
     slideContentOutsideClass: [String],          default: ""
     autoplay:                 [Boolean],         default: false
     speed:                    [Number, String],  default: 4000
@@ -596,10 +600,10 @@ div.documentation
         By default the slideshow slides when changing slide (and so #[span.code fade] is set to #[span.code false]).#[br]
         See this setting in action in the #[a(href="#ex--images-and-fading") Images & Fading] example.
     li
-      | #[code slideContentOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code slideContentOutside], #[strong Type:] #[span.code [Boolean, String]], #[strong Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
       p.
         Display the current slide title & content outside the slide.#[br]
-        You can position and style it with CSS.#[br]
+        You can position the content above or under the slideshow with the keywords #[span.code top] & #[span.code bottom].#[br]
         See this setting in action in the #[a(href="#ex--images-and-fading") Images & Fading] example.
 
     li
