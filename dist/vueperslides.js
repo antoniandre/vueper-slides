@@ -86,7 +86,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   if (typeof document !== 'undefined') {
     var head = document.head || document.getElementsByTagName('head')[0],
         style = document.createElement('style'),
-        css = ".vueperslides { position: relative; } .vueperslides__inner { position: relative; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; } .vueperslides__parallax-wrapper { position: relative; padding-bottom: 33.33%; overflow: hidden; } .vueperslides__parallax-wrapper::before, .vueperslides__parallax-wrapper::after { content: \"\"; position: absolute; bottom: 100%; left: -1em; right: -1em; height: 2em; box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); z-index: 2; } .vueperslides__parallax-wrapper::after { top: 100%; bottom: auto; } .vueperslides__track-wrapper { position: absolute; top: 0; height: 100%; left: 0; right: 0; overflow: hidden; z-index: 1; } .vueperslides--parallax .vueperslides__track-wrapper { height: 200%; transform: translateY(0); } .vueperslides--fade .vueperslides__track { white-space: normal; transition: none; } .vueperslides--touchable .vueperslides__track { cursor: ew-resize; cursor: -webkit-grab; cursor: grab; } .vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging { cursor: -webkit-grabbing; cursor: grabbing; } .vueperslides__track { white-space: nowrap; transition: 0.5s ease-in-out transform; height: 100%; } .vueperslides__track--mousedown { transition: 0.2s ease-in-out transform; } .vueperslides__track--dragging { transition: none; } .vueperslides__track--no-animation { transition-duration: 0s; } .vueperslides__slide { white-space: normal; background-position: top; background-size: cover; display: inline-block; width: 100%; height: 100%; } .vueperslides--fade .vueperslides__slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0; transition: .8s ease-in-out opacity; } .vueperslides--fade .vueperslides__slide--active { z-index: 1; opacity: 1; } .vueperslides__arrows { color: #fff; } .vueperslides__arrows--outside { color: #000; } .vueperslides__arrow { position: absolute; top: 50%; background-color: transparent; border: none; fill: currentColor; font-size: 3em; width: 1em; text-align: center; transform: translateY(-50%); opacity: 0.7; transition: 0.3s ease-in-out; cursor: pointer; user-select: none; outline: none; z-index: 2; } .vueperslides__arrow--prev { left: 10px; } .vueperslides__arrow--next { right: 10px; } .vueperslides__arrow:hover { opacity: 1; } .vueperslides__arrows--outside .vueperslides__arrow--prev { left: -40px; } .vueperslides__arrows--outside .vueperslides__arrow--next { right: -40px; } .vueperslides__paused { position: absolute; top: 3%; right: 3%; opacity: 0; transition: 0.3s ease-in-out; text-shadow: 0 0 3px rgba(0, 0, 0, 0.4); z-index: 1; } .vueperslides:hover .vueperslides__paused { opacity: 1; } .vueperslides__bullets { display: flex; justify-content: center; position: absolute; bottom: 0; left: 0; right: 0; } .vueperslides__bullets--outside { position: relative; } .vueperslides__bullet { width: 12px; height: 12px; border-radius: 12px; border: 1px solid #fff; background-color: transparent; box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 0 3px rgba(0, 0, 0, 0.3); margin: 1.5em 0.6em; padding: 0; display: inline-block; cursor: pointer; user-select: none; outline: none; z-index: 2; display: flex; justify-content: center; align-items: center; } .vueperslides__bullet--active { background-color: #fff; } .vueperslides__bullet::-moz-focus-inner { border: 0; } .vueperslides__bullet span { display: none; } ";style.type = 'text/css';if (style.styleSheet) {
+        css = ".vueperslides { position: relative; } .vueperslides__inner { position: relative; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; } .vueperslides__parallax-wrapper { position: relative; padding-bottom: 33.33%; overflow: hidden; } .vueperslides__parallax-wrapper::before, .vueperslides__parallax-wrapper::after { content: \"\"; position: absolute; bottom: 100%; left: -1em; right: -1em; height: 2em; box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); z-index: 2; } .vueperslides__parallax-wrapper::after { top: 100%; bottom: auto; } .vueperslides__track-wrapper { position: absolute; top: 0; height: 100%; left: 0; right: 0; overflow: hidden; z-index: 1; } .vueperslides--parallax .vueperslides__track-wrapper { height: 200%; transform: translateY(0); } .vueperslides--fade .vueperslides__track { white-space: normal; transition: none; } .vueperslides--touchable .vueperslides__track { cursor: ew-resize; cursor: -webkit-grab; cursor: grab; } .vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging { cursor: -webkit-grabbing; cursor: grabbing; } .vueperslides__track { white-space: nowrap; transition: 0.5s ease-in-out transform; height: 100%; } .vueperslides__track--mousedown { transition: 0.2s ease-in-out transform !important; } .vueperslides__track--dragging { transition: none; } .vueperslides__track--no-animation { transition-duration: 0s; } .vueperslides__slide { white-space: normal; background-position: top; background-size: cover; display: inline-block; width: 100%; height: 100%; } .vueperslides--fade .vueperslides__slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0; transition: .8s ease-in-out opacity; } .vueperslides--fade .vueperslides__slide--active { z-index: 1; opacity: 1; } .vueperslides__arrows { color: #fff; } .vueperslides__arrows--outside { color: #000; } .vueperslides__arrow { position: absolute; top: 50%; background-color: transparent; border: none; fill: currentColor; font-size: 3em; width: 1em; text-align: center; transform: translateY(-50%); opacity: 0.7; transition: 0.3s ease-in-out; cursor: pointer; user-select: none; outline: none; z-index: 2; } .vueperslides__arrow--prev { left: 10px; } .vueperslides__arrow--next { right: 10px; } .vueperslides__arrow:hover { opacity: 1; } .vueperslides__arrows--outside .vueperslides__arrow--prev { left: -40px; } .vueperslides__arrows--outside .vueperslides__arrow--next { right: -40px; } .vueperslides__paused { position: absolute; top: 3%; right: 3%; opacity: 0; transition: 0.3s ease-in-out; text-shadow: 0 0 3px rgba(0, 0, 0, 0.4); z-index: 1; } .vueperslides:hover .vueperslides__paused { opacity: 1; } .vueperslides__bullets { display: flex; justify-content: center; position: absolute; bottom: 0; left: 0; right: 0; } .vueperslides__bullets--outside { position: relative; } .vueperslides__bullet { width: 12px; height: 12px; border-radius: 12px; border: 1px solid #fff; background-color: transparent; box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 0 3px rgba(0, 0, 0, 0.3); margin: 1.5em 0.6em; padding: 0; display: inline-block; cursor: pointer; user-select: none; outline: none; z-index: 2; display: flex; justify-content: center; align-items: center; } .vueperslides__bullet--active { background-color: #fff; } .vueperslides__bullet::-moz-focus-inner { border: 0; } .vueperslides__bullet span { display: none; } ";style.type = 'text/css';if (style.styleSheet) {
       style.styleSheet.cssText = css;
     } else {
       style.appendChild(document.createTextNode(css));
@@ -95,11 +95,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 })();
 
 var VueperSlides = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--ready': _vm.isReady, 'vueperslides--fade': _vm.conf.fade, 'vueperslides--parallax': _vm.conf.parallax, 'vueperslides--touchable': _vm.touch.enabled && !_vm.disable } }, [_vm.conf.slideContentOutside ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside", class: _vm.conf.slideContentOutsideClass }, [_vm.slides.count && _vm.slides.list[_vm.slides.current].title ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].title) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].titleSlot ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].titleSlot) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].content ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].content) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].contentSlot ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].contentSlot) } }) : _vm._e()]) : _vm._e(), _c('div', { staticClass: "vueperslides__inner" }, [_c('div', { staticClass: "vueperslides__parallax-wrapper", style: 'padding-bottom:' + _vm.conf.slideRatio * 100 + '%' }, [_c('div', { staticClass: "vueperslides__track-wrapper", style: _vm.trackWrapperStyles }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.touch.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: !_vm.conf.fade ? 'transform: translateX(' + _vm.currentTranslation + '%)' : '' }, [_vm.slides.count && _vm.clones[0] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[0].style, attrs: { "clone": 0, "title": _vm.clones[0].title, "content": _vm.clones[0].content, "image": _vm.clones[0].image } }, [_vm.clones[0].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[0].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e(), _vm._t("default", null, { currentSlide: _vm.slides.current }), _vm.slides.count && _vm.clones[1] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[1].style, attrs: { "clone": 1, "title": _vm.clones[1].title, "content": _vm.clones[1].content, "image": _vm.clones[1].image } }, [_vm.clones[1].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[1].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e()], 2)])]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.conf.arrows && _vm.slides.count > 1 && !_vm.disable ? _c('div', { staticClass: "vueperslides__arrows", class: { 'vueperslides__arrows--outside': _vm.conf.arrowsOutside } }, [_c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowPrevDisabled, expression: "!arrowPrevDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--ready': _vm.isReady, 'vueperslides--fade': _vm.conf.fade, 'vueperslides--parallax': _vm.conf.parallax, 'vueperslides--touchable': _vm.touch.enabled && !_vm.disable, 'vueperslides--animated': true } }, [_vm.conf.slideContentOutside === 'top' ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside-top", class: _vm.conf.slideContentOutsideClass }, [_vm.slides.count && _vm.slides.list[_vm.slides.current].title ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].title) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].titleSlot ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].titleSlot) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].content ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].content) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].contentSlot ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].contentSlot) } }) : _vm._e()]) : _vm._e(), _c('div', { staticClass: "vueperslides__inner" }, [_c('div', { staticClass: "vueperslides__parallax-wrapper", style: 'padding-bottom:' + _vm.conf.slideRatio * 100 + '%' }, [_c('div', { staticClass: "vueperslides__track-wrapper", style: _vm.trackWrapperStyles }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.touch.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: _vm.trackStyles }, [_vm.slides.count && _vm.clones[0] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[0].style, attrs: { "clone": 0, "title": _vm.clones[0].title, "content": _vm.clones[0].content, "image": _vm.clones[0].image } }, [_vm.clones[0].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[0].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e(), _vm._t("default", null, { currentSlide: _vm.slides.current }), _vm.slides.count && _vm.clones[1] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[1].style, attrs: { "clone": 1, "title": _vm.clones[1].title, "content": _vm.clones[1].content, "image": _vm.clones[1].image } }, [_vm.clones[1].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[1].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e()], 2)])]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.conf.arrows && _vm.slides.count > 1 && !_vm.disable ? _c('div', { staticClass: "vueperslides__arrows", class: { 'vueperslides__arrows--outside': _vm.conf.arrowsOutside } }, [_c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowPrevDisabled, expression: "!arrowPrevDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--prev", on: { "click": function click($event) {
           _vm.onArrowClick(false);
         } } }, [_vm._t("arrowLeft", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z" } })])])], 2), _c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowNextDisabled, expression: "!arrowNextDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--next", on: { "click": function click($event) {
           _vm.onArrowClick();
-        } } }, [_vm._t("arrowRight", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z" } })])])], 2)]) : _vm._e()]), _vm.conf.bullets && _vm.slides.count > 1 && !_vm.disable ? _c('div', { staticClass: "vueperslides__bullets", class: { 'vueperslides__bullets--outside': _vm.conf.bulletsOutside } }, _vm._l(_vm.slides.list, function (item, i) {
+        } } }, [_vm._t("arrowRight", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z" } })])])], 2)]) : _vm._e(), _vm.conf.bullets && _vm.slides.count > 1 && !_vm.disable && !_vm.conf.bulletsOutside ? _c('div', { staticClass: "vueperslides__bullets" }, _vm._l(_vm.slides.list, function (item, i) {
       return _c('button', { key: i, ref: "bullet", refInFor: true, staticClass: "vueperslides__bullet", class: { 'vueperslides__bullet--active': _vm.slides.current === i }, on: { "click": function click($event) {
             _vm.goToSlide(i);
           }, "keyup": [function ($event) {
@@ -115,7 +115,23 @@ var VueperSlides = { render: function render() {
               return null;
             }_vm.onArrowClick();
           }] } }, [_c('span', [_vm._v(_vm._s(i + 1))])]);
-    })) : _vm._e()]);
+    })) : _vm._e()]), _vm.conf.bullets && _vm.slides.count > 1 && !_vm.disable && _vm.conf.bulletsOutside ? _c('div', { staticClass: "vueperslides__bullets vueperslides__bullets--outside" }, _vm._l(_vm.slides.list, function (item, i) {
+      return _c('button', { key: i, ref: "bullet", refInFor: true, staticClass: "vueperslides__bullet", class: { 'vueperslides__bullet--active': _vm.slides.current === i }, on: { "click": function click($event) {
+            _vm.goToSlide(i);
+          }, "keyup": [function ($event) {
+            if (!('button' in $event) && _vm._k($event.keyCode, "left", 37, $event.key, ["Left", "ArrowLeft"])) {
+              return null;
+            }if ('button' in $event && $event.button !== 0) {
+              return null;
+            }_vm.onArrowClick(false);
+          }, function ($event) {
+            if (!('button' in $event) && _vm._k($event.keyCode, "right", 39, $event.key, ["Right", "ArrowRight"])) {
+              return null;
+            }if ('button' in $event && $event.button !== 2) {
+              return null;
+            }_vm.onArrowClick();
+          }] } }, [_c('span', [_vm._v(_vm._s(i + 1))])]);
+    })) : _vm._e(), _vm.conf.slideContentOutside === 'bottom' ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside-bottom", class: _vm.conf.slideContentOutsideClass }, [_vm.slides.count && _vm.slides.list[_vm.slides.current].title ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].title) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].titleSlot ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].titleSlot) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].content ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].content) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].contentSlot ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].contentSlot) } }) : _vm._e()]) : _vm._e()]);
   }, staticRenderFns: [],
   name: 'vueper-slides',
   components: { VueperSlide: VueperSlide },
@@ -154,7 +170,7 @@ var VueperSlides = { render: function render() {
       default: false
     },
     slideContentOutside: {
-      type: Boolean,
+      type: [Boolean, String],
       default: false
     },
     slideContentOutsideClass: {
@@ -168,6 +184,10 @@ var VueperSlides = { render: function render() {
     speed: {
       type: [Number, String],
       default: 4000
+    },
+    transitionSpeed: {
+      type: [Number, String],
+      default: 600
     },
     pauseOnHover: {
       type: Boolean,
@@ -211,7 +231,7 @@ var VueperSlides = { render: function render() {
       mouseDown: false,
       mouseOver: false,
       touch: { enabled: true, dragging: false, dragStartX: 0, dragAmount: 0, goNext: true },
-      currentTranslation: 0,
+      transition: { currentTranslation: 0, speed: 0 },
       timer: null,
       arrowPrevDisabled: false,
       arrowNextDisabled: false,
@@ -230,6 +250,7 @@ var VueperSlides = { render: function render() {
       this.emit('before-init', false);
       this.container = this.$refs.vueperslides;
       this.touch.enabled = this.conf.touchable;
+      this.transition.speed = this.conf.transitionSpeed;
 
       if (Object.keys(this.breakpoints).length) {
         this.setBreakpointsList();
@@ -447,7 +468,7 @@ var VueperSlides = { render: function render() {
         // Set a flag for use while dragging in `onMouseMove` to know if drag was toward left or right.
         this.touch.goNext = dragPercentage >= 0.5;
 
-        this.currentTranslation = -100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage);
+        this.transition.currentTranslation = -100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage);
       }
     },
     onMouseMove: function onMouseMove(e) {
@@ -459,10 +480,10 @@ var VueperSlides = { render: function render() {
           this.touch.dragAmount = this.getDragAmount(e);
           var dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth;
 
-          this.currentTranslation = -100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage);
+          this.transition.currentTranslation = -100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage);
         } else {
           var dragPercentage = this.getDragPercentage(e);
-          this.currentTranslation = -100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage);
+          this.transition.currentTranslation = -100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage);
         }
       }
     },
@@ -483,7 +504,7 @@ var VueperSlides = { render: function render() {
         } else {
           // When the drag is realeased, calculate if the drag ends before or after the 50%-slideshow-width threshold.
           // Then finish the sliding toward that slide.
-          slideOnDragEnd = -(Math.round(this.currentTranslation / 100) + (this.clones.length ? 1 : 0));
+          slideOnDragEnd = -(Math.round(this.transition.currentTranslation / 100) + (this.clones.length ? 1 : 0));
         }
 
         var _getSlideInRange2 = this.getSlideInRange(slideOnDragEnd),
@@ -502,7 +523,7 @@ var VueperSlides = { render: function render() {
           this.goToSlide(slideOnDragEnd);
         } else {
           // Apply transition to snap back to current slide.
-          this.currentTranslation = -(this.slides.current + (this.clones.length ? 1 : 0)) * 100;
+          this.transition.currentTranslation = -(this.slides.current + (this.clones.length ? 1 : 0)) * 100;
         }
 
         this.touch.dragStartX = null;
@@ -605,17 +626,28 @@ var VueperSlides = { render: function render() {
         this.arrowNextDisabled = nextSlide === this.slides.count - 1;
       }
 
-      this.$refs.track.classList[animation ? 'remove' : 'add']('vueperslides__track--no-animation');
-
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
       // shows up, when the animation ends the real change to the first slide is done
       // immediately with no animation.
       // Same principle when going beyond first slide.
       if (nextSlideIsClone !== null) {
+        // Gives clone id (0 or 1 or null).
         setTimeout(function () {
-          _this3.goToSlide(nextSlideIsClone ? 0 : _this3.slides.count - 1, false, autoSliding);
-        }, 400);
+          // inside the callback, also check if it is not too late to apply next slide
+          // (user may have slid fast multiple times) if so cancel callback.
+          var passedCloneBackward = i === -1 && _this3.slides.current !== _this3.slides.count - 1;
+          var passedCloneForward = i === _this3.slides.count && _this3.slides.current !== 0;
+          var tooLateToSetTimeout = passedCloneBackward || passedCloneForward;
+
+          if (!tooLateToSetTimeout) {
+            _this3.transition.speed = 0;
+            _this3.goToSlide(nextSlideIsClone ? 0 : _this3.slides.count - 1, false, autoSliding);
+            setTimeout(function () {
+              _this3.transition.speed = _this3.conf.transitionSpeed;
+            }, 10);
+          }
+        }, this.transition.speed - 50);
       }
 
       this.slides.current = nextSlide;
@@ -623,8 +655,8 @@ var VueperSlides = { render: function render() {
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.conf.fade) {
         if (nextSlideIsClone !== null) {
-          this.currentTranslation = -100 * (nextSlideIsClone ? this.slides.count + 1 : 0);
-        } else this.currentTranslation = -100 * (this.slides.current + (this.clones.length ? 1 : 0));
+          this.transition.currentTranslation = -100 * (nextSlideIsClone ? this.slides.count + 1 : 0);
+        } else this.transition.currentTranslation = -100 * (this.slides.current + (this.clones.length ? 1 : 0));
       }
 
       this.slides.activeUid = this.slides.list[this.slides.current]._uid;
@@ -708,6 +740,17 @@ var VueperSlides = { render: function render() {
       // the breakpoint ones.
       return _extends({}, this.$props, this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {});
     },
+    trackStyles: function trackStyles() {
+      var styles = {};
+
+      styles.transitionDuration = this.transition.speed + 'ms';
+
+      if (!this.conf.fade) {
+        styles.transform = 'translateX(' + this.transition.currentTranslation + '%)';
+      }
+
+      return styles;
+    },
     trackWrapperStyles: function trackWrapperStyles() {
       var styles = {};
 
@@ -724,6 +767,7 @@ var VueperSlides = { render: function render() {
   }
 };
 
+// Expose component to global scope.
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.component('vueper-slides', VueperSlides);
   window.Vue.component('vueper-slide', VueperSlide);
