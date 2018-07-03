@@ -100,9 +100,9 @@ export default {
       type: [Number, String],
       default: 4000
     },
-    animationSpeed: {
+    transitionSpeed: {
       type: [Number, String],
-      default: 800
+      default: 600
     },
     pauseOnHover: {
       type: Boolean,
@@ -158,7 +158,7 @@ export default {
       this.emit('before-init', false)
       this.container = this.$refs.vueperslides
       this.touch.enabled = this.conf.touchable
-      this.transition.speed = this.conf.animationSpeed
+      this.transition.speed = this.conf.transitionSpeed
 
       if (Object.keys(this.breakpoints).length) {
         this.setBreakpointsList()
@@ -550,7 +550,7 @@ export default {
           if (!tooLateToSetTimeout) {
             this.transition.speed = 0
             this.goToSlide(nextSlideIsClone ? 0 : this.slides.count - 1, false, autoSliding)
-            setTimeout(() => { this.transition.speed = this.conf.animationSpeed }, 10)
+            setTimeout(() => { this.transition.speed = this.conf.transitionSpeed }, 10)
           }
         }, this.transition.speed - 50)
       }

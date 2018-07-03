@@ -369,11 +369,13 @@ div.documentation
   h3
     a(href="#ex--center-mode") Center Mode
     a(name="ex--center-mode")
-  p This example demonstrates how to use Vueper Slides in a center mode.#[br]
-  vueper-slides.ex--center-mode(arrows-outside bullets-outside)
+  p.
+    This example demonstrates how to use Vueper Slides in a center mode.#[br]
+    It also has a shorter transition speed #[span.code transition-speed='250'].
+  vueper-slides.ex--center-mode(arrows-outside bullets-outside transition-speed='250')
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   precode(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides arrows-outside bullets-outside&gt;
+    &lt;vueper-slides arrows-outside bullets-outside transition-speed='250'&gt;
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
@@ -534,6 +536,7 @@ div.documentation
     slideContentOutsideClass: [String],          default: ""
     autoplay:                 [Boolean],         default: false
     speed:                    [Number, String],  default: 4000
+    transitionSpeed:          [Number, String],  default: 600
     pauseOnHover:             [Boolean],         default: true
     infinite:                 [Boolean],         default: true
     parallax:                 [Boolean, Number], default: false
@@ -628,6 +631,12 @@ div.documentation
       highlight.
         If #[span.code pauseOnHover] is set to #[span.code true] the autoplay stops while hovering then resets
         to the defined #[span.code speed] when you stop hovering.
+
+    li
+      | #[code transitionSpeed], #[strong Type:] #[span.code [Number, String]], #[strong Default:] #[span.code 600]
+      p.
+        Defines how long the transition from a slide to another will last - in milliseconds.#[br]
+        See this setting in action in the #[a(href="#ex--center-mode") Center mode] example.
 
     li
       | #[code pauseOnHover], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
