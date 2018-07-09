@@ -11,25 +11,40 @@ v-app(light v-scroll="onScroll")
       Vueper Slides is an easy to use responsive & touch-ready slideshow made for VueJS.#[br]
       #[em - Inspired by #[a(href="http://kenwheeler.github.io/slick/" target="_blank") Slick] -]
     v-toolbar-items
-      //- v-menu(open-on-hover offset-y)
+      v-menu(offset-y open-on-hover left attach transition="slide-y-transition")
         v-btn(flat color="secondary" href="#vueper-slides--api" slot="activator")
           v-icon school
           | &nbsp;
           span Doc
-        v-list
-          v-list-tile
-            v-list-tile-title Installation
-            v-list-tile-title How To Use
-            v-list-tile-title #[span.code vueperslides] API
-            v-list-tile-title #[span.code vueperslide] API
-      v-btn(flat color="secondary" href="#vueper-slides--api")
-        v-icon school
-        | &nbsp;
-        span API
-      v-btn(flat color="secondary" href="#examples")
-        v-icon apps
-        | &nbsp;
-        span Examples
+        v-list.no-wrap
+          v-list-tile(color="secondary" href="#installation") Installation
+          v-list-tile(color="secondary" href="how-to-use") How To Use
+          v-list-tile(color="secondary" href="#vueper-slides--api")
+            | #[span.code &lt;vueperslides&gt;] API
+          v-list-tile(color="secondary" href="#vueper-slides--settings")
+            | #[span.code &lt;vueperslides&gt;] Settings
+          v-list-tile(color="secondary" href="#events") Events
+          v-list-tile(color="secondary" href="#vueper-slide--api")
+            | #[span.code &lt;vueperslide&gt;] API
+          v-list-tile(color="secondary" href="#vueper-slide--settings")
+            | #[span.code &lt;vueperslide&gt;] Settings
+      v-menu(offset-y open-on-hover left attach transition="slide-y-transition")
+        v-btn(flat color="secondary" href="#examples" slot="activator")
+          v-icon apps
+          | &nbsp;
+          span Examples
+        v-list.no-wrap
+          v-list-tile(color="secondary" href="#ex--simplest-ever") Simplest Ever
+          v-list-tile(color="secondary" href="#ex--basic") Basic with Autoplay
+          v-list-tile(color="secondary" href="#ex--arrows-and-bullets") Arrows & Bullets
+          v-list-tile(color="secondary" href="#ex--images-and-fading") Images & Fading
+          v-list-tile(color="secondary" href="#ex--events") Events
+          v-list-tile(color="secondary" href="#ex--add-remove-slides--disable") Add / Remove Slides & Disable
+          v-list-tile(color="secondary" href="#ex--center-mode") Center Mode
+          v-list-tile(color="secondary" href="#ex--breakpoints") Breakpoints
+          v-list-tile(color="secondary" href="#ex--dragging-distance") Dragging Distance
+          v-list-tile(color="secondary" href="#ex--parallax") Parallax
+          v-list-tile(color="secondary" href="#ex--complex-slide-title-and-content") Complex Slide Title & Content
   router-view
   v-footer
     v-layout.max-widthed(row wrap align-center justify-center)
