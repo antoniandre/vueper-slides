@@ -36,7 +36,7 @@
     "vue-loader": "^13.7.2",
     "vue-router": "^3.0.1",
     "vueperslides": "^1.5.0",
-    "vuetify": "^0.17.7",
+    "vuetify": "^1.1.1",
     "webpack": "^3.12.0",
     "webpack-dev-middleware": "^2.0.4",
     "webpack-dev-server": "^2.11.0"

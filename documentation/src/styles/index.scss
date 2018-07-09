@@ -56,7 +56,7 @@ pre {
 
 // FOOTER
 //=================================================//
-.application--wrap footer.footer {
+.application--wrap footer.v-footer {
   background: none;
   font-style: italic;
   color: $main-text;
@@ -67,10 +67,6 @@ pre {
     vertical-align: middle;
     transition: 1s ease-out;
     cursor: pointer;
-
-    &.fa-css3 {
-      font-size: 1.1em;
-    }
 
     &.fa-html5:hover, &.fa-css3:hover {
       transform: rotate(360deg);

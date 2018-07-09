@@ -29,7 +29,7 @@
     border-color: #f33 !important;
   }
 
-  .icon {
+  .v-icon {
     position: absolute;
     left: -9px;
     color: #fff !important;
@@ -38,33 +38,33 @@
     height: 15px;
   }
 
-  &.info .icon {
+  &.info .v-icon {
     background: #09f !important;
     transform: rotate(180deg);
     font-size: 23px;
     top: 0.4em;
   }
 
-  &.success .icon {
+  &.success .v-icon {
     background-color: #6c0 !important;
     font-size: 15px;
     top: 0.7em;
   }
 
-  &.error .icon {
+  &.error .v-icon {
     background-color: #f33 !important;
     font-size: 15px;
     top: 0.7em;
   }
 
-  &.tips .icon {
+  &.tips .v-icon {
     background-color: #fd0 !important;
     font-size: 14px;
     top: 0.7em;
     transform: rotate(180deg);
   }
 
-  &.warning .icon {
+  &.warning .v-icon {
     background-color: #fa0 !important;
     top: 0.4em;
   }

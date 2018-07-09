@@ -1,9 +1,14 @@
-.toolbar {
+.v-toolbar {
   z-index: 100;
   position: absolute;
   border-bottom: 1px solid transparent !important;
   transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
   top: 0;
+
+  &__content {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   &__title {
     position: relative;
@@ -91,20 +96,20 @@
     border-bottom-color: $lighter-text !important;
     position: fixed;
 
-    & .toolbar__title {
+    & .v-toolbar__title {
       width: 100%;
       transition: 0.6s ease-in-out all, 0.3s 0.3s ease-in-out background-color;
     }
 
-    & .toolbar__logo {
+    & .v-toolbar__logo {
       width: 50px;
     }
 
-    & .toolbar__logo-title {
+    & .v-toolbar__logo-title {
       font-size: 1.7em;
     }
 
-    & .toolbar__items {
+    & .v-toolbar__items {
       transition: 0.3s 0.3s ease-in-out all;
       transform: translateX(0%);
       opacity: 1;
@@ -120,11 +125,11 @@
 }
 
 @media screen and (max-width: 449px) {
-  .toolbar__items .btn {
+  .v-toolbar__items .v-btn {
     min-width: 50px;
   }
 
-  .toolbar__items a span {
+  .v-toolbar__items a span {
     display: none;
   }
 }
