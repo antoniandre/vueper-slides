@@ -73,6 +73,9 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Content outside Top / Bottom
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Externalize CSS
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
               | Slides to scroll at once
@@ -93,6 +96,9 @@ div.documentation
   precode(language="js" label="Javascript").
     // In your VueJS component.
     import { VueperSlides, VueperSlide } from 'vueperslides'
+
+    // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
+    import 'vueperslides/dist/vueperslides.min.css'
     ...
 
     export default {
@@ -104,6 +110,10 @@ div.documentation
       ...
     }
 
+  highlight(type="warning").
+    #[b Since version 1.6.0, Vueper Slides CSS is externalized into a file.]#[br]
+    This allows you to override those styles more easily or discard it if you prefer to have your own.
+
   h3 Via #[span.code &lt;script&gt;] tag
   p Include the Vueper Slides script in your document #[span.code &lt;head&gt;] as follows:
   precode(language="html" label="HTML").
@@ -111,7 +121,13 @@ div.documentation
       ...
       &lt;script src="https://unpkg.com/vue/dist/vue.min.js"&gt;&lt;/script&gt;
       &lt;script src="https://unpkg.com/vueperslides/dist/vueperslides.min.js"&gt;&lt;/script&gt;
+
+      // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
+      &lt;link href="https://unpkg.com/vueperslides/dist/vueperslides.min.css" rel="stylesheet"&gt;
     &lt;/head&gt;
+  highlight(type="warning").
+    #[b Since version 1.6.0, Vueper Slides CSS is externalized into a file.]#[br]
+    This allows you to override those styles more easily or discard it if you prefer to have your own.
 
   h2
     a(href="#how-to-use") How to use
@@ -174,6 +190,9 @@ div.documentation
     // In your VueJS component.
     import { VueperSlides, VueperSlide } from 'vueperslides'
 
+    // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
+    import 'vueperslides/dist/vueperslides.min.css'
+
     export default {
       components: { VueperSlides, VueperSlide },
       template: ...,
@@ -181,8 +200,8 @@ div.documentation
         slides: [
           {
             id: 'slide-1',
-            title: 'Slide <b style="font-size: 1.3em;color: yellow">#1</b>',
-            content: 'Slide title can be HTML.<br>And so does the slide content, <span style="font-size: 1.2em;color: yellow">why not?</span>'
+            title: 'Slide &lt;b style="font-size: 1.3em;color: yellow"&gt;#1&lt;/b&gt;',
+            content: 'Slide title can be HTML.&lt;br&gt;And so does the slide content, &lt;span style="font-size: 1.2em;color: yellow"&gt;why not?&lt;/span&gt;'
           },
           ...
         ]
