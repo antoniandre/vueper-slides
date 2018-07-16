@@ -2,6 +2,7 @@ import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
 import { precode } from '../../components/syntax-highlighter'
 import { highlight } from '../../components/highlight-message'
 
+import '../../../../dist/vueperslides.css'
 import './style.scss'
 import './examples.scss'
 

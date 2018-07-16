@@ -46,6 +46,7 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
 
 <script>
 import VueperSlide from './VueperSlide.vue'
+import './styles.scss'
 
 export default {
   name: 'vueper-slides',
@@ -665,7 +666,7 @@ export default {
         styles.transform = 'translateY(' + this.parallaxData.translation + '%)'
 
         // Increase browser optimizations by allocating more machine resource.
-        //!\ To be used wisely so deactivate when not needed.
+        // ! \\ To be used wisely so deactivate when not needed.
         styles.willChange = this.parallaxData.isVisible ? 'transform' : 'auto'
       }
 
@@ -676,37 +677,21 @@ export default {
 </script>
 
 <style lang="scss">
+// Vueperslides REQUIRED styles.
+// The nice-to-have not required styles are placed in an external
+// css file so the end user can easily override them.
 .vueperslides {
   position: relative;
 
   &__inner {
     position: relative;
     user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
   }
 
   &__parallax-wrapper {
     position: relative;
-    padding-bottom: 33.33%;
+    // padding-bottom: 33.33%;
     overflow: hidden;
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 100%;
-      left: -1em;
-      right: -1em;
-      height: 2em;
-      box-shadow: 0 0 20px rgba(#000, 0.25);
-      z-index: 2;
-    }
-
-    &::after {
-      top: 100%;
-      bottom: auto;
-    }
   }
 
   &__track-wrapper {
@@ -765,6 +750,11 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
+    position: relative;
+  }
+
+  &__slide &__slide-content {
+    position: absolute;
   }
 
   &--fade &__slide {
@@ -782,64 +772,22 @@ export default {
     }
   }
 
-  &__arrows {
-    color: #fff;
-
-    &--outside {
-      color: #000;
-    }
-  }
-
   &__arrow {
     position: absolute;
-    top: 50%;
-    background-color: transparent;
-    border: none;
     fill: currentColor;
-    font-size: 3em;
     width: 1em;
     text-align: center;
     transform: translateY(-50%);
-    opacity: 0.7;
     transition: 0.3s ease-in-out;
     cursor: pointer;
     user-select: none;
     outline: none;
     z-index: 2;
-
-    &--prev {
-      left: 10px;
-    }
-
-    &--next {
-      right: 10px;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &__arrows--outside &__arrow--prev {
-    left: -40px;
-  }
-
-  &__arrows--outside &__arrow--next {
-    right: -40px;
   }
 
   &__paused {
     position: absolute;
-    top: 3%;
-    right: 3%;
-    opacity: 0;
     transition: 0.3s ease-in-out;
-    text-shadow: 0 0 3px rgba(#000, .4);
-    z-index: 1;
-  }
-
-  &:hover &__paused {
-    opacity: 1;
   }
 
   &__bullets {
@@ -856,15 +804,6 @@ export default {
   }
 
   &__bullet {
-    width: 12px;
-    height: 12px;
-    border-radius: 12px;
-    border: 1px solid #fff;
-    background-color: transparent;
-    box-shadow: 0 0 1px rgba(#000, 0.5), 0 0 3px rgba(#000, 0.3);
-    margin: 1.5em 0.6em;
-    padding: 0;
-    display: inline-block;
     cursor: pointer;
     user-select: none;
     outline: none;
@@ -873,16 +812,8 @@ export default {
     justify-content: center;
     align-items: center;
 
-    &--active {
-      background-color: #fff;
-    }
-
     &::-moz-focus-inner {
       border: 0;
-    }
-
-    span {
-      display: none;
     }
   }
 }

@@ -1,0 +1,96 @@
+// Nice-to-have styles, easy to override by the end-user.
+.vueperslides {
+  &__parallax-wrapper {
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: -1em;
+      right: -1em;
+      height: 2em;
+      box-shadow: 0 0 20px rgba(#000, 0.25);
+      z-index: 2;
+    }
+
+    &::after {
+      top: 100%;
+      bottom: auto;
+    }
+  }
+
+  &__slide &__slide-content {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+
+  &__arrows {
+    color: #fff;
+
+    &--outside {
+      color: #000;
+    }
+  }
+
+  &__arrow {
+    top: 50%;
+    background-color: transparent;
+    border: none;
+    font-size: 3em;
+    opacity: 0.7;
+
+    &--prev {
+      left: 10px;
+    }
+
+    &--next {
+      right: 10px;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__arrows--outside &__arrow--prev {
+    left: -40px;
+  }
+
+  &__arrows--outside &__arrow--next {
+    right: -40px;
+  }
+
+  &__paused {
+    top: 3%;
+    right: 3%;
+    opacity: 0;
+    text-shadow: 0 0 3px rgba(#000, .4);
+    z-index: 1;
+  }
+
+  &:hover &__paused {
+    opacity: 1;
+  }
+
+  &__bullet {
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    border: 1px solid #fff;
+    background-color: transparent;
+    box-shadow: 0 0 1px rgba(#000, 0.5), 0 0 3px rgba(#000, 0.3);
+    margin: 1.5em 0.6em;
+    padding: 0;
+
+    &--active {
+      background-color: #fff;
+    }
+
+    span {
+      display: none;
+    }
+  }
+}

@@ -25,6 +25,7 @@ ___
 
 ## Release Notes
 
+- __Version 2.0.0__ Split required & nice-to-have styles
 - __Version 1.5.0__ Add transition speed param & slide content outside above or under slideshow
 - __Version 1.4.0__ Allow complex slide title & content
 - __Version 1.3.2__ Add option to place arrows outside. The config is now vuejs-reactive

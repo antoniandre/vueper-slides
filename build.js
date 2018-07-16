@@ -6,6 +6,9 @@ const pug = require('rollup-plugin-pug')
 // const eslint = require('rollup-plugin-eslint')
 const uglify = require('rollup-plugin-uglify')
 const watch = require('rollup-watch')
+const postcss = require('rollup-plugin-postcss')
+const sass = require('rollup-plugin-sass')
+const autoprefixer = require('autoprefixer')
 
 const libName = 'vueperslides'
 const config = (min = false) => {
@@ -19,7 +22,12 @@ const config = (min = false) => {
       resolve(),
       vue({ compileTemplate: true, css: true }),
       pug(),
-      // scss({ output: 'dist/vueperslides.css' }),
+      postcss({
+        extract: 'dist/vueperslides.min.css',
+        plugins: [autoprefixer],
+        // sourceMap: true,
+        minimize: true
+      }),
       babel({ exclude: 'node_modules/**' }),
       (min && uglify())
     ]
