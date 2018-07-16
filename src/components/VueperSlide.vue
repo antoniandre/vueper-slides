@@ -1,5 +1,5 @@
 <template lang="pug">
-div(:class="{ 'vueperslides__slide': true, 'vueperslides__slide--active': $parent.slides.activeUid === _uid }" :style="styles")
+div(:class="{ 'vueperslides__slide': true, 'vueperslides__slide--active': $parent.slides.activeUid === _uid }" :style="styles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
   div.vueperslides__slide-content(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
     div.slide-title(v-if="title || hasTitleSlotData")
       slot(name="slideTitle")
