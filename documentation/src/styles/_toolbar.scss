@@ -68,6 +68,11 @@
     opacity: 0;
   }
 
+  &__items .v-menu__content .v-list__tile {
+    height: 34px;
+    font-size: 1.1em;
+  }
+
   .intro {
     position: absolute;
     top: 5em;
