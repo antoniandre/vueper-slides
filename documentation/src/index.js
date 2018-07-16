@@ -30,11 +30,14 @@ new Vue({ // eslint-disable-line no-new
   components: { FontAwesomeIcon },
   template: require('./template.pug'),
   data: () => ({
-    offsetTop: 0
+    offsetTop: 0,
+    goTopHidden: true
   }),
   methods: {
     onScroll (e) {
       this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
+
+      this.goTopHidden = this.offsetTop < 200
     }
   }
 })
