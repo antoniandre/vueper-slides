@@ -35,7 +35,7 @@
     "vue": "^2.5.16",
     "vue-loader": "^13.7.2",
     "vue-router": "^3.0.1",
-    "vueperslides": "^1.5.0",
+    "vueperslides": "^1.6.0",
     "vuetify": "^1.1.1",
     "webpack": "^3.12.0",
     "webpack-config-utils": "^2.3.0",
