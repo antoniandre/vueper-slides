@@ -20,9 +20,7 @@
   ],
   "scripts": {
     "lint": "eslint ./*.js --ext .js,.vue src --cache",
-    "build:dev": "node build.js",
-    "build:dev2": "cross-env rollup -c -w",
-    "build:prod": "cross-env NODE_ENV=production rollup -c"
+    "build": "node build.js"
   },
   "devDependencies": {
     "autoprefixer": "^8.6.5",
