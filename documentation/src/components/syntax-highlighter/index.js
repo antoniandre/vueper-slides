@@ -64,7 +64,8 @@ const dictionnary = {
     comment: regexBasics.comment,
     number: /\b(\d+(?:\.\d+)?|null)\b/,
     boolean: regexBasics.boolean,
-    keyword: /\b(new|getElementsBy(?:Tag|Class|)Name|getElementById|arguments|if|else|do|return|case|default|function|typeof|undefined|instanceof|this|document|window|while|for|forEach|switch|in|break|continue|length|var|let|const|export|import|from|Number|Boolean|String|Array|Object|(?:clear|set)(?:Timeout|Interval)|Math(?=\.)|Date)(?=\W)/,
+    this: /\b(this)(?=\W)/,
+    keyword: /\b(new|getElementsBy(?:Tag|Class|)Name|getElementById|arguments|if|else|do|return|case|default|function|typeof|undefined|instanceof|document|window|while|for|forEach|switch|in|break|continue|length|var|let|const|export|import|from|Number|Boolean|String|Array|Object|(?:clear|set)(?:Timeout|Interval)|Math(?=\.)|Date)(?=\W)/,
     ponctuation: /(!==?|(?:[[\](){}:;,+\-%*/?=]|&lt;|&gt;)+|\.+(?![a-zA-Z])|&amp;&amp;|\|\|)/, // Override default since '.' can be part of js variable.
     variable: /(\.?[a-zA-Z]\w*)/,
     htmlentity: /(&.*?;)/,
