@@ -110,9 +110,9 @@ div.documentation
       ...
     }
 
-  highlight(type="warning").
-    #[b Since version 1.6.0, Vueper Slides CSS is externalized into a file.]#[br]
-    This allows you to override those styles more easily or discard it if you prefer to have your own.
+  highlight(type="warning")
+    b Since version 1.6.0, Vueper Slides CSS is externalized into a file.
+    | #[br]This allows you to override those styles more easily or discard it if you prefer to have your own.
 
   h3 Via #[span.code &lt;script&gt;] tag
   p Include the Vueper Slides script in your document #[span.code &lt;head&gt;] as follows:
@@ -125,9 +125,9 @@ div.documentation
       // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
       &lt;link href="https://unpkg.com/vueperslides/dist/vueperslides.min.css" rel="stylesheet"&gt;
     &lt;/head&gt;
-  highlight(type="warning").
-    #[b Since version 1.6.0, Vueper Slides CSS is externalized into a file.]#[br]
-    This allows you to override those styles more easily or discard it if you prefer to have your own.
+  highlight(type="warning")
+    b Since version 1.6.0, Vueper Slides CSS is externalized into a file.
+    | #[br]This allows you to override those styles more easily or discard it if you prefer to have your own.
 
   h2
     a(href="#how-to-use") How to use
@@ -176,7 +176,7 @@ div.documentation
     em The autoplay circles between all the slides and goes back to the begining after the last slide.
   vueper-slides.ex2(autoplay)
     v-icon(slot="pausedIcon" large color="white") pause_circle_outline
-    vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
+    vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides autoplay&gt;
       &lt;v-icon slot="pausedIcon" large color="white"&gt;pause_circle_outline&lt;/v-icon&gt;
@@ -219,7 +219,7 @@ div.documentation
   vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
     v-icon(slot="arrowLeft" color="white" x-large) undo
     v-icon(slot="arrowRight" color="white" x-large) redo
-    vueper-slide(v-for="(slide, i) in slides" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
+    vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
       &lt;v-icon slot="arrowLeft" color="white" large&gt;arrow_left&lt;/v-icon&gt;
@@ -266,7 +266,7 @@ div.documentation
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
       &lt;vueper-slide
-        v-for="(slide, i) in slides2"
+        v-for="(slide, i) in slides"
         :key="i"
         :image="'images/' + slide.image"
         :title="'# ' + slide.title"
@@ -274,43 +274,124 @@ div.documentation
     &lt;/vueper-slides&gt;
 
   h3
-    a(href="#ex--events") Events
-    a(name="ex--events")
+    a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content
+    a(name="ex--complex-slide-title-and-content")
   p.
-    This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
-    The events box bellow will log all the events (and the given params) triggered while using the slideshow.#[br]
-    Change slide to see new events in the events box bellow.
-  vueper-slides.ex--events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
-    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  pre.precode.events-box(data-label="Event box" style="min-height: 120px")
-    p(v-html="events")
-    | listening...
-  precode(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides
-      @before-init="logEvents"
-      @ready="logEvents"
-      @before-slide="logEvents"
-      @slide="logEvents"
-      :slide-ratio="0.2"&gt;
+    This example shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
+    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] & #[span.code slideContent]
+    if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
+
+  vueper-slides
+    vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+      div(slot="slideContent")
+        v-icon(color="white") check
+        | Complex content {{ i.toString() }} with vueJS
+        | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
+        | components & #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
+  precode(language="html-vue" label="HTML Vue Template" v-pre).
+    &lt;vueper-slides&gt;
       &lt;vueper-slide
-        v-for="i in 6"
+        v-for="i in 4"
         :key="i"
-        :title="i.toString()"
-        :content="slide.content"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
+        &lt;div slot="slideContent"&gt;
+         &lt;v-icon color="white"&gt;check&lt;/v-icon&gt;
+         Complex content with vueJS {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content & &lt;span v-pre&gt;{{ mustaches }}&lt;/span&gt;.
+        &lt;/div&gt;
+      &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="css" label="CSS").
-    .vueperslides__slide--active:before {
-      content: 'This slide is active!';
-      position: absolute;
-      top: -18px;
-      right: -18px;
-      padding: 4px 25px;
-      background: orange;
-      color: #fff;
-      font-size: 10px;
-      transform: translateX(30%) rotate(45deg);
-      transform-origin: 0 0;
-      box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+  highlight(type="warning")
+    strong Caution if you use the slide slots with the infinite sliding mode
+    | #[br]At each end of the slideshow, slide clones mirror the original slides.
+    | For them to display exactly like the original slide, the element with the
+    | #[span.code slot="slideContent"] attribute should wrap &nbsp;
+    | #[strong everything you want to keep]. E.g. (with Vuetify component)#[br]
+    v-layout
+      precode.flex.xs6.my-2.ml-0.mr-2(language="html-vue").
+        &lt;!-- Wrong way. The v-layout class will be lost. --&gt;
+        &lt;v-layout slot="slideContent"&gt;
+          Some content.
+        &lt/v-layout&gt;
+      precode.flex.xs6.my-2.ml-2.mr-0(language="html-vue").
+        &lt;!-- Right way. --&gt;
+        &lt;div slot="slideContent"&gt;
+          &lt;v-layout&gt;
+            Some content.
+          &lt/v-layout&gt;
+        &lt/div&gt;
+
+  h3
+    a(href="#ex--updating-content") Updating Content
+    a(name="ex--updating-content")
+  p.mb-0.
+    This example shows how to update the content (title and/or content) after slideshow is initialized.
+    Well, nothing to do really. It will just update by itself!
+    #[br]For this demonstration the content is complex (refer to #[a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content] for more details) and uses
+    Vue JS Vuetify components like #[span.code v-layout], #[span.code v-icon] & mustaches #[span.code(v-pre) {{ }}].
+  p
+    | Try it:&nbsp;
+    v-btn(color="primary" @click="toggleSlidesTime" small)
+      v-icon {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
+      | &nbsp;{{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
+    | &nbsp;
+    v-slide-x-transition
+      v-chip(v-show="slidesTimeTimerId === 0" small outline disabled) CPU says THANK YOU!
+  vueper-slides(:slide-ratio="1/4")
+    vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
+      div(slot="slideContent")
+        v-layout
+          v-icon.pr-3(color="white" size="5em") access_time
+          div.text-xs-left
+            div.py-2.title {{ slide.title }}
+            div {{ slide.content }}
+  precode(language="html-vue" label="HTML Vue Template" v-pre).
+    &lt;v-btn @click="toggleSlidesTime"&gt;Keep updating time&lt;/v-btn&gt;
+    &lt;vueper-slides :slide-ratio="1/4"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="i"
+        :title="slide.title"
+        :content="slide.content"
+        :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
+        &lt;div slot="slideContent"&gt;
+          &lt;v-layout"&gt;
+            &lt;v-icon&gt;access_time&lt/v-icon&gt;
+            &lt;div&gt;
+              &lt;div&gt;{{ slide.title }}&lt/div&gt;
+              &lt;div&gt;{{ slide.content }}&lt/div&gt;
+            &lt/div&gt;
+          &lt/v-layout&gt;
+        &lt/div&gt;
+      &lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  precode(language="js" label="Javascript").
+    // In your VueJS component.
+
+    data: () => ({
+      slidesTimeTimerId: null,
+      slides: [
+        { title: 'Time', content: 'Time in 5 hours: ' },
+        { title: 'Time', content: 'Time in 5 hours: ' }
+      ]
+    }),
+    methods: {
+      toggleSlidesTime () {
+        if (this.slidesTimeTimerId) {
+          clearInterval(this.slidesTimeTimerId)
+          this.slidesTimeTimerId = 0
+        } else {
+          this.updateSlidesWithTime()
+          this.slidesTimeTimerId = setInterval(this.updateSlidesWithTime, 1000)
+        }
+      },
+      updateSlidesWithTime () {
+        this.slides.forEach(slide => {
+          let time = new Date()
+          slide.title = time.toLocaleTimeString()
+          slide.content = 'Time in 5 hours: ' + new Date(time.getTime() + 5 * 3600000).toLocaleTimeString()
+        })
+      }
     }
 
   h3
@@ -409,6 +490,54 @@ div.documentation
     }
 
   h3
+    a(href="#ex--events") Events
+    a(name="ex--events")
+  p.
+    This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
+    The events box bellow will log all the events (and the given params) triggered while using the slideshow.#[br]
+    Change slide to see new events in the events box bellow.
+  vueper-slides.ex--events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
+    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  pre.precode.events-box(data-label="Event box" style="min-height: 120px")
+    p(v-html="events")
+    | listening...
+  precode(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides
+      @before-init="logEvents"
+      @ready="logEvents"
+      @before-slide="logEvents"
+      @slide="logEvents"
+      :slide-ratio="0.2"&gt;
+      &lt;vueper-slide
+        v-for="i in 6"
+        :key="i"
+        :title="i.toString()"
+        :content="slide.content"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  precode(language="js" label="Javascript").
+    // In your VueJS component.
+
+    methods: {
+      logEvents (eventName, params) {
+        this.events += `<b>&bull; Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
+      }
+    }
+  precode(language="css" label="CSS").
+    .vueperslides__slide--active:before {
+      content: 'This slide is active!';
+      position: absolute;
+      top: -18px;
+      right: -18px;
+      padding: 4px 25px;
+      background: orange;
+      color: #fff;
+      font-size: 10px;
+      transform: translateX(30%) rotate(45deg);
+      transform-origin: 0 0;
+      box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
+    }
+
+  h3
     a(href="#ex--breakpoints") Using Breakpoints
     a(name="ex--breakpoints")
   p.
@@ -504,31 +633,6 @@ div.documentation
   highlight.
     If you are experiencing image jumps on scroll, keep in mind that this page is considerably big and
     uses more than 10 instances of Vueper Slides.
-  h3
-    a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content
-    a(name="ex--complex-slide-title-and-content")
-  p.
-    This example shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
-    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] & #[span.code slideContent]
-    if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
-
-  vueper-slides
-    vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      div(slot="slideContent")
-        v-icon(color="white") check
-        | Complex content {{ i.toString() }} with vueJS {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like components &  #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
-  precode(language="html-vue" label="HTML Vue Template" v-pre).
-    &lt;vueper-slides&gt;
-      &lt;vueper-slide
-        v-for="i in 4"
-        :key="i"
-        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
-        &lt;div slot="slideContent"&gt;
-         &lt;v-icon color="white"&gt;check&lt;/v-icon&gt;
-         Complex content with vueJS {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content & &lt;span v-pre&gt;{{ mustaches }}&lt;/span&gt;.
-        &lt;/div&gt;
-      &lt;/vueper-slide&gt;
-    &lt;/vueper-slides&gt;
 
   h2
     a(href="#vueper-slides--api") #[span.code &lt;vueper-slides&gt;] API

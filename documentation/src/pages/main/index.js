@@ -18,30 +18,16 @@ export default {
     events: '',
     slideshowDisabled: false,
     parallax: 1,
+    slidesTimeTimerId: null,
     imagesRoot: process.env.NODE_ENV === 'production' ? './dist/images/' : './images/',
     breakpoints: {
-      1200: {
-        slideRatio: 1 / 5
-      },
-      1100: {
-        slideRatio: 1 / 4
-      },
-      900: {
-        slideRatio: 1 / 3
-      },
-      600: {
-        slideRatio: 1 / 2,
-        arrows: false,
-        bulletsOutside: true
-      }
+      1200: { slideRatio: 1 / 5 },
+      1100: { slideRatio: 1 / 4 },
+      900: { slideRatio: 1 / 3 },
+      600: { slideRatio: 1 / 2, arrows: false, bulletsOutside: true }
     },
-    colors: [
-      '#42b983',
-      '#2196f3',
-      '#ffc107',
-      '#ff5252'
-    ],
-    slides: [
+    colors: ['#42b983', '#2196f3', '#ffc107', '#ff5252'],
+    slides1: [
       {
         id: 'slide-1',
         title: 'Slide <b style="font-size: 1.3em;color: yellow">#1</b>',
@@ -101,14 +87,12 @@ export default {
       }
     ],
     slides3: [
-      {
-        title: 'Slide 1',
-        content: 'Slide 1 content.'
-      },
-      {
-        title: 'Slide 2',
-        content: 'Slide 2 content.'
-      }
+      { title: 'Slide 1', content: 'Slide 1 content.' },
+      { title: 'Slide 2', content: 'Slide 2 content.' }
+    ],
+    slides4: [
+      { title: 'Time', content: 'Time in 5 hours: ' },
+      { title: 'Time', content: 'Time in 5 hours: ' }
     ]
   }),
   methods: {
@@ -126,14 +110,25 @@ export default {
     },
     toggleSlideshow () {
       this.slideshowDisabled = !this.slideshowDisabled
+    },
+    toggleSlidesTime () {
+      if (this.slidesTimeTimerId) {
+        clearInterval(this.slidesTimeTimerId)
+        this.slidesTimeTimerId = 0
+      } else {
+        this.updateSlidesWithTime()
+        this.slidesTimeTimerId = setInterval(this.updateSlidesWithTime, 1000)
+      }
+    },
+    updateSlidesWithTime () {
+      this.slides4.forEach(slide => {
+        let time = new Date()
+        slide.title = time.toLocaleTimeString()
+        slide.content = 'Time in 5 hours: ' + new Date(time.getTime() + 5 * 3600000).toLocaleTimeString()
+      })
     }
   },
   created () {
-    setTimeout(() => {
-      this.disabled = true
-    }, 3000)
-    setTimeout(() => {
-      this.disabled = false
-    }, 6000)
+    this.updateSlidesWithTime()
   }
 }
