@@ -15,7 +15,7 @@
     overflow: visible;
     margin-left: auto !important;
     margin-right: auto !important;
-    width: 22em;
+    width: 23em;
     transition: 0.3s ease-in-out;
     font-size: 1em;
     padding: 0 1em;
@@ -43,8 +43,8 @@
   }
 
   &__logo {
-    width: 60px;
-    padding-right: 1em;
+    width: 48px;
+    margin-right: 15px;
     fill: $primary;
     vertical-align: middle;
     transition: 0.2s 0s ease-in-out;
@@ -58,6 +58,17 @@
     display: inline-block;
     vertical-align: middle;
     transition: 0.3s ease-in-out;
+    font-size: 32px;
+  }
+
+  &__logo-title:after {
+    content: "*";
+    position: absolute;
+    top: 0;
+    margin-left: -7px;
+    line-height: 1;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
   }
 
   &__items {
@@ -75,15 +86,19 @@
 
   .intro {
     position: absolute;
-    top: 5em;
-    left: 0;
-    right: 0;
-    color: #999;
+    top: 3.5em;
+    left: 72px;
+    color: #afafaf;
     opacity: 1;
     transform: translateY(0em);
     transition: 0.3s .4s ease-in-out, 0s 0s top;
-    text-align: center;
-    font-style: italic;
+    font: italic 12px Roboto, Tahoma, Geneva, sans-serif;
+    border: none;
+  }
+
+  .intro:before {
+    content: "* ";
+    vertical-align: super;
   }
 
   .intro em {
@@ -107,11 +122,15 @@
     }
 
     & .v-toolbar__logo {
-      width: 50px;
+      width: 37px;
     }
 
     & .v-toolbar__logo-title {
-      font-size: 1.7em;
+      font-size: 0.7em;
+    }
+
+    & .v-toolbar__logo-title:after {
+      opacity: 0;
     }
 
     & .v-toolbar__items {
