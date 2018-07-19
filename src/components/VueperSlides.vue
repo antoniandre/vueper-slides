@@ -379,6 +379,12 @@ export default {
         this.mouseDown = false
         this.touch.dragging = true
 
+        // The clones are created with a copy of content.
+        // Set refreshClonesOnDrag to true if you want to keep updating clones before you see them.
+        if (this.conf.refreshClonesOnDrag && this.conf.infinite && !this.conf.fade) {
+          this.cloneSlides()
+        }
+
         if (this.draggingDistance) {
           this.touch.dragAmount = this.getDragAmount(e)
           let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
