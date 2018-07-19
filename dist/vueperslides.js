@@ -19,7 +19,7 @@ var _extends$1 = Object.assign || function (target) { for (var i = 1; i < argume
 })();
 
 var VueperSlide = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { class: { 'vueperslides__slide': true, 'vueperslides__slide--active': _vm.$parent.slides.activeUid === _vm._uid }, style: _vm.styles, attrs: { "aria-hidden": _vm.$parent.slides.activeUid === _vm._uid ? 'false' : 'true' } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.$parent.conf.slideContentOutside && (_vm.title || _vm.hasTitleSlotData || _vm.content || _vm.hasContentSlotData), expression: "!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)" }], staticClass: "vueperslides__slide-content" }, [_vm.title || _vm.hasTitleSlotData ? _c('div', { staticClass: "slide-title" }, [_vm._t("slideTitle"), _vm.title ? _c('div', { domProps: { "innerHTML": _vm._s(_vm.title) } }) : _vm._e()], 2) : _vm._e(), _vm.content || _vm.hasContentSlotData ? _c('div', { staticClass: "slide-content" }, [_vm._t("slideContent"), _vm.content ? _c('div', { domProps: { "innerHTML": _vm._s(_vm.content) } }) : _vm._e()], 2) : _vm._e()])]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { class: { 'vueperslides__slide': true, 'vueperslides__slide--active': _vm.$parent.slides.activeUid === _vm._uid }, style: _vm.styles, attrs: { "aria-hidden": _vm.$parent.slides.activeUid === _vm._uid ? 'false' : 'true' } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.$parent.conf.slideContentOutside && (_vm.title || _vm.hasTitleSlotData || _vm.content || _vm.hasContentSlotData), expression: "!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)" }], staticClass: "vueperslides__slide-content" }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.title || _vm.hasTitleSlotData, expression: "title || hasTitleSlotData" }], staticClass: "slide-title" }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.$parent.conf.slideContentOutside && !_vm.title, expression: "!$parent.conf.slideContentOutside && !title" }] }, [_vm._t("slideTitle")], 2), _vm.title ? _c('div', { domProps: { "innerHTML": _vm._s(_vm.title) } }) : _vm._e()]), _vm.content || _vm.hasContentSlotData ? _c('div', { staticClass: "slide-content" }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.$parent.conf.slideContentOutside && !_vm.content, expression: "!$parent.conf.slideContentOutside && !content" }] }, [_vm._t("slideContent")], 2), _vm.content ? _c('div', { domProps: { "innerHTML": _vm._s(_vm.content) } }) : _vm._e()]) : _vm._e()])]);
   }, staticRenderFns: [],
   props: {
     clone: {
@@ -39,18 +39,10 @@ var VueperSlide = { render: function render() {
       default: ''
     }
   },
-  mounted: function mounted() {
-    if (this.hasTitleSlotData) this.$parent.updateSlideContent(this._uid, 'titleSlot', this.titleSlot);
-    if (this.hasContentSlotData) this.$parent.updateSlideContent(this._uid, 'contentSlot', this.contentSlot);
-  },
   created: function created() {
-    this.$parent.addSlide({
-      _uid: this._uid,
-      image: this.image,
-      title: this.title,
-      content: this.content,
-      clone: this.clone
-    });
+    // vueperslide component has this useful attributes:
+    // _uid, image, title, titleSlot, content, contentSlot, clone.
+    this.$parent.addSlide(this);
   },
 
   // When removing a slide programmatically, remove it from the config so vueperslides
@@ -64,16 +56,14 @@ var VueperSlide = { render: function render() {
       return _extends$1({}, this.image && { backgroundImage: 'url(' + this.image + ')' });
     },
     hasTitleSlotData: function hasTitleSlotData() {
-      return this.$slots.slideTitle;
+      var slideTitle = this.$slots.slideTitle;
+
+      return slideTitle !== undefined;
     },
     hasContentSlotData: function hasContentSlotData() {
-      return this.$slots.slideContent;
-    },
-    titleSlot: function titleSlot() {
-      return this.hasTitleSlotData ? this.$slots.slideTitle[0].elm.innerHTML : '';
-    },
-    contentSlot: function contentSlot() {
-      return this.hasContentSlotData ? this.$slots.slideContent[0].elm.innerHTML : '';
+      var slideContent = this.$slots.slideContent;
+
+      return slideContent !== undefined;
     }
   }
 };
@@ -95,7 +85,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 })();
 
 var VueperSlides = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--ready': _vm.isReady, 'vueperslides--fade': _vm.conf.fade, 'vueperslides--parallax': _vm.conf.parallax, 'vueperslides--touchable': _vm.touch.enabled && !_vm.disable, 'vueperslides--animated': true }, attrs: { "aria-label": "Slideshow" } }, [_vm.conf.slideContentOutside === 'top' ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside-top", class: _vm.conf.slideContentOutsideClass }, [_vm.slides.count && _vm.slides.list[_vm.slides.current].title ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].title) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].titleSlot ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].titleSlot) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].content ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].content) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].contentSlot ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].contentSlot) } }) : _vm._e()]) : _vm._e(), _c('div', { staticClass: "vueperslides__inner" }, [_c('div', { staticClass: "vueperslides__parallax-wrapper", style: 'padding-bottom:' + _vm.conf.slideRatio * 100 + '%', attrs: { "aria-live": "polite" } }, [_c('div', { staticClass: "vueperslides__track-wrapper", style: _vm.trackWrapperStyles }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.touch.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: _vm.trackStyles }, [_vm.slides.count && _vm.clones[0] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[0].style, attrs: { "clone": 0, "title": _vm.clones[0].title, "content": _vm.clones[0].content, "image": _vm.clones[0].image, "aria-hidden": "true" } }, [_vm.clones[0].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[0].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e(), _vm._t("default", null, { currentSlide: _vm.slides.current }), _vm.slides.count && _vm.clones[1] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[1].style, attrs: { "clone": 1, "title": _vm.clones[1].title, "content": _vm.clones[1].content, "image": _vm.clones[1].image, "aria-hidden": "true" } }, [_vm.clones[1].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[1].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e()], 2)])]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.conf.arrows && _vm.slides.count > 1 && !_vm.disable ? _c('div', { staticClass: "vueperslides__arrows", class: { 'vueperslides__arrows--outside': _vm.conf.arrowsOutside } }, [_c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowPrevDisabled, expression: "!arrowPrevDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--prev", attrs: { "aria-label": "Previous" }, on: { "click": function click($event) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { ref: "vueperslides", staticClass: "vueperslides", class: { 'vueperslides--ready': _vm.isReady, 'vueperslides--fade': _vm.conf.fade, 'vueperslides--parallax': _vm.conf.parallax, 'vueperslides--touchable': _vm.touch.enabled && !_vm.disable, 'vueperslides--animated': true }, attrs: { "aria-label": "Slideshow" } }, [_vm.conf.slideContentOutside === 'top' ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside-top", class: _vm.conf.slideContentOutsideClass }, [_vm.slides.count ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.getCurrentSlideData('title')) } }) : _vm._e(), _vm.slides.count ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.getCurrentSlideData('content')) } }) : _vm._e()]) : _vm._e(), _c('div', { staticClass: "vueperslides__inner" }, [_c('div', { staticClass: "vueperslides__parallax-wrapper", style: 'padding-bottom:' + _vm.conf.slideRatio * 100 + '%', attrs: { "aria-live": "polite" } }, [_c('div', { staticClass: "vueperslides__track-wrapper", style: _vm.trackWrapperStyles }, [_c('div', { ref: "track", staticClass: "vueperslides__track", class: { 'vueperslides__track--dragging': _vm.touch.dragging, 'vueperslides__track--mousedown': _vm.mouseDown }, style: _vm.trackStyles }, [_vm.slides.count && _vm.clones[0] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[0].style, attrs: { "clone": 0, "title": _vm.clones[0].title, "content": _vm.clones[0].content, "image": _vm.clones[0].image, "aria-hidden": "true" } }, [_vm.clones[0].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[0].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[0].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e(), _vm._t("default", null, { currentSlide: _vm.slides.current }), _vm.slides.count && _vm.clones[1] ? _c('vueper-slide', { staticClass: "vueperslides__slide--clone", style: _vm.clones[1].style, attrs: { "clone": 1, "title": _vm.clones[1].title, "content": _vm.clones[1].content, "image": _vm.clones[1].image, "aria-hidden": "true" } }, [_vm.clones[1].titleSlot ? _c('div', { attrs: { "slot": "slideTitle" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].titleSlot) }, slot: "slideTitle" }) : _vm._e(), _vm.clones[1].contentSlot ? _c('div', { attrs: { "slot": "slideContent" }, domProps: { "innerHTML": _vm._s(_vm.clones[1].contentSlot) }, slot: "slideContent" }) : _vm._e()]) : _vm._e()], 2)])]), _vm.$slots.pausedIcon ? _c('div', { staticClass: "vueperslides__paused" }, [_vm._t("pausedIcon")], 2) : _vm._e(), _vm.conf.arrows && _vm.slides.count > 1 && !_vm.disable ? _c('div', { staticClass: "vueperslides__arrows", class: { 'vueperslides__arrows--outside': _vm.conf.arrowsOutside } }, [_c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowPrevDisabled, expression: "!arrowPrevDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--prev", attrs: { "aria-label": "Previous" }, on: { "click": function click($event) {
           _vm.onArrowClick(false);
         } } }, [_vm._t("arrowLeft", [_c('svg', { attrs: { "viewBox": "0 0 24 24" } }, [_c('path', { attrs: { "d": "M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z" } })])])], 2), _c('button', { directives: [{ name: "show", rawName: "v-show", value: !_vm.arrowNextDisabled, expression: "!arrowNextDisabled" }], staticClass: "vueperslides__arrow vueperslides__arrow--next", attrs: { "aria-label": "Next" }, on: { "click": function click($event) {
           _vm.onArrowClick();
@@ -131,7 +121,7 @@ var VueperSlides = { render: function render() {
               return null;
             }_vm.onArrowClick();
           }] } }, [_c('span', [_vm._v(_vm._s(i + 1))])]);
-    })) : _vm._e(), _vm.conf.slideContentOutside === 'bottom' ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside-bottom", class: _vm.conf.slideContentOutsideClass }, [_vm.slides.count && _vm.slides.list[_vm.slides.current].title ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].title) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].titleSlot ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].titleSlot) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].content ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].content) } }) : _vm._e(), _vm.slides.count && _vm.slides.list[_vm.slides.current].contentSlot ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.slides.list[_vm.slides.current].contentSlot) } }) : _vm._e()]) : _vm._e()]);
+    })) : _vm._e(), _vm.conf.slideContentOutside === 'bottom' ? _c('div', { staticClass: "vueperslides__slide-content vueperslides__slide-content--outside-bottom", class: _vm.conf.slideContentOutsideClass }, [_vm.slides.count ? _c('div', { staticClass: "slide-title", domProps: { "innerHTML": _vm._s(_vm.getCurrentSlideData('title')) } }) : _vm._e(), _vm.slides.count ? _c('div', { staticClass: "slide-content", domProps: { "innerHTML": _vm._s(_vm.getCurrentSlideData('content')) } }) : _vm._e()]) : _vm._e()]);
   }, staticRenderFns: [],
   name: 'vueper-slides',
   components: { VueperSlide: VueperSlide },
@@ -196,6 +186,10 @@ var VueperSlides = { render: function render() {
     infinite: {
       type: Boolean,
       default: true
+    },
+    refreshClonesOnDrag: {
+      type: Boolean,
+      default: false
     },
     parallax: {
       type: [Boolean, Number],
@@ -278,30 +272,74 @@ var VueperSlides = { render: function render() {
       var includeCurrentSlide = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var includeNextSlide = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
+      // Emit param 0 = event name string.
       var args = [name];
 
       if (includeCurrentSlide || typeof includeNextSlide === 'number') {
+        // Emit param 1 is object like { currentSlide: ...[, nextSlide: ...] }.
         args[1] = {};
+
         if (includeCurrentSlide && this.slides.activeUid) {
-          args[1].currentSlide = {
-            index: this.slides.current,
-            title: this.slides.list[this.slides.current].titleSlot ? this.slides.list[this.slides.current].titleSlot : this.slides.list[this.slides.current].title,
-            content: this.slides.list[this.slides.current].contentSlot ? this.slides.list[this.slides.current].contentSlot : this.slides.list[this.slides.current].content
-          };
+          args[1].currentSlide = this.getSlideData(this.slides.current);
         }
+
         if (typeof includeNextSlide === 'number') {
           var _getSlideInRange = this.getSlideInRange(includeNextSlide),
-              nextSlide = _getSlideInRange.nextSlide;
+              nextSlideIndex = _getSlideInRange.nextSlide;
 
-          args[1].nextSlide = {
-            index: nextSlide,
-            title: this.slides.list[nextSlide].titleSlot ? this.slides.list[nextSlide].titleSlot : this.slides.list[nextSlide].title,
-            content: this.slides.list[nextSlide].contentSlot ? this.slides.list[nextSlide].contentSlot : this.slides.list[nextSlide].content
-          };
+          args[1].nextSlide = this.getSlideData(nextSlideIndex);
         }
       }
 
       this.$emit.apply(this, [name].concat(args));
+    },
+    getSlideData: function getSlideData(index) {
+      var withStyle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      var slide = this.slides.list[index];
+      var _slide$$slots = slide.$slots,
+          _slide$$slots$slideTi = _slide$$slots.slideTitle,
+          slideTitle = _slide$$slots$slideTi === undefined ? [{}] : _slide$$slots$slideTi,
+          _slide$$slots$slideCo = _slide$$slots.slideContent,
+          slideContent = _slide$$slots$slideCo === undefined ? [{}] : _slide$$slots$slideCo;
+      var _slideTitle$0$elm = slideTitle[0].elm,
+          elmT = _slideTitle$0$elm === undefined ? {} : _slideTitle$0$elm;
+      var _slideContent$0$elm = slideContent[0].elm,
+          elmC = _slideContent$0$elm === undefined ? {} : _slideContent$0$elm;
+
+
+      var data = {
+        index: index,
+        title: slide.title,
+        titleSlot: elmT && elmT.innerHTML || null,
+        content: slide.content,
+        contentSlot: elmC && elmC.innerHTML || null,
+        image: slide.image
+      };
+
+      if (withStyle) {
+        var _slide$$el$attributes = slide.$el.attributes;
+        _slide$$el$attributes = _slide$$el$attributes === undefined ? {} : _slide$$el$attributes;
+        var _slide$$el$attributes2 = _slide$$el$attributes.style;
+        _slide$$el$attributes2 = _slide$$el$attributes2 === undefined ? {} : _slide$$el$attributes2;
+        var _slide$$el$attributes3 = _slide$$el$attributes2.value,
+            value = _slide$$el$attributes3 === undefined ? '' : _slide$$el$attributes3;
+
+        data.style = value;
+      }
+
+      return data;
+    },
+    getCurrentSlideData: function getCurrentSlideData(what) {
+      var _getSlideData = this.getSlideData(this.slides.current),
+          titleSlot = _getSlideData.titleSlot,
+          title = _getSlideData.title,
+          contentSlot = _getSlideData.contentSlot,
+          content = _getSlideData.content;
+      // If both slot and attribute are provided use the attribute source.
+
+
+      return what === 'title' ? title || titleSlot : content || contentSlot;
     },
     setBreakpointsList: function setBreakpointsList() {
       this.breakpointsData.list = [99999].concat(_toConsumableArray(Object.keys(this.breakpoints))).sort(function (a, b) {
@@ -324,35 +362,8 @@ var VueperSlides = { render: function render() {
       // this.conf gets updated by itself when this.breakpointsData.current changes.
     },
     cloneSlides: function cloneSlides() {
-      var firstNodeIsVnode = this.$slots.default[0].tag;
-      var firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm;
-      var lastSlide = this.$slots.default[this.$slots.default.length - 1].elm;
-
-      this.clones[0] = {
-        title: this.slides.list[this.slides.count - 1].title,
-        titleSlot: this.slides.list[this.slides.count - 1].titleSlot || '',
-        content: this.slides.list[this.slides.count - 1].content,
-        contentSlot: this.slides.list[this.slides.count - 1].contentSlot || '',
-        image: this.slides.list[this.slides.count - 1].image,
-        style: lastSlide && lastSlide.attributes.style ? lastSlide.attributes.style.value : ''
-      };
-      this.clones[1] = {
-        title: this.slides.list[0].title,
-        titleSlot: this.slides.list[0].titleSlot || '',
-        content: this.slides.list[0].content,
-        contentSlot: this.slides.list[0].contentSlot || '',
-        image: this.slides.list[0].image,
-        style: firstSlide && firstSlide.attributes.style ? firstSlide.attributes.style.value : ''
-      };
-    },
-    updateSlideContent: function updateSlideContent(slideUID, key, value) {
-      this.slides.list.some(function (slide) {
-        if (slide._uid === slideUID) {
-          slide[key] = value;
-        }
-
-        return slide._uid === slideUID;
-      });
+      this.clones[0] = this.getSlideData(this.slides.count - 1, true);
+      this.clones[1] = this.getSlideData(0, true);
     },
     bindEvents: function bindEvents() {
       var hasTouch = 'ontouchstart' in window;
@@ -455,6 +466,7 @@ var VueperSlides = { render: function render() {
       if (!this.touch.enabled || this.disable) return;
       if (!e.touches) e.preventDefault();
 
+      if (this.conf.infinite && !this.conf.fade) this.cloneSlides();
       // this.disableScroll()
 
       this.mouseDown = true;
@@ -475,6 +487,12 @@ var VueperSlides = { render: function render() {
       if (this.mouseDown || this.touch.dragging) {
         this.mouseDown = false;
         this.touch.dragging = true;
+
+        // The clones are created with a copy of content.
+        // Set refreshClonesOnDrag to true if you want to keep updating clones before you see them.
+        if (this.conf.refreshClonesOnDrag && this.conf.infinite && !this.conf.fade) {
+          this.cloneSlides();
+        }
 
         if (this.draggingDistance) {
           this.touch.dragAmount = this.getDragAmount(e);
@@ -566,7 +584,7 @@ var VueperSlides = { render: function render() {
       var _this2 = this;
 
       this.timer = setTimeout(function () {
-        _this2.goToSlide(_this2.slides.current + 1, true, true);
+        _this2.goToSlide(_this2.slides.current + 1, { autoPlaying: true });
       }, this.conf.speed);
     },
     onArrowClick: function onArrowClick() {
@@ -574,16 +592,16 @@ var VueperSlides = { render: function render() {
 
       this.goToSlide(this.slides.current + (next ? 1 : -1));
     },
-    getSlideInRange: function getSlideInRange(i) {
+    getSlideInRange: function getSlideInRange(index) {
       var clone = null;
 
       // If infinite enabled, going out of range takes the first slide from the other end.
       if (this.clones.length) {
-        if (i < 0) {
-          i = this.slides.count - 1;
+        if (index < 0) {
+          index = this.slides.count - 1;
           clone = 0;
-        } else if (i > this.slides.count - 1) {
-          i = 0;
+        } else if (index > this.slides.count - 1) {
+          index = 0;
           clone = 1;
         }
       }
@@ -592,33 +610,48 @@ var VueperSlides = { render: function render() {
       // If `disableArrowsOnEdges` is enabled going out of range will take first slide from the other end
       // of the slideshow.
       else {
-          if (i < 0) i = this.conf.disableArrowsOnEdges ? 0 : this.slides.count - 1;else if (i > this.slides.count - 1) {
+          if (index < 0) index = this.conf.disableArrowsOnEdges ? 0 : this.slides.count - 1;else if (index > this.slides.count - 1) {
             // If autoplay is on but disableArrowsOnEdges is enabled, going beyond the last one will also bring
             // the first one in.
-            i = this.conf.disableArrowsOnEdges ? this.conf.autoplay ? 0 : this.slides.count - 1 : 0;
+            index = this.conf.disableArrowsOnEdges ? this.conf.autoplay ? 0 : this.slides.count - 1 : 0;
           }
         }
 
-      return { nextSlide: i, clone: clone };
+      return { nextSlide: index, clone: clone };
     },
-    goToSlide: function goToSlide(i) {
+    goToSlide: function goToSlide(index) {
       var _this3 = this;
 
-      var animation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      var autoSliding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       if (!this.slides.count || this.disable) return;
 
       if (this.conf.autoplay) this.clearTimer();
 
-      var _getSlideInRange3 = this.getSlideInRange(i),
+      // animation = slide transition is animated.
+      // autoPlaying = go to the next slide by autoplay - no user intervention.
+      // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
+      var _options$animation = options.animation,
+          animation = _options$animation === undefined ? true : _options$animation,
+          _options$autoPlaying = options.autoPlaying,
+          autoPlaying = _options$autoPlaying === undefined ? false : _options$autoPlaying,
+          _options$jumping = options.jumping,
+          jumping = _options$jumping === undefined ? false : _options$jumping;
+
+      // Get the next slide index and whether it's a clone.
+
+      var _getSlideInRange3 = this.getSlideInRange(index),
           nextSlide = _getSlideInRange3.nextSlide,
           nextSlideIsClone = _getSlideInRange3.clone;
 
-      // First use of `goToSlide` is while init, so should not propagate an event.
+      // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
 
 
-      if (this.isReady) this.emit('before-slide', true, nextSlide);
+      if (this.isReady && !jumping) {
+        this.emit('before-slide', true, nextSlide);
+
+        if (nextSlideIsClone !== null) this.cloneSlides();
+      }
 
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.conf.arrows && this.conf.disableArrowsOnEdges) {
@@ -636,15 +669,15 @@ var VueperSlides = { render: function render() {
         setTimeout(function () {
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
-          var passedCloneBackward = i === -1 && _this3.slides.current !== _this3.slides.count - 1;
-          var passedCloneForward = i === _this3.slides.count && _this3.slides.current !== 0;
+          var passedCloneBackward = index === -1 && _this3.slides.current !== _this3.slides.count - 1;
+          var passedCloneForward = index === _this3.slides.count && _this3.slides.current !== 0;
           var tooLateToSetTimeout = passedCloneBackward || passedCloneForward;
 
           if (!tooLateToSetTimeout) {
             _this3.transition.speed = 0;
-            _this3.goToSlide(nextSlideIsClone ? 0 : _this3.slides.count - 1, false, autoSliding);
+            _this3.goToSlide(nextSlideIsClone ? 0 : _this3.slides.count - 1, { animation: false, jumping: true });
             setTimeout(function () {
-              _this3.transition.speed = _this3.conf.transitionSpeed;
+              return _this3.transition.speed = _this3.conf.transitionSpeed;
             }, 10);
           }
         }, this.transition.speed - 50);
@@ -668,10 +701,10 @@ var VueperSlides = { render: function render() {
       if (this.slides.count) {
         if (this.$slots.default[this.slides.current]) {
           // First use of goToSlide is while init, so should not propagate an event.
-          if (this.isReady) this.emit('slide');
+          if (this.isReady && !jumping) this.emit('slide');
         }
 
-        if (this.isReady && !autoSliding && this.$refs.bullet[this.slides.current]) {
+        if (this.isReady && !autoPlaying && !jumping && this.$refs.bullet[this.slides.current]) {
           this.$refs.bullet[this.slides.current].focus();
         }
       }
@@ -714,7 +747,7 @@ var VueperSlides = { render: function render() {
           // If the slide to remove is the current slide, slide to the previous slide.
           if (uid === _this5.slides.activeUid) {
             _this5.slides.activeUid = null;
-            _this5.goToSlide(i - 1, true, true);
+            _this5.goToSlide(i - 1, { autoPlaying: true });
           }
 
           if (_this5.slides.count <= 1) {
@@ -767,7 +800,6 @@ var VueperSlides = { render: function render() {
   }
 };
 
-// Expose component to global scope.
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.component('vueper-slides', VueperSlides);
   window.Vue.component('vueper-slide', VueperSlide);
