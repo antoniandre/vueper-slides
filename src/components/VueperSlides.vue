@@ -203,16 +203,16 @@ export default {
 
     getSlideData (index, withStyle = false) {
       let slide = this.slides.list[index]
-      let { slideTitle, slideContent } = slide.$slots
-      let { elm: elmT } = slideTitle[0]
-      let { elm: elmC } = slideContent[0]
+      let { slideTitle = [{}], slideContent = [{}] } = slide.$slots
+      let { elm: elmT = {} } = slideTitle[0]
+      let { elm: elmC = {} } = slideContent[0]
 
       let data =  {
         index: index,
         title: slide.title,
-        titleSlot: slideTitle && elmT && elmT.innerHTML || null,
+        titleSlot: elmT && elmT.innerHTML || null,
         content: slide.content,
-        contentSlot: slideContent && elmC && elmC.innerHTML || null,
+        contentSlot: elmC && elmC.innerHTML || null,
         image: slide.image
       }
 
@@ -227,7 +227,7 @@ export default {
     getCurrentSlideData (what) {
       let { titleSlot, title, contentSlot, content } = this.getSlideData(this.slides.current)
       // If both slot and attribute are provided use the attribute source.
-      return what === 'title' ? title || titleSlot : content || contentSlot
+      return what === 'title' ? title || titleSlot : (content || contentSlot)
     },
 
     setBreakpointsList () {
