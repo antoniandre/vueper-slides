@@ -19,6 +19,8 @@ export default {
     slideshowDisabled: false,
     parallax: 1,
     slidesTimeTimerId: null,
+    highlightWhatAreClones: false,
+    contentPosition: 'false',
     imagesRoot: process.env.NODE_ENV === 'production' ? './dist/images/' : './images/',
     breakpoints: {
       1200: { slideRatio: 1 / 5 },
@@ -96,6 +98,10 @@ export default {
     ]
   }),
   methods: {
+    onWhatAreClonesClick () {
+      this.highlightWhatAreClones = true
+      setTimeout(() => this.highlightWhatAreClones = false, 3000)
+    },
     logEvents (eventName, params) {
       this.events += `<b>&bull; Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
     },
@@ -126,6 +132,10 @@ export default {
         slide.title = time.toLocaleTimeString()
         slide.content = 'Time in 5 hours: ' + new Date(time.getTime() + 5 * 3600000).toLocaleTimeString()
       })
+    },
+    contentPositionChange () {
+      let positions = ['false', 'top', 'bottom']
+      this.contentPosition = positions[(positions.indexOf(this.contentPosition) + 1) % 3]
     }
   },
   created () {

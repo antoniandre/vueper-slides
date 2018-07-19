@@ -217,8 +217,8 @@ export default {
       }
 
       if (withStyle) {
-        let { attributes } = slide.$el
-        data.style = attributes.style.value
+        let { attributes: { style: { value = '' } = {} } = {} } = slide.$el
+        data.style = value
       }
 
       return data

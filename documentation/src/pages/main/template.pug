@@ -277,7 +277,7 @@ div.documentation
     a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content
     a(name="ex--complex-slide-title-and-content")
   p.
-    This example shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
+    This example (and the next one #[a(href="#ex--updating-content") Updating Content]) shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
     The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] & #[span.code slideContent]
     if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
 
@@ -300,6 +300,10 @@ div.documentation
         &lt;/div&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
+  highlight(type="info")
+    ul.my-0
+      li if both #[span.code :title="Some title"] and #[span.code slot="slideTitle"] are provided, only the title from the attribute will be displayed.
+      li if both #[span.code :content="Some content"] and #[span.code slot="slideContent"] are provided, only the content from the attribute will be displayed.
   highlight(type="warning")
     strong Caution if you use the slide slots with the infinite sliding mode
     | #[br]At each end of the slideshow, slide clones mirror the original slides.
@@ -321,32 +325,38 @@ div.documentation
         &lt/div&gt;
 
   h3
-    a(href="#ex--updating-content") Updating Content
+    a(href="#ex--updating-content") Updating Content Inside/Outside
     a(name="ex--updating-content")
   p.mb-0.
     This example shows how to update the content (title and/or content) after slideshow is initialized.
     Well, nothing to do really. It will just update by itself!
     #[br]For this demonstration the content is complex (refer to #[a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content] for more details) and uses
     Vue JS Vuetify components like #[span.code v-layout], #[span.code v-icon] & mustaches #[span.code(v-pre) {{ }}].
-  p
-    | Try it:&nbsp;
-    v-btn(color="primary" @click="toggleSlidesTime" small)
-      v-icon {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
-      | &nbsp;{{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
-    | &nbsp;
-    v-slide-x-transition
-      v-chip(v-show="slidesTimeTimerId === 0" small outline disabled) CPU says THANK YOU!
-  vueper-slides(:slide-ratio="1/4")
+  v-layout.max-widthed(align-start wrap)
+    v-layout.flex.xs12.sm6(align-center)
+      div Try it:
+      v-layout.flex.xs10.sm11(align-center wrap)
+        v-btn(color="primary" @click="toggleSlidesTime" small)
+          v-icon.pr-3 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
+          | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
+        v-slide-x-transition.xs6.sm3
+          v-chip(v-show="slidesTimeTimerId === 0" small outline disabled) CPU says THANK YOU!
+    v-layout.flex.xs12.sm6.mb-4(align-center wrap)
+      v-btn(color="primary" @click="contentPositionChange" small)
+        v-icon swap_vert
+        | &nbsp;Move content position
+      strong.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
+  vueper-slides.ex--updating-content(:slide-ratio="1/4" autoplay :slide-content-outside="contentPosition === 'false' ? false : contentPosition" slide-content-outside-class="text-xs-center py-4" :refresh-clones-on-drag="true")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       div(slot="slideContent")
-        v-layout
+        v-layout(align-center justify-center)
           v-icon.pr-3(color="white" size="5em") access_time
           div.text-xs-left
             div.py-2.title {{ slide.title }}
             div {{ slide.content }}
   precode(language="html-vue" label="HTML Vue Template" v-pre).
     &lt;v-btn @click="toggleSlidesTime"&gt;Keep updating time&lt;/v-btn&gt;
-    &lt;vueper-slides :slide-ratio="1/4"&gt;
+    &lt;vueper-slides :slide-ratio="1/4" :slide-content-outside="contentPosition"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"
@@ -662,6 +672,7 @@ div.documentation
     transitionSpeed:          [Number, String],  default: 600
     pauseOnHover:             [Boolean],         default: true
     infinite:                 [Boolean],         default: true
+    refreshClonesOnDrag:      [Boolean],         default: false
     parallax:                 [Boolean, Number], default: false
     touchable:                [Boolean],         default: true
     draggingDistance:         [Number],          default: null
@@ -723,13 +734,15 @@ div.documentation
       | #[code fade], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p.
         Sets the transition type to fade when changing slide.#[br]
-        By default the slideshow slides when changing slide (and so #[span.code fade] is set to #[span.code false]).#[br]
+        By default the slideshow slides when changing slide (and so #[span.code fade] is set to
+        #[span.code false]).#[br]
         See this setting in action in the #[a(href="#ex--images-and-fading") Images & Fading] example.
     li
       | #[code slideContentOutside], #[strong Type:] #[span.code [Boolean, String]], #[strong Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
       p.
         Display the current slide title & content outside the slide.#[br]
-        You can position the content above or under the slideshow with the keywords #[span.code top] & #[span.code bottom].#[br]
+        You can position the content above or under the slideshow with the keywords
+        #[span.code top] & #[span.code bottom].#[br]
         See this setting in action in the #[a(href="#ex--images-and-fading") Images & Fading] example.
 
     li
@@ -752,8 +765,8 @@ div.documentation
         changes slide automatically.
 
       highlight.
-        If #[span.code pauseOnHover] is set to #[span.code true] the autoplay stops while hovering then resets
-        to the defined #[span.code speed] when you stop hovering.
+        If #[span.code pauseOnHover] is set to #[span.code true] the autoplay stops while
+        hovering then resets to the defined #[span.code speed] when you stop hovering.
 
     li
       | #[code transitionSpeed], #[strong Type:] #[span.code [Number, String]], #[strong Default:] #[span.code 600]
@@ -764,8 +777,8 @@ div.documentation
     li
       | #[code pauseOnHover], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
       p.
-        If #[span.code autoplay] is on, setting #[span.code pauseOnHover]  stops the autoplay while hovering
-        then resets to the defined #[span.code speed] when you stop hovering.#[br]
+        If #[span.code autoplay] is on, setting #[span.code pauseOnHover]  stops the autoplay
+        while hovering then resets to the defined #[span.code speed] when you stop hovering.#[br]
         See this setting in action in the #[a(href="#ex--basic") Basic with Autoplay] example.
 
     li
@@ -777,15 +790,28 @@ div.documentation
         that slide position but not breaking the transition direction.#[br]
         See this setting in action in the #[a(href="#ex--simplest-ever") Simplest Ever] example.
 
-      highlight(type="success").
-        #[strong How it works:] when creating the slideshow or adding / removing slides, the first
-        and last slides are cloned at each opposite end of the slideshow. When clicking an
+      a(name="what-are-clones")
+      highlight(:class="{ pulse: highlightWhatAreClones }" type="success").
+        #[strong How it works:] when creating the slideshow or adding / removing slides, the
+        first and last slides are cloned at each opposite end of the slideshow. When clicking an
         arrow or dragging beyond the first or last slide, the clone will appear then it will
-        snap back to the same real slide at the other end of slideshow without you noticing.
+        snap back to the same original slide at the other end of slideshow without you noticing.
 
       highlight.
         Infinite sliding is only possible with the sliding transition,
-        as a fading slideshow does not need such trick.
+        as a fade transition slideshow does not need such effect.
+
+    li
+      | #[code refreshClonesOnDrag], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      p.
+        With #[span.code infinite] mode on and sliding transitions, the clones
+        (#[a(href="#what-are-clones" @click="onWhatAreClonesClick") What are clones?]) are created with a copy of content at
+        the time it's created.#[br]Your content can get outdated if you have a fast #[span.code setInterval]
+        operating on content (E.g. a clock).#[br]Set #[span.code refreshClonesOnDrag] to
+        #[span.code true] if you want to keep updating clones before you see them while you drag.
+      highlight(type="success").
+        By default this parameter is disabled to save up operations. In most cases you should
+        not need it.
 
     li
       | #[code parallax], #[strong Type:] #[span.code [Boolean, Number]], #[strong Default:] #[span.code false]

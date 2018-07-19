@@ -318,9 +318,14 @@ var VueperSlides = { render: function render() {
       };
 
       if (withStyle) {
-        var attributes = slide.$el.attributes;
+        var _slide$$el$attributes = slide.$el.attributes;
+        _slide$$el$attributes = _slide$$el$attributes === undefined ? {} : _slide$$el$attributes;
+        var _slide$$el$attributes2 = _slide$$el$attributes.style;
+        _slide$$el$attributes2 = _slide$$el$attributes2 === undefined ? {} : _slide$$el$attributes2;
+        var _slide$$el$attributes3 = _slide$$el$attributes2.value,
+            value = _slide$$el$attributes3 === undefined ? '' : _slide$$el$attributes3;
 
-        data.style = attributes.style.value;
+        data.style = value;
       }
 
       return data;
