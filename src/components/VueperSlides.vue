@@ -113,6 +113,10 @@ export default {
       type: Boolean,
       default: true
     },
+    refreshClonesOnDrag: {
+      type: Boolean,
+      default: false
+    },
     parallax: {
       type: [Boolean, Number],
       default: false
@@ -149,7 +153,7 @@ export default {
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
     breakpointsData: { list: [], current: null },
-    parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false },
+    parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false }
   }),
   mounted () {
     this.init()
@@ -181,36 +185,47 @@ export default {
     // Emit a named event outside the component with 2 possible parameters:
     // current slide info & next slide info.
     emit(name, includeCurrentSlide = true, includeNextSlide = false) {
+      // Emit param 0 = event name string.
       let args = [name]
 
       if (includeCurrentSlide || typeof includeNextSlide === 'number') {
+        // Emit param 1 is object like { currentSlide: ...[, nextSlide: ...] }.
         args[1] = {}
+
         if (includeCurrentSlide && this.slides.activeUid) {
-          args[1].currentSlide = {
-            index: this.slides.current,
-            title: this.slides.list[this.slides.current].titleSlot ?
-                   this.slides.list[this.slides.current].titleSlot
-                   : this.slides.list[this.slides.current].title,
-            content: this.slides.list[this.slides.current].contentSlot ?
-                     this.slides.list[this.slides.current].contentSlot
-                     : this.slides.list[this.slides.current].content,
-          }
+          args[1].currentSlide = this.getSlideData(this.slides.current)
         }
+
         if (typeof includeNextSlide === 'number') {
-          let { nextSlide } = this.getSlideInRange(includeNextSlide)
-          args[1].nextSlide = {
-            index: nextSlide,
-            title: this.slides.list[nextSlide].titleSlot ?
-                   this.slides.list[nextSlide].titleSlot
-                   : this.slides.list[nextSlide].title,
-            content: this.slides.list[nextSlide].contentSlot ?
-                     this.slides.list[nextSlide].contentSlot
-                     : this.slides.list[nextSlide].content,
-          }
+          let { nextSlide: nextSlideIndex } = this.getSlideInRange(includeNextSlide)
+          args[1].nextSlide = this.getSlideData(nextSlideIndex)
         }
       }
 
       this.$emit(name, ...args)
+    },
+
+    getSlideData (index, withStyle = false) {
+      let slide = this.slides.list[index]
+      let { slideTitle, slideContent } = slide.$slots
+      let { elm: elmT } = slideTitle[0]
+      let { elm: elmC } = slideContent[0]
+
+      let data =  {
+        index: index,
+        title: slide.title,
+        titleSlot: slideTitle && elmT && elmT.innerHTML || null,
+        content: slide.content,
+        contentSlot: slideContent && elmC && elmC.innerHTML || null,
+        image: slide.image
+      }
+
+      if (withStyle) {
+        let { attributes } = slide.$el
+        data.style = attributes.style.value
+      }
+
+      return data
     },
 
     setBreakpointsList () {
@@ -234,36 +249,8 @@ export default {
     },
 
     cloneSlides () {
-      let firstNodeIsVnode = this.$slots.default[0].tag
-      let firstSlide = this.$slots.default[firstNodeIsVnode ? 0 : 1].elm
-      let lastSlide = this.$slots.default[this.$slots.default.length - 1].elm
-
-      this.clones[0] = {
-        title: this.slides.list[this.slides.count - 1].title,
-        titleSlot: this.slides.list[this.slides.count - 1].titleSlot || '',
-        content: this.slides.list[this.slides.count - 1].content,
-        contentSlot: this.slides.list[this.slides.count - 1].contentSlot || '',
-        image: this.slides.list[this.slides.count - 1].image,
-        style: lastSlide && lastSlide.attributes.style ? lastSlide.attributes.style.value : ''
-      }
-      this.clones[1] = {
-        title: this.slides.list[0].title,
-        titleSlot: this.slides.list[0].titleSlot || '',
-        content: this.slides.list[0].content,
-        contentSlot: this.slides.list[0].contentSlot || '',
-        image: this.slides.list[0].image,
-        style: firstSlide && firstSlide.attributes.style ? firstSlide.attributes.style.value : ''
-      }
-    },
-
-    updateSlideContent (slideUID, key, value) {
-      this.slides.list.some(slide => {
-        if (slide._uid === slideUID) {
-          slide[key] = value
-        }
-
-        return slide._uid === slideUID
-      })
+      this.clones[0] = this.getSlideData(this.slides.count - 1, true)
+      this.clones[1] = this.getSlideData(0, true)
     },
 
     bindEvents () {
@@ -369,6 +356,7 @@ export default {
       if (!this.touch.enabled || this.disable) return
       if (!e.touches) e.preventDefault()
 
+      if (this.conf.infinite && !this.conf.fade) this.cloneSlides()
       // this.disableScroll()
 
       this.mouseDown = true
@@ -481,7 +469,7 @@ export default {
 
     setTimer () {
       this.timer = setTimeout(() => {
-        this.goToSlide(this.slides.current + 1, true, true)
+        this.goToSlide(this.slides.current + 1, { autoPlaying: true })
       }, this.conf.speed)
     },
 
@@ -489,17 +477,17 @@ export default {
       this.goToSlide(this.slides.current + (next ? 1 : -1))
     },
 
-    getSlideInRange (i) {
+    getSlideInRange (index) {
       let clone = null
 
       // If infinite enabled, going out of range takes the first slide from the other end.
       if (this.clones.length) {
-        if (i < 0) {
-          i = this.slides.count - 1
+        if (index < 0) {
+          index = this.slides.count - 1
           clone = 0
         }
-        else if (i > this.slides.count - 1) {
-          i = 0
+        else if (index > this.slides.count - 1) {
+          index = 0
           clone = 1
         }
       }
@@ -508,26 +496,36 @@ export default {
       // If `disableArrowsOnEdges` is enabled going out of range will take first slide from the other end
       // of the slideshow.
       else {
-        if (i < 0) i = this.conf.disableArrowsOnEdges ? 0 : this.slides.count - 1
-        else if (i > this.slides.count - 1) {
+        if (index < 0) index = this.conf.disableArrowsOnEdges ? 0 : this.slides.count - 1
+        else if (index > this.slides.count - 1) {
           // If autoplay is on but disableArrowsOnEdges is enabled, going beyond the last one will also bring
           // the first one in.
-          i = this.conf.disableArrowsOnEdges ? (this.conf.autoplay ? 0 : this.slides.count - 1) : 0
+          index = this.conf.disableArrowsOnEdges ? (this.conf.autoplay ? 0 : this.slides.count - 1) : 0
         }
       }
 
-      return { nextSlide: i, clone: clone }
+      return { nextSlide: index, clone: clone }
     },
 
-    goToSlide (i, animation = true, autoSliding = false) {
+    goToSlide (index, options = {}) {
       if (!this.slides.count || this.disable) return
 
       if (this.conf.autoplay) this.clearTimer()
 
-      let { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(i)
+      // animation = slide transition is animated.
+      // autoPlaying = go to the next slide by autoplay - no user intervention.
+      // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
+      let { animation = true, autoPlaying = false, jumping = false } = options
 
-      // First use of `goToSlide` is while init, so should not propagate an event.
-      if (this.isReady) this.emit('before-slide', true, nextSlide)
+      // Get the next slide index and whether it's a clone.
+      let { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index)
+
+      // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
+      if (this.isReady && !jumping) {
+        this.emit('before-slide', true, nextSlide)
+
+        if (nextSlideIsClone !== null) this.cloneSlides()
+      }
 
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.conf.arrows && this.conf.disableArrowsOnEdges) {
@@ -544,14 +542,14 @@ export default {
         setTimeout(() => {
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
-          let passedCloneBackward = i === -1 && this.slides.current !== this.slides.count - 1
-          let passedCloneForward = i === this.slides.count && this.slides.current !== 0
+          let passedCloneBackward = index === -1 && this.slides.current !== this.slides.count - 1
+          let passedCloneForward = index === this.slides.count && this.slides.current !== 0
           let tooLateToSetTimeout = passedCloneBackward || passedCloneForward
 
           if (!tooLateToSetTimeout) {
             this.transition.speed = 0
-            this.goToSlide(nextSlideIsClone ? 0 : this.slides.count - 1, false, autoSliding)
-            setTimeout(() => { this.transition.speed = this.conf.transitionSpeed }, 10)
+            this.goToSlide(nextSlideIsClone ? 0 : this.slides.count - 1, { animation: false, jumping: true })
+            setTimeout(() => this.transition.speed = this.conf.transitionSpeed, 10)
           }
         }, this.transition.speed - 50)
       }
@@ -575,10 +573,10 @@ export default {
       if (this.slides.count) {
         if (this.$slots.default[this.slides.current]) {
           // First use of goToSlide is while init, so should not propagate an event.
-          if (this.isReady) this.emit('slide')
+          if (this.isReady && !jumping) this.emit('slide')
         }
 
-        if (this.isReady && !autoSliding && this.$refs.bullet[this.slides.current]) {
+        if (this.isReady && !autoPlaying && !jumping && this.$refs.bullet[this.slides.current]) {
           this.$refs.bullet[this.slides.current].focus()
         }
       }
@@ -619,7 +617,7 @@ export default {
           // If the slide to remove is the current slide, slide to the previous slide.
           if (uid === this.slides.activeUid) {
             this.slides.activeUid = null
-            this.goToSlide(i - 1, true, true)
+            this.goToSlide(i - 1, { autoPlaying: true })
           }
 
           if (this.slides.count <= 1) {

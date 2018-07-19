@@ -1,12 +1,12 @@
 <template lang="pug">
 div(:class="{ 'vueperslides__slide': true, 'vueperslides__slide--active': $parent.slides.activeUid === _uid }" :style="styles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
   div.vueperslides__slide-content(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
-    div.slide-title(v-if="title || hasTitleSlotData")
+    div.slide-title(v-show="title || hasTitleSlotData")
       slot(name="slideTitle")
-      div(v-if="title" v-html="title")
-    div.slide-content(v-if="content || hasContentSlotData")
+      div(v-if="title && !hasTitleSlotData" v-html="title")
+    div.slide-content(v-show="title || hasContentSlotData")
       slot(name="slideContent")
-      div(v-if="content" v-html="content")
+      div(v-if="content && !hasContentSlotData" v-html="content")
 </template>
 
 <script>
@@ -29,18 +29,10 @@ export default {
       default: ''
     }
   },
-  mounted () {
-    if (this.hasTitleSlotData) this.$parent.updateSlideContent(this._uid, 'titleSlot', this.titleSlot)
-    if (this.hasContentSlotData) this.$parent.updateSlideContent(this._uid, 'contentSlot', this.contentSlot)
-  },
   created () {
-    this.$parent.addSlide({
-      _uid: this._uid,
-      image: this.image,
-      title: this.title,
-      content: this.content,
-      clone: this.clone
-    })
+    // vueperslide component has this useful attributes:
+    // _uid, image, title, titleSlot, content, contentSlot, clone.
+    this.$parent.addSlide(this)
   },
   // When removing a slide programmatically, remove it from the config so vueperslides
   // component is aware of the change.
@@ -52,16 +44,12 @@ export default {
       return { ...(this.image && { backgroundImage: `url(${this.image})` }) }
     },
   	hasTitleSlotData () {
-      return this.$slots.slideTitle
+      let { slideTitle } = this.$slots
+      return slideTitle !== undefined
     },
   	hasContentSlotData () {
-      return this.$slots.slideContent
-    },
-  	titleSlot () {
-      return this.hasTitleSlotData ? this.$slots.slideTitle[0].elm.innerHTML : ''
-    },
-  	contentSlot () {
-      return this.hasContentSlotData ? this.$slots.slideContent[0].elm.innerHTML : ''
+      let { slideContent } = this.$slots
+      return slideContent !== undefined
     }
   }
 }
