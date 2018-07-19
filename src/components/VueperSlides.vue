@@ -1,10 +1,8 @@
 <template lang="pug">
 div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--animated': true }" ref="vueperslides" aria-label="Slideshow")
   div.vueperslides__slide-content.vueperslides__slide-content--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
-    div.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
-    div.slide-title(v-if="slides.count && slides.list[slides.current].titleSlot" v-html="slides.list[slides.current].titleSlot")
-    div.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
-    div.slide-content(v-if="slides.count && slides.list[slides.current].contentSlot" v-html="slides.list[slides.current].contentSlot")
+    div.slide-title(v-if="slides.count" v-html="getCurrentSlideData('title')")
+    div.slide-content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 
   div.vueperslides__inner
     div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
@@ -38,10 +36,8 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
       span {{ i + 1 }}
 
   div.vueperslides__slide-content.vueperslides__slide-content--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
-    div.slide-title(v-if="slides.count && slides.list[slides.current].title" v-html="slides.list[slides.current].title")
-    div.slide-title(v-if="slides.count && slides.list[slides.current].titleSlot" v-html="slides.list[slides.current].titleSlot")
-    div.slide-content(v-if="slides.count && slides.list[slides.current].content" v-html="slides.list[slides.current].content")
-    div.slide-content(v-if="slides.count && slides.list[slides.current].contentSlot" v-html="slides.list[slides.current].contentSlot")
+    div.slide-title(v-if="slides.count" v-html="getCurrentSlideData('title')")
+    div.slide-content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 </template>
 
 <script>
@@ -226,6 +222,12 @@ export default {
       }
 
       return data
+    },
+
+    getCurrentSlideData (what) {
+      let { titleSlot, title, contentSlot, content } = this.getSlideData(this.slides.current)
+      // If both slot and attribute are provided use the attribute source.
+      return what === 'title' ? title || titleSlot : content || contentSlot
     },
 
     setBreakpointsList () {

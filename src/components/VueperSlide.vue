@@ -2,11 +2,13 @@
 div(:class="{ 'vueperslides__slide': true, 'vueperslides__slide--active': $parent.slides.activeUid === _uid }" :style="styles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
   div.vueperslides__slide-content(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
     div.slide-title(v-show="title || hasTitleSlotData")
-      slot(name="slideTitle")
-      div(v-if="title && !hasTitleSlotData" v-html="title")
-    div.slide-content(v-show="title || hasContentSlotData")
-      slot(name="slideContent")
-      div(v-if="content && !hasContentSlotData" v-html="content")
+      div(v-show="!$parent.conf.slideContentOutside && !title")
+        slot(name="slideTitle")
+      div(v-if="title" v-html="title")
+    div.slide-content(v-if="content || hasContentSlotData")
+      div(v-show="!$parent.conf.slideContentOutside && !content")
+        slot(name="slideContent")
+      div(v-if="content" v-html="content")
 </template>
 
 <script>
