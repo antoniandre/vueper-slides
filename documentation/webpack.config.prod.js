@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
+const Root = path.join(__dirname, '..')
 const src = path.join(__dirname, 'src')
 const dist = path.join(__dirname, '../docs')
 
@@ -53,7 +54,7 @@ module.exports = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(dist),
+    new CleanWebpackPlugin(dist, { root: Root }),
     new HtmlWebpackPlugin({
       favicon: src + '/assets/images/favicon.png',
       filename: 'index.html',
