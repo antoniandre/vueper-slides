@@ -9,7 +9,7 @@ npm install vueperslides --save-dev
 ```
 
 ## Demo & Documentation
-> [https://antoniandre.github.io/vueper-slides/documentation](https://antoniandre.github.io/vueper-slides/documentation)
+> [https://antoniandre.github.io/vueper-slides](https://antoniandre.github.io/vueper-slides)
 
 ## Try it yourself
 > [https://codepen.io/antoniandre/pen/djMpxa](https://codepen.io/antoniandre/pen/djMpxa)
