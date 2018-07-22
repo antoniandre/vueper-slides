@@ -46,5 +46,15 @@
   },
   "dependencies": {
     "vue": "^2.5.16"
-  }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "last 5 version",
+    "ie 9",
+    "iOS >= 9"
+  ]
 }
