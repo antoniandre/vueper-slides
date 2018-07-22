@@ -1,5 +1,5 @@
 <template lang="pug">
-div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--animated': true }" ref="vueperslides" aria-label="Slideshow")
+div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow")
   div.vueperslides__slide-content.vueperslides__slide-content--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
     div.slide-title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     div.slide-content(v-if="slides.count" v-html="getCurrentSlideData('content')")
@@ -144,7 +144,7 @@ export default {
     mouseDown: false,
     mouseOver: false,
     touch: { enabled: true, dragging: false, dragStartX: 0, dragAmount: 0, goNext: true },
-    transition: { currentTranslation: 0, speed: 0 },
+    transition: { currentTranslation: 0, speed: 0, animated: false },
     timer: null,
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
