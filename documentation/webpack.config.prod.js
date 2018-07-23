@@ -11,8 +11,8 @@ const dist = path.join(__dirname, '../docs')
 
 module.exports = {
   entry: {
-    app: src + '/index.js',
-    vendor: ['vue', 'vuetify', 'vue-router', 'vueperslides']
+    vendor: ['vue', 'vuetify', 'vue-router'],
+    app: src + '/index.js'
   },
   output: {
     filename: '[name].[hash:8].min.js', // Hash is different on each build, allows smart caching/flushing of file.
@@ -27,6 +27,16 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       // Extract and minify SCSS / CSS.
       {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            { loader: 'css-loader', options: { minimize: true, sourceMap: true } },
+            'postcss-loader'
+          ]
+        })
+      },
+      {
         test: /\.scss$/,
         include: src,
         use: ExtractTextPlugin.extract({
@@ -35,16 +45,6 @@ module.exports = {
             { loader: 'css-loader', options: { minimize: true, sourceMap: true } },
             'postcss-loader',
             'sass-loader'
-          ]
-        })
-      },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            { loader: 'css-loader', options: { minimize: true, sourceMap: true } },
-            'postcss-loader'
           ]
         })
       },
@@ -73,11 +73,10 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.min.js',
-      minChunks: Infinity
+      minChunks: function (module) {
+        return module.context && module.context.indexOf('node_modules') !== -1
+      }
     }),
-
-    // Deduplicate modules into a common bundle.
-    new webpack.optimize.CommonsChunkPlugin({ name: 'common' }), // Specify the common bundle's name.
 
     new UglifyJSPlugin({ sourceMap: true }),
 

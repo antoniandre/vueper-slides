@@ -8,8 +8,8 @@ const dist = path.join(__dirname, 'dist')
 
 module.exports = {
   entry: {
-    app: src + '/index.js',
-    vendor: ['vue', 'vuetify', 'vue-router', 'vueperslides']
+    vendor: ['vue', 'vuetify', 'vue-router'],
+    app: src + '/index.js'
   },
   output: {
     filename: '[name].bundle.js',
@@ -31,24 +31,23 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       // Extract SCSS / CSS.
       {
-        test: /\.scss$/,
-        include: src,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            { loader: 'css-loader', options: { minimize: true, sourceMap: true } },
-            // 'postcss-loader',// Used for auto vendor-prefixing - not needed on dev.
-            { loader: 'sass-loader', options: { sourceMap: true } }
-          ]
-        })
-      },
-      {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             { loader: 'css-loader', options: { sourceMap: true } },
             // 'postcss-loader'
+          ]
+        })
+      },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            { loader: 'css-loader', options: { sourceMap: true } },
+            // 'postcss-loader',// Used for auto vendor-prefixing - not needed on dev.
+            { loader: 'sass-loader', options: { sourceMap: true } }
           ]
         })
       },
