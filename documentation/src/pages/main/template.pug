@@ -2,7 +2,7 @@ div.documentation
   v-layout.max-widthed(row wrap align-center-center justify-center)
     v-layout.flex.xs12.md9(column align-center-center)
       div.mb-3.title Features
-      div.features
+      div.mb-5.features
         v-icon.pr-2(color="secondary") check
         | Vueper Slides is #[strong fully responsive] and scales with its container.#[br]
         v-icon.pr-2(color="secondary") check
@@ -26,10 +26,11 @@ div.documentation
         v-icon.pr-2(color="secondary") check
         | #[strong Events] for callbacks, etc...
       div.mb-3.title Github project
-      div.github
-        a(href="https://github.com/antoniandre/vueper-slides" target="_blank") https://github.com/antoniandre/vueper-slides
+      v-layout.mb-5(align-center shrink)
+        v-icon.pr-4.lightgrey--text(x-large) fab fa-github
+        a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides
     v-card.md3.coming-soon(align-center-center)
-      v-card-title
+      v-card-title.pb-0
         div To do...
       v-card-text
         v-layout(row)

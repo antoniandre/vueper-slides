@@ -53,6 +53,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/disadb/resume#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.1.1",
     "html-loader": "^0.5.4",
     "vue-template-compiler": "^2.5.13"
   },
