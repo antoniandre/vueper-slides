@@ -4,6 +4,7 @@ import Vuetify from 'vuetify'
 import '../node_modules/vuetify/dist/vuetify.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import './styles/index.scss'
+import './assets/images/vueperslides.jpg'
 
 Vue.use(Vuetify, {
   iconfont: 'fa',
