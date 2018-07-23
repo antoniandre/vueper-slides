@@ -166,7 +166,7 @@ export default {
         this.setBreakpointConfig(this.getCurrentBreakpoint())
       }
 
-      if (this.conf.infinite && !this.conf.fade) {
+      if (this.conf.infinite) {
         this.cloneSlides()
         this.$nextTick(() => this.cloneSlides())
       }
@@ -246,8 +246,8 @@ export default {
     },
 
     setBreakpointConfig (breakpoint) {
-      this.breakpointsData.current = breakpoint
       // this.conf gets updated by itself when this.breakpointsData.current changes.
+      this.breakpointsData.current = breakpoint
     },
 
     cloneSlides () {
@@ -358,7 +358,7 @@ export default {
       if (!this.touch.enabled || this.disable) return
       if (!e.touches) e.preventDefault()
 
-      if (this.conf.infinite && !this.conf.fade) this.cloneSlides()
+      if (this.conf.infinite) this.cloneSlides()
       // this.disableScroll()
 
       this.mouseDown = true
@@ -383,7 +383,7 @@ export default {
 
         // The clones are created with a copy of content.
         // Set refreshClonesOnDrag to true if you want to keep updating clones before you see them.
-        if (this.conf.refreshClonesOnDrag && this.conf.infinite && !this.conf.fade) {
+        if (this.conf.refreshClonesOnDrag && this.conf.infinite) {
           this.cloneSlides()
         }
 
@@ -591,7 +591,7 @@ export default {
     },
 
     addSlide (newSlide) {
-      const needReclone = this.conf.infinite && !this.conf.fade && this.isReady && newSlide.clone === null
+      const needReclone = this.conf.infinite && this.isReady && newSlide.clone === null
 
       if (newSlide.clone !== null) {
         this.clones[newSlide.clone] = newSlide
@@ -649,10 +649,16 @@ export default {
     conf () {
       // Read config from the props then check if breakpoints are defined. If so override the config with
       // the breakpoint ones.
-      return {
+      let conf = {
         ...this.$props,
         ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {})
       }
+
+      if (conf.fade) {
+        conf.infinite = false
+      }
+
+      return conf
     },
     trackStyles () {
       let styles = {}
