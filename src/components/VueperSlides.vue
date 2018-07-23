@@ -751,7 +751,6 @@ export default {
 
   &__slide {
     white-space: normal;
-    background-position: top;
     background-size: cover;
     display: inline-block;
     width: 100%;
