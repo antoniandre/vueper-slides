@@ -53,7 +53,7 @@ module.exports = {
         test: /vueperslides\.jpg$/,
         use: { loader: 'file-loader', options: { name: '[name].[ext]' } }
       },
-      { test: /\.(png|svg|jpe?g|gif|ico|pdf)$/, loader: 'file-loader' }
+      { test: /\.(png|svg|jpe?g|gif|ico|pdf)$/, exclude: /vueperslides\.jpg/, loader: 'file-loader' }
     ]
   },
 
