@@ -69,7 +69,10 @@ pre {
     transition: 1s ease-out;
     cursor: pointer;
 
-    &.fa-html5:hover, &.fa-css3:hover {
+    &.fa-vuejs:hover,
+    &.fa-html5:hover,
+    &.fa-css3:hover,
+    &.fa-sass:hover {
       transform: rotate(360deg);
     }
 
