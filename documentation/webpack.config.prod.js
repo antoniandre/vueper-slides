@@ -49,6 +49,10 @@ module.exports = {
         })
       },
       { test: /\.(woff2?|eot|ttf|otf|svg#.*)$/, loader: 'file-loader' },
+      {
+        test: /vueperslides\.jpg$/,
+        use: { loader: 'file-loader', options: { name: '[name].[ext]' } }
+      },
       { test: /\.(png|svg|jpe?g|gif|ico|pdf)$/, loader: 'file-loader' }
     ]
   },
