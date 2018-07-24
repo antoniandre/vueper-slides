@@ -159,6 +159,8 @@ export default {
       this.emit('before-init', false)
       this.container = this.$refs.vueperslides
       this.touch.enabled = this.conf.touchable
+      // Store speed in extra variable because transition.speed can be set to 0,
+      // then after slide change we need to reapply original speed.
       this.transition.speed = this.conf.transitionSpeed
 
       if (Object.keys(this.breakpoints).length) {
@@ -524,6 +526,9 @@ export default {
       // autoPlaying = go to the next slide by autoplay - no user intervention.
       // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
       let { animation = true, autoPlaying = false, jumping = false } = options
+
+      this.transition.animated = animation
+      setTimeout(() => this.transition.animated = false, this.transitionSpeed)
 
       // Get the next slide index and whether it's a clone.
       let { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index)

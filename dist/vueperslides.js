@@ -244,6 +244,8 @@ var VueperSlides = { render: function render() {
       this.emit('before-init', false);
       this.container = this.$refs.vueperslides;
       this.touch.enabled = this.conf.touchable;
+      // Store speed in extra variable because transition.speed can be set to 0,
+      // then after slide change we need to reapply original speed.
       this.transition.speed = this.conf.transitionSpeed;
 
       if (Object.keys(this.breakpoints).length) {
@@ -637,6 +639,12 @@ var VueperSlides = { render: function render() {
           autoPlaying = _options$autoPlaying === undefined ? false : _options$autoPlaying,
           _options$jumping = options.jumping,
           jumping = _options$jumping === undefined ? false : _options$jumping;
+
+
+      this.transition.animated = animation;
+      setTimeout(function () {
+        return _this3.transition.animated = false;
+      }, this.transitionSpeed);
 
       // Get the next slide index and whether it's a clone.
 

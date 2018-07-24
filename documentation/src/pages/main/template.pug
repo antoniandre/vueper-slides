@@ -80,6 +80,9 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Improve Reactivity
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Add animated class
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
               | Slides to scroll at once
@@ -265,7 +268,8 @@ div.documentation
     The current slide title & content are shown #[b outside] of the slider, you can place it above
     or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
     #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
-  vueper-slides(fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3")
+    #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
+  vueper-slides.ex--images-and-fading(fade slide-content-outside="top" slide-content-outside-class="max-widthed text-xs-center my-4" :touchable="false" :slide-ratio="0.3")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
   precode(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
@@ -276,6 +280,18 @@ div.documentation
         :title="'# ' + slide.title"
         :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
+  precode(language="css" label="CSS").
+    .vueperslides__slide-content--outside-top {
+      transition: 0.3s ease-in-out;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .vueperslides--animated .vueperslides__slide-content--outside-top {
+      transition: 0.15s ease-in-out;
+      opacity: 0;
+      transform: scale(0);
+    }
 
   h3
     a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content
@@ -840,7 +856,8 @@ div.documentation
       | #[code touchable], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
       p.
         Whether the slideshow should allow slide dragging to change slide or not.#[br]
-        If set to #[span.code true], dragging will be possible on both touchable device or desktop with mouse.#[br]
+        If set to #[span.code true], dragging will be possible on both touchable device or
+        desktop with mouse.#[br]
         See this setting in action in the #[a(href="#ex--simplest-ever") Simplest Ever] example.
 
       highlight.
@@ -849,7 +866,8 @@ div.documentation
         the slideshow you can release the dragging to finish the slide change.
 
       highlight(type="tips").
-        If you don't like the default dragging behavior, you can define a #[span.code draggingDistance] in pixels.#[br]
+        If you don't like the default dragging behavior, you can define a
+        #[span.code draggingDistance] in pixels.#[br]
         If one is defined, when you start a dragging event (touch or click)
         #[strong the slide's closest end won't snap to your cursor position].
 
@@ -868,14 +886,17 @@ div.documentation
     li
       | #[code breakpoints], #[strong Type:] #[span.code [Object]], #[strong Default:] #[span.code {}]
       p.
-        With this option you can provide different configurations to apply to the slideshow at a particular screen width.#[br]
+        With this option you can provide different configurations to apply to the slideshow
+        at a particular screen width.#[br]
         See this setting in action in the #[a(href="#ex--breakpoints") Using Breakpoints] example.
 
 
   h3
     a(href="#events") Events
     a(name="events")
-  p Here is the list of all the available events. To see them in action you can check the #[a(href="#ex--events") Events example].
+  p.
+    Here is the list of all the available events. To see them in action you can check
+    the #[a(href="#ex--events") Events example].
   ul.max-widthed
     li
       h4
@@ -896,8 +917,12 @@ div.documentation
         Triggered on slide change, just before the effective change.#[br]
         This event is emitted with:
       ul
-        li a #[span.code currentSlide] object containing the slide index, title & content of the current slide.
-        li a #[span.code nextSlide] object containing the slide index, title & content of the next slide.
+        li.
+          a #[span.code currentSlide] object containing the slide index, title & content
+          of the current slide.
+        li.
+          a #[span.code nextSlide] object containing the slide index, title & content
+          of the next slide.
     li
       h4
         code slide
@@ -905,7 +930,9 @@ div.documentation
         Triggered on slide change, just after the effective change.#[br]
         This event is emitted with:
       ul
-        li a #[span.code currentSlide] object containing the slide index, title & content of the new current slide.
+        li.
+          a #[span.code currentSlide] object containing the slide index, title & content of
+          the new current slide.
 
   h2
     a(href="#vueper-slide--api") &lt;vueper-slide&gt; API
@@ -918,3 +945,48 @@ div.documentation
     image:   [String], default: ''
     title:   [String], default: ''
     content: [String], default: ''
+
+  h2
+    a(href="#styling") Styling
+    a(name="styling")
+  h3
+    a(href="#external-css") External CSS
+    a(name="external-css")
+  p.
+    Vueper Slides is very easy to style with CSS.#[br]
+    Only the required styles - for a well-functioning slideshow - are embedded inside the
+    library.#[br]As the other cosmetic styles are externalized, it is your call to include it
+    (refer to #[a(href="#installation") Installation]) or redo everything.#[br]
+    If you choose to include it as it will probably save you some time, place your
+    overrides after the Vueper Slides CSS include.#[br]
+
+  h3
+    a(href="#available-css-classes") Available CSS Classes
+    a(name="available-css-classes")
+  p.
+    Vueper Slides uses the #[a(href="http://getbem.com/naming/" target="_blank") BEM]
+    naming convention. Styling any element should be quite simple and straightforward.#[br]
+
+  ul.max-widthed
+    li.
+      You can use classes available on the vueperslides wrapper to style everything inside it.#[br]
+      For instance, you can use #[span.code vueperslides--ready], #[span.code vueperslides--fade],
+      #[span.code vueperslides--touchable], #[span.code vueperslides--parallax] to have specific
+      styles according to the current configuration.
+    li.
+      You can also use #[span.code vueperslides--animated] to apply a specific style on an element
+      of the slideshow while the slideshow is animated.
+    li
+      | In the examples above you can find style snippets for different purposes.
+      | #[br]Don't forget to inspect an element to check the styles applied. ;)
+      ul
+        li.
+          #[a(href="#ex--arrows-and-bullets") Arrows & Bullets example] for arrows & bullets
+          custom styles, or #[a(href="#ex--center-mode") Center Mode example] for bullets.
+        li.
+          #[a(href="#ex--updating-content") Content Inside/Outside example] for content layouts.
+        li.
+          #[a(href="#ex--events") Events example] for custom styles on the current slide.
+        li.
+          #[a(href="#ex--images-and-fading") Images & Fading example] for transition style on
+          the content using #[span.code vueperslides--animated].

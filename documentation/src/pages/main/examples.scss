@@ -77,6 +77,18 @@
   line-height: 15px;
 }
 
+.ex--images-and-fading .vueperslides__slide-content--outside-top {
+  transition: 0.3s ease-in-out;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ex--images-and-fading.vueperslides--animated .vueperslides__slide-content--outside-top {
+  transition: 0.15s ease-in-out;
+  opacity: 0;
+  transform: scale(0);
+}
+
 .events-box p {
   margin-bottom: 0;
 }
