@@ -4,14 +4,14 @@ const regexBasics = {
   quote: /("(?:\\"|[^"])*")|('(?:\\'|[^'])*')/, // Match simple and double quotes by pair.
   comment: /(\/\/.*|\/\*[\s\S]*?\*\/)/, // Comments blocks (/* ... */) or trailing comments (// ...).
   htmlTag: /(<([^>])*>)/,
-  ponctuation: /(!==?|(?:[[\](){}.:;,+\-?=]|&lt;|&gt;)+|&&|\|\|)/, // Ponctuation not in html tag.
+  punctuation: /(!==?|(?:[[\](){}.:;,+\-?=]|&lt;|&gt;)+|&&|\|\|)/, // punctuation not in html tag.
   number: /(-?(?:\.\d+|\d+(?:\.\d+)?))/,
   boolean: /\b(true|false)\b/
 }
 
 // The html tags names, attribute and inner special chars are treated inside the
 // htmlTag regex above because javascript does not support lookbehind.
-const dictionnary = {
+const dictionary = {
   shell: {
     quote: regexBasics.quote,
     comment: /(#.*?)\n/,
@@ -46,9 +46,9 @@ const dictionnary = {
     'value keyword': /\b(inline-block|inline|block|absolute|relative|static|fixed|inherit|initial|none|auto|hidden|visible|top|left|right|bottom|center|middle|baseline|pre|wrap|nowrap|(?:upper|lower)case|capitalize|linear(?:-gradient)?|ease(?:-in)?(?:-out)?|all|infinite|cubic-bezier|(?:translate|rotate)(?:[X-Z]|3d)?|skew[XY]?|scale|(?:no-)?repeat|repeat(?:-x|-y)|contain|cover|!important|url|inset|pointer|flex)(?=\s*[,;}(]|\s+[\da-z])/,
     number: regexBasics.number,
     color: /(transparent|#(?:[\da-fA-F]{6}|[\da-fA-F]{3})|rgba?\([\d., ]*\))/,
-    // ponctuation: /([:,;{}@#()]+)/,// @todo Why can't use this one if text contains '<' or '>' ??
+    // punctuation: /([:,;{}@#()]+)/,// @todo Why can't use this one if text contains '<' or '>' ??
     htmlentity: /(&.*?;)/,
-    ponctuation: /([:,;{}@#()]+|&lt;|&gt;)/,
+    punctuation: /([:,;{}@#()]+|&lt;|&gt;)/,
     attribute: /([a-zA-Z-]+)(?=\s*:)/,
     unit: /(px|pt|%|r?em|m?s|deg|vh|vw|vmin|vmax)(?=(?:\s*[;,{}}\)]|\s+[\-\da-z#]))/
   },
@@ -57,7 +57,7 @@ const dictionnary = {
     comment: regexBasics.comment,
     number: regexBasics.number,
     boolean: regexBasics.boolean,
-    ponctuation: /([[\](){}:;,-]+)/// Override default to simplify.
+    punctuation: /([[\](){}:;,-]+)/// Override default to simplify.
   },
   js: {
     quote: regexBasics.quote,
@@ -66,7 +66,7 @@ const dictionnary = {
     boolean: regexBasics.boolean,
     this: /\b(this)(?=\W)/,
     keyword: /\b(new|getElementsBy(?:Tag|Class|)Name|getElementById|arguments|if|else|do|return|case|default|function|typeof|undefined|instanceof|document|window|while|for|forEach|switch|in|break|continue|length|var|let|const|export|import|from|Number|Boolean|String|Array|Object|(?:clear|set)(?:Timeout|Interval)|Math(?=\.)|Date)(?=\W)/,
-    ponctuation: /(!==?|(?:[[\](){}:;,+\-%*/?=]|&lt;|&gt;)+|\.+(?![a-zA-Z])|&amp;&amp;|\|\|)/, // Override default since '.' can be part of js variable.
+    punctuation: /(!==?|(?:[[\](){}:;,+\-%*/?=]|&lt;|&gt;)+|\.+(?![a-zA-Z])|&amp;&amp;|\|\|)/, // Override default since '.' can be part of js variable.
     variable: /(\.?[a-zA-Z]\w*)/,
     htmlentity: /(&.*?;)/,
     dollar: /(\$|jQuery)(?=\W|$)/// jQuery or $.
@@ -74,7 +74,7 @@ const dictionnary = {
   php: {
     quote: regexBasics.quote,
     comment: regexBasics.comment,
-    ponctuation: regexBasics.ponctuation,
+    punctuation: regexBasics.punctuation,
     number: regexBasics.number,
     boolean: regexBasics.boolean,
     keyword: /\b(define|echo|die|print_r|var_dump|if|else|do|return|case|default|function|\$this|while|for|switch|in|break|continue)(?=\W|$)/,
@@ -83,7 +83,7 @@ const dictionnary = {
   sql: {
     quote: regexBasics.quote,
     comment: regexBasics.comment,
-    ponctuation: regexBasics.ponctuation,
+    punctuation: regexBasics.punctuation,
     number: /\b(\d+(?:\.\d+)?|null)\b/,
     boolean: regexBasics.boolean,
     keyword: /\b(\*|CREATE|ALL|DATABASE|TABLE|GRANT|PRIVILEGES|IDENTIFIED|FLUSH|SELECT|UPDATE|DELETE|INSERT|FROM|WHERE|(?:ORDER|GROUP) BY|LIMIT|(?:(?:LEFT|RIGHT|INNER|OUTER) |)JOIN|AS|ON|COUNT|CASE|TO|IF|WHEN|BETWEEN|AND|OR|CONCAT)(?=\W|$)/
@@ -110,7 +110,7 @@ export const precode = {
     }
   },
   data: () => ({
-    knownLanguages: Object.keys(dictionnary),
+    knownLanguages: Object.keys(dictionary),
     content: ''
   }),
   methods: {
@@ -143,7 +143,7 @@ export const precode = {
       let pattern = ''
       let classMap = []
 
-      for (let Class in dictionnary[this.language]) {
+      for (let Class in dictionary[this.language]) {
         classMap.push(Class)
 
         if (Class === 'quote') {
@@ -155,23 +155,23 @@ export const precode = {
           classMap.push(Class, Class, Class)
         }
 
-        pattern += (pattern ? '|' : '') + dictionnary[this.language][Class].source
+        pattern += (pattern ? '|' : '') + dictionary[this.language][Class].source
       }
 
       return [pattern, classMap]
     },
-    syntaxHighlightHtmlTag (dictionnaryMatches) {
-      let tagPieces = dictionnaryMatches.slice(3)
+    syntaxHighlightHtmlTag (dictionaryMatches) {
+      let tagPieces = dictionaryMatches.slice(3)
 
       // Converts every html attribute with syntax highlighting, e.g:
-      // ` class="my-class"` => ` <span class="attribute">class</span><span class="ponctuation">=</span><span class="quote">"my-class"</span>`,
-      // ` checked` => ` <span class="attribute">checked</span><span class="ponctuation">=</span><span class="quote">"my-class"</span>`.
+      // ` class="my-class"` => ` <span class="attribute">class</span><span class="punctuation">=</span><span class="quote">"my-class"</span>`,
+      // ` checked` => ` <span class="attribute">checked</span><span class="punctuation">=</span><span class="quote">"my-class"</span>`.
       let renderAttributesList = function () {
         return (
           // `attribute-name`
           `${arguments[1]}<span class="attribute">${arguments[2]}</span>` +
           // `=`
-          (arguments[4] ? `<span class="ponctuation">=</span>` : '') +
+          (arguments[4] ? `<span class="punctuation">=</span>` : '') +
           // `"attribute value"`
           (arguments[4] ? `<span class="quote">${arguments[3] || ''}${arguments[4] || ''}${arguments[3] || ''}</span>` : '')
         )
@@ -182,11 +182,11 @@ export const precode = {
       // `<tag-name attrs>` or `<tag-name attrs />` or `</tag-name>`,
       return (
         // Will be the tag opening: `</` or `<`.
-        `<span class="ponctuation">${tagPieces[0]}</span>` +
+        `<span class="punctuation">${tagPieces[0]}</span>` +
         // Will be the tag-name + attributes list if any.
         `<span class="tag-name">${tagPieces[1]}</span>` + attributesList +
         // Will be the tag end `>` or `/>`.
-        `<span class="ponctuation">${tagPieces[3]}</span>`
+        `<span class="punctuation">${tagPieces[3]}</span>`
       )
     },
     syntaxHighlightContent (string) {
@@ -199,10 +199,10 @@ export const precode = {
 
           // "arguments.length - 2" because the function is called with arguments like so:
           // function(strMatch, c1, c2, ..., cn, matchOffset, sourceString){}. With c = the captures.
-          let dictionnaryMatches = Array.prototype.slice.call(args, 1, args.length - 2)
-          for (let i = 0; i < dictionnaryMatches.length; i++) {
-            if (dictionnaryMatches[i]) {
-              match = dictionnaryMatches[i]
+          let dictionaryMatches = Array.prototype.slice.call(args, 1, args.length - 2)
+          for (let i = 0; i < dictionaryMatches.length; i++) {
+            if (dictionaryMatches[i]) {
+              match = dictionaryMatches[i]
               Class = classMap[i]
               break
             }
@@ -211,14 +211,14 @@ export const precode = {
           if (Class === 'quote') match = this.unhtmlize(args[1] || args[2])
           if (Class === 'comment') match = this.unhtmlize(match)
           if (Class === 'tag' && ['xml', 'html', 'html-vue'].indexOf(this.language) > -1) {
-            return this.syntaxHighlightHtmlTag(dictionnaryMatches)
+            return this.syntaxHighlightHtmlTag(dictionaryMatches)
           }
 
           if (Class === 'variable' && match[0] === '.' && this.language === 'js') {
             /**
               * @todo don't apply variable color if char before '.' is not '\w'.
               */
-            return `<span class="ponctuation">.</span><span class="objAttr">${match.substr(1)}</span>`
+            return `<span class="punctuation">.</span><span class="objAttr">${match.substr(1)}</span>`
           }
 
           let styles = ''
