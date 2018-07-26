@@ -55,6 +55,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.1.1",
     "html-loader": "^0.5.4",
+    "simple-syntax-highlighter": "^1.0.0",
     "vue-template-compiler": "^2.5.13"
   },
   "postcss": {

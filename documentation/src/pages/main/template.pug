@@ -98,9 +98,9 @@ div.documentation
     a(name="installation")
   p You have two options: #[em NPM] #[strong or] #[span.code &lt;script&gt;] tag.
   h3 Via NPM
-  precode(language="shell" label="Shell") npm install vueperslides --save-dev
+  ssh-pre(language="shell" label="Shell") npm install vueperslides --save-dev
   p Then import the 2 components and use it:
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
     import { VueperSlides, VueperSlide } from 'vueperslides'
 
@@ -123,7 +123,7 @@ div.documentation
 
   h3 Via #[span.code &lt;script&gt;] tag
   p Include the Vueper Slides script in your document #[span.code &lt;head&gt;] as follows:
-  precode(language="html" label="HTML").
+  ssh-pre(language="html" label="HTML").
     &lt;head&gt;
       ...
       &lt;script src="https://unpkg.com/vue/dist/vue.min.js"&gt;&lt;/script&gt;
@@ -142,12 +142,12 @@ div.documentation
   p.
     Once included in your project, use as follows.#[br]
     Check the #[a(href="#examples") examples] & #[a(href="#vueper-slides--api") API] sections to know more.
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :title="slide.title" :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
     data: () => ({
       slides: [
@@ -170,7 +170,7 @@ div.documentation
     a(name="ex--simplest-ever")
   vueper-slides.ex1
     vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
       &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -184,7 +184,7 @@ div.documentation
   vueper-slides.ex2(autoplay)
     v-icon(slot="pausedIcon" large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides autoplay&gt;
       &lt;v-icon slot="pausedIcon" large color="white"&gt;pause_circle_outline&lt;/v-icon&gt;
       &lt;vueper-slide v-for="(slide, i) in slides"
@@ -193,7 +193,7 @@ div.documentation
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
     import { VueperSlides, VueperSlide } from 'vueperslides'
 
@@ -227,7 +227,7 @@ div.documentation
     v-icon(slot="arrowLeft" color="white" x-large) undo
     v-icon(slot="arrowRight" color="white" x-large) redo
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
       &lt;v-icon slot="arrowLeft" color="white" large&gt;arrow_left&lt;/v-icon&gt;
       &lt;v-icon slot="arrowRight" color="white" large&gt;arrow_right&lt;/v-icon&gt;
@@ -238,7 +238,7 @@ div.documentation
         :content="slide.content"
         :style="'background-color: ' + colors[(i + 1) % 4]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="css" label="CSS").
+  ssh-pre(language="css" label="CSS").
     .vueperslides__bullet {
       background-color: rgba(0, 0, 0, 0.3);
       border: none;
@@ -271,7 +271,7 @@ div.documentation
     #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
   vueper-slides.ex--images-and-fading(fade slide-content-outside="top" slide-content-outside-class="max-widthed text-xs-center my-4" :touchable="false" :slide-ratio="0.3")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
@@ -280,7 +280,7 @@ div.documentation
         :title="'# ' + slide.title"
         :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="css" label="CSS").
+  ssh-pre(language="css" label="CSS").
     .vueperslides__slide-content--outside-top {
       transition: 0.3s ease-in-out;
       opacity: 1;
@@ -308,7 +308,7 @@ div.documentation
         | Complex content {{ i.toString() }} with vueJS
         | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
         | components & #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
-  precode(language="html-vue" label="HTML Vue Template" v-pre).
+  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
     &lt;vueper-slides&gt;
       &lt;vueper-slide
         v-for="i in 4"
@@ -331,12 +331,12 @@ div.documentation
     | #[span.code slot="slideContent"] attribute should wrap &nbsp;
     | #[strong everything you want to keep]. E.g. (with Vuetify component)#[br]
     v-layout
-      precode.flex.xs6.my-2.ml-0.mr-2(language="html-vue").
+      ssh-pre.flex.xs6.my-2.ml-0.mr-2(language="html-vue").
         &lt;!-- Wrong way. The v-layout class will be lost. --&gt;
         &lt;v-layout slot="slideContent"&gt;
           Some content.
         &lt/v-layout&gt;
-      precode.flex.xs6.my-2.ml-2.mr-0(language="html-vue").
+      ssh-pre.flex.xs6.my-2.ml-2.mr-0(language="html-vue").
         &lt;!-- Right way. --&gt;
         &lt;div slot="slideContent"&gt;
           &lt;v-layout&gt;
@@ -375,7 +375,7 @@ div.documentation
           div.text-xs-left
             div.py-2.title {{ slide.title }}
             div {{ slide.content }}
-  precode(language="html-vue" label="HTML Vue Template" v-pre).
+  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
     &lt;v-btn @click="toggleSlidesTime"&gt;Keep updating time&lt;/v-btn&gt;
     &lt;vueper-slides :slide-ratio="1/4" :slide-content-outside="contentPosition"&gt;
       &lt;vueper-slide
@@ -396,7 +396,7 @@ div.documentation
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
 
     data: () => ({
@@ -444,7 +444,7 @@ div.documentation
 
   vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;v-btn color="primary" @click="appendSlide" small&gt;
       &lt;v-icon&gt;add&lt;/v-icon&gt; Add Slide
     &lt;/v-btn&gt;
@@ -467,7 +467,7 @@ div.documentation
         :content="slide.content"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
 
     data: () => ({
@@ -505,7 +505,7 @@ div.documentation
     It also has a shorter transition speed #[span.code transition-speed='250'].
   vueper-slides.ex--center-mode(arrows-outside bullets-outside transition-speed='250')
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides arrows-outside bullets-outside transition-speed='250'&gt;
       &lt;vueper-slide
         v-for="i in 6"
@@ -513,7 +513,7 @@ div.documentation
         :title="i.toString()"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="css" label="CSS").
+  ssh-pre(language="css" label="CSS").
     .ex--center-mode {
       width: 600px;
       max-width: 100%;
@@ -529,10 +529,10 @@ div.documentation
     Change slide to see new events in the events box bellow.
   vueper-slides.ex--events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  pre.precode.events-box(data-label="Event box" style="min-height: 120px")
+  pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
     p(v-html="events")
     | listening...
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides
       @before-init="logEvents"
       @ready="logEvents"
@@ -545,7 +545,7 @@ div.documentation
         :title="i.toString()"
         :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
 
     methods: {
@@ -553,7 +553,7 @@ div.documentation
         this.events += `<b>&bull; Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
       }
     }
-  precode(language="css" label="CSS").
+  ssh-pre(language="css" label="CSS").
     .vueperslides__slide--active:before {
       content: 'This slide is active!';
       position: absolute;
@@ -576,14 +576,14 @@ div.documentation
     Define your breakpoints as an object in your component and pass the object to the #[span.code &lt;vueper-slides&gt;] tag.#[br]
     Any breakpoint config you define will be applied when screen width is decreased to this value and under until next breakpoint.#[br]
     Above the first breakpoint, the main configuration is applied. E.g.
-  precode(language="js").
+  ssh-pre(language="js").
     // Above 1200: main config.
     1200: { ... }, // From width = 1200px to width = 901.
     900: { ... }, // From width = 900px to width = 601.
     600: { ... } // From width = 600px to width = 0.
   vueper-slides.ex--breakpoints(:breakpoints="breakpoints")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :breakpoints="breakpoints"&gt;
       &lt;vueper-slide
         v-for="i in 6"
@@ -591,7 +591,7 @@ div.documentation
         :title="i.toString()"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
 
     data: () => ({
@@ -626,7 +626,7 @@ div.documentation
     If the dragging distance is lower than the specified one, the current slide remains the same.
   vueper-slides.ex--dragging-distance(:dragging-distance="70")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  precode(language="html-vue" label="HTML Vue Template").
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :dragging-distance="70"&gt;
       &lt;vueper-slide
         v-for="i in 6"
@@ -646,7 +646,7 @@ div.documentation
     | #[span.code parallax = {{ parallax.toString() }}], scroll to see the difference.
   vueper-slides.ex--parallax(:parallax='parallax')
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
-  precode(language="html-vue" label="HTML Vue Template" v-pre).
+  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
     &lt;v-btn small color="primary" @click="parallax *= -1"&gt;
       &lt;v-icon&gt;sync&lt;/v-icon&gt;
       reverse parallax effect
@@ -656,7 +656,7 @@ div.documentation
     &lt;vueper-slides :parallax="parallax"&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  precode(language="js" label="Javascript").
+  ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
     data: () => ({
       parallax: 1
@@ -677,7 +677,7 @@ div.documentation
     a(href="#vueper-slides--settings") Settings
     a(name="vueper-slides--settings")
   p Here is the list of all the parameters you can define on a #[span.code &lt;vueper-slides&gt;] tag.
-  precode(language="js").
+  ssh-pre(language="js").
     initSlide:                [Number],          default: 1
     slideRatio:               [Number],          default: 1/3
     arrows:                   [Boolean],         default: true
@@ -941,7 +941,7 @@ div.documentation
     a(href="#vueper-slide--settings") Settings
     a(name="vueper-slide--settings")
   p The following options can be applied to every #[span.code &lt;vueper-slide&gt;] tag.
-  precode(language="js").
+  ssh-pre(language="js").
     image:   [String], default: ''
     title:   [String], default: ''
     content: [String], default: ''

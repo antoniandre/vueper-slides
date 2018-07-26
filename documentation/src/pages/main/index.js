@@ -1,7 +1,8 @@
 import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
-import { precode } from '../../components/syntax-highlighter'
+import { simpleSyntaxHighlighter } from 'simple-syntax-highlighter'
 import { highlight } from '../../components/highlight-message'
 
+import 'simple-syntax-highlighter/dist/simple-syntax-highlighter.min.css'
 import '../../../../dist/vueperslides.min.css'
 import './style.scss'
 import './examples.scss'
@@ -10,7 +11,7 @@ export default {
   components: {
     VueperSlides,
     VueperSlide,
-    precode,
+    sshPre: simpleSyntaxHighlighter,
     highlight
   },
   template: require('./template.pug'),
