@@ -682,7 +682,7 @@ div.documentation
       #[strong.darktext--text.code getSlideData(index)]: returns all the available
       information on a slide given its index.
     li.
-      #[strong.darktext--text.code goToSlide(index [, options])]: go to a slide
+      #[strong.darktext--text.code= 'goToSlide(index [, options])']: go to a slide
       given its index.#[br]You can also call
       #[strong.darktext--text.code goToSlide(index, { animation: false })]
       to disable the animation.
@@ -755,7 +755,9 @@ div.documentation
       | #[code slideRatio], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code 1/3]
       p.
         Sets the slideshow ratio so it will naturally stay ratio-ed on different browser width.#[br]
-        See the #[a(href="#ex--events") Events] example.
+        See the #[a(href="#ex--events") Events] example or #[a(href="#ex--breakpoints") Using Breakpoints] example.
+        #[br]More examples are available in a
+        #[a(href="https://codepen.io/antoniandre/pen/KBXWPP" target="_blank") Codepen demo #[v-icon(small color="primary") open_in_new]].
       highlight.
         Setting the ratio avoids heavier javascript width and height calculations on resize.#[br]
         But thanks to the default value, Vueper Slides' got your back if you don't set any.
