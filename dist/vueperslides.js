@@ -815,6 +815,7 @@ var VueperSlides = { render: function render() {
   }
 };
 
+// Expose component to global scope.
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.component('vueper-slides', VueperSlides);
   window.Vue.component('vueper-slide', VueperSlide);
