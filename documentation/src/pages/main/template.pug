@@ -28,7 +28,7 @@ div.documentation
       div.mb-3.title Github project
       v-layout.mb-5(align-center shrink)
         v-icon.pr-4.lightgrey--text(x-large) fab fa-github
-        a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides
+        a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[v-icon(small color="primary") open_in_new]
     v-card.md3.coming-soon(align-center-center)
       v-card-title.pb-0
         div To do...
@@ -163,7 +163,7 @@ div.documentation
   h2
     a(href="#examples") Examples of Use
     a(name="examples")
-  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/djMpxa" target="_blank") codepen.io].
+  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/djMpxa" target="_blank") codepen.io #[v-icon(small color="primary") open_in_new]].
 
   h3
     a(href="#ex--simplest-ever") Simplest Ever
@@ -358,7 +358,7 @@ div.documentation
       div Try it:
       v-layout.flex.xs10.sm11(align-center wrap)
         v-btn(color="primary" @click="toggleSlidesTime" small)
-          v-icon.pr-3 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
+          v-icon.pr-2 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
           | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
         v-slide-x-transition.xs6.sm3
           v-chip(v-show="slidesTimeTimerId === 0" small outline disabled) CPU says THANK YOU!
@@ -662,8 +662,54 @@ div.documentation
       parallax: 1
     })
   highlight.
-    If you are experiencing image jumps on scroll, keep in mind that this page is considerably big and
-    uses more than 10 instances of Vueper Slides.
+    If you are experiencing image jumps on scroll, keep in mind that this page is
+    considerably big and uses more than 10 instances of Vueper Slides.
+
+
+  h3
+    a(href="#ex--external-controls") External Controls
+    a(name="ex--external-controls")
+  p.
+    This example demonstrates how to control Vueper Slides from wherever you want.
+    ...In your code, not wherever on Earth.#[br]
+    By using a #[a(href="https://vuejs.org/v2/api/#ref" target="_blank") Vue JS reference #[v-icon(small color="primary") open_in_new]] on your slideshow, you can access any method it
+    contains from outside.#[br]
+    Now that you have the power, here is a list of methods you may find useful:
+  ul.max-widthed.mb-3
+    li #[strong.darktext--text.code previous()]: go to the previous slide,
+    li #[strong.darktext--text.code next()]: go to the next slide.
+    li.
+      #[strong.darktext--text.code getSlideData(index)]: returns all the available
+      information on a slide given its index.
+    li.
+      #[strong.darktext--text.code goToSlide(index [, options])]: go to a slide
+      given its index.#[br]You can also call
+      #[strong.darktext--text.code goToSlide(index, { animation: false })]
+      to disable the animation.
+
+  div.text-xs-center.mb-3
+    v-btn(color="primary" small @click="$refs.myVueperslides.previous()")
+      v-icon arrow_back
+      | &nbsp; Previous
+    v-btn(color="primary" small @click="$refs.myVueperslides.goToSlide(5)")
+      v-icon call_made
+      | &nbsp; Go to slide 6
+    v-btn(color="primary" small @click="$refs.myVueperslides.next()")
+      v-icon arrow_forward
+      | &nbsp; Next
+  vueper-slides(:slide-ratio="1/5" ref="myVueperslides")
+    vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
+    &lt;v-btn @click="$refs.myVueperslides.previous()"&gt;Previous&lt;/v-btn&gt;
+    &lt;v-btn @click="$refs.myVueperslides.goToSlide(6 - 1)"&gt;
+      &lt;!-- (6 - 1) because slide index starts at 0. --&gt;
+      Go to slide 6
+    &lt;/v-btn&gt;
+    &lt;v-btn @click="$refs.myVueperslides.next()"&gt;Next&lt;/v-btn&gt;
+
+    &lt;vueper-slides ref="myVueperslides"&gt;
+      &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
 
   h2
     a(href="#vueper-slides--api") #[span.code &lt;vueper-slides&gt;] API
@@ -964,7 +1010,7 @@ div.documentation
     a(href="#available-css-classes") Available CSS Classes
     a(name="available-css-classes")
   p.
-    Vueper Slides uses the #[a(href="http://getbem.com/naming/" target="_blank") BEM]
+    Vueper Slides uses the #[a(href="http://getbem.com/naming/" target="_blank") BEM #[v-icon(small color="primary") open_in_new]]
     naming convention. Styling any element should be quite simple and straightforward.#[br]
 
   ul.max-widthed
