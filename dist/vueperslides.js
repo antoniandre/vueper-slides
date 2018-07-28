@@ -368,6 +368,8 @@ var VueperSlides = { render: function render() {
       this.clones[1] = this.getSlideData(0, true);
     },
     bindEvents: function bindEvents() {
+      var _this2 = this;
+
       var hasTouch = 'ontouchstart' in window;
 
       // Touch enabled slideshow.
@@ -390,6 +392,12 @@ var VueperSlides = { render: function render() {
 
       // Parallax slideshow.
       if (this.conf.parallax) {
+        // First render the onload translation.
+        setTimeout(function () {
+          _this2.onResize();_this2.onScroll();
+        }, 100);
+
+        // then add event listener.
         document.addEventListener('scroll', this.onScroll);
       }
     },
@@ -426,6 +434,7 @@ var VueperSlides = { render: function render() {
       // The distance between the top line of the current vueperslides slideshow and bottom of window.
       // Negative value means the slideshow is totally bellow the current window box.
       var vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset;
+      console.log(vsBottom2WinTop > 0 && vsTop2winBottom > 0);
 
       this.parallaxData.isVisible = vsBottom2WinTop > 0 && vsTop2winBottom > 0;
 
@@ -583,10 +592,10 @@ var VueperSlides = { render: function render() {
       this.timer = 0;
     },
     setTimer: function setTimer() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.timer = setTimeout(function () {
-        _this2.goToSlide(_this2.slides.current + 1, { autoPlaying: true });
+        _this3.goToSlide(_this3.slides.current + 1, { autoPlaying: true });
       }, this.conf.speed);
     },
     previous: function previous() {
@@ -623,7 +632,7 @@ var VueperSlides = { render: function render() {
       return { nextSlide: index, clone: clone };
     },
     goToSlide: function goToSlide(index) {
-      var _this3 = this;
+      var _this4 = this;
 
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -644,7 +653,7 @@ var VueperSlides = { render: function render() {
 
       this.transition.animated = animation;
       setTimeout(function () {
-        return _this3.transition.animated = false;
+        return _this4.transition.animated = false;
       }, this.transitionSpeed);
 
       // Get the next slide index and whether it's a clone.
@@ -678,15 +687,15 @@ var VueperSlides = { render: function render() {
         setTimeout(function () {
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
-          var passedCloneBackward = index === -1 && _this3.slides.current !== _this3.slides.count - 1;
-          var passedCloneForward = index === _this3.slides.count && _this3.slides.current !== 0;
+          var passedCloneBackward = index === -1 && _this4.slides.current !== _this4.slides.count - 1;
+          var passedCloneForward = index === _this4.slides.count && _this4.slides.current !== 0;
           var tooLateToSetTimeout = passedCloneBackward || passedCloneForward;
 
           if (!tooLateToSetTimeout) {
-            _this3.transition.speed = 0;
-            _this3.goToSlide(nextSlideIsClone ? 0 : _this3.slides.count - 1, { animation: false, jumping: true });
+            _this4.transition.speed = 0;
+            _this4.goToSlide(nextSlideIsClone ? 0 : _this4.slides.count - 1, { animation: false, jumping: true });
             setTimeout(function () {
-              return _this3.transition.speed = _this3.conf.transitionSpeed;
+              return _this4.transition.speed = _this4.conf.transitionSpeed;
             }, 10);
           }
         }, this.transition.speed - 50);
@@ -719,7 +728,7 @@ var VueperSlides = { render: function render() {
       }
     },
     addSlide: function addSlide(newSlide) {
-      var _this4 = this;
+      var _this5 = this;
 
       var needReclone = this.conf.infinite && this.isReady && newSlide.clone === null;
 
@@ -738,32 +747,32 @@ var VueperSlides = { render: function render() {
       // cloneSlides() is called at the end of init so calling it before would be redundant.
       if (needReclone) {
         this.$nextTick(function () {
-          return _this4.cloneSlides();
+          return _this5.cloneSlides();
         });
       }
     },
     removeSlide: function removeSlide(uid) {
-      var _this5 = this;
+      var _this6 = this;
 
       var needReclone = false;
 
       this.slides.list.some(function (slide, i) {
         if (slide._uid === uid) {
           // Remove the slide.
-          _this5.slides.list.splice(i, 1);
-          _this5.slides.count = _this5.slides.list.length;
+          _this6.slides.list.splice(i, 1);
+          _this6.slides.count = _this6.slides.list.length;
 
           // If the slide to remove is the current slide, slide to the previous slide.
-          if (uid === _this5.slides.activeUid) {
-            _this5.slides.activeUid = null;
-            _this5.goToSlide(i - 1, { autoPlaying: true });
+          if (uid === _this6.slides.activeUid) {
+            _this6.slides.activeUid = null;
+            _this6.goToSlide(i - 1, { autoPlaying: true });
           }
 
-          if (_this5.slides.count <= 1) {
-            _this5.touch.enabled = false;
+          if (_this6.slides.count <= 1) {
+            _this6.touch.enabled = false;
           }
 
-          if (_this5.clones.length && _this5.isReady && !slide.clone) needReclone = true;
+          if (_this6.clones.length && _this6.isReady && !slide.clone) needReclone = true;
 
           return true; // Break the `Array.some` loop.
         }
@@ -815,7 +824,6 @@ var VueperSlides = { render: function render() {
   }
 };
 
-// Expose component to global scope.
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.component('vueper-slides', VueperSlides);
   window.Vue.component('vueper-slide', VueperSlide);
