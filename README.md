@@ -25,6 +25,7 @@ ___
 
 ## Release Notes
 
+- __Version 1.9.1__ Add onload parallax translation calculation
 - __Version 1.9.0__ Add previous() & next() methods for external controls
 - __Version 1.8.0__ Add animated class while slideshow is animated
 - __Version 1.7.0__ Improve slide data reactivity & allow to refresh clones on drag

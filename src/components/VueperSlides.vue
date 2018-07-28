@@ -280,6 +280,10 @@ export default {
 
       // Parallax slideshow.
       if (this.conf.parallax) {
+        // First render the onload translation.
+        setTimeout(() => {this.onResize();this.onScroll()}, 100)
+
+        // then add event listener.
         document.addEventListener('scroll', this.onScroll)
       }
     },
@@ -314,6 +318,7 @@ export default {
       // The distance between the top line of the current vueperslides slideshow and bottom of window.
       // Negative value means the slideshow is totally bellow the current window box.
       let vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset
+      console.log(vsBottom2WinTop > 0 && vsTop2winBottom > 0)
 
       this.parallaxData.isVisible = vsBottom2WinTop > 0 && vsTop2winBottom > 0
 
