@@ -318,7 +318,6 @@ export default {
       // The distance between the top line of the current vueperslides slideshow and bottom of window.
       // Negative value means the slideshow is totally bellow the current window box.
       let vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset
-      console.log(vsBottom2WinTop > 0 && vsTop2winBottom > 0)
 
       this.parallaxData.isVisible = vsBottom2WinTop > 0 && vsTop2winBottom > 0
 

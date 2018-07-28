@@ -434,7 +434,6 @@ var VueperSlides = { render: function render() {
       // The distance between the top line of the current vueperslides slideshow and bottom of window.
       // Negative value means the slideshow is totally bellow the current window box.
       var vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset;
-      console.log(vsBottom2WinTop > 0 && vsTop2winBottom > 0);
 
       this.parallaxData.isVisible = vsBottom2WinTop > 0 && vsTop2winBottom > 0;
 
@@ -824,6 +823,7 @@ var VueperSlides = { render: function render() {
   }
 };
 
+// Expose component to global scope.
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.component('vueper-slides', VueperSlides);
   window.Vue.component('vueper-slide', VueperSlide);
