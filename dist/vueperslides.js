@@ -368,8 +368,6 @@ var VueperSlides = { render: function render() {
       this.clones[1] = this.getSlideData(0, true);
     },
     bindEvents: function bindEvents() {
-      var _this2 = this;
-
       var hasTouch = 'ontouchstart' in window;
 
       // Touch enabled slideshow.
@@ -393,9 +391,7 @@ var VueperSlides = { render: function render() {
       // Parallax slideshow.
       if (this.conf.parallax) {
         // First render the onload translation.
-        setTimeout(function () {
-          _this2.onResize();_this2.onScroll();
-        }, 100);
+        this.refreshParallax();
 
         // then add event listener.
         document.addEventListener('scroll', this.onScroll);
@@ -421,7 +417,7 @@ var VueperSlides = { render: function render() {
 
       return this.parallaxData.slideshowOffsetTop;
     },
-    onScroll: function onScroll(e) {
+    onScroll: function onScroll() {
       var doc = document.documentElement;
       var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
       var windowHeight = window.innerHeight || doc.clientHeight || document.body.clientHeight;
@@ -591,10 +587,10 @@ var VueperSlides = { render: function render() {
       this.timer = 0;
     },
     setTimer: function setTimer() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.timer = setTimeout(function () {
-        _this3.goToSlide(_this3.slides.current + 1, { autoPlaying: true });
+        _this2.goToSlide(_this2.slides.current + 1, { autoPlaying: true });
       }, this.conf.speed);
     },
     previous: function previous() {
@@ -602,6 +598,14 @@ var VueperSlides = { render: function render() {
     },
     next: function next() {
       this.goToSlide(this.slides.current + 1);
+    },
+    refreshParallax: function refreshParallax() {
+      var _this3 = this;
+
+      setTimeout(function () {
+        _this3.onResize();
+        _this3.onScroll();
+      }, 100);
     },
     getSlideInRange: function getSlideInRange(index) {
       var clone = null;

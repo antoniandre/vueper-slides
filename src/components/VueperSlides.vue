@@ -281,7 +281,7 @@ export default {
       // Parallax slideshow.
       if (this.conf.parallax) {
         // First render the onload translation.
-        setTimeout(() => {this.onResize();this.onScroll()}, 100)
+        this.refreshParallax()
 
         // then add event listener.
         document.addEventListener('scroll', this.onScroll)
@@ -305,7 +305,7 @@ export default {
       return this.parallaxData.slideshowOffsetTop
     },
 
-    onScroll (e) {
+    onScroll () {
       let doc = document.documentElement
       let scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
       let windowHeight = window.innerHeight || doc.clientHeight || document.body.clientHeight
@@ -493,6 +493,13 @@ export default {
 
     next () {
       this.goToSlide(this.slides.current + 1)
+    },
+
+    refreshParallax () {
+      setTimeout(() => {
+        this.onResize()
+        this.onScroll()
+      }, 100)
     },
 
     getSlideInRange (index) {
