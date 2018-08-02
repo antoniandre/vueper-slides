@@ -25,6 +25,7 @@ ___
 
 ## Release Notes
 
+- __Version 1.10.0__ Allow fixed height
 - __Version 1.9.4__ Add a method to refresh parallax
 - __Version 1.9.1__ Add onload parallax translation calculation
 - __Version 1.9.0__ Add previous() & next() methods for external controls

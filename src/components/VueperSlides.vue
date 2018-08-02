@@ -1,5 +1,5 @@
 <template lang="pug">
-div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow")
+div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
   div.vueperslides__slide-content.vueperslides__slide-content--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
     div.slide-title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     div.slide-content(v-if="slides.count" v-html="getCurrentSlideData('content')")
@@ -134,7 +134,11 @@ export default {
     breakpoints: {
       type: Object,
       default: () => ({})
-    }
+    },
+    fixedHeight: {
+      type: [Boolean, String],
+      default: false
+    },
   },
   data: () => ({
     isReady: false,
@@ -680,6 +684,9 @@ export default {
 
       return conf
     },
+    vueperStyles () {
+      return /^-?\d/.test(this.conf.fixedHeight) ? 'height: ' + this.conf.fixedHeight : null
+    },
     trackStyles () {
       let styles = {}
 
@@ -714,6 +721,18 @@ export default {
 // css file so the end user can easily override them.
 .vueperslides {
   position: relative;
+
+  &--fixed-height {
+    .vueperslides__inner,
+    .vueperslides__parallax-wrapper,
+    .vueperslides__slide {
+      height: inherit;
+    }
+
+    .vueperslides__parallax-wrapper {
+      padding-bottom: 0 !important;
+    }
+  }
 
   &__inner {
     position: relative;
