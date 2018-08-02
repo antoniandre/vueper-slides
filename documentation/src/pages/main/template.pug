@@ -83,6 +83,9 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Add animated class
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Fixed height
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
               | Slides to scroll at once
@@ -620,9 +623,10 @@ div.documentation
   p.
     This example demonstrates how to define a dragging distance for touch-enabled slideshows.#[br]
     By default the dragging distance is #[span.code 50%] of the slideshow width.#[br]
-    This means that when you start dragging from one side you have to pass half-slide to change slide.#[br]
-    With this configuration the behavior is slightly different and to change slide you need to drag more that
-    the specified distance in pixels.#[br]
+    This means that when you start dragging from one side you have to pass half-slide to
+    change slide.#[br]
+    With this configuration the behavior is slightly different and to change slide you
+    need to drag more that the specified distance in pixels.#[br]
     If the dragging distance is lower than the specified one, the current slide remains the same.
   vueper-slides.ex--dragging-distance(:dragging-distance="70")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
@@ -640,20 +644,20 @@ div.documentation
     a(name="ex--parallax")
   p
     | This example demonstrates how to create a parallax effect on your slideshow.#[br]
-    v-btn(small color="primary" @click="parallax *= -1")
+    | Two values can be set for different parallax effects: #[span.code 1] for standard effect, and #[span.code -1] for reverse effect.
+    v-btn(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
       v-icon sync
-      | &nbsp; reverse parallax effect
-    | #[span.code parallax = {{ parallax.toString() }}], scroll to see the difference.
-  vueper-slides.ex--parallax(:parallax='parallax')
+      | &nbsp; Reverse parallax effect
+    strong #[span.code parallax = {{ parallax.toString() }}]
+  vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
-    &lt;v-btn small color="primary" @click="parallax *= -1"&gt;
-      &lt;v-icon&gt;sync&lt;/v-icon&gt;
+    &lt;v-btn @click="parallax *= -1;$refs.myVueperSlides.refreshParallax()"&gt;
       reverse parallax effect
     &lt;/v-btn&gt;
     parallax value: {{ parallax.toString() }}
 
-    &lt;vueper-slides :parallax="parallax"&gt;
+    &lt;vueper-slides :parallax="parallax" ref="myVueperSlides"&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
@@ -661,10 +665,42 @@ div.documentation
     data: () => ({
       parallax: 1
     })
+  highlight(type="tips")
+    strong.darktext--text.
+      The parallax position is constantly recalculated while you scroll, or after a
+      resize event.#[br]
+      If for some reason - like in this case when you press the "Reverse parallax effect" button - no scroll
+      or resize event is triggered but you need to recalculate the parallax position,
+      you can do so by calling the #[span.code refreshParallax()] method from a referenced
+      Vueper Slides instance, like in this example.#[br]#[br]
+    span.
+      For more details on referencing a Vueper Slides instance refer to the
+      #[a(href="#ex--external-controls") External Controls] example.
   highlight.
     If you are experiencing image jumps on scroll, keep in mind that this page is
     considerably big and uses more than 12 instances of Vueper Slides.
 
+
+  h3
+    a(href="#ex--fixed-height") Fixed Height
+    a(name="ex--fixed-height")
+  p.
+    This example demonstrates how to set a fixed height on the slideshow.#[br]
+    The attribute #[strong.darktext--text.code fixed-height]
+    #[strong accepts either a Boolean or a String].
+    Refer to the #[a(href="#vueper-slides-settings--fixed-height") settings > fixed height] for more details.
+  br
+
+  vueper-slides.ex--fixed-height(:slide-ratio="1/2" fixed-height="500px")
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
+  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
+    &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides2" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  p #[strong.darktext--text You only need this CSS if you use #[span.code :fixed-height="true"]:]
+  ssh-pre(language="css" label="CSS").
+    /* You only need this if you use :fixed-height="true". */
+    .vueperslides--fixed-height { height: 500px; }
 
   h3
     a(href="#ex--external-controls") External Controls
@@ -686,28 +722,32 @@ div.documentation
       given its index.#[br]You can also call
       #[strong.darktext--text.code goToSlide(index, { animation: false })]
       to disable the animation.
+    li.
+      #[strong.darktext--text.code refreshParallax()]: recalculates the parallax
+      position if you are using a parallax effect.#[br]
+      refer to the #[a(href="#ex--parallax") Parallax Effect] example.
 
   div.text-xs-center.mb-3
-    v-btn(color="primary" small @click="$refs.myVueperslides.previous()")
+    v-btn(color="primary" small @click="$refs.myVueperSlides.previous()")
       v-icon arrow_back
       | &nbsp; Previous
-    v-btn(color="primary" small @click="$refs.myVueperslides.goToSlide(5)")
+    v-btn(color="primary" small @click="$refs.myVueperSlides.goToSlide(5)")
       v-icon call_made
       | &nbsp; Go to slide 6
-    v-btn(color="primary" small @click="$refs.myVueperslides.next()")
+    v-btn(color="primary" small @click="$refs.myVueperSlides.next()")
       v-icon arrow_forward
       | &nbsp; Next
-  vueper-slides(:slide-ratio="1/5" ref="myVueperslides")
+  vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
-    &lt;v-btn @click="$refs.myVueperslides.previous()"&gt;Previous&lt;/v-btn&gt;
-    &lt;v-btn @click="$refs.myVueperslides.goToSlide(6 - 1)"&gt;
+    &lt;v-btn @click="$refs.myVueperSlides.previous()"&gt;Previous&lt;/v-btn&gt;
+    &lt;v-btn @click="$refs.myVueperSlides.goToSlide(6 - 1)"&gt;
       &lt;!-- (6 - 1) because slide index starts at 0. --&gt;
       Go to slide 6
     &lt;/v-btn&gt;
-    &lt;v-btn @click="$refs.myVueperslides.next()"&gt;Next&lt;/v-btn&gt;
+    &lt;v-btn @click="$refs.myVueperSlides.next()"&gt;Next&lt;/v-btn&gt;
 
-    &lt;vueper-slides ref="myVueperslides"&gt;
+    &lt;vueper-slides ref="myVueperSlides"&gt;
       &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
@@ -745,6 +785,7 @@ div.documentation
     draggingDistance:         [Number],          default: null
     disable:                  [Boolean],         default: false
     breakpoints:              [Object],          default: {}
+    fixedHeight:              [Boolean, Number], default: false
 
   ul.max-widthed.settings-list
     li
@@ -937,6 +978,27 @@ div.documentation
         With this option you can provide different configurations to apply to the slideshow
         at a particular screen width.#[br]
         See this setting in action in the #[a(href="#ex--breakpoints") Using Breakpoints] example.
+
+    li
+      a(name="vueper-slides-settings--fixed-height")
+      | #[code fixedHeight], #[strong Type:] #[span.code [Boolean, String]], #[strong Default:] #[span.code false]
+      p.
+        The attribute #[strong.darktext--text.code fixed-height]
+        #[strong accepts either a Boolean or a String]:
+      ul
+        li.
+          #[strong.darktext--text A string] made of the height amount and the CSS unit
+          will set the height directly.#[br]
+          E.g. #[span.darktext--text.code "200px"], #[span.darktext--text.code "200vh"],
+          #[span.darktext--text.code "200%"].#[br]
+          #[strong It will not work if you don't provide a unit].
+        li.
+          #[strong.darktext--text A boolean] #[span.darktext--text.code true] value will
+          let you set the height from your CSS.#[br]
+          E.g. #[strong.darktext--text.code :fixed-height="true"], or just
+          #[strong.darktext--text.code fixed-height].
+
+      p See this setting in action in the #[a(href="#ex--fixed-height") Fixed Height] example.
 
 
   h3
