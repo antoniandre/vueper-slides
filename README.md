@@ -25,6 +25,7 @@ ___
 
 ## Release Notes
 
+- __Version 1.11.0__ Allow slide background inside slide container
 - __Version 1.10.0__ Allow fixed height
 - __Version 1.9.4__ Add a method to refresh parallax
 - __Version 1.9.1__ Add onload parallax translation calculation

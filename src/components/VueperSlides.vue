@@ -1,18 +1,18 @@
 <template lang="pug">
 div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
-  div.vueperslides__slide-content.vueperslides__slide-content--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
-    div.slide-title(v-if="slides.count" v-html="getCurrentSlideData('title')")
-    div.slide-content(v-if="slides.count" v-html="getCurrentSlideData('content')")
+  div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
+    div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
+    div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 
   div.vueperslides__inner
     div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
       div.vueperslides__track-wrapper(:style="trackWrapperStyles")
         div.vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" ref="track" :style="trackStyles")
-          vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style" aria-hidden="true")
+          vueper-slide.vueperslide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style" aria-hidden="true")
             div(v-if="clones[0].titleSlot" slot="slideTitle" v-html="clones[0].titleSlot")
             div(v-if="clones[0].contentSlot" slot="slideContent" v-html="clones[0].contentSlot")
           slot(:currentSlide="slides.current")
-          vueper-slide.vueperslides__slide--clone(v-if="slides.count && clones[1]" :clone="1" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style" aria-hidden="true")
+          vueper-slide.vueperslide--clone(v-if="slides.count && clones[1]" :clone="1" :title="clones[1].title" :content="clones[1].content" :image="clones[1].image" :style="clones[1].style" aria-hidden="true")
             div(v-if="clones[1].titleSlot" slot="slideTitle" v-html="clones[1].titleSlot")
             div(v-if="clones[1].contentSlot" slot="slideContent" v-html="clones[1].contentSlot")
 
@@ -35,9 +35,9 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
     button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i }" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
       span {{ i + 1 }}
 
-  div.vueperslides__slide-content.vueperslides__slide-content--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
-    div.slide-title(v-if="slides.count" v-html="getCurrentSlideData('title')")
-    div.slide-content(v-if="slides.count" v-html="getCurrentSlideData('content')")
+  div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
+    div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
+    div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 </template>
 
 <script>
@@ -139,6 +139,10 @@ export default {
       type: [Boolean, String],
       default: false
     },
+    slideImageInside: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     isReady: false,
@@ -725,7 +729,7 @@ export default {
   &--fixed-height {
     .vueperslides__inner,
     .vueperslides__parallax-wrapper,
-    .vueperslides__slide {
+    .vueperslide {
       height: inherit;
     }
 
@@ -791,34 +795,6 @@ export default {
 
     &--no-animation {
       transition-duration: 0s;
-    }
-  }
-
-  &__slide {
-    white-space: normal;
-    background-size: cover;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-
-  &__slide &__slide-content {
-    position: absolute;
-  }
-
-  &--fade &__slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-    transition: .8s ease-in-out opacity;
-
-    &--active {
-      z-index: 1;
-      opacity: 1;
     }
   }
 

@@ -19,18 +19,6 @@
     }
   }
 
-  &__slide {
-    background-position: center;
-  }
-
-  &__slide &__slide-content {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-
-
   &__arrows {
     color: #fff;
 
@@ -97,5 +85,21 @@
     span {
       display: none;
     }
+  }
+}
+
+.vueperslide {
+  background-position: center;
+  overflow: hidden;
+
+  &__image {
+    background-position: center;
+  }
+
+  &__content-wrapper:not(&__content-wrapper--outside-top):not(&__content-wrapper--outside-bottom) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 }

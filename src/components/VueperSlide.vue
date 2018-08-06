@@ -1,11 +1,12 @@
 <template lang="pug">
-div(:class="{ 'vueperslides__slide': true, 'vueperslides__slide--active': $parent.slides.activeUid === _uid }" :style="styles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
-  div.vueperslides__slide-content(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
-    div.slide-title(v-show="title || hasTitleSlotData")
+div(:class="{ 'vueperslide': true, 'vueperslide--active': $parent.slides.activeUid === _uid }" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
+  div.vueperslide__image(v-if="image && $parent.conf.slideImageInside" :style="imageStyles")
+  div.vueperslide__content-wrapper(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
+    div.vueperslide__title(v-show="title || hasTitleSlotData")
       div(v-show="!$parent.conf.slideContentOutside && !title")
         slot(name="slideTitle")
       div(v-if="title" v-html="title")
-    div.slide-content(v-if="content || hasContentSlotData")
+    div.vueperslide__content(v-if="content || hasContentSlotData")
       div(v-show="!$parent.conf.slideContentOutside && !content")
         slot(name="slideContent")
       div(v-if="content" v-html="content")
@@ -42,8 +43,11 @@ export default {
     if (this.clone === null) this.$parent.removeSlide(this._uid)
   },
   computed: {
-    styles () {
-      return { ...(this.image && { backgroundImage: `url(${this.image})` }) }
+    wrapperStyles () {
+      return { ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }) }
+    },
+    imageStyles () {
+      return { ...(this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }) }
     },
   	hasTitleSlotData () {
       let { slideTitle } = this.$slots
@@ -56,3 +60,42 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.vueperslide {
+  white-space: normal;
+  background-size: cover;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+  }
+
+  &__content-wrapper:not(&__content-wrapper--outside-top):not(&__content-wrapper--outside-bottom) {
+    position: absolute;
+  }
+}
+
+.vueperslides--fade .vueperslide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: .8s ease-in-out opacity;
+
+  &--active {
+    z-index: 1;
+    opacity: 1;
+  }
+}
+</style>
