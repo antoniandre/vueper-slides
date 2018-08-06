@@ -1,99 +1,97 @@
 @import '../../styles/variables';
 
-.vueperslides__slide {
+.vueperslide {
   background-position: bottom;
+
+  &__content-wrapper {
+    color: #fff;
+    font-family: Tahoma, Geneva, sans-serif;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  }
+
+  &__content-wrapper--outside-top,
+  &__content-wrapper--outside-bottom {
+    color: #444;
+    padding-left: 2em;
+    margin-top: 0;
+    text-shadow: none;
+  }
+
+  &__title {
+    font-size: 2em;
+  }
+
+  &__content {
+    font-style: italic;
+    position: relative;
+  }
 }
 
-.vueperslides__slide-content--outside-top,
-.vueperslides__slide-content--outside-bottom {
-  color: #444;
-}
-
-.vueperslides__slide .vueperslides__slide-content {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #fff;
-  font-family: Tahoma, Geneva, sans-serif;
-  text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-}
-
-.vueperslides__slide-content .slide-title {
-  font-size: 2em;
-}
-
-.vueperslides__slide-content .slide-content {
-  font-style: italic;
-}
-
-.vueperslides__slide-content--outside .content {
-  padding-left: 2em;
-  margin-top: 0;
-}
-
-.vueperslides__slide .vueperslides__slide-content .slide-content {
-  position: relative;
-}
-
-.vueperslides__bullets--outside  .vueperslides__bullet {
+.vueperslides__bullets--outside .vueperslides__bullet {
   border-color: $secondary;
   box-shadow: none;
 }
 
-.vueperslides__bullets--outside  .vueperslides__bullet--active {
+.vueperslides__bullets--outside .vueperslides__bullet--active {
   background-color: $secondary;
 }
 
 /* Examples */
 /*===================================*/
-.ex1 .vueperslides__slide {
+.ex1 .vueperslide {
   background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
+
+  &__title {
+    font-size: 7em;
+    opacity: 0.6;
+  }
 }
 
-.ex1 .slide-title {
-  font-size: 7em;
-  opacity: 0.6;
+//---------------------//
+.ex--arrows-and-bullets {
+  .vueperslides__bullet {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    transition: 0.3s;
+    width: 15px;
+    height: 15px;
+
+    &--active {
+      background-color: $secondary;
+    }
+
+    span {
+      display: block;
+      color: #fff;
+      font-size: 10px;
+      line-height: 15px;
+    }
+  }
 }
 
-.ex--arrows-and-bullets .vueperslides__bullet {
-  background-color: rgba(0, 0, 0, 0.3);
-  border: none;
-  transition: 0.3s;
-  width: 15px;
-  height: 15px;
+//---------------------//
+.ex--images-and-fading {
+  .vueperslide__content-wrapper--outside-top {
+    transition: 0.3s ease-in-out;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &.vueperslides--animated .vueperslide__content-wrapper--outside-top {
+    transition: 0.15s ease-in-out;
+    opacity: 0;
+    transform: scale(0);
+  }
 }
 
-.ex--arrows-and-bullets .vueperslides__bullet--active {
-  background-color: $secondary;
-}
-
-.ex--arrows-and-bullets .vueperslides__bullet span {
-  display: block;
-  color: #fff;
-  font-size: 10px;
-  line-height: 15px;
-}
-
-.ex--images-and-fading .vueperslides__slide-content--outside-top {
-  transition: 0.3s ease-in-out;
-  opacity: 1;
-  transform: scale(1);
-}
-
-.ex--images-and-fading.vueperslides--animated .vueperslides__slide-content--outside-top {
-  transition: 0.15s ease-in-out;
-  opacity: 0;
-  transform: scale(0);
-}
-
+//---------------------//
 .events-box p {
   margin-bottom: 0;
 }
 
-.ex--events .vueperslides__slide--active:before {
+.ex--events .vueperslide--active:before {
   content: 'This slide is active!';
   position: absolute;
   top: -18px;
@@ -107,21 +105,36 @@
   box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
 }
 
+//---------------------//
 .ex--center-mode {
   width: 600px;
   max-width: 100%;
   margin: auto;
+
+  .vueperslides__arrows--outside {
+    color: $secondary;
+  }
 }
 
-.ex--center-mode .vueperslides__arrows--outside {
-  color: $secondary;
+//---------------------//
+.ex--updating-content .vueperslide__content-wrapper--outside-top *,
+.ex--updating-content .vueperslide__content-wrapper--outside-bottom * {
+  color: $secondary !important;
 }
 
-.ex--updating-content .vueperslides__slide-content--outside-top *,
-.ex--updating-content .vueperslides__slide-content--outside-bottom * {
-  color: $secondary !important
-  ;
+//---------------------//
+.ex--slide-image-inside {
+  .vueperslide__image {
+    transform: scale(1.5) rotate(-10deg);
+    background-position: center 90%;
+  }
+
+  .vueperslide__title {
+    font-size: 7em;
+    opacity: 0.7;
+  }
 }
+
 
 @keyframes gradient {
   0% {

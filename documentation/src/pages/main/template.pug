@@ -86,6 +86,9 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Fixed height
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Slide image inside
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
               | Slides to scroll at once
@@ -284,13 +287,13 @@ div.documentation
         :content="slide.content"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="css" label="CSS").
-    .vueperslides__slide-content--outside-top {
+    .vueperslide__content-wrapper--outside-top {
       transition: 0.3s ease-in-out;
       opacity: 1;
       transform: scale(1);
     }
 
-    .vueperslides--animated .vueperslides__slide-content--outside-top {
+    .vueperslides--animated .vueperslide__content-wrapper--outside-top {
       transition: 0.15s ease-in-out;
       opacity: 0;
       transform: scale(0);
@@ -557,7 +560,7 @@ div.documentation
       }
     }
   ssh-pre(language="css" label="CSS").
-    .vueperslides__slide--active:before {
+    .vueperslide--active:before {
       content: 'This slide is active!';
       position: absolute;
       top: -18px;
@@ -680,7 +683,6 @@ div.documentation
     If you are experiencing image jumps on scroll, keep in mind that this page is
     considerably big and uses more than 12 instances of Vueper Slides.
 
-
   h3
     a(href="#ex--fixed-height") Fixed Height
     a(name="ex--fixed-height")
@@ -695,12 +697,38 @@ div.documentation
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
     &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
-      &lt;vueper-slide v-for="(slide, i) in slides2" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   p #[strong.darktext--text You only need this CSS if you use #[span.code :fixed-height="true"]:]
   ssh-pre(language="css" label="CSS").
     /* You only need this if you use :fixed-height="true". */
     .vueperslides--fixed-height { height: 500px; }
+
+  h3
+    a(href="#ex--slide-image-inside") Slide Image Inside
+    a(name="ex--slide-image-inside")
+  p.
+    This example demonstrates how to put the slide image in a div inside the slide container
+    instead of the container itself.#[br]
+    This allows you to CSS-transform the image as you want without impacting the behavior of
+    the slideshow and without transforming your content. E.g. rotate image but not slide
+    description.
+
+  vueper-slides.ex--slide-image-inside(slide-image-inside)
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :title="(i + 1).toString()" :image="slide.image")
+  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
+    &lt;vueper-slides slide-image-inside&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  ssh-pre(language="css" label="CSS").
+    .vueperslide__image {
+      transform: scale(1.5) rotate(-10deg);
+    }
+
+    .vueperslide__title {
+      font-size: 7em;
+      opacity: 0.7;
+    }
 
   h3
     a(href="#ex--external-controls") External Controls
@@ -786,6 +814,7 @@ div.documentation
     disable:                  [Boolean],         default: false
     breakpoints:              [Object],          default: {}
     fixedHeight:              [Boolean, Number], default: false
+    slideImageInside:         [Boolean],         default: false
 
   ul.max-widthed.settings-list
     li
@@ -1000,6 +1029,14 @@ div.documentation
 
       p See this setting in action in the #[a(href="#ex--fixed-height") Fixed Height] example.
 
+    li
+      a(name="vueper-slides-settings--image-inside")
+      | #[code slideImageInside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      p.
+        Allow you to CSS transform the slides images with no impact on slideshow behavior.
+
+      p See this setting in action in the #[a(href="#ex--slide-image-inside") Slide Image Inside] example.
+
 
   h3
     a(href="#events") Events
@@ -1100,3 +1137,44 @@ div.documentation
         li.
           #[a(href="#ex--images-and-fading") Images & Fading example] for transition style on
           the content using #[span.code vueperslides--animated].
+
+  h2
+    a(href="#notable-version-changes") Notable Version Changes
+    a(name="notable-version-changes")
+  highlight.
+    Vueper Slides is evolving fast and for the better!#[br]
+    Along the way, some changes made to Vueper Slides may impact your project.#[br]
+    Here is a list of notable changes after version releases.
+  highlight(type="tips").
+    After a Vueper Slides update, don't forget to refer to this section to check the
+    possible side effects.
+
+  ul.max-widthed
+    li
+      strong Version 1.11.0
+      ul
+        li.
+          Class #[span.code vueperslides__slide] is replaced with #[span.darktext--text.code vueperslide]
+          as it concerns the #[span.code &lt;vueperslide&gt;] tag only.#[br]
+        li.
+          The class #[span.code vueperslides__slide--active] is replaced with
+          #[span.darktext--text.code vueperslide--active].
+        li.
+          The class #[span.code vueperslides__slide--clone] is replaced with
+          #[span.darktext--text.code vueperslide--clone].
+        li.
+          The class #[span.code vueperslides__slide-content] is replaced with
+          #[span.darktext--text.code vueperslide__content-wrapper].
+        li.
+          The class #[span.code slide-title] is replaced with
+          #[span.darktext--text.code vueperslide__title].
+        li.
+          The class #[span.code slide-content] is replaced with
+          #[span.darktext--text.code vueperslide__content].#[br]#[br]
+
+    li
+      strong Version 1.6.0
+      p.
+        You now need to include Vueper Slides CSS file for default styles
+        (refer to #[a(href="#external-css") External CSS]).#[br]
+        #[span.code import 'vueperslides/dist/vueperslides.min.css']
