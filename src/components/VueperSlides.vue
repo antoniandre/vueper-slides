@@ -142,6 +142,10 @@ export default {
     slideImageInside: {
       type: Boolean,
       default: false
+    },
+    slideMultiple: {
+      type: [Boolean, Number],
+      default: false
     }
   },
   data: () => ({
@@ -377,7 +381,7 @@ export default {
 
       this.mouseDown = true
 
-      if (this.draggingDistance) {
+      if (this.conf.draggingDistance) {
         // Store drag start in var for distance calculation in onMouseUp().
         this.touch.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
       } else {
@@ -401,7 +405,7 @@ export default {
           this.cloneSlides()
         }
 
-        if (this.draggingDistance) {
+        if (this.conf.draggingDistance) {
           this.touch.dragAmount = this.getDragAmount(e)
           let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
@@ -414,45 +418,48 @@ export default {
     },
 
     onMouseUp (e) {
-      if (this.mouseDown || this.touch.dragging) {
-        this.mouseDown = false
-        this.touch.dragging = false
+      this.mouseDown = false
 
-        let slideOnDragEnd
-        if (this.draggingDistance) {
-          let dragAmount = this.touch.dragAmount
-          let dragAmountPercentage = dragAmount / this.container.clientWidth
+      // If no mouse move there is nothing to do so don't go further.
+      if (!this.touch.dragging) return this.cancelSlideChange()
 
-          slideOnDragEnd = this.slides.current
-          if (Math.abs(dragAmount) >= this.draggingDistance) {
-            slideOnDragEnd += dragAmount > 0 ? -1 : 1
-          }
-        } else {
-          // When the drag is realeased, calculate if the drag ends before or after the 50%-slideshow-width threshold.
-          // Then finish the sliding toward that slide.
-          slideOnDragEnd = - (Math.round(this.transition.currentTranslation / 100) + (this.clones.length ? 1 : 0))
-        }
+      this.touch.dragging = false
+      let itemsToSlide = this.conf.slideMultiple || 1
+      let dragAmount = - this.touch.dragAmount
+      let realCurrentSlideIndex = this.slides.current + !!this.clones.length * 1// Takes clones in account if any.
+      let dragAmountRef50percent = - (this.transition.currentTranslation + realCurrentSlideIndex * 100)
+      let forwards = (dragAmount || dragAmountRef50percent) > 0
 
-        let { nextSlide } = this.getSlideInRange(slideOnDragEnd)
+      let reasonsToCancelSliding = [
+        // Dragging distance conf is set & drag amount is lesser than dragging distance conf.
+        Math.abs(dragAmount) < this.conf.draggingDistance,
 
-        // If drag is not allowed (`arrowNextDisabled` = true) and dragging beyond last slide,
-        // cancel sliding and snap back to last slide.
-        if (this.arrowNextDisabled && this.conf.autoplay && nextSlide === 0) {
-          nextSlide = this.slides.count - 1
-        }
+        // Dragging distance conf is not set & dragging is lesser than 50%.
+        !this.conf.draggingDistance && Math.abs(dragAmountRef50percent) < 50,
 
-        // Only call `goToSlide` if the drag ends on a slide that is different than the currentSlide.
-        if (nextSlide !== this.slides.current) {
-          this.goToSlide(slideOnDragEnd)
-        } else {
-          // Apply transition to snap back to current slide.
-          this.transition.currentTranslation = - (this.slides.current + (this.clones.length ? 1 : 0)) * 100
-        }
+        // arrowNext is disabled and dragging beyond last slide.
+        this.arrowPrevDisabled && !this.slides.current && !forwards,
 
-        this.touch.dragStartX = null
-        this.touch.dragAmount = null
-        this.enableScroll()
+        // arrowPrev is disabled and dragging beyond first slide.
+        this.arrowNextDisabled && this.slides.current === this.slides.count - 1 && forwards
+      ]
+
+      // If no reason to cancel sliding.
+      if (reasonsToCancelSliding.indexOf(true) === -1) {
+        let targetSlide = this.slides.current + itemsToSlide * (forwards ? 1 : -1)
+        this.goToSlide(targetSlide)
       }
+
+      else this.cancelSlideChange()
+
+      this.touch.dragStartX = null
+      this.touch.dragAmount = null
+      // this.enableScroll()
+    },
+
+    cancelSlideChange () {
+      // Apply transition to snap back to current slide.
+      this.transition.currentTranslation = - (this.slides.current + (this.clones.length ? 1 : 0)) * 100
     },
 
     getDragPercentage (e) {
@@ -496,11 +503,13 @@ export default {
     },
 
     previous () {
-      this.goToSlide(this.slides.current - 1)
+      let itemsToSlide = this.conf.slideMultiple || 1
+      this.goToSlide(this.slides.current - itemsToSlide)
     },
 
     next () {
-      this.goToSlide(this.slides.current + 1)
+      let itemsToSlide = this.conf.slideMultiple || 1
+      this.goToSlide(this.slides.current + itemsToSlide)
     },
 
     refreshParallax () {
@@ -513,13 +522,16 @@ export default {
     getSlideInRange (index) {
       let clone = null
 
+      // If going beyond slides count, take the modulo as next slide index.
+      // E.g. If we want to access slide 9 and there are only 6 slides, go to slide 3.
+      // index = index % this.slides.count
+
       // If infinite enabled, going out of range takes the first slide from the other end.
       if (this.clones.length) {
         if (index < 0) {
           index = this.slides.count - 1
           clone = 0
-        }
-        else if (index > this.slides.count - 1) {
+        } else if (index > this.slides.count - 1) {
           index = 0
           clone = 1
         }
