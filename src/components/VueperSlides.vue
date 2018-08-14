@@ -457,8 +457,8 @@ export default {
       // this.enableScroll()
     },
 
+    // Dragging did not pass conditions to change slide, snap back to current slide.
     cancelSlideChange () {
-      // Apply transition to snap back to current slide.
       this.transition.currentTranslation = - (this.slides.current + (this.clones.length ? 1 : 0)) * 100
     },
 
@@ -519,12 +519,26 @@ export default {
       }, 100)
     },
 
-    getSlideInRange (index) {
+    getSlideInRange (index, autoPlaying) {
       let clone = null
+
+      // If infinite enabled, going out of range takes the first slide from the other end.
+      if (this.conf.infinite && index === -1) clone = 0
+      else if (this.conf.infinite && index === this.slides.count) clone = 1
 
       // If going beyond slides count, take the modulo as next slide index.
       // E.g. If we want to access slide 9 and there are only 6 slides, go to slide 3.
-      // index = index % this.slides.count
+      let newIndex = index % this.slides.count + (index < 0 ? this.slides.count : 0)
+
+      if (this.conf.disableArrowsOnEdges && (index < 0 || index > this.slides.count - 1) && !autoPlaying) {
+        newIndex = this.slides.current
+      }
+
+      return { nextSlide: newIndex, clone: clone }
+    },
+
+    getSlideInRange_old (index) {
+      let clone = null
 
       // If infinite enabled, going out of range takes the first slide from the other end.
       if (this.clones.length) {
@@ -566,19 +580,20 @@ export default {
       setTimeout(() => this.transition.animated = false, this.transitionSpeed)
 
       // Get the next slide index and whether it's a clone.
-      let { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index)
+      let { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index, autoPlaying)
 
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady && !jumping) {
         this.emit('before-slide', true, nextSlide)
 
+        // Refresh clones.
         if (nextSlideIsClone !== null) this.cloneSlides()
       }
 
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.conf.arrows && this.conf.disableArrowsOnEdges) {
-        this.arrowPrevDisabled = nextSlide === 0
-        this.arrowNextDisabled = nextSlide === this.slides.count - 1
+        this.arrowPrevDisabled = nextSlide === 0 || (this.conf.slideMultiple && nextSlide - this.conf.slideMultiple) < 0
+        this.arrowNextDisabled = nextSlide === this.slides.count - 1 || (this.conf.slideMultiple && nextSlide + this.conf.slideMultiple) > this.slides.count - 1
       }
 
       // Infinite sliding with cloned slides:
@@ -588,6 +603,7 @@ export default {
       // Same principle when going beyond first slide.
       if (nextSlideIsClone !== null) {// Gives clone id (0 or 1 or null).
         setTimeout(() => {
+          console.log('timeout cz next slide is clone', nextSlideIsClone)
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
           let passedCloneBackward = index === -1 && this.slides.current !== this.slides.count - 1
@@ -597,8 +613,9 @@ export default {
           if (!tooLateToSetTimeout) {
             this.transition.speed = 0
             this.goToSlide(nextSlideIsClone ? 0 : this.slides.count - 1, { animation: false, jumping: true })
-            setTimeout(() => this.transition.speed = this.conf.transitionSpeed, 10)
+            setTimeout(() => this.transition.speed = this.conf.transitionSpeed, 50)
           }
+          else {console.log('timeout cancelled :D', nextSlideIsClone);this.transition.speed = 0}
         }, this.transition.speed - 50)
       }
 
@@ -694,7 +711,7 @@ export default {
         ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {})
       }
 
-      if (conf.fade) {
+      if (conf.fade || conf.disableArrowsOnEdges) {
         conf.infinite = false
       }
 
