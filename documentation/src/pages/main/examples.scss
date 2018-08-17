@@ -135,6 +135,24 @@
   }
 }
 
+//---------------------//
+.ex--show-multiple-slides {
+  width: 80%;
+  margin: auto;
+
+  .vueperslide {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 2em;
+      left: 2em;
+      right: 2em;
+      bottom: 2em;
+      background-color: $secondary;
+    }
+  }
+}
+
 
 @keyframes gradient {
   0% {

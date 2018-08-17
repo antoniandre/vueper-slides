@@ -696,7 +696,7 @@ div.documentation
 
   vueper-slides.ex--fixed-height(:slide-ratio="1/2" fixed-height="500px")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
-  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -717,7 +717,7 @@ div.documentation
 
   vueper-slides.ex--slide-image-inside(slide-image-inside)
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :title="(i + 1).toString()" :image="slide.image")
-  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides slide-image-inside&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -730,6 +730,34 @@ div.documentation
       font-size: 7em;
       opacity: 0.7;
     }
+
+  h3
+    a(href="#ex--slide-multiple-items") Slide Multiple Items At Once
+    a(name="ex--slide-multiple-items")
+  p.
+    This example demonstrates how to slide multiple items at the same time.#[br]
+    But do you really want to do this? :p
+
+  vueper-slides(:slide-ratio="1/4" :slide-multiple="2" disable-arrows-on-edges autoplay)
+    vueper-slide(v-for="i in 8" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :slide-multiple="2"&gt;
+      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  h3
+    a(href="#ex--show-multiple-slides") Show Multiple Slides
+    a(name="ex--show-multiple-slides")
+  p.
+    This example demonstrates how to show multiple slides at the same time.#[br]
+
+  vueper-slides.no-shadow.ex--show-multiple-slides(:visible-slides="3" :infinite="false" :slide-ratio="1/4" bullets-outside arrows-outside)
+    vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
+
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :visible-slides="3" :slide-ratio="1/4"&gt;
+      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
 
   h3
     a(href="#ex--external-controls") External Controls
@@ -768,7 +796,7 @@ div.documentation
       | &nbsp; Next
   vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;v-btn @click="$refs.myVueperSlides.previous()"&gt;Previous&lt;/v-btn&gt;
     &lt;v-btn @click="$refs.myVueperSlides.goToSlide(6 - 1)"&gt;
       &lt;!-- (6 - 1) because slide index starts at 0. --&gt;
