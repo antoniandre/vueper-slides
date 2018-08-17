@@ -1,6 +1,6 @@
 {
   "name": "vueperslides",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "description": "A touch ready & responsive slideshow for Vue JS.",
   "repository": "https://github.com/antoniandre/vueper-slides",
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
@@ -43,10 +43,8 @@
     "rollup-plugin-sass": "^0.9.1",
     "rollup-plugin-uglify": "^4.0.0",
     "rollup-plugin-vue": "^4.3.2",
+    "vue": "^2.5.17",
     "vue-template-compiler": "^2.5.17"
-  },
-  "peerDependencies": {
-    "vue": "^2.5.17"
   },
   "postcss": {
     "plugins": {

@@ -3,3 +3,4 @@
 rollup.config.js
 build.js
 documentation/
+.DS_Store
