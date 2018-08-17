@@ -44,7 +44,10 @@ export default {
   },
   computed: {
     wrapperStyles () {
-      return { ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }) }
+      return {
+        ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }),
+        ...(this.$parent.visibleSlides && { width: 100 / this.$parent.visibleSlides + '%' })
+      }
     },
     imageStyles () {
       return { ...(this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }) }
