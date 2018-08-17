@@ -508,11 +508,12 @@ div.documentation
     a(name="ex--center-mode")
   p.
     This example demonstrates how to use Vueper Slides in a center mode.#[br]
-    It also has a shorter transition speed #[span.code transition-speed='250'].
-  vueper-slides.ex--center-mode(arrows-outside bullets-outside transition-speed='250')
+    It also has a shorter transition speed #[span.code transition-speed='250']
+    and no shadow thanks to the #[span.code no-shadow] class.
+  vueper-slides.no-shadow.ex--center-mode(arrows-outside bullets-outside transition-speed='250')
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides arrows-outside bullets-outside transition-speed='250'&gt;
+    &lt;vueper-slides class="no-shadow" arrows-outside bullets-outside transition-speed='250'&gt;
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
@@ -1106,6 +1107,12 @@ div.documentation
     (refer to #[a(href="#installation") Installation]) or redo everything.#[br]
     If you choose to include it as it will probably save you some time, place your
     overrides after the Vueper Slides CSS include.#[br]
+
+  highlight(type="tips").
+    #[strong="If you choose to include vueperslides.min.css but don't want the default inner shadow"]
+    a '#[span.code no-shadow]' class is here for that, to be placed on the
+    #[span.code &lt;vueperslides&gt;] tag.#[br]
+    An example is visible on the #[a(href="#ex--center-mode") Center Mode] slideshow.
 
   h3
     a(href="#available-css-classes") Available CSS Classes
