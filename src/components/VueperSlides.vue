@@ -603,6 +603,7 @@ export default {
       // Same principle when going beyond first slide.
       if (nextSlideIsClone !== null) {// Gives clone id (0 or 1 or null).
         setTimeout(() => {
+          console.log('timeout cz next slide is clone', nextSlideIsClone)
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
           let passedCloneBackward = index === -1 && this.slides.current !== this.slides.count - 1
@@ -614,6 +615,7 @@ export default {
             this.goToSlide(nextSlideIsClone ? 0 : this.slides.count - 1, { animation: false, jumping: true })
             setTimeout(() => this.transition.speed = this.conf.transitionSpeed, 50)
           }
+          else {console.log('timeout cancelled :D', nextSlideIsClone);this.transition.speed = 0}
         }, this.transition.speed - 50)
       }
 
