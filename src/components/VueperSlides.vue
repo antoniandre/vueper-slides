@@ -146,6 +146,10 @@ export default {
     slideMultiple: {
       type: [Boolean, Number],
       default: false
+    },
+    visibleSlides: {
+      type: [Boolean, Number],
+      default: false
     }
   },
   data: () => ({
@@ -381,16 +385,18 @@ export default {
 
       this.mouseDown = true
 
-      if (this.conf.draggingDistance) {
-        // Store drag start in var for distance calculation in onMouseUp().
-        this.touch.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
+      // Store drag start in var for distance calculation in onMouseUp().
+      this.touch.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
+
+      if (!this.conf.draggingDistance) {
       } else {
         let dragPercentage = this.getDragPercentage(e)
 
-        // Set a flag for use while dragging in `onMouseMove` to know if drag was toward left or right.
+        // Set a flag for use while dragging in onMouseMove() to know if drag was toward left or right.
         this.touch.goNext = dragPercentage >= 0.5
 
-        this.transition.currentTranslation = - 100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
+        this.updateCurrentTranslation(null, this.touch.dragStartX)
+        // this.transition.currentTranslation += - 100 * ((this.touch.goNext ? 1 : 0) - dragPercentage)
       }
     },
 
@@ -405,14 +411,17 @@ export default {
           this.cloneSlides()
         }
 
+        this.updateCurrentTranslation()
+
         if (this.conf.draggingDistance) {
           this.touch.dragAmount = this.getDragAmount(e)
           let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
-          this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
+          // this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
+          this.transition.currentTranslation += - 100 * - dragAmountPercentage
         } else {
           let dragPercentage = this.getDragPercentage(e)
-          this.transition.currentTranslation = - 100 * (this.slides.current + (this.touch.goNext ? 1 : 0) + (this.clones.length ? 1 : 0) - dragPercentage)
+          this.transition.currentTranslation += - 100 * ((this.touch.goNext ? 1 : 0) - dragPercentage)
         }
       }
     },
@@ -459,17 +468,21 @@ export default {
 
     // Dragging did not pass conditions to change slide, snap back to current slide.
     cancelSlideChange () {
-      this.transition.currentTranslation = - (this.slides.current + (this.clones.length ? 1 : 0)) * 100
+      if (!this.conf.fade) {
+        this.updateCurrentTranslation()
+      }
     },
 
     getDragPercentage (e) {
-      let dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
+      let currentDragX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
+      let forwards = this.touch.dragAmount > currentDragX
 
       // For full window width slideshow only.
       // let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-      // return dragStartX / windowWidth
+      // return currentDragX / windowWidth
 
-      return (dragStartX - this.container.offsetLeft) / this.container.clientWidth
+
+      return (currentDragX - this.container.offsetLeft) / this.container.clientWidth
     },
 
     /**
@@ -477,6 +490,25 @@ export default {
      */
     getDragAmount (e) {
       return ('ontouchstart' in window ? e.touches[0].clientX : e.clientX) - this.touch.dragStartX
+    },
+
+    updateCurrentTranslation (nextSlideIsClone = null, currentDragX = null) {
+      if (nextSlideIsClone !== null) {
+        this.transition.currentTranslation = - 100 * (nextSlideIsClone ? this.slides.count + 1 : 0)
+      }
+      else this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0))
+
+
+      if (this.touch.dragStartX && currentDragX) {
+        console.log(this.touch.dragStartX, currentDragX, 'here')
+        this.transition.currentTranslation += - 100 * ((this.touch.goNext ? 1 : 0) - (currentDragX - this.container.offsetLeft) / this.container.clientWidth)
+      }
+      // if (amount) this.transition.currentTranslation += (this.touch.goNext ? 1 : 0) - dragPercentage
+      // this.transition.currentTranslation = - dragAmountPercentage
+
+      if (this.conf.visibleSlides) {
+        // this.transition.currentTranslation /= this.conf.visibleSlides
+      }
     },
 
     disableScroll () {
@@ -537,35 +569,6 @@ export default {
       return { nextSlide: newIndex, clone: clone }
     },
 
-    getSlideInRange_old (index) {
-      let clone = null
-
-      // If infinite enabled, going out of range takes the first slide from the other end.
-      if (this.clones.length) {
-        if (index < 0) {
-          index = this.slides.count - 1
-          clone = 0
-        } else if (index > this.slides.count - 1) {
-          index = 0
-          clone = 1
-        }
-      }
-
-      // If not infinite, can't go lower than 0 or beyond `slides.count` with `disableArrowsOnEdges`.
-      // If `disableArrowsOnEdges` is enabled going out of range will take first slide from the other end
-      // of the slideshow.
-      else {
-        if (index < 0) index = this.conf.disableArrowsOnEdges ? 0 : this.slides.count - 1
-        else if (index > this.slides.count - 1) {
-          // If autoplay is on but disableArrowsOnEdges is enabled, going beyond the last one will also bring
-          // the first one in.
-          index = this.conf.disableArrowsOnEdges ? (this.conf.autoplay ? 0 : this.slides.count - 1) : 0
-        }
-      }
-
-      return { nextSlide: index, clone: clone }
-    },
-
     goToSlide (index, options = {}) {
       if (!this.slides.count || this.disable) return
 
@@ -621,10 +624,7 @@ export default {
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.conf.fade) {
-        if (nextSlideIsClone !== null) {
-          this.transition.currentTranslation = - 100 * (nextSlideIsClone ? this.slides.count + 1 : 0)
-        }
-        else this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0))
+        this.updateCurrentTranslation(nextSlideIsClone)
       }
 
       this.slides.activeUid = this.slides.list[this.slides.current]._uid
