@@ -1,6 +1,6 @@
 // Nice-to-have styles, easy to override by the end-user.
 .vueperslides {
-  &__parallax-wrapper {
+  &:not(.no-shadow) &__parallax-wrapper {
     &::before,
     &::after {
       content: "";
@@ -23,7 +23,7 @@
     color: #fff;
 
     &--outside {
-      color: #000;
+      color: currentColor;
     }
   }
 
