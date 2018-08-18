@@ -62,7 +62,7 @@ export default {
     },
     arrowsOutside: {
       type: Boolean,
-      default: false
+      default: null
     },
     // Ability to disable arrows on slideshow edges. Only if not infinite mode.
     disableArrowsOnEdges: {
@@ -75,7 +75,7 @@ export default {
     },
     bulletsOutside: {
       type: Boolean,
-      default: false
+      default: null
     },
     fade: {
       type: Boolean,
@@ -712,6 +712,9 @@ export default {
       if (conf.fade || conf.disableArrowsOnEdges) {
         conf.infinite = false
       }
+
+      conf.arrowsOutside = this.arrowsOutside || (this.visibleSlides && this.arrowsOutside === null)
+      conf.bulletsOutside = this.bulletsOutside || (this.visibleSlides && this.bulletsOutside === null)
 
       return conf
     },
