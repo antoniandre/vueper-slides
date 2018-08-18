@@ -389,7 +389,6 @@ export default {
       this.touch.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
 
       if (!this.conf.draggingDistance) {
-      } else {
         let dragPercentage = this.getDragPercentage(e)
 
         // Set a flag for use while dragging in onMouseMove() to know if drag was toward left or right.
@@ -481,7 +480,6 @@ export default {
       // let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
       // return currentDragX / windowWidth
 
-
       return (currentDragX - this.container.offsetLeft) / this.container.clientWidth
     },
 
@@ -553,7 +551,7 @@ export default {
 
     setTimer () {
       this.timer = setTimeout(() => {
-        this.goToSlide(this.slides.current + 1, { autoPlaying: true })
+        this.goToSlide(this.slides.current + this.conf.slideMultiple, { autoPlaying: true })
       }, this.conf.speed)
     },
 
