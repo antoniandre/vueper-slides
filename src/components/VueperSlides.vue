@@ -493,22 +493,56 @@ export default {
     },
 
     updateCurrentTranslation (nextSlideIsClone = null, currentDragX = null) {
-      if (nextSlideIsClone !== null) {
-        this.transition.currentTranslation = - 100 * (nextSlideIsClone ? this.slides.count + 1 : 0)
-      }
-      else this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0))
+      let translation = this.transition.currentTranslation || 0
+      let preventUpdate = false
 
+      if (nextSlideIsClone !== null) {
+        translation = - 100 * (nextSlideIsClone ? this.slides.count + 1 : 0)
+      }
+      else translation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0))
 
       if (this.touch.dragStartX && currentDragX) {
         console.log(this.touch.dragStartX, currentDragX, 'here')
-        this.transition.currentTranslation += - 100 * ((this.touch.goNext ? 1 : 0) - (currentDragX - this.container.offsetLeft) / this.container.clientWidth)
+        translation += - 100 * ((this.touch.goNext ? 1 : 0) - (currentDragX - this.container.offsetLeft) / this.container.clientWidth)
       }
-      // if (amount) this.transition.currentTranslation += (this.touch.goNext ? 1 : 0) - dragPercentage
-      // this.transition.currentTranslation = - dragAmountPercentage
+      // if (amount) translation += (this.touch.goNext ? 1 : 0) - dragPercentage
+      // translation = - dragAmountPercentage
 
       if (this.conf.visibleSlides) {
-        // this.transition.currentTranslation /= this.conf.visibleSlides
+        translation /= this.conf.visibleSlides
+
+        let isMiddleReached = this.slides.current >= Math.ceil(this.conf.visibleSlides / 2) //- 1
+        let slidesWOTranslation = Math.ceil(this.conf.visibleSlides / 2) - 1
+        let substractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
+        let remainingSlides = (this.slides.count - 1) - this.slides.current
+
+        // If not inifinite sliding
+        if (!this.conf.infinite) {
+          console.log({
+            currentSlide: this.slides.current,
+            visibleSlides: this.conf.visibleSlides,
+            slideMultiple: this.conf.slideMultiple,
+            // The most middle slide among visible slides.
+            preferedPosition: Math.ceil(this.conf.visibleSlides / 2),
+            isMiddleReached: isMiddleReached,
+            slidesWOTranslation: slidesWOTranslation,
+            slidesWOTranslationPercent: slidesWOTranslation * 100 / this.conf.visibleSlides,
+            currTranslation: translation,
+            substractFromTranslation: substractFromTranslation,
+            remainingSlides: remainingSlides,
+            isEnd: remainingSlides <= slidesWOTranslation
+          })
+
+          if (remainingSlides <= slidesWOTranslation) {
+            substractFromTranslation += slidesWOTranslation - remainingSlides + 1
+          }
+          // if (!isMiddleReached) preventUpdate = true
+          // else translation += slidesWOTranslation * 100 / this.conf.visibleSlides
+          translation += substractFromTranslation * 100 / this.conf.visibleSlides
+        }
       }
+
+      if (!preventUpdate) this.transition.currentTranslation = translation
     },
 
     disableScroll () {
