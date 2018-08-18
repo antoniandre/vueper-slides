@@ -28,11 +28,11 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
     div.vueperslides__bullets(v-if="conf.bullets && slides.count > 1 && !disable && !conf.bulletsOutside" role="tablist" aria-label="Slideshow navigation")
-      button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i }" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
+      button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }" v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)" :key="i" @click="goToSlide(i * conf.slideMultiple)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
         span {{ i + 1 }}
 
   div.vueperslides__bullets.vueperslides__bullets--outside(v-if="conf.bullets && slides.count > 1 && !disable && conf.bulletsOutside")
-    button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i }" v-for="(item, i) in slides.list" :key="i" @click="goToSlide(i)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
+    button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }" v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)" :key="i" @click="goToSlide(i * conf.slideMultiple)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
       span {{ i + 1 }}
 
   div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
@@ -433,7 +433,7 @@ export default {
       if (!this.touch.dragging) return this.cancelSlideChange()
 
       this.touch.dragging = false
-      let itemsToSlide = this.conf.slideMultiple || 1
+      let itemsToSlide = this.conf.slideMultiple
       let dragAmount = - this.touch.dragAmount
       let realCurrentSlideIndex = this.slides.current + !!this.clones.length * 1// Takes clones in account if any.
       let dragAmountRef50percent = - (this.transition.currentTranslation + realCurrentSlideIndex * 100)
@@ -513,25 +513,25 @@ export default {
         translation /= this.conf.visibleSlides
 
         // If not inifinite sliding.
-        if (!this.conf.infinite) {
-          let preferedPosition = Math.ceil(this.conf.visibleSlides / 2)
+        if (!this.conf.infinite && this.conf.slideMultiple === 1) {
+          let preferredPosition = Math.ceil(this.conf.visibleSlides / 2)
           let remainingSlides = this.slides.count - (this.slides.current + 1)
-          let positionsAfterPrefered = this.conf.visibleSlides - preferedPosition
-          let preferedPositionIsPassed = remainingSlides < positionsAfterPrefered
+          let positionsAfterPreferred = this.conf.visibleSlides - preferredPosition
+          let preferredPositionIsPassed = remainingSlides < positionsAfterPreferred
 
-          let slidesWOTranslation = preferedPosition - 1
+          let slidesWOTranslation = preferredPosition - 1
           let substractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
 
-          // After middle is reached.
-          if (preferedPositionIsPassed) {
-            substractFromTranslation += positionsAfterPrefered - remainingSlides
+          // From next position after the preferred position.
+          if (preferredPositionIsPassed) {
+            substractFromTranslation += positionsAfterPreferred - remainingSlides
           }
 
           translation += substractFromTranslation * 100 / this.conf.visibleSlides
         }
       }
 
-      if (!preventUpdate) this.transition.currentTranslation = translation
+      this.transition.currentTranslation = translation
     },
 
     disableScroll () {
@@ -558,13 +558,11 @@ export default {
     },
 
     previous () {
-      let itemsToSlide = this.conf.slideMultiple || 1
-      this.goToSlide(this.slides.current - itemsToSlide)
+      this.goToSlide(this.slides.current - this.conf.slideMultiple)
     },
 
     next () {
-      let itemsToSlide = this.conf.slideMultiple || 1
-      this.goToSlide(this.slides.current + itemsToSlide)
+      this.goToSlide(this.slides.current + this.conf.slideMultiple)
     },
 
     refreshParallax () {
@@ -618,8 +616,8 @@ export default {
 
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.conf.arrows && this.conf.disableArrowsOnEdges) {
-        this.arrowPrevDisabled = nextSlide === 0 || (this.conf.slideMultiple && nextSlide - this.conf.slideMultiple) < 0
-        this.arrowNextDisabled = nextSlide === this.slides.count - 1 || (this.conf.slideMultiple && nextSlide + this.conf.slideMultiple) > this.slides.count - 1
+        this.arrowPrevDisabled = nextSlide === 0 || (nextSlide - this.conf.slideMultiple) < 0
+        this.arrowNextDisabled = nextSlide === this.slides.count - 1 || (nextSlide + this.conf.slideMultiple) > this.slides.count - 1
       }
 
       // Infinite sliding with cloned slides:
@@ -738,6 +736,7 @@ export default {
 
       conf.arrowsOutside = this.arrowsOutside || (this.visibleSlides && this.arrowsOutside === null)
       conf.bulletsOutside = this.bulletsOutside || (this.visibleSlides && this.bulletsOutside === null)
+      conf.slideMultiple = this.slideMultiple || 1
 
       return conf
     },
