@@ -508,36 +508,25 @@ export default {
       // if (amount) translation += (this.touch.goNext ? 1 : 0) - dragPercentage
       // translation = - dragAmountPercentage
 
+      // If multiple visible slides and sliding one by one.
       if (this.conf.visibleSlides) {
         translation /= this.conf.visibleSlides
 
-        let isMiddleReached = this.slides.current >= Math.ceil(this.conf.visibleSlides / 2) //- 1
-        let slidesWOTranslation = Math.ceil(this.conf.visibleSlides / 2) - 1
-        let substractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
-        let remainingSlides = (this.slides.count - 1) - this.slides.current
-
-        // If not inifinite sliding
+        // If not inifinite sliding.
         if (!this.conf.infinite) {
-          console.log({
-            currentSlide: this.slides.current,
-            visibleSlides: this.conf.visibleSlides,
-            slideMultiple: this.conf.slideMultiple,
-            // The most middle slide among visible slides.
-            preferedPosition: Math.ceil(this.conf.visibleSlides / 2),
-            isMiddleReached: isMiddleReached,
-            slidesWOTranslation: slidesWOTranslation,
-            slidesWOTranslationPercent: slidesWOTranslation * 100 / this.conf.visibleSlides,
-            currTranslation: translation,
-            substractFromTranslation: substractFromTranslation,
-            remainingSlides: remainingSlides,
-            isEnd: remainingSlides <= slidesWOTranslation
-          })
+          let preferedPosition = Math.ceil(this.conf.visibleSlides / 2)
+          let remainingSlides = this.slides.count - (this.slides.current + 1)
+          let positionsAfterPrefered = this.conf.visibleSlides - preferedPosition
+          let preferedPositionIsPassed = remainingSlides < positionsAfterPrefered
 
-          if (remainingSlides <= slidesWOTranslation) {
-            substractFromTranslation += slidesWOTranslation - remainingSlides + 1
+          let slidesWOTranslation = preferedPosition - 1
+          let substractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
+
+          // After middle is reached.
+          if (preferedPositionIsPassed) {
+            substractFromTranslation += positionsAfterPrefered - remainingSlides
           }
-          // if (!isMiddleReached) preventUpdate = true
-          // else translation += slidesWOTranslation * 100 / this.conf.visibleSlides
+
           translation += substractFromTranslation * 100 / this.conf.visibleSlides
         }
       }
