@@ -380,22 +380,17 @@ export default {
       if (!this.touch.enabled || this.disable) return
       if (!e.touches) e.preventDefault()
 
+      // The clones are created with a copy of content. Refresh this content before dragging.
       if (this.conf.infinite) this.cloneSlides()
       // this.disableScroll()
 
       this.mouseDown = true
 
       // Store drag start in var for distance calculation in onMouseUp().
-      this.touch.dragStartX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
+      this.touch.dragStartX = this.getCurrentMouseX(e)
 
       if (!this.conf.draggingDistance) {
-        let dragPercentage = this.getDragPercentage(e)
-
-        // Set a flag for use while dragging in onMouseMove() to know if drag was toward left or right.
-        this.touch.goNext = dragPercentage >= 0.5
-
         this.updateCurrentTranslation(null, this.touch.dragStartX)
-        // this.transition.currentTranslation += - 100 * ((this.touch.goNext ? 1 : 0) - dragPercentage)
       }
     },
 
@@ -419,8 +414,7 @@ export default {
           // this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
           this.transition.currentTranslation += - 100 * - dragAmountPercentage
         } else {
-          let dragPercentage = this.getDragPercentage(e)
-          this.transition.currentTranslation += - 100 * ((this.touch.goNext ? 1 : 0) - dragPercentage)
+          this.updateCurrentTranslation(null, this.getCurrentMouseX(e))
         }
       }
     },
@@ -433,17 +427,19 @@ export default {
 
       this.touch.dragging = false
       let itemsToSlide = this.conf.slideMultiple
-      let dragAmount = - this.touch.dragAmount
+      let dragAmount = this.conf.draggingDistance ? - this.touch.dragAmount : 0
       let realCurrentSlideIndex = this.slides.current + !!this.clones.length * 1// Takes clones in account if any.
-      let dragAmountRef50percent = - (this.transition.currentTranslation + realCurrentSlideIndex * 100)
-      let forwards = (dragAmount || dragAmountRef50percent) > 0
+      let dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
+      let dragPercentageNow = (this.getCurrentMouseX(e) - this.container.offsetLeft) / this.container.clientWidth
+      let dragPercentage = ((dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow) * 100
+      let forwards = (dragAmount || dragPercentage) > 0
 
       let reasonsToCancelSliding = [
         // Dragging distance conf is set & drag amount is lesser than dragging distance conf.
         Math.abs(dragAmount) < this.conf.draggingDistance,
 
         // Dragging distance conf is not set & dragging is lesser than 50%.
-        !this.conf.draggingDistance && Math.abs(dragAmountRef50percent) < 50,
+        !this.conf.draggingDistance && Math.abs(dragPercentage) < 50,
 
         // arrowNext is disabled and dragging beyond last slide.
         this.arrowPrevDisabled && !this.slides.current && !forwards,
@@ -472,15 +468,8 @@ export default {
       }
     },
 
-    getDragPercentage (e) {
-      let currentDragX = 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
-      let forwards = this.touch.dragAmount > currentDragX
-
-      // For full window width slideshow only.
-      // let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-      // return currentDragX / windowWidth
-
-      return (currentDragX - this.container.offsetLeft) / this.container.clientWidth
+    getCurrentMouseX (e) {
+      return 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
     },
 
     /**
@@ -490,28 +479,50 @@ export default {
       return ('ontouchstart' in window ? e.touches[0].clientX : e.clientX) - this.touch.dragStartX
     },
 
-    updateCurrentTranslation (nextSlideIsClone = null, currentDragX = null) {
-      let translation = this.transition.currentTranslation || 0
-      let preventUpdate = false
+    /**
+     * The translation of most cases, in other cases this can still be used as a base calc.
+     */
+    getBasicTranslation () {
+      let translation = this.slides.current / (this.conf.visibleSlides || 1)
 
-      if (nextSlideIsClone !== null) {
-        translation = - 100 * (nextSlideIsClone ? this.slides.count + 1 : 0)
+      if (this.conf.infinite) translation += 1// A clone is prepended to the slides track.
+
+      return translation
+    },
+
+    /**
+     * Update the current translation of the slides track - for sliding slideshows.
+     * The resulting translation will be set in percentage and negative value.
+     *
+     * @param {null, 0, 1} nextSlideIsClone: wheter the slide to access is a clone, and
+     *                                       if so, if it's the first or last one.
+     * @param {null, float} currentDragX: whether the slide track is being dragged and if so
+     *                                    the value of the current drag.
+     */
+    updateCurrentTranslation (nextSlideIsClone = null, currentMouseX = null) {
+      let dragging = currentMouseX
+      let translation = this.getBasicTranslation()
+
+      if (this.conf.infinite && nextSlideIsClone !== null) {
+        translation = (nextSlideIsClone ? this.slides.count + 1 : 0) / (this.conf.visibleSlides || 1)
       }
-      else translation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0))
 
-      if (this.touch.dragStartX && currentDragX) {
-        console.log(this.touch.dragStartX, currentDragX, 'here')
-        translation += - 100 * ((this.touch.goNext ? 1 : 0) - (currentDragX - this.container.offsetLeft) / this.container.clientWidth)
+      // If dragging.
+      if (this.touch.dragStartX && currentMouseX) {
+        let dragPercentage = 0
+        let dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
+        let dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
+
+        dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
+
+        translation += dragPercentage
       }
-      // if (amount) translation += (this.touch.goNext ? 1 : 0) - dragPercentage
-      // translation = - dragAmountPercentage
 
-      // If multiple visible slides and sliding one by one.
-      if (this.conf.visibleSlides) {
-        translation /= this.conf.visibleSlides
-
+      // Special behavior if multiple visible slides and sliding 1 by 1:
+      // The translation is modified as user slides just to look nicer.
+      if (this.conf.visibleSlides && this.conf.slideMultiple === 1) {
         // If not inifinite sliding.
-        if (!this.conf.infinite && this.conf.slideMultiple === 1) {
+        if (!this.conf.infinite) {
           let preferredPosition = Math.ceil(this.conf.visibleSlides / 2)
           let remainingSlides = this.slides.count - (this.slides.current + 1)
           let positionsAfterPreferred = this.conf.visibleSlides - preferredPosition
@@ -525,11 +536,11 @@ export default {
             substractFromTranslation += positionsAfterPreferred - remainingSlides
           }
 
-          translation += substractFromTranslation * 100 / this.conf.visibleSlides
+          translation -= substractFromTranslation / this.conf.visibleSlides
         }
       }
 
-      this.transition.currentTranslation = translation
+      this.transition.currentTranslation = - translation * 100
     },
 
     disableScroll () {
