@@ -38,7 +38,7 @@
 
 /* Examples */
 /*===================================*/
-.ex1 .vueperslide {
+.ex--simplest-ever .vueperslide {
   background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
@@ -140,17 +140,23 @@
   width: 80%;
   margin: auto;
 
-  .vueperslide {
-    &:before {
-      content: '';
-      position: absolute;
-      top: 2em;
-      left: 2em;
-      right: 2em;
-      bottom: 2em;
-      background-color: $secondary;
-    }
+  .vueperslide:before {
+    content: '';
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    right: 2em;
+    bottom: 1em;
+    background-color: $secondary;
+    transition: 0.3s ease-in-out;
   }
+
+  &:not(.slide-multiple) .vueperslide--active:before {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &.ex2 {width: auto;}
 }
 
 

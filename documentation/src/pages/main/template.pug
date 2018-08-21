@@ -174,7 +174,7 @@ div.documentation
   h3
     a(href="#ex--simplest-ever") Simplest Ever
     a(name="ex--simplest-ever")
-  vueper-slides.ex1
+  vueper-slides.ex--simplest-ever
     vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
@@ -510,10 +510,10 @@ div.documentation
     This example demonstrates how to use Vueper Slides in a center mode.#[br]
     It also has a shorter transition speed #[span.code transition-speed='250']
     and no shadow thanks to the #[span.code no-shadow] class.
-  vueper-slides.no-shadow.ex--center-mode(arrows-outside bullets-outside transition-speed='250')
+  vueper-slides.no-shadow.ex--center-mode(arrows-outside bullets-outside transition-speed="250")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides class="no-shadow" arrows-outside bullets-outside transition-speed='250'&gt;
+    &lt;vueper-slides class="no-shadow" arrows-outside bullets-outside transition-speed="250"&gt;
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
@@ -734,11 +734,13 @@ div.documentation
   h3
     a(href="#ex--slide-multiple-items") Slide Multiple Items At Once
     a(name="ex--slide-multiple-items")
-  p.
-    This example demonstrates how to slide multiple items at the same time.#[br]
-    But do you really want to do this? :p
+  p
+    | This example demonstrates how to slide multiple items at the same time.#[br]
+    strong.
+      But do you really want to do this without the #[span.code.black--text visible-slides] option? :p#[br]
+      Refer to #[a(href="#ex--show-multiple-slides") Show Multiple Slides].
 
-  vueper-slides(:slide-ratio="1/4" :slide-multiple="2" disable-arrows-on-edges autoplay)
+  vueper-slides(:slide-ratio="1/4" :slide-multiple="2" disable-arrows-on-edges)
     vueper-slide(v-for="i in 8" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :slide-multiple="2"&gt;
@@ -749,10 +751,38 @@ div.documentation
     a(href="#ex--show-multiple-slides") Show Multiple Slides
     a(name="ex--show-multiple-slides")
   p.
-    This example demonstrates how to show multiple slides at the same time.#[br]
+    These examples demonstrate how to show multiple slides at the same time.#[br]
+    In most cases you will want to have the arrows and bullets outside, so if
+    #[span.code.black--text visible-slides] is set, arrows and bullets will be outside by default.#[br]
+    You can override this by explicitly setting #[span.code :arrows-outside="false"],
+    or #[span.code :bullets-outside="false"].
+  highlight(type="success")
+    p.mb-2.
+      When the #[span.code.black--text infinite] & #[span.code.black--text slideMultiple] options are off, Vueper Slides will keep the active slide
+      at the most middle position as possible while you slide, unless it would create a blank
+      space (like if active slide is on a side).#[br]E.g.
+    ul.mt-0
+      li With 3 items, active slide will be at position 2
+      li With 5 items, active slide will be at position 3
+      li With even numbers of items, active slide will be at position #[span.code visibleItemsCount / 2]
+  highlight(type="warning")
+    strong.black--text.
+      WARNING#[br]
+      The #[span.code infinite] mode does not work properly with the #[span.code visible-slides] option for now.
+    | &nbsp;It will be supported later.
 
-  vueper-slides.no-shadow.ex--show-multiple-slides(:visible-slides="3" :infinite="false" :slide-ratio="1/4" bullets-outside arrows-outside)
+  h4 #1 - 3 visible slides, sliding 1 by 1, dragging distance of 70px
+  vueper-slides.no-shadow.ex--show-multiple-slides.ex1(:visible-slides="3" :slide-ratio="1/4" :dragging-distance="70")
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
+
+  h4 #2 - 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
+  vueper-slides.no-shadow.ex--show-multiple-slides.ex2(:visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70")
+    vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
+
+  h4 #3 - 3 visible slides, sliding 3 by 3, dragging distance of 200px
+  p Additionally, a breakpoint is set at 800px to reduce visibleSlides & slideMultiple to 2.
+  vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" :slide-multiple="3" :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
+    vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :visible-slides="3" :slide-ratio="1/4"&gt;
