@@ -6,8 +6,8 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
 
   div.vueperslides__inner
     div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
-      div.vueperslides__track-wrapper(:style="trackWrapperStyles")
-        div.vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" ref="track" :style="trackStyles")
+      div.vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" :style="trackStyles" ref="track")
+        div.vueperslides__track-inner(:style="trackInnerStyles")
           vueper-slide.vueperslide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style" aria-hidden="true")
             div(v-if="clones[0].titleSlot" slot="slideTitle" v-html="clones[0].titleSlot")
             div(v-if="clones[0].contentSlot" slot="slideContent" v-html="clones[0].contentSlot")
@@ -144,12 +144,12 @@ export default {
       default: false
     },
     slideMultiple: {
-      type: [Boolean, Number],
-      default: false
+      type: Number,
+      default: 1
     },
     visibleSlides: {
-      type: [Boolean, Number],
-      default: false
+      type: Number,
+      default: 1
     }
   },
   data: () => ({
@@ -426,7 +426,6 @@ export default {
       if (!this.touch.dragging) return this.cancelSlideChange()
 
       this.touch.dragging = false
-      let itemsToSlide = this.conf.slideMultiple
       let dragAmount = this.conf.draggingDistance ? - this.touch.dragAmount : 0
       let realCurrentSlideIndex = this.slides.current + !!this.clones.length * 1// Takes clones in account if any.
       let dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
@@ -450,7 +449,20 @@ export default {
 
       // If no reason to cancel sliding.
       if (reasonsToCancelSliding.indexOf(true) === -1) {
-        let targetSlide = this.slides.current + itemsToSlide * (forwards ? 1 : -1)
+        let targetSlide = this.slides.current + this.conf.slideMultiple * (forwards ? 1 : -1)
+
+        // if (this.conf.visibleSlides > 1 && targetSlide % this.conf.slideMultiple !== 1) {
+        //   targetSlide = Math.floor(targetSlide / this.conf.visibleSlides) * this.conf.visibleSlides
+        //   console.log(targetSlide)
+        // }
+
+        // if (this.conf.visibleSlides > 1 && this.conf.slideMultiple > 1 && (targetSlide >= this.slides.count || targetSlide < 0)) {
+        //   targetSlide = Math.floor((targetSlide % this.slides.count) / this.conf.visibleSlides) * this.conf.visibleSlides
+        // }
+        // console.log(targetSlide, this.conf.visibleSlides, this.conf.slideMultiple)
+        // 0 1 2     3 4 5     6 7 8     9
+        //   0         1         2       3
+
         this.goToSlide(targetSlide)
       }
 
@@ -483,9 +495,9 @@ export default {
      * The translation of most cases, in other cases this can still be used as a base calc.
      */
     getBasicTranslation () {
-      let translation = this.slides.current / (this.conf.visibleSlides || 1)
+      let translation = this.slides.current / this.conf.visibleSlides
 
-      if (this.conf.infinite) translation += 1// A clone is prepended to the slides track.
+      if (this.conf.infinite) translation += 1 / this.conf.visibleSlides// A clone is prepended to the slides track.
 
       return translation
     },
@@ -504,7 +516,7 @@ export default {
       let translation = this.getBasicTranslation()
 
       if (this.conf.infinite && nextSlideIsClone !== null) {
-        translation = (nextSlideIsClone ? this.slides.count + 1 : 0) / (this.conf.visibleSlides || 1)
+        translation = (nextSlideIsClone ? this.slides.count + 1 : 0) / this.conf.visibleSlides
       }
 
       // If dragging.
@@ -520,7 +532,7 @@ export default {
 
       // Special behavior if multiple visible slides and sliding 1 by 1:
       // The translation is modified as user slides just to look nicer.
-      if (this.conf.visibleSlides && this.conf.slideMultiple === 1) {
+      if (this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1) {
         // If not inifinite sliding.
         if (!this.conf.infinite) {
           let preferredPosition = Math.ceil(this.conf.visibleSlides / 2)
@@ -571,6 +583,8 @@ export default {
     },
 
     next () {
+      // this.goToSlide(this.slides.current + this.conf.slideMultiple)
+      console.log(this.slides.current, this.conf.slideMultiple)
       this.goToSlide(this.slides.current + this.conf.slideMultiple)
     },
 
@@ -595,6 +609,7 @@ export default {
       if (this.conf.disableArrowsOnEdges && (index < 0 || index > this.slides.count - 1) && !autoPlaying) {
         newIndex = this.slides.current
       }
+      console.log(newIndex)
 
       return { nextSlide: newIndex, clone: clone }
     },
@@ -732,38 +747,33 @@ export default {
   computed: {
     // this.conf needs to be reactive so user can change a Vueper Slides option and everything gets updated.
     conf () {
-      // Read config from the props then check if breakpoints are defined. If so override the config with
-      // the breakpoint ones.
+      // Read config from the props then check if breakpoints are defined.
+      // If so override the config with the breakpoint ones.
       let conf = {
         ...this.$props,
-        ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {})
+        ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {}),
       }
 
-      if (conf.fade || conf.disableArrowsOnEdges) {
+      // Overrides: once config from breakpoints is imported, we can use the conf object
+      // and be sure all the options are up to date.
+      if (conf.visibleSlides > 1) console.log(conf.visibleSlides)
+
+      if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1) {
         conf.infinite = false
       }
 
-      conf.arrowsOutside = this.arrowsOutside || (this.visibleSlides && this.arrowsOutside === null)
-      conf.bulletsOutside = this.bulletsOutside || (this.visibleSlides && this.bulletsOutside === null)
-      conf.slideMultiple = this.slideMultiple || 1
+      conf.arrowsOutside = conf.arrowsOutside || (conf.visibleSlides > 1 && conf.arrowsOutside === null)
+      conf.bulletsOutside = conf.bulletsOutside || (conf.visibleSlides > 1 && conf.bulletsOutside === null)
 
       return conf
     },
     vueperStyles () {
       return /^-?\d/.test(this.conf.fixedHeight) ? 'height: ' + this.conf.fixedHeight : null
     },
+    // trackTranslation () {
+    //   return
+    // },
     trackStyles () {
-      let styles = {}
-
-      styles.transitionDuration = this.transition.speed + 'ms'
-
-      if (!this.conf.fade) {
-        styles.transform = 'translateX(' + this.transition.currentTranslation + '%)'
-      }
-
-      return styles
-    },
-    trackWrapperStyles () {
       let styles = {}
 
       if (this.conf.parallax) {
@@ -775,6 +785,17 @@ export default {
       }
 
       return styles
+    },
+    trackInnerStyles () {
+      let styles = {}
+
+      styles.transitionDuration = this.transition.speed + 'ms'
+
+      if (!this.conf.fade) {
+        styles.transform = 'translateX(' + this.transition.currentTranslation + '%)'
+      }
+
+      return styles
     }
   }
 }
@@ -782,8 +803,8 @@ export default {
 
 <style lang="scss">
 // Vueperslides REQUIRED styles.
-// The nice-to-have not required styles are placed in an external
-// css file so the end user can easily override them.
+// The nice-to-have not-required styles are placed in an external
+// css file so the end user can easily override it.
 .vueperslides {
   position: relative;
 
@@ -806,11 +827,10 @@ export default {
 
   &__parallax-wrapper {
     position: relative;
-    // padding-bottom: 33.33%;
     overflow: hidden;
   }
 
-  &__track-wrapper {
+  &__track {
     position: absolute;
     top: 0;
     height: 100%;
@@ -818,43 +838,43 @@ export default {
     right: 0;
     overflow: hidden;
     z-index: 1;
-  }
 
-  &--parallax &__track-wrapper {
-    height: 200%;
-    transform: translateY(0);
-  }
+    .vueperslides--parallax & {
+      height: 200%;
+      transform: translateY(0);
+    }
 
-  &--fade &__track {
-    white-space: normal;
-    transition: none;
-  }
+    .vueperslides--touchable & {
+      cursor: ew-resize;
+      cursor: -webkit-grab;
+      cursor: grab;
 
-  &--touchable &__track {
-    cursor: ew-resize;
-    cursor: -webkit-grab;
-    cursor: grab;
-
-    &--mousedown, &--dragging {
-      cursor: -webkit-grabbing;
-      cursor: grabbing;
+      &--mousedown, &--dragging {
+        cursor: -webkit-grabbing;
+        cursor: grabbing;
+      }
     }
   }
 
-  &__track {
+  &__track-inner {
     white-space: nowrap;
     transition: 0.5s ease-in-out transform;
     height: 100%;
 
-    &--mousedown {
-      transition: 0.2s ease-in-out transform !important;
-    }
-
-    &--dragging {
+    .vueperslides--fade & {
+      white-space: normal;
       transition: none;
     }
 
-    &--no-animation {
+    .vueperslides__track--mousedown & {
+      transition: 0.2s ease-in-out transform !important;
+    }
+
+    .vueperslides__track--dragging & {
+      transition: none;
+    }
+
+    .vueperslides__track--no-animation & {
       transition-duration: 0s;
     }
   }
