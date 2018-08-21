@@ -46,7 +46,7 @@ export default {
     wrapperStyles () {
       return {
         ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }),
-        ...(this.$parent.visibleSlides && { width: 100 / this.$parent.visibleSlides + '%' })
+        ...(this.$parent.conf.visibleSlides && { width: 100 / this.$parent.conf.visibleSlides + '%' })
       }
     },
     imageStyles () {
