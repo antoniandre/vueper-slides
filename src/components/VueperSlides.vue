@@ -166,7 +166,7 @@ export default {
     clones: [],
     mouseDown: false,
     mouseOver: false,
-    touch: { enabled: true, dragging: false, dragStartX: 0, dragAmount: 0 },
+    touch: { enabled: true, dragging: false, dragStartX: 0, dragNowX: 0, dragAmount: 0 },
     transition: { currentTranslation: 0, speed: 0, animated: false },
     timer: null,
     arrowPrevDisabled: false,
@@ -420,14 +420,17 @@ export default {
           this.cloneSlides()
         }
 
+        // Store current drag position in var for distance calculation in onMouseUp().
+        this.touch.dragNowX = this.getCurrentMouseX(e)
+
         if (this.conf.draggingDistance) {
-          this.touch.dragAmount = this.getDragAmount(e)
+          this.touch.dragAmount = this.touch.dragNowX - this.touch.dragStartX
           let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
           this.updateCurrentTranslation()
           this.transition.currentTranslation += 100 * dragAmountPercentage
         } else {
-          this.updateCurrentTranslation(null, this.getCurrentMouseX(e))
+          this.updateCurrentTranslation(null, this.touch.dragNowX)
         }
       }
     },
@@ -442,7 +445,7 @@ export default {
       let dragAmount = this.conf.draggingDistance ? - this.touch.dragAmount : 0
       let realCurrentSlideIndex = this.slides.current + !!this.clones.length * 1// Takes clones in account if any.
       let dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
-      let dragPercentageNow = (this.getCurrentMouseX(e) - this.container.offsetLeft) / this.container.clientWidth
+      let dragPercentageNow = (this.touch.dragNowX - this.container.offsetLeft) / this.container.clientWidth
       let dragPercentage = ((dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow) * 100
       let forwards = (dragAmount || dragPercentage) > 0
 
@@ -469,6 +472,7 @@ export default {
       else this.cancelSlideChange()
 
       this.touch.dragStartX = null
+      this.touch.dragNowX = null
       this.touch.dragAmount = null
       // this.enableScroll()
     },
@@ -482,13 +486,6 @@ export default {
 
     getCurrentMouseX (e) {
       return 'ontouchstart' in window ? e.touches[0].clientX : e.clientX
-    },
-
-    /**
-     * Return the x distance in pixel between drag start and current drag position.
-     */
-    getDragAmount (e) {
-      return ('ontouchstart' in window ? e.touches[0].clientX : e.clientX) - this.touch.dragStartX
     },
 
     /**
