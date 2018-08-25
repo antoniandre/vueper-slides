@@ -144,8 +144,8 @@ export default {
       default: false
     },
     slideMultiple: {
-      type: Number,
-      default: 1
+      type: [Boolean, Number],
+      default: false
     },
     visibleSlides: {
       type: Number,
@@ -786,12 +786,16 @@ export default {
 
       // Overrides: once config from breakpoints is imported, we can use the conf object
       // and be sure all the options are up to date.
+      //-------------------------------//
+      conf.slideMultiple = conf.slideMultiple ? conf.visibleSlides : 1
+
       if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1) {
         conf.infinite = false
       }
 
       conf.arrowsOutside = conf.arrowsOutside || (conf.visibleSlides > 1 && conf.arrowsOutside === null)
       conf.bulletsOutside = conf.bulletsOutside || (conf.visibleSlides > 1 && conf.bulletsOutside === null)
+      //-------------------------------//
 
       return conf
     },
