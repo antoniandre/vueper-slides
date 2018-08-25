@@ -13,6 +13,7 @@ Vue.use(Vuetify, {
     secondary: '#42b983',
     maintext: '#999',
     darktext: '#444',
+    lightertext: '#ccc',
     lightgrey: '#eee'
   }
 })

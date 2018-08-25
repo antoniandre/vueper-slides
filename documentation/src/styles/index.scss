@@ -25,6 +25,15 @@ pre {
   box-shadow: none;
 }
 
+.v-chip--x-small {
+  font-size: 10px;
+  height: 16px;
+
+  .v-chip__content {
+    padding: 0 6px;
+  }
+}
+
 .page__title {
   color: $primary;
   background-color: #fff;

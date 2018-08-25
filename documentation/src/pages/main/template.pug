@@ -8,6 +8,8 @@ div.documentation
         v-icon.pr-2(color="secondary") check
         | Brand new #[strong parallax] feature!#[br]
         v-icon.pr-2(color="secondary") check
+        | Show multiple items per slides.#[br]
+        v-icon.pr-2(color="secondary") check
         | #[strong Touch ready] & mouse dragging for desktop.#[br]
         v-icon.pr-2(color="secondary") check
         | Uses #[strong CSS for animations] & comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
@@ -89,15 +91,21 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Slide image inside
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
+              | Multiple items per slide
             v-chip(color="amber lighten-2" text-color="white" small)
               v-icon access_time
-              | Slides to scroll at once
+              | Multiple items w/ fade
+            v-chip(color="deep-orange lighten-1" text-color="white" small)
+              v-icon remove_circle
+              | Multiple items w/ infinite
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Lazy loading
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
-              | Nav for
+              | sliding w/ 3D rotations
 
   h2
     a(href="#installation") Installation
@@ -732,34 +740,30 @@ div.documentation
     }
 
   h3
-    a(href="#ex--slide-multiple-items") Slide Multiple Items At Once
-    a(name="ex--slide-multiple-items")
-  p
-    | This example demonstrates how to slide multiple items at the same time.#[br]
-    strong.
-      But do you really want to do this without the #[span.code.black--text visible-slides] option? :p#[br]
-      Refer to #[a(href="#ex--show-multiple-slides") Show Multiple Slides].
-
-  vueper-slides(:slide-ratio="1/4" :slide-multiple="2" disable-arrows-on-edges)
-    vueper-slide(v-for="i in 8" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-  ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :slide-multiple="2"&gt;
-      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
-    &lt;/vueper-slides&gt;
-
-  h3
     a(href="#ex--show-multiple-slides") Show Multiple Slides
     a(name="ex--show-multiple-slides")
   p.
-    These examples demonstrate how to show multiple slides at the same time.#[br]
+    The examples bellow demonstrate how to show multiple slides at the same time.#[br]
+    #[strong You can choose to slide all the visible items at once or one by one.]
+
+  highlight.
+    In some cases like in the first 3 examples bellow, you will not want the default
+    inner top and bottom shadow (the fourth example has it). To remove it, add the class
+    #[span.code no-shadow] on the #[span.code &lt;vueper-slides&gt;] tag.#[br]
+    Refer to the example source code.
+
+  highlight.
     In most cases you will want to have the arrows and bullets outside, so if
-    #[span.code.black--text visible-slides] is set, arrows and bullets will be outside by default.#[br]
+    #[span.code.black--text visible-slides] is set, arrows and bullets will be outside
+    by default.#[br]
     You can override this by explicitly setting #[span.code :arrows-outside="false"],
     or #[span.code :bullets-outside="false"].
+
   highlight(type="success")
     p.mb-2.
-      When the #[span.code.black--text infinite] & #[span.code.black--text slideMultiple] options are off, Vueper Slides will keep the active slide
-      at the most middle position as possible while you slide, unless it would create a blank
+      When the #[span.code.black--text infinite] & #[span.code.black--text slideMultiple]
+      options are off, Vueper Slides will keep the active slide at the most middle
+      position as possible while you slide, unless it would create a blank
       space (like if active slide is on a side).#[br]E.g.
     ul.mt-0
       li With 3 items, active slide will be at position 2
@@ -768,25 +772,42 @@ div.documentation
   highlight(type="warning")
     strong.black--text.
       WARNING#[br]
-      The #[span.code infinite] mode does not work properly with the #[span.code visible-slides] option for now.
-    | &nbsp;It will be supported later.
+      The #[span.code infinite] mode and #[span.code fade] are not supported with the #[span.code visible-slides] option for now.
 
-  h4 #1 - 3 visible slides, sliding 1 by 1, dragging distance of 70px
+  h4 #[span.lightertext--text.headline #1.] 3 visible slides, sliding 1 by 1, dragging distance of 70px
   vueper-slides.no-shadow.ex--show-multiple-slides.ex1(:visible-slides="3" :slide-ratio="1/4" :dragging-distance="70")
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides class="no-shadow" :visible-slides="3" :slide-ratio="1/4" :dragging-distance="70"&gt;
+      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
 
-  h4 #2 - 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
+  h4 #[span.lightertext--text.headline #2.] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
   vueper-slides.no-shadow.ex--show-multiple-slides.ex2(:visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70")
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
-
-  h4 #3 - 3 visible slides, sliding 3 by 3, dragging distance of 200px
-  p Additionally, a breakpoint is set at 800px to reduce visibleSlides & slideMultiple to 2.
-  vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" :slide-multiple="3" :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
-    vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
-
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :visible-slides="3" :slide-ratio="1/4"&gt;
+    &lt;vueper-slides class="no-shadow" :visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70"&gt;
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  h4 #[span.lightertext--text.headline #3.] 3 visible slides, sliding 3 by 3, dragging distance of 200px
+  p.
+    In this example the option #[span.code slideMultiple] is set to #[span.code true],
+    allowing to slide #[span.code n] items at a time, with #[span.code n = visibleSlides].#[br]
+    Additionally, a breakpoint is set at #[span.code 800px] to reduce #[span.code visibleSlides] & #[span.code slideMultiple] to 2.
+  vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
+    vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides class="no-shadow" :visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2 } }"&gt;
+      &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  h4 #[span.lightertext--text.headline #4.] 2 visible slides, full-width, sliding 2 by 2, with arrows inside
+  vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
+    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;
+      &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -874,6 +895,8 @@ div.documentation
     breakpoints:              [Object],          default: {}
     fixedHeight:              [Boolean, Number], default: false
     slideImageInside:         [Boolean],         default: false
+    visibleSlides:            [Number],          default: 1
+    slideMultiple:            [Boolean],         default: false
 
   ul.max-widthed.settings-list
     li
@@ -900,13 +923,13 @@ div.documentation
         Disable or enable the navigation arrows.#[br]
         You can also override the arrows by providing them in the html content of the
         #[span.code &lt;vueper-slides&gt;].#[br]
-        See this setting in action in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
+        See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
 
     li
       | #[code arrowsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p.
         Place the navigation arrows outside of the slideshow (on left and right).#[br]
-        See this setting in action in the #[a(href="#ex--center-mode") Center mode] example.
+        See this setting live in the #[a(href="#ex--center-mode") Center mode] example.
       highlight(type="warning").
         If you place arrows outside on a full screen slideshow you won't be able to see the arrows.
 
@@ -926,7 +949,7 @@ div.documentation
       | #[code bulletsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p.
         If bullets is set to #[span.code true], place the slides index inside or outside the slideshow track.#[br]
-        See this setting in action in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
+        See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
 
     li
       | #[code fade], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
@@ -934,14 +957,14 @@ div.documentation
         Sets the transition type to fade when changing slide.#[br]
         By default the slideshow slides when changing slide (and so #[span.code fade] is set to
         #[span.code false]).#[br]
-        See this setting in action in the #[a(href="#ex--images-and-fading") Images & Fading] example.
+        See this setting live in the #[a(href="#ex--images-and-fading") Images & Fading] example.
     li
       | #[code slideContentOutside], #[strong Type:] #[span.code [Boolean, String]], #[strong Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
       p.
         Display the current slide title & content outside the slide.#[br]
         You can position the content above or under the slideshow with the keywords
         #[span.code top] & #[span.code bottom].#[br]
-        See this setting in action in the #[a(href="#ex--images-and-fading") Images & Fading] example.
+        See this setting live in the #[a(href="#ex--images-and-fading") Images & Fading] example.
 
     li
       | #[code slideContentOutsideClass], #[strong Type:] #[span.code [String]], #[strong Default:] #[span.code ""]
@@ -954,7 +977,7 @@ div.documentation
       p.
         Plays a slideshow automatically. Changing slide after a defined amount
         of time (set in #[span.code speed]).#[br]
-        See this setting in action in the #[a(href="#ex--basic") Basic with Autoplay] example.
+        See this setting live in the #[a(href="#ex--basic") Basic with Autoplay] example.
 
     li
       | #[code speed], #[strong Type:] #[span.code [Number, String]], #[strong Default:] #[span.code 4000]
@@ -970,14 +993,14 @@ div.documentation
       | #[code transitionSpeed], #[strong Type:] #[span.code [Number, String]], #[strong Default:] #[span.code 600]
       p.
         Defines how long the transition from a slide to another will last - in milliseconds.#[br]
-        See this setting in action in the #[a(href="#ex--center-mode") Center mode] example.
+        See this setting live in the #[a(href="#ex--center-mode") Center mode] example.
 
     li
       | #[code pauseOnHover], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
       p.
         If #[span.code autoplay] is on, setting #[span.code pauseOnHover]  stops the autoplay
         while hovering then resets to the defined #[span.code speed] when you stop hovering.#[br]
-        See this setting in action in the #[a(href="#ex--basic") Basic with Autoplay] example.
+        See this setting live in the #[a(href="#ex--basic") Basic with Autoplay] example.
 
     li
       | #[code infinite], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
@@ -986,7 +1009,7 @@ div.documentation
         Going to the next slide or previous slide when respectively on last slide
         or first slide, will seemlessly take the other end's slide and continue from
         that slide position but not breaking the transition direction.#[br]
-        See this setting in action in the #[a(href="#ex--simplest-ever") Simplest Ever] example.
+        See this setting live in the #[a(href="#ex--simplest-ever") Simplest Ever] example.
 
       a(name="what-are-clones")
       highlight(:class="{ pulse: highlightWhatAreClones }" type="success").
@@ -1016,7 +1039,7 @@ div.documentation
       p.
         When set to #[span.code true], #[span.code 1] or #[span.code -1], adds a parallax effect on the slideshow.#[br]
         If #[span.code -1] is given, the parallax effect is reversed and the image will go in the opposite way of the scrolling direction.#[br]
-        See this setting in action in the #[a(href="#ex--parallax") Parallax Effect] example.
+        See this setting live in the #[a(href="#ex--parallax") Parallax Effect] example.
 
       highlight(type="success" tag="div")
         | The parallax algorythm is smart and has 2 advantages in comparison to #[em Vuetify]'s #[span.code v-parallax] for instance:
@@ -1035,7 +1058,7 @@ div.documentation
         Whether the slideshow should allow slide dragging to change slide or not.#[br]
         If set to #[span.code true], dragging will be possible on both touchable device or
         desktop with mouse.#[br]
-        See this setting in action in the #[a(href="#ex--simplest-ever") Simplest Ever] example.
+        See this setting live in the #[a(href="#ex--simplest-ever") Simplest Ever] example.
 
       highlight.
         The default threshold to change slides is the half of the slideshow track.#[br]
@@ -1052,7 +1075,7 @@ div.documentation
       | #[code draggingDistance], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code null]
       p.
         With this option you can provide a specific dragging distance for touch-enabled slideshows.#[br]
-        See this setting in action in the #[a(href="#ex--dragging-distance") Dragging distance] example.
+        See this setting live in the #[a(href="#ex--dragging-distance") Dragging distance] example.
 
     li
       | #[code disable], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
@@ -1065,7 +1088,7 @@ div.documentation
       p.
         With this option you can provide different configurations to apply to the slideshow
         at a particular screen width.#[br]
-        See this setting in action in the #[a(href="#ex--breakpoints") Using Breakpoints] example.
+        See this setting live in the #[a(href="#ex--breakpoints") Using Breakpoints] example.
 
     li
       a(name="vueper-slides-settings--fixed-height")
@@ -1086,7 +1109,7 @@ div.documentation
           E.g. #[strong.darktext--text.code :fixed-height="true"], or just
           #[strong.darktext--text.code fixed-height].
 
-      p See this setting in action in the #[a(href="#ex--fixed-height") Fixed Height] example.
+      p See this setting live in the #[a(href="#ex--fixed-height") Fixed Height] example.
 
     li
       a(name="vueper-slides-settings--image-inside")
@@ -1094,7 +1117,27 @@ div.documentation
       p.
         Allow you to CSS transform the slides images with no impact on slideshow behavior.
 
-      p See this setting in action in the #[a(href="#ex--slide-image-inside") Slide Image Inside] example.
+      p See this setting live in the #[a(href="#ex--slide-image-inside") Slide Image Inside] example.
+
+    li
+      a(name="vueper-slides-settings--visible-slides")
+      | #[code visibleSlides], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code 1]
+      p.
+        Allow you to show multiple items per slide.#[br]
+        You can then decide to slide items one by one or by the same amount as
+        #[span.code visibleSlides], using #[span.code slideMultiple].#[br]
+
+      p See this setting live in the #[a(href="#ex--show-multiple-slides") Show Multiple Slides] example.
+
+    li
+      a(name="vueper-slides-settings--slide-multiple")
+      | #[code slideMultiple], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      p.
+        Allow you to slide multiple items at once when clicking arrows, or on drag.#[br]
+        The number to slide if #[span.code slideMultiple] is set true is always equal to
+        #[span.code visibleSlides].
+
+      p See this setting live in the #[a(href="#ex--show-multiple-slides") Show Multiple Slides] example.
 
 
   h3
