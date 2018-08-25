@@ -155,11 +155,18 @@ export default {
   data: () => ({
     isReady: false,
     container: null,
-    slides: { list: [], count: 0, activeUid: null, current: 0, clones: [] },
+    slides: {
+      list: [],
+      count: 0,
+      activeUid: null,
+      current: 0,
+      focus: 0,// Don't loose the focused slide when changing breakpoint & slideMultiple > 1.
+      clones: []
+    },
     clones: [],
     mouseDown: false,
     mouseOver: false,
-    touch: { enabled: true, dragging: false, dragStartX: 0, dragAmount: 0, goNext: true },
+    touch: { enabled: true, dragging: false, dragStartX: 0, dragAmount: 0 },
     transition: { currentTranslation: 0, speed: 0, animated: false },
     timer: null,
     arrowPrevDisabled: false,
@@ -264,8 +271,16 @@ export default {
     },
 
     setBreakpointConfig (breakpoint) {
+      let bp = this.breakpoints && this.breakpoints[breakpoint] || {}
+      let slideMultipleChanged = bp.slideMultiple !== this.conf.slideMultiple
+
       // this.conf gets updated by itself when this.breakpointsData.current changes.
       this.breakpointsData.current = breakpoint
+
+      if (slideMultipleChanged) {
+        this.slides.current = this.slides.focus
+        this.goToSlide(this.slides.current)
+      }
     },
 
     cloneSlides () {
@@ -405,14 +420,12 @@ export default {
           this.cloneSlides()
         }
 
-        this.updateCurrentTranslation()
-
         if (this.conf.draggingDistance) {
           this.touch.dragAmount = this.getDragAmount(e)
           let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
-          // this.transition.currentTranslation = - 100 * (this.slides.current + (this.clones.length ? 1 : 0) - dragAmountPercentage)
-          this.transition.currentTranslation += - 100 * - dragAmountPercentage
+          this.updateCurrentTranslation()
+          this.transition.currentTranslation += 100 * dragAmountPercentage
         } else {
           this.updateCurrentTranslation(null, this.getCurrentMouseX(e))
         }
@@ -450,19 +463,6 @@ export default {
       // If no reason to cancel sliding.
       if (reasonsToCancelSliding.indexOf(true) === -1) {
         let targetSlide = this.slides.current + this.conf.slideMultiple * (forwards ? 1 : -1)
-
-        // if (this.conf.visibleSlides > 1 && targetSlide % this.conf.slideMultiple !== 1) {
-        //   targetSlide = Math.floor(targetSlide / this.conf.visibleSlides) * this.conf.visibleSlides
-        //   console.log(targetSlide)
-        // }
-
-        // if (this.conf.visibleSlides > 1 && this.conf.slideMultiple > 1 && (targetSlide >= this.slides.count || targetSlide < 0)) {
-        //   targetSlide = Math.floor((targetSlide % this.slides.count) / this.conf.visibleSlides) * this.conf.visibleSlides
-        // }
-        // console.log(targetSlide, this.conf.visibleSlides, this.conf.slideMultiple)
-        // 0 1 2     3 4 5     6 7 8     9
-        //   0         1         2       3
-
         this.goToSlide(targetSlide)
       }
 
@@ -583,8 +583,6 @@ export default {
     },
 
     next () {
-      // this.goToSlide(this.slides.current + this.conf.slideMultiple)
-      console.log(this.slides.current, this.conf.slideMultiple)
       this.goToSlide(this.slides.current + this.conf.slideMultiple)
     },
 
@@ -595,6 +593,15 @@ export default {
       }, 100)
     },
 
+    /**
+     * When visibleSlides > 1 and slideMultiple > 1, get the first visible slide from given index.
+     *
+     * @return {integer} the first visible slide index
+     */
+    getFirstVisibleSlide (index) {
+      return Math.floor(index / this.conf.slideMultiple) * this.conf.slideMultiple
+    },
+
     getSlideInRange (index, autoPlaying) {
       let clone = null
 
@@ -602,14 +609,37 @@ export default {
       if (this.conf.infinite && index === -1) clone = 0
       else if (this.conf.infinite && index === this.slides.count) clone = 1
 
+      // Generic case:
       // If going beyond slides count, take the modulo as next slide index.
       // E.g. If we want to access slide 9 and there are only 6 slides, go to slide 3.
-      let newIndex = index % this.slides.count + (index < 0 ? this.slides.count : 0)
+      // (index + this.slides.count) to also handle negative index.
+      let newIndex = (index + this.slides.count) % this.slides.count
 
+      if (this.conf.slideMultiple > 1) {
+        let lastSlideItems = this.slides.count % this.conf.slideMultiple || this.conf.slideMultiple
+        let missingItems = this.conf.slideMultiple - lastSlideItems
+
+        newIndex += index < 0 ? missingItems : 0
+        newIndex = this.getFirstVisibleSlide(newIndex)
+
+        // When using slideMultiple & breakpoints, on breakpoint change if slideMultiple has
+        // changed, the slideshow will snap to the current slide. but current slide is always the
+        // first of visible slides so by playing around breakpoints we lose the original slide on
+        // focus. this.slides.focus is here to never lose it.
+        // E.g.
+        // slideMultiple = 3, currentSlide = 9 (10th slide), means this is the only visible slide,
+        // now change breakpoint and slideMultiple = 2, so go to slide index 8 (shows slide 9 & 10)
+        // now current slide is 8. If we change back to previous breakpoint (slideMultiple = 3),
+        // current slide index becomes 6! and so on.
+        if (this.getFirstVisibleSlide(this.slides.focus) !== newIndex) {
+          this.slides.focus = newIndex
+        }
+      }
+
+      // Disable sliding if already on edge with disableArrowsOnEdges.
       if (this.conf.disableArrowsOnEdges && (index < 0 || index > this.slides.count - 1) && !autoPlaying) {
         newIndex = this.slides.current
       }
-      console.log(newIndex)
 
       return { nextSlide: newIndex, clone: clone }
     },
@@ -751,13 +781,11 @@ export default {
       // If so override the config with the breakpoint ones.
       let conf = {
         ...this.$props,
-        ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {}),
+        ...(this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current] || {})
       }
 
       // Overrides: once config from breakpoints is imported, we can use the conf object
       // and be sure all the options are up to date.
-      if (conf.visibleSlides > 1) console.log(conf.visibleSlides)
-
       if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1) {
         conf.infinite = false
       }
@@ -770,9 +798,6 @@ export default {
     vueperStyles () {
       return /^-?\d/.test(this.conf.fixedHeight) ? 'height: ' + this.conf.fixedHeight : null
     },
-    // trackTranslation () {
-    //   return
-    // },
     trackStyles () {
       let styles = {}
 
