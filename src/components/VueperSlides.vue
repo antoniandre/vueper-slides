@@ -150,6 +150,10 @@ export default {
     visibleSlides: {
       type: Number,
       default: 1
+    },
+    '3d': {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

@@ -182,7 +182,7 @@ div.documentation
   h3
     a(href="#ex--simplest-ever") Simplest Ever
     a(name="ex--simplest-ever")
-  vueper-slides.ex--simplest-ever
+  //- vueper-slides.ex--simplest-ever
     vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
@@ -195,7 +195,7 @@ div.documentation
   p
     | This example uses autoplay, slide titles & contents & an infinite mode (by default).#[br]
     em The autoplay circles between all the slides and goes back to the begining after the last slide.
-  vueper-slides.ex2(autoplay)
+  //- vueper-slides.ex2(autoplay)
     v-icon(slot="pausedIcon" large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -237,7 +237,7 @@ div.documentation
     This example uses custom arrows and positions the bullets outside of the slideshow.#[br]
     The bullets are showing slide indexes which is disabled by default.#[br]
     You can also disable arrows and/or bullets. E.g. #[span.code :arrows="false"], #[span.code :bullets="false"]
-  vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
+  //- vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
     v-icon(slot="arrowLeft" color="white" x-large) undo
     v-icon(slot="arrowRight" color="white" x-large) redo
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
@@ -283,7 +283,7 @@ div.documentation
     or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
     #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
     #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
-  vueper-slides.ex--images-and-fading(fade slide-content-outside="top" slide-content-outside-class="max-widthed text-xs-center my-4" :touchable="false" :slide-ratio="0.3")
+  //- vueper-slides.ex--images-and-fading(fade slide-content-outside="top" slide-content-outside-class="max-widthed text-xs-center my-4" :touchable="false" :slide-ratio="0.3")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
@@ -315,7 +315,7 @@ div.documentation
     The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] & #[span.code slideContent]
     if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
 
-  vueper-slides
+  //- vueper-slides
     vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
       div(slot="slideContent")
         v-icon(color="white") check
@@ -381,7 +381,7 @@ div.documentation
         v-icon swap_vert
         | &nbsp;Move content position
       strong.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
-  vueper-slides.ex--updating-content(:slide-ratio="1/4" autoplay :slide-content-outside="contentPosition === 'false' ? false : contentPosition" slide-content-outside-class="text-xs-center py-4" :refresh-clones-on-drag="true")
+  //- vueper-slides.ex--updating-content(:slide-ratio="1/4" autoplay :slide-content-outside="contentPosition === 'false' ? false : contentPosition" slide-content-outside-class="text-xs-center py-4" :refresh-clones-on-drag="true")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       div(slot="slideContent")
         v-layout(align-center justify-center)
@@ -456,7 +456,7 @@ div.documentation
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
   highlight Note that the slideshow disables controls if you have only 1 slide or none.
 
-  vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
+  //- vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;v-btn color="primary" @click="appendSlide" small&gt;
@@ -518,7 +518,7 @@ div.documentation
     This example demonstrates how to use Vueper Slides in a center mode.#[br]
     It also has a shorter transition speed #[span.code transition-speed='250']
     and no shadow thanks to the #[span.code no-shadow] class.
-  vueper-slides.no-shadow.ex--center-mode(arrows-outside bullets-outside transition-speed="250")
+  //- vueper-slides.no-shadow.ex--center-mode(arrows-outside bullets-outside transition-speed="250")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides class="no-shadow" arrows-outside bullets-outside transition-speed="250"&gt;
@@ -542,7 +542,7 @@ div.documentation
     This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
     The events box bellow will log all the events (and the given params) triggered while using the slideshow.#[br]
     Change slide to see new events in the events box bellow.
-  vueper-slides.ex--events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
+  //- vueper-slides.ex--events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
     p(v-html="events")
@@ -596,7 +596,7 @@ div.documentation
     1200: { ... }, // From width = 1200px to width = 901.
     900: { ... }, // From width = 900px to width = 601.
     600: { ... } // From width = 600px to width = 0.
-  vueper-slides.ex--breakpoints(:breakpoints="breakpoints")
+  //- vueper-slides.ex--breakpoints(:breakpoints="breakpoints")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :breakpoints="breakpoints"&gt;
@@ -640,7 +640,7 @@ div.documentation
     With this configuration the behavior is slightly different and to change slide you
     need to drag more that the specified distance in pixels.#[br]
     If the dragging distance is lower than the specified one, the current slide remains the same.
-  vueper-slides.ex--dragging-distance(:dragging-distance="70")
+  //- vueper-slides.ex--dragging-distance(:dragging-distance="70")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :dragging-distance="70"&gt;
@@ -661,7 +661,7 @@ div.documentation
       v-icon sync
       | &nbsp; Reverse parallax effect
     strong #[span.code parallax = {{ parallax.toString() }}]
-  vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
+  //- vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
     &lt;v-btn @click="parallax *= -1;$refs.myVueperSlides.refreshParallax()"&gt;
@@ -702,7 +702,7 @@ div.documentation
     Refer to the #[a(href="#vueper-slides-settings--fixed-height") settings > fixed height] for more details.
   br
 
-  vueper-slides.ex--fixed-height(:slide-ratio="1/2" fixed-height="500px")
+  //- vueper-slides.ex--fixed-height(:slide-ratio="1/2" fixed-height="500px")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
@@ -723,7 +723,7 @@ div.documentation
     the slideshow and without transforming your content. E.g. rotate image but not slide
     description.
 
-  vueper-slides.ex--slide-image-inside(slide-image-inside)
+  //- vueper-slides.ex--slide-image-inside(slide-image-inside)
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :title="(i + 1).toString()" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides slide-image-inside&gt;
@@ -774,40 +774,55 @@ div.documentation
       WARNING#[br]
       The #[span.code infinite] mode and #[span.code fade] are not supported with the #[span.code visible-slides] option for now.
 
-  h4 #[span.lightertext--text.headline #1.] 3 visible slides, sliding 1 by 1, dragging distance of 70px
-  vueper-slides.no-shadow.ex--show-multiple-slides.ex1(:visible-slides="3" :slide-ratio="1/4" :dragging-distance="70")
+  h4 #[span.lightertext--text.headline='#1.'] 3 visible slides, sliding 1 by 1, dragging distance of 70px
+  //- vueper-slides.no-shadow.ex--show-multiple-slides.ex1(:visible-slides="3" :slide-ratio="1/4" :dragging-distance="70")
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides class="no-shadow" :visible-slides="3" :slide-ratio="1/4" :dragging-distance="70"&gt;
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #2.] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
-  vueper-slides.no-shadow.ex--show-multiple-slides.ex2(:visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70")
+  h4 #[span.lightertext--text.headline='#2.'] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
+  //- vueper-slides.no-shadow.ex--show-multiple-slides.ex2(:visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70")
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides class="no-shadow" :visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70"&gt;
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #3.] 3 visible slides, sliding 3 by 3, dragging distance of 200px
+  h4 #[span.lightertext--text.headline='#3.'] 3 visible slides, sliding 3 by 3, dragging distance of 200px
   p.
     In this example the option #[span.code slideMultiple] is set to #[span.code true],
     allowing to slide #[span.code n] items at a time, with #[span.code n = visibleSlides].#[br]
     Additionally, a breakpoint is set at #[span.code 800px] to reduce #[span.code visibleSlides] & #[span.code slideMultiple] to 2.
-  vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
+  //- vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides class="no-shadow" :visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2 } }"&gt;
       &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #4.] 2 visible slides, full-width, sliding 2 by 2, with arrows inside
-  vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
+  h4 #[span.lightertext--text.headline='#4.'] 2 visible slides, full-width, sliding 2 by 2, with arrows inside
+  //- vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;
       &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  h3
+    a(href="#ex--3d-rotation") 3D Rotation
+    a(name="ex--3d-rotation")
+  p.
+    This example demonstrates how to set a fixed height on the slideshow.#[br]
+    Refer to the #[a(href="#vueper-slides-settings--fixed-height") settings > fixed height] for more details.
+  br
+
+  vueper-slides.no-shadow.ex--3d-rotation(fixed-height="300px" 3d :infinite="false")
+    vueper-slide(v-for="i in 4" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  //- ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -845,7 +860,7 @@ div.documentation
     v-btn(color="primary" small @click="$refs.myVueperSlides.next()")
       v-icon arrow_forward
       | &nbsp; Next
-  vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
+  //- vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;v-btn @click="$refs.myVueperSlides.previous()"&gt;Previous&lt;/v-btn&gt;
