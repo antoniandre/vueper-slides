@@ -159,9 +159,8 @@
   &.ex2 {width: auto;}
 }
 
-$slideshowWidth: 300px;
 .ex--3d-rotation {
-  width: $slideshowWidth;
+  width: 300px;
   margin: auto;
 
   .vueperslides__track {
@@ -171,7 +170,7 @@ $slideshowWidth: 300px;
 
   .vueperslides__track-inner {
     transform-style: preserve-3d;
-    transform: rotateY(90deg) !important;
+    transform: rotateY(10deg) !important;
   }
 
   .vueperslides__parallax-wrapper {
@@ -184,7 +183,9 @@ $slideshowWidth: 300px;
   }
 
   .vueperslide:nth-child(1) {
-    transform: rotateY(0deg) translateZ($slideshowWidth / 2);
+    // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
+    // But doesn't require to set a fixed width on the slideshow ;)
+    transform: rotateY(90deg) translateX(-50%) rotateY(-90deg);
   }
 
   .vueperslide:nth-child(2) {
@@ -193,7 +194,8 @@ $slideshowWidth: 300px;
   }
 
   .vueperslide:nth-child(3) {
-    transform: rotateY(180deg) translateZ($slideshowWidth / 2);
+    // transform: rotateY(180deg) translateZ($slideshowWidth / 2);
+    transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);
   }
 
   .vueperslide:nth-child(4) {
