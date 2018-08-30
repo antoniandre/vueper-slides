@@ -821,7 +821,15 @@ export default {
 
       styles.transitionDuration = this.transition.speed + 'ms'
 
-      if (!this.conf.fade) {
+      if (this.conf['3d']) {
+        let rotation = this.transition.currentTranslation * 90 / 100
+        // Following calculation is equivalent to:
+        // 'translateZ(slideshowWidth / 2) rotateY(' + rotation + 'deg)'
+        // but does not require a fixed width.
+        styles.transform = 'rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(' + rotation + 'deg)'
+      }
+
+      else if (!this.conf.fade) {
         styles.transform = 'translateX(' + this.transition.currentTranslation + '%)'
       }
 
@@ -907,7 +915,6 @@ export default {
 
     .vueperslides--3d & {
       transform-style: preserve-3d;
-      transform: rotateY(10deg) !important;
     }
 
     .vueperslides__track--mousedown & {

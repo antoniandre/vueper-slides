@@ -103,7 +103,6 @@ export default {
 
   .vueperslides--3d & {
     position: absolute;
-    opacity: 0.7;
 
     &:nth-child(1) {
       // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
