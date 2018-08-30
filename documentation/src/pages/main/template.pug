@@ -818,7 +818,7 @@ div.documentation
     Refer to the #[a(href="#vueper-slides-settings--fixed-height") settings > fixed height] for more details.
   br
 
-  vueper-slides.no-shadow.ex--3d-rotation(fixed-height="300px" 3d :infinite="false")
+  vueper-slides.no-shadow.ex--3d-rotation(fixed-height="300px" 3d :infinite="false" arrows-outside bullets-outside)
     vueper-slide(v-for="i in 4" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   //- ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
