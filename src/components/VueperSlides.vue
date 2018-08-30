@@ -1,5 +1,5 @@
 <template lang="pug">
-div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
+div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--3d': conf['3d'], 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
   div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
     div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
@@ -858,6 +858,10 @@ export default {
   &__parallax-wrapper {
     position: relative;
     overflow: hidden;
+
+    .vueperslides--3d & {
+      overflow: visible;
+    }
   }
 
   &__track {
@@ -884,6 +888,11 @@ export default {
         cursor: grabbing;
       }
     }
+
+    .vueperslides--3d & {
+      overflow: visible;
+      perspective: 100em;
+    }
   }
 
   &__track-inner {
@@ -894,6 +903,11 @@ export default {
     .vueperslides--fade & {
       white-space: normal;
       transition: none;
+    }
+
+    .vueperslides--3d & {
+      transform-style: preserve-3d;
+      transform: rotateY(10deg) !important;
     }
 
     .vueperslides__track--mousedown & {

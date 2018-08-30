@@ -85,20 +85,46 @@ export default {
   &__content-wrapper:not(&__content-wrapper--outside-top):not(&__content-wrapper--outside-bottom) {
     position: absolute;
   }
-}
 
-.vueperslides--fade .vueperslide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: .8s ease-in-out opacity;
+  .vueperslides--fade & {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: .8s ease-in-out opacity;
 
-  &--active {
-    z-index: 1;
-    opacity: 1;
+    &--active {
+      z-index: 1;
+      opacity: 1;
+    }
+  }
+
+  .vueperslides--3d & {
+    position: absolute;
+    opacity: 0.7;
+
+    &:nth-child(1) {
+      // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
+      // But doesn't require to set a fixed width on the slideshow ;)
+      transform: rotateY(90deg) translateX(-50%) rotateY(-90deg);
+    }
+
+    &:nth-child(2) {
+      transform: rotateY(90deg) translateX(50%);
+      transform-origin: 100% 0;
+    }
+
+    &:nth-child(3) {
+      // transform: rotateY(180deg) translateZ($slideshowWidth / 2);
+      transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);
+    }
+
+    &:nth-child(4) {
+      transform: rotateY(270deg) translateX(-50%);
+      transform-origin: 0 0;
+    }
   }
 }
 </style>
