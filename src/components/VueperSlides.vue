@@ -742,6 +742,8 @@ export default {
       if (needReclone) {
         this.$nextTick(() => this.cloneSlides())
       }
+
+      return this.slides.list.length
     },
 
     removeSlide (uid) {

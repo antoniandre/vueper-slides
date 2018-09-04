@@ -1,5 +1,5 @@
 <template lang="pug">
-div(:class="{ 'vueperslide': true, 'vueperslide--active': $parent.slides.activeUid === _uid }" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
+div.vueperslide(:class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide }" :index="index" :face="slideFace3d" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
   div.vueperslide__image(v-if="image && $parent.conf.slideImageInside" :style="imageStyles")
   div.vueperslide__content-wrapper(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
     div.vueperslide__title(v-show="title || hasTitleSlotData")
@@ -32,10 +32,13 @@ export default {
       default: ''
     }
   },
+  data: () => ({
+    index: 0
+  }),
   created () {
     // vueperslide component has this useful attributes:
     // _uid, image, title, titleSlot, content, contentSlot, clone.
-    this.$parent.addSlide(this)
+    this.index = this.$parent.addSlide(this)
   },
   // When removing a slide programmatically, remove it from the config so vueperslides
   // component is aware of the change.
@@ -59,6 +62,29 @@ export default {
   	hasContentSlotData () {
       let { slideContent } = this.$slots
       return slideContent !== undefined
+    },
+    isPreviousSlide () {
+      let prevSlideIndex = this.$parent.getSlideInRange(this.$parent.slides.current - this.$parent.conf.slideMultiple)
+      return this._uid === this.$parent.slides.list[prevSlideIndex.nextSlide]._uid
+    },
+    isNextSlide () {
+      let nextSlideIndex = this.$parent.getSlideInRange(this.$parent.slides.current + this.$parent.conf.slideMultiple)
+      return this._uid === this.$parent.slides.list[nextSlideIndex.nextSlide]._uid
+    },
+    slideFace3d () {
+    //   facesStyles = [
+    //     // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
+    //     // But doesn't require to set a fixed width on the slideshow ;)
+    //     'transform: rotateY(90deg) translateX(-50%) rotateY(-90deg);',
+    //     'transform: rotateY(90deg) translateX(50%);transform-origin: 100% 0;',
+    //     // Trickier than rotateY(180deg) translateZ($slideshowWidth / 2);
+    //     // But doesn't require to set a fixed width on the slideshow ;)
+    //     'transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);',
+    //     'transform: rotateY(270deg) translateX(-50%);transform-origin: 0 0;'
+    //   ]
+    //   return facesStyles[]
+    // console.log(['front', 'right', 'back', 'left'][(this.index - 1) % 4], this.index)
+      return ['front', 'right', 'back', 'left'][(this.index - 1) % 4]
     }
   }
 }
@@ -103,24 +129,47 @@ export default {
 
   .vueperslides--3d & {
     position: absolute;
+    // Trickier than rotateY(180deg) translateZ($slideshowWidth / 2);
+    // But doesn't require to set a fixed width on the slideshow ;)
+    // transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);
+    z-index: -1;
 
-    &:nth-child(1) {
+    // &--active {
+    //   // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
+    //   // But doesn't require to set a fixed width on the slideshow ;)
+    //   transform: rotateY(90deg) translateX(-50%) rotateY(-90deg);
+    // }
+
+    // &--next-slide {
+    //   transform: rotateY(90deg) translateX(50%);
+    //   transform-origin: 100% 0;
+    // }
+
+    // &--previous-slide {
+    //   transform: rotateY(270deg) translateX(-50%);
+    //   transform-origin: 0 0;
+    // }
+
+    &--previous-slide, &--active, &--next-slide {z-index: 0;}
+    &--active {z-index: 1;}
+    &[face=front] {
       // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
       // But doesn't require to set a fixed width on the slideshow ;)
       transform: rotateY(90deg) translateX(-50%) rotateY(-90deg);
     }
 
-    &:nth-child(2) {
+    &[face=right] {
       transform: rotateY(90deg) translateX(50%);
       transform-origin: 100% 0;
     }
 
-    &:nth-child(3) {
-      // transform: rotateY(180deg) translateZ($slideshowWidth / 2);
+    &[face=back] {
+      // Trickier than rotateY(180deg) translateZ($slideshowWidth / 2);
+      // But doesn't require to set a fixed width on the slideshow ;)
       transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);
     }
 
-    &:nth-child(4) {
+    &[face=left] {
       transform: rotateY(270deg) translateX(-50%);
       transform-origin: 0 0;
     }
