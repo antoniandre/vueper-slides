@@ -475,6 +475,17 @@ export default {
       this.touch.dragNowX = null
       this.touch.dragAmount = null
       // this.enableScroll()
+
+      // Can be called from a click event.
+      // As click event triggers after mouseup, we need a persistent variable until
+      // click event triggers.
+      this.touch.justDragged = true
+      setTimeout(() => this.touch.justDragged = false, 50)
+    },
+
+    // Check if dragging just happened.
+    justDragged () {
+      return this.touch.justDragged
     },
 
     // Dragging did not pass conditions to change slide, snap back to current slide.

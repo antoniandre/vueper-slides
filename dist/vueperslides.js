@@ -661,6 +661,8 @@
         }
       },
       onMouseUp: function onMouseUp(e) {
+        var _this2 = this;
+
         this.mouseDown = false;
 
         // If no mouse move there is nothing to do so don't go further.
@@ -697,6 +699,20 @@
         this.touch.dragNowX = null;
         this.touch.dragAmount = null;
         // this.enableScroll()
+
+        // Can be called from a click event.
+        // As click event triggers after mouseup, we need a persistent variable until
+        // click event triggers.
+        this.touch.justDragged = true;
+        setTimeout(function () {
+          return _this2.touch.justDragged = false;
+        }, 50);
+      },
+
+
+      // Check if dragging just happened.
+      justDragged: function justDragged() {
+        return this.touch.justDragged;
       },
 
 
@@ -791,10 +807,10 @@
         this.timer = 0;
       },
       setTimer: function setTimer() {
-        var _this2 = this;
+        var _this3 = this;
 
         this.timer = setTimeout(function () {
-          _this2.goToSlide(_this2.slides.current + _this2.conf.slideMultiple, { autoPlaying: true });
+          _this3.goToSlide(_this3.slides.current + _this3.conf.slideMultiple, { autoPlaying: true });
         }, this.conf.speed);
       },
       previous: function previous() {
@@ -804,11 +820,11 @@
         this.goToSlide(this.slides.current + this.conf.slideMultiple);
       },
       refreshParallax: function refreshParallax() {
-        var _this3 = this;
+        var _this4 = this;
 
         setTimeout(function () {
-          _this3.onResize();
-          _this3.onScroll();
+          _this4.onResize();
+          _this4.onScroll();
         }, 100);
       },
 
@@ -862,7 +878,7 @@
         return { nextSlide: newIndex, clone: clone };
       },
       goToSlide: function goToSlide(index) {
-        var _this4 = this;
+        var _this5 = this;
 
         var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -883,7 +899,7 @@
 
         this.transition.animated = animation;
         setTimeout(function () {
-          return _this4.transition.animated = false;
+          return _this5.transition.animated = false;
         }, this.transitionSpeed);
 
         // Get the next slide index and whether it's a clone.
@@ -918,15 +934,15 @@
           setTimeout(function () {
             // inside the callback, also check if it is not too late to apply next slide
             // (user may have slid fast multiple times) if so cancel callback.
-            var passedCloneBackward = index === -1 && _this4.slides.current !== _this4.slides.count - 1;
-            var passedCloneForward = index === _this4.slides.count && _this4.slides.current !== 0;
+            var passedCloneBackward = index === -1 && _this5.slides.current !== _this5.slides.count - 1;
+            var passedCloneForward = index === _this5.slides.count && _this5.slides.current !== 0;
             var tooLateToSetTimeout = passedCloneBackward || passedCloneForward;
 
             if (!tooLateToSetTimeout) {
-              _this4.transition.speed = 0;
-              _this4.goToSlide(nextSlideIsClone ? 0 : _this4.slides.count - 1, { animation: false, jumping: true });
+              _this5.transition.speed = 0;
+              _this5.goToSlide(nextSlideIsClone ? 0 : _this5.slides.count - 1, { animation: false, jumping: true });
               setTimeout(function () {
-                return _this4.transition.speed = _this4.conf.transitionSpeed;
+                return _this5.transition.speed = _this5.conf.transitionSpeed;
               }, 50);
             }
           }, this.transition.speed - 50);
@@ -957,7 +973,7 @@
         }
       },
       addSlide: function addSlide(newSlide) {
-        var _this5 = this;
+        var _this6 = this;
 
         var needReclone = this.conf.infinite && this.isReady && newSlide.clone === null;
 
@@ -976,32 +992,32 @@
         // cloneSlides() is called at the end of init so calling it before would be redundant.
         if (needReclone) {
           this.$nextTick(function () {
-            return _this5.cloneSlides();
+            return _this6.cloneSlides();
           });
         }
       },
       removeSlide: function removeSlide(uid) {
-        var _this6 = this;
+        var _this7 = this;
 
         var needReclone = false;
 
         this.slides.list.some(function (slide, i) {
           if (slide._uid === uid) {
             // Remove the slide.
-            _this6.slides.list.splice(i, 1);
-            _this6.slides.count = _this6.slides.list.length;
+            _this7.slides.list.splice(i, 1);
+            _this7.slides.count = _this7.slides.list.length;
 
             // If the slide to remove is the current slide, slide to the previous slide.
-            if (uid === _this6.slides.activeUid) {
-              _this6.slides.activeUid = null;
-              _this6.goToSlide(i - 1, { autoPlaying: true });
+            if (uid === _this7.slides.activeUid) {
+              _this7.slides.activeUid = null;
+              _this7.goToSlide(i - 1, { autoPlaying: true });
             }
 
-            if (_this6.slides.count <= 1) {
-              _this6.touch.enabled = false;
+            if (_this7.slides.count <= 1) {
+              _this7.touch.enabled = false;
             }
 
-            if (_this6.clones.length && _this6.isReady && !slide.clone) needReclone = true;
+            if (_this7.clones.length && _this7.isReady && !slide.clone) needReclone = true;
 
             return true; // Break the `Array.some` loop.
           }
@@ -1326,7 +1342,7 @@
   /* style */
   var __vue_inject_styles__$1 = function __vue_inject_styles__(inject) {
     if (!inject) return;
-    inject("data-v-507f65ea_0", { source: "\n.vueperslides {\n  position: relative;\n}\n.vueperslides--fixed-height .vueperslides__inner,\n  .vueperslides--fixed-height .vueperslides__parallax-wrapper,\n  .vueperslides--fixed-height .vueperslide {\n    height: inherit;\n}\n.vueperslides--fixed-height .vueperslides__parallax-wrapper {\n    padding-bottom: 0 !important;\n}\n.vueperslides__inner {\n    position: relative;\n    user-select: none;\n}\n.vueperslides__parallax-wrapper {\n    position: relative;\n    overflow: hidden;\n}\n.vueperslides__track {\n    position: absolute;\n    top: 0;\n    height: 100%;\n    left: 0;\n    right: 0;\n    overflow: hidden;\n    z-index: 1;\n}\n.vueperslides--parallax .vueperslides__track {\n      height: 200%;\n      transform: translateY(0);\n}\n.vueperslides--touchable .vueperslides__track {\n      cursor: ew-resize;\n      cursor: -webkit-grab;\n      cursor: grab;\n}\n.vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging {\n        cursor: -webkit-grabbing;\n        cursor: grabbing;\n}\n.vueperslides__track-inner {\n    white-space: nowrap;\n    transition: 0.5s ease-in-out transform;\n    height: 100%;\n}\n.vueperslides--fade .vueperslides__track-inner {\n      white-space: normal;\n      transition: none;\n}\n.vueperslides__track--mousedown .vueperslides__track-inner {\n      transition: 0.2s ease-in-out transform !important;\n}\n.vueperslides__track--dragging .vueperslides__track-inner {\n      transition: none;\n}\n.vueperslides__track--no-animation .vueperslides__track-inner {\n      transition-duration: 0s;\n}\n.vueperslides__arrow {\n    position: absolute;\n    fill: currentColor;\n    width: 1em;\n    text-align: center;\n    transform: translateY(-50%);\n    transition: 0.3s ease-in-out;\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2;\n}\n.vueperslides__paused {\n    position: absolute;\n    transition: 0.3s ease-in-out;\n}\n.vueperslides__bullets {\n    display: flex;\n    justify-content: center;\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n}\n.vueperslides__bullets--outside {\n      position: relative;\n}\n.vueperslides__bullet {\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.vueperslides__bullet::-moz-focus-inner {\n      border: 0;\n}\n\n/*# sourceMappingURL=VueperSlides.vue.map */", map: { "version": 3, "sources": ["/Users/anto/Programming/localhost/vueper-slides/src/components/VueperSlides.vue", "VueperSlides.vue"], "names": [], "mappings": ";AAi0BA;EACA,mBAAA;CAqHA;AAnHA;;;IAIA,gBAAA;CACA;AALA;IAQA,6BAAA;CACA;AAGA;IACA,mBAAA;IACA,kBAAA;CACA;AAEA;IACA,mBAAA;IACA,iBAAA;CACA;AAEA;IACA,mBAAA;IACA,OAAA;IACA,aAAA;IACA,QAAA;IACA,SAAA;IACA,iBAAA;IACA,WAAA;CAiBA;AAfA;MACA,aAAA;MACA,yBAAA;CACA;AAEA;MACA,kBAAA;MACA,qBAAA;MACA,aAAA;CAMA;AATA;QAMA,yBAAA;QACA,iBAAA;CACA;AAIA;IACA,oBAAA;IACA,uCAAA;IACA,aAAA;CAkBA;AAhBA;MACA,oBAAA;MACA,iBAAA;CACA;AAEA;MACA,kDAAA;CACA;AAEA;MACA,iBAAA;CACA;AAEA;MACA,wBAAA;CACA;AAGA;IACA,mBAAA;IACA,mBAAA;IACA,WAAA;IACA,mBAAA;IACA,4BAAA;IACA,6BAAA;IACA,gBAAA;IACA,kBAAA;IACA,cAAA;IACA,WAAA;CACA;AAEA;IACA,mBAAA;IACA,6BAAA;CACA;AAEA;IACA,cAAA;IACA,wBAAA;IACA,mBAAA;IACA,UAAA;IACA,QAAA;IACA,SAAA;CAKA;AAHA;MACA,mBAAA;CACA;AAGA;IACA,gBAAA;IACA,kBAAA;IACA,cAAA;IACA,WAAA;IACA,cAAA;IACA,wBAAA;IACA,oBAAA;CAKA;AAZA;MAUA,UAAA;CACA;;ACt2BA,4CAA4C", "file": "VueperSlides.vue", "sourcesContent": [null, ".vueperslides {\n  position: relative; }\n  .vueperslides--fixed-height .vueperslides__inner,\n  .vueperslides--fixed-height .vueperslides__parallax-wrapper,\n  .vueperslides--fixed-height .vueperslide {\n    height: inherit; }\n  .vueperslides--fixed-height .vueperslides__parallax-wrapper {\n    padding-bottom: 0 !important; }\n  .vueperslides__inner {\n    position: relative;\n    user-select: none; }\n  .vueperslides__parallax-wrapper {\n    position: relative;\n    overflow: hidden; }\n  .vueperslides__track {\n    position: absolute;\n    top: 0;\n    height: 100%;\n    left: 0;\n    right: 0;\n    overflow: hidden;\n    z-index: 1; }\n    .vueperslides--parallax .vueperslides__track {\n      height: 200%;\n      transform: translateY(0); }\n    .vueperslides--touchable .vueperslides__track {\n      cursor: ew-resize;\n      cursor: -webkit-grab;\n      cursor: grab; }\n      .vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging {\n        cursor: -webkit-grabbing;\n        cursor: grabbing; }\n  .vueperslides__track-inner {\n    white-space: nowrap;\n    transition: 0.5s ease-in-out transform;\n    height: 100%; }\n    .vueperslides--fade .vueperslides__track-inner {\n      white-space: normal;\n      transition: none; }\n    .vueperslides__track--mousedown .vueperslides__track-inner {\n      transition: 0.2s ease-in-out transform !important; }\n    .vueperslides__track--dragging .vueperslides__track-inner {\n      transition: none; }\n    .vueperslides__track--no-animation .vueperslides__track-inner {\n      transition-duration: 0s; }\n  .vueperslides__arrow {\n    position: absolute;\n    fill: currentColor;\n    width: 1em;\n    text-align: center;\n    transform: translateY(-50%);\n    transition: 0.3s ease-in-out;\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2; }\n  .vueperslides__paused {\n    position: absolute;\n    transition: 0.3s ease-in-out; }\n  .vueperslides__bullets {\n    display: flex;\n    justify-content: center;\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0; }\n    .vueperslides__bullets--outside {\n      position: relative; }\n  .vueperslides__bullet {\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2;\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n    .vueperslides__bullet::-moz-focus-inner {\n      border: 0; }\n\n/*# sourceMappingURL=VueperSlides.vue.map */"] }, media: undefined });
+    inject("data-v-228e1ace_0", { source: "\n.vueperslides {\n  position: relative;\n}\n.vueperslides--fixed-height .vueperslides__inner,\n  .vueperslides--fixed-height .vueperslides__parallax-wrapper,\n  .vueperslides--fixed-height .vueperslide {\n    height: inherit;\n}\n.vueperslides--fixed-height .vueperslides__parallax-wrapper {\n    padding-bottom: 0 !important;\n}\n.vueperslides__inner {\n    position: relative;\n    user-select: none;\n}\n.vueperslides__parallax-wrapper {\n    position: relative;\n    overflow: hidden;\n}\n.vueperslides__track {\n    position: absolute;\n    top: 0;\n    height: 100%;\n    left: 0;\n    right: 0;\n    overflow: hidden;\n    z-index: 1;\n}\n.vueperslides--parallax .vueperslides__track {\n      height: 200%;\n      transform: translateY(0);\n}\n.vueperslides--touchable .vueperslides__track {\n      cursor: ew-resize;\n      cursor: -webkit-grab;\n      cursor: grab;\n}\n.vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging {\n        cursor: -webkit-grabbing;\n        cursor: grabbing;\n}\n.vueperslides__track-inner {\n    white-space: nowrap;\n    transition: 0.5s ease-in-out transform;\n    height: 100%;\n}\n.vueperslides--fade .vueperslides__track-inner {\n      white-space: normal;\n      transition: none;\n}\n.vueperslides__track--mousedown .vueperslides__track-inner {\n      transition: 0.2s ease-in-out transform !important;\n}\n.vueperslides__track--dragging .vueperslides__track-inner {\n      transition: none;\n}\n.vueperslides__track--no-animation .vueperslides__track-inner {\n      transition-duration: 0s;\n}\n.vueperslides__arrow {\n    position: absolute;\n    fill: currentColor;\n    width: 1em;\n    text-align: center;\n    transform: translateY(-50%);\n    transition: 0.3s ease-in-out;\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2;\n}\n.vueperslides__paused {\n    position: absolute;\n    transition: 0.3s ease-in-out;\n}\n.vueperslides__bullets {\n    display: flex;\n    justify-content: center;\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n}\n.vueperslides__bullets--outside {\n      position: relative;\n}\n.vueperslides__bullet {\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.vueperslides__bullet::-moz-focus-inner {\n      border: 0;\n}\n\n/*# sourceMappingURL=VueperSlides.vue.map */", map: { "version": 3, "sources": ["/Users/anto/Programming/localhost/vueper-slides/src/components/VueperSlides.vue", "VueperSlides.vue"], "names": [], "mappings": ";AA40BA;EACA,mBAAA;CAqHA;AAnHA;;;IAIA,gBAAA;CACA;AALA;IAQA,6BAAA;CACA;AAGA;IACA,mBAAA;IACA,kBAAA;CACA;AAEA;IACA,mBAAA;IACA,iBAAA;CACA;AAEA;IACA,mBAAA;IACA,OAAA;IACA,aAAA;IACA,QAAA;IACA,SAAA;IACA,iBAAA;IACA,WAAA;CAiBA;AAfA;MACA,aAAA;MACA,yBAAA;CACA;AAEA;MACA,kBAAA;MACA,qBAAA;MACA,aAAA;CAMA;AATA;QAMA,yBAAA;QACA,iBAAA;CACA;AAIA;IACA,oBAAA;IACA,uCAAA;IACA,aAAA;CAkBA;AAhBA;MACA,oBAAA;MACA,iBAAA;CACA;AAEA;MACA,kDAAA;CACA;AAEA;MACA,iBAAA;CACA;AAEA;MACA,wBAAA;CACA;AAGA;IACA,mBAAA;IACA,mBAAA;IACA,WAAA;IACA,mBAAA;IACA,4BAAA;IACA,6BAAA;IACA,gBAAA;IACA,kBAAA;IACA,cAAA;IACA,WAAA;CACA;AAEA;IACA,mBAAA;IACA,6BAAA;CACA;AAEA;IACA,cAAA;IACA,wBAAA;IACA,mBAAA;IACA,UAAA;IACA,QAAA;IACA,SAAA;CAKA;AAHA;MACA,mBAAA;CACA;AAGA;IACA,gBAAA;IACA,kBAAA;IACA,cAAA;IACA,WAAA;IACA,cAAA;IACA,wBAAA;IACA,oBAAA;CAKA;AAZA;MAUA,UAAA;CACA;;ACj3BA,4CAA4C", "file": "VueperSlides.vue", "sourcesContent": [null, ".vueperslides {\n  position: relative; }\n  .vueperslides--fixed-height .vueperslides__inner,\n  .vueperslides--fixed-height .vueperslides__parallax-wrapper,\n  .vueperslides--fixed-height .vueperslide {\n    height: inherit; }\n  .vueperslides--fixed-height .vueperslides__parallax-wrapper {\n    padding-bottom: 0 !important; }\n  .vueperslides__inner {\n    position: relative;\n    user-select: none; }\n  .vueperslides__parallax-wrapper {\n    position: relative;\n    overflow: hidden; }\n  .vueperslides__track {\n    position: absolute;\n    top: 0;\n    height: 100%;\n    left: 0;\n    right: 0;\n    overflow: hidden;\n    z-index: 1; }\n    .vueperslides--parallax .vueperslides__track {\n      height: 200%;\n      transform: translateY(0); }\n    .vueperslides--touchable .vueperslides__track {\n      cursor: ew-resize;\n      cursor: -webkit-grab;\n      cursor: grab; }\n      .vueperslides--touchable .vueperslides__track--mousedown, .vueperslides--touchable .vueperslides__track--dragging {\n        cursor: -webkit-grabbing;\n        cursor: grabbing; }\n  .vueperslides__track-inner {\n    white-space: nowrap;\n    transition: 0.5s ease-in-out transform;\n    height: 100%; }\n    .vueperslides--fade .vueperslides__track-inner {\n      white-space: normal;\n      transition: none; }\n    .vueperslides__track--mousedown .vueperslides__track-inner {\n      transition: 0.2s ease-in-out transform !important; }\n    .vueperslides__track--dragging .vueperslides__track-inner {\n      transition: none; }\n    .vueperslides__track--no-animation .vueperslides__track-inner {\n      transition-duration: 0s; }\n  .vueperslides__arrow {\n    position: absolute;\n    fill: currentColor;\n    width: 1em;\n    text-align: center;\n    transform: translateY(-50%);\n    transition: 0.3s ease-in-out;\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2; }\n  .vueperslides__paused {\n    position: absolute;\n    transition: 0.3s ease-in-out; }\n  .vueperslides__bullets {\n    display: flex;\n    justify-content: center;\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0; }\n    .vueperslides__bullets--outside {\n      position: relative; }\n  .vueperslides__bullet {\n    cursor: pointer;\n    user-select: none;\n    outline: none;\n    z-index: 2;\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n    .vueperslides__bullet::-moz-focus-inner {\n      border: 0; }\n\n/*# sourceMappingURL=VueperSlides.vue.map */"] }, media: undefined });
   };
   /* scoped */
   var __vue_scope_id__$1 = undefined;
