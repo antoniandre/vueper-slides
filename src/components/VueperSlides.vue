@@ -19,11 +19,11 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
     div.vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
     div.vueperslides__arrows(:class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
-      button.vueperslides__arrow.vueperslides__arrow--prev(@click="previous()" v-show="!arrowPrevDisabled" aria-label="Previous")
+      button.vueperslides__arrow.vueperslides__arrow--prev(@click="previous()" v-show="!arrowPrevDisabled" aria-label="Previous" @keyup.left="previous()" @keyup.right="next()")
         slot(name="arrowLeft")
           svg(viewBox="0 0 24 24")
             path(d="M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z")
-      button.vueperslides__arrow.vueperslides__arrow--next(@click="next()" v-show="!arrowNextDisabled" aria-label="Next")
+      button.vueperslides__arrow.vueperslides__arrow--next(@click="next()" v-show="!arrowNextDisabled" aria-label="Next" @keyup.left="previous()" @keyup.right="next()")
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
@@ -711,7 +711,7 @@ export default {
           if (this.isReady && !jumping) this.emit('slide')
         }
 
-        if (this.isReady && !autoPlaying && !jumping && this.$refs.bullet[this.slides.current]) {
+        if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullet[this.slides.current]) {
           this.$refs.bullet[this.slides.current].focus()
         }
       }
