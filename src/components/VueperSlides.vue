@@ -814,7 +814,7 @@ export default {
       let styles = {}
 
       if (this.conf.parallax) {
-        styles.transform = 'translateY(' + this.parallaxData.translation + '%)'
+        styles.transform = 'translate3d(0, ' + this.parallaxData.translation + '%, 0)'
 
         // Increase browser optimizations by allocating more machine resource.
         // ! \\ To be used wisely so deactivate when not needed.
@@ -829,7 +829,11 @@ export default {
       styles.transitionDuration = this.transition.speed + 'ms'
 
       if (!this.conf.fade) {
-        styles.transform = 'translateX(' + this.transition.currentTranslation + '%)'
+        styles.transform = 'translate3d(' + this.transition.currentTranslation + '%, 0, 0)'
+
+        // Increase browser optimizations by allocating more machine resource.
+        // ! \\ To be used wisely so deactivate when not needed.
+        styles.willChange = this.touch.dragging || this.transition.animated ? 'transform' : 'auto'
       }
 
       return styles
