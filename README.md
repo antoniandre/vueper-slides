@@ -1,6 +1,10 @@
 # Vueper Slides
 
-A touch ready and responsive slideshow made with Vue JS and inspired by Slick Carousel.
+[![Latest Version on NPM](https://img.shields.io/npm/v/vueperslides.svg?style=flat-square)](https://npmjs.com/package/vueperslides)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![npm](https://img.shields.io/npm/dt/vueperslides.svg?style=flat-square)](https://www.npmjs.com/package/vueperslides)
+
+> A touch ready and responsive slideshow / carousel for Vue JS.
 
 ## Installation
 
