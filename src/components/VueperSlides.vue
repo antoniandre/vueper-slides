@@ -256,18 +256,17 @@ export default {
     },
 
     setBreakpointsList () {
-      this.breakpointsData.list = [99999, ...Object.keys(this.breakpoints)].sort((a, b) => parseInt(a) < parseInt(b))
+      this.breakpointsData.list = [99999, ...Object.keys(this.breakpoints)].map(bp => parseInt(bp)).sort((a, b) => parseInt(b) - parseInt(a))
     },
 
     getCurrentBreakpoint () {
       let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-      let breakpoints = [windowWidth, ...this.breakpointsData.list].sort((a, b) => parseInt(a) < parseInt(b))
-
+      let breakpoints = [windowWidth, ...this.breakpointsData.list].sort((a, b) => parseInt(b) - parseInt(a))
       return this.breakpointsData.list[breakpoints.indexOf(windowWidth) - 1]
     },
 
     hasBreakpointChanged (breakpoint) {
-      return this.breakpointsData.current !== breakpoint
+      return this.breakpointsData.current !== parseInt(breakpoint)
     },
 
     setBreakpointConfig (breakpoint) {
