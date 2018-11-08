@@ -721,7 +721,7 @@ export default {
           if (this.isReady && !jumping) this.emit('slide')
         }
 
-        if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullet[this.slides.current]) {
+        if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullet && this.$refs.bullet[this.slides.current]) {
           this.$refs.bullet[this.slides.current].focus()
         }
       }
