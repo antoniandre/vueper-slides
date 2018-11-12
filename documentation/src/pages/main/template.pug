@@ -798,7 +798,7 @@ div.documentation
     In this example the option #[span.code slideMultiple] is set to #[span.code true],
     allowing to slide #[span.code n] items at a time, with #[span.code n = visibleSlides].#[br]
     Additionally, a breakpoint is set at #[span.code 800px] to reduce #[span.code visibleSlides] &amp; #[span.code slideMultiple] to 2.
-  vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
+  //- vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides class="no-shadow" :visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2 } }"&gt;
@@ -806,7 +806,7 @@ div.documentation
     &lt;/vueper-slides&gt;
 
   h4 #[span.lightertext--text.headline #4. ] 2 visible slides, full-width, sliding 2 by 2, with arrows inside
-  vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
+  //- vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;
@@ -814,7 +814,7 @@ div.documentation
     &lt;/vueper-slides&gt;
 
   h4 #[span.lightertext--text.headline #5. ] 3 visible slides, fading.
-  vueper-slides(:visible-slides="3" slide-multiple :slide-ratio="1/4" fade)
+  //- vueper-slides(:visible-slides="3" slide-multiple :slide-ratio="1/4" fade)
     vueper-slide(v-for="i in 12" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;

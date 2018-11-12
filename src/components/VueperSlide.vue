@@ -135,7 +135,7 @@ export default {
     opacity: 0;
     transition: .8s ease-in-out opacity;
 
-    &--active {
+    &--active, &--visible {
       z-index: 1;
       opacity: 1;
     }
@@ -187,11 +187,6 @@ export default {
       transform: rotateY(270deg) translateX(-50%);
       transform-origin: 0 0;
     }
-  }
-
-  &--active, &--visible {
-    z-index: 1;
-    opacity: 1;
   }
 }
 </style>
