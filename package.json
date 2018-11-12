@@ -1,6 +1,6 @@
 {
   "name": "vueperslides",
-  "version": "1.13.1",
+  "version": "1.14.0",
   "description": "A touch ready and responsive slideshow for Vue JS.",
   "repository": "https://github.com/antoniandre/vueper-slides",
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
@@ -20,7 +20,8 @@
   ],
   "scripts": {
     "lint": "eslint ./*.js --ext .js,.vue src --cache",
-    "build": "npx babel-node --presets=env build.js"
+    "build": "npx babel-node --presets=env build.js",
+    "build:prod": "NODE_ENV=production npx babel-node --presets=env build.js"
   },
   "devDependencies": {
     "autoprefixer": "^9.1.1",

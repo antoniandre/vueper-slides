@@ -10,9 +10,9 @@ div.documentation
         v-icon.pr-2(color="secondary") check
         | Show multiple items per slides.#[br]
         v-icon.pr-2(color="secondary") check
-        | #[strong Touch ready] & mouse dragging for desktop.#[br]
+        | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
         v-icon.pr-2(color="secondary") check
-        | Uses #[strong CSS for animations] & comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
+        | Uses #[strong CSS for animations] &amp; comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
         v-icon.pr-2(color="secondary") check
         | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
         v-icon.pr-2(color="secondary") check
@@ -22,7 +22,7 @@ div.documentation
         v-icon.pr-2(color="secondary") check
         | Separate settings per #[strong breakpoint].#[br]
         v-icon.pr-2(color="secondary") check
-        | Slide content supports #[strong title & description, inside OR outside] the current slide.#[br]
+        | Slide content supports #[strong title &amp; description, inside OR outside] the current slide.#[br]
         v-icon.pr-2(color="secondary") check
         | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
         v-icon.pr-2(color="secondary") check
@@ -72,7 +72,7 @@ div.documentation
               | Arrows outside
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
-              | Complex slide title & content
+              | Complex slide title &amp; content
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Content outside Top / Bottom
@@ -94,18 +94,18 @@ div.documentation
             v-chip(color="light-green lighten-1" text-color="white" small)
               v-icon check_circle
               | Multiple items per slide
-            v-chip(color="amber lighten-2" text-color="white" small)
-              v-icon access_time
+            v-chip(color="light-green lighten-1" text-color="white" small)
+              v-icon check_circle
               | Multiple items w/ fade
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Multiple items w/ infinite
+            v-chip(color="amber lighten-2" text-color="white" small)
+              v-icon access_time
+              | sliding w/ 3D rotations
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Lazy loading
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
-              | sliding w/ 3D rotations
 
   h2
     a(href="#installation") Installation
@@ -155,7 +155,7 @@ div.documentation
     a(name="how-to-use")
   p.
     Once included in your project, use as follows.#[br]
-    Check the #[a(href="#examples") examples] & #[a(href="#vueper-slides--api") API] sections to know more.
+    Check the #[a(href="#examples") examples] &amp; #[a(href="#vueper-slides--api") API] sections to know more.
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :title="slide.title" :content="slide.content"&gt;&lt;/vueper-slide&gt;
@@ -177,7 +177,7 @@ div.documentation
   h2
     a(href="#examples") Examples of Use
     a(name="examples")
-  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/djMpxa" target="_blank") codepen.io #[v-icon(small color="primary") open_in_new]].
+  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/jevjoQ" target="_blank") codepen.io #[v-icon(small color="primary") open_in_new]].
 
   h3
     a(href="#ex--simplest-ever") Simplest Ever
@@ -193,7 +193,7 @@ div.documentation
     a(href="#ex--basic") Basic with Autoplay
     a(name="ex--basic")
   p
-    | This example uses autoplay, slide titles & contents & an infinite mode (by default).#[br]
+    | This example uses autoplay, slide titles &amp; contents &amp; an infinite mode (by default).#[br]
     em The autoplay circles between all the slides and goes back to the begining after the last slide.
   //- vueper-slides.ex2(autoplay)
     v-icon(slot="pausedIcon" large color="white") pause_circle_outline
@@ -231,7 +231,7 @@ div.documentation
     }
 
   h3
-    a(href="#ex--arrows-and-bullets") Arrows & Bullets
+    a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets
     a(name="ex--arrows-and-bullets")
   p.
     This example uses custom arrows and positions the bullets outside of the slideshow.#[br]
@@ -274,12 +274,12 @@ div.documentation
     }
 
   h3
-    a(href="#ex--images-and-fading") Images & Fading
+    a(href="#ex--images-and-fading") Images &amp; Fading
     a(name="ex--images-and-fading")
   p.
     This example uses #[b images] and #[b fading] as the slide transition.#[br]
     The #[b dragging] ability to change slide is #[b disabled].#[br]
-    The current slide title & content are shown #[b outside] of the slider, you can place it above
+    The current slide title &amp; content are shown #[b outside] of the slider, you can place it above
     or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
     #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
     #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
@@ -308,11 +308,11 @@ div.documentation
     }
 
   h3
-    a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content
+    a(href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content
     a(name="ex--complex-slide-title-and-content")
   p.
     This example (and the next one #[a(href="#ex--updating-content") Updating Content]) shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
-    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] & #[span.code slideContent]
+    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] &amp; #[span.code slideContent]
     if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
 
   //- vueper-slides
@@ -321,7 +321,7 @@ div.documentation
         v-icon(color="white") check
         | Complex content {{ i.toString() }} with vueJS
         | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
-        | components & #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
+        | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
   ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
     &lt;vueper-slides&gt;
       &lt;vueper-slide
@@ -330,7 +330,7 @@ div.documentation
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
         &lt;div slot="slideContent"&gt;
          &lt;v-icon color="white"&gt;check&lt;/v-icon&gt;
-         Complex content with vueJS {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content & &lt;span v-pre&gt;{{ mustaches }}&lt;/span&gt;.
+         Complex content with vueJS {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content &amp; &lt;span v-pre&gt;{{ mustaches }}&lt;/span&gt;.
         &lt;/div&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -365,8 +365,8 @@ div.documentation
     This example is a great demonstration of Vue JS reactivity.#[br]
     It shows how to update the content (title and/or content) after slideshow is initialized.
     Well, nothing to do really. It will just update by itself!
-    #[br]For this demonstration the content is complex (refer to #[a(href="#ex--complex-slide-title-and-content") Complex Slide Title & Content] for more details) and uses
-    Vue JS Vuetify components like #[span.code v-layout], #[span.code v-icon] & mustaches #[span.code(v-pre) {{ }}].
+    #[br]For this demonstration the content is complex (refer to #[a(href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content] for more details) and uses
+    Vue JS Vuetify components like #[span.code v-layout], #[span.code v-icon] &amp; mustaches #[span.code(v-pre) {{ }}].
   v-layout.max-widthed(align-start wrap)
     v-layout.flex.xs12.sm6(align-center)
       div Try it:
@@ -440,7 +440,7 @@ div.documentation
     }
 
   h3
-    a(href="#ex--add-remove-slides--disable") Add / remove slides & disable slideshow
+    a(href="#ex--add-remove-slides--disable") Add / remove slides &amp; disable slideshow
     a(name="ex--add-remove-slides--disable")
   p
     | This example illustrates how to add or remove slides on the fly from a running Vueper Slides instance.#[br]
@@ -475,7 +475,7 @@ div.documentation
       disableArrowsOnEdges
       :disable="slideshowDisabled"&gt;
       &lt;vueper-slide
-        v-for="(slide, i) in slides3"
+        v-for="(slide, i) in slides"
         :key="i"
         :title="slide.title"
         :content="slide.content"
@@ -690,7 +690,7 @@ div.documentation
       #[a(href="#ex--external-controls") External Controls] example.
   highlight.
     If you are experiencing image jumps on scroll, keep in mind that this page is
-    considerably big and uses more than 12 instances of Vueper Slides.
+    considerably big and uses more than 15 instances of Vueper Slides.
 
   h3
     a(href="#ex--fixed-height") Fixed Height
@@ -744,7 +744,7 @@ div.documentation
     a(name="ex--show-multiple-slides")
   p.
     The examples bellow demonstrate how to show multiple slides at the same time.#[br]
-    #[strong You can choose to slide all the visible items at once or one by one.]
+    #[strong You can choose to slide all the visible items at once or one by one. ]
 
   highlight.
     In some cases like in the first 3 examples bellow, you will not want the default
@@ -761,7 +761,7 @@ div.documentation
 
   highlight(type="success")
     p.mb-2.
-      When the #[span.code.black--text infinite] & #[span.code.black--text slideMultiple]
+      When the #[span.code.black--text infinite] &amp; #[span.code.black--text slide-multiple]
       options are off, Vueper Slides will keep the active slide at the most middle
       position as possible while you slide, unless it would create a blank
       space (like if active slide is on a side).#[br]E.g.
@@ -772,9 +772,12 @@ div.documentation
   highlight(type="warning")
     strong.black--text.
       WARNING#[br]
-      The #[span.code infinite] mode and #[span.code fade] are not supported with the #[span.code visible-slides] option for now.
+      The #[span.code infinite] mode is not supported with the #[span.code visible-slides] option for now.
+  highlight(type="info").
+      The #[span.code fade] transition is designed for all the visible slides to change at once (#[span.code :slide-multiple="true"]).#[br]
+      If you try to change slides 1 by 1 #[span.code :slide-multiple="false"] with multiple visible slides, you should use the #[span.code slide] transition instead.
 
-  h4 #[span.lightertext--text.headline='#1.'] 3 visible slides, sliding 1 by 1, dragging distance of 70px
+  h4 #[span.lightertext--text.headline #1. ] 3 visible slides, sliding 1 by 1, dragging distance of 70px
   //- vueper-slides.no-shadow.ex--show-multiple-slides.ex1(:visible-slides="3" :slide-ratio="1/4" :dragging-distance="70")
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -782,7 +785,7 @@ div.documentation
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline='#2.'] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
+  h4 #[span.lightertext--text.headline #2. ] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
   //- vueper-slides.no-shadow.ex--show-multiple-slides.ex2(:visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70")
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -790,21 +793,29 @@ div.documentation
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline='#3.'] 3 visible slides, sliding 3 by 3, dragging distance of 200px
+  h4 #[span.lightertext--text.headline #3. ] 3 visible slides, sliding 3 by 3, dragging distance of 200px
   p.
     In this example the option #[span.code slideMultiple] is set to #[span.code true],
     allowing to slide #[span.code n] items at a time, with #[span.code n = visibleSlides].#[br]
-    Additionally, a breakpoint is set at #[span.code 800px] to reduce #[span.code visibleSlides] & #[span.code slideMultiple] to 2.
-  //- vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
+    Additionally, a breakpoint is set at #[span.code 800px] to reduce #[span.code visibleSlides] &amp; #[span.code slideMultiple] to 2.
+  vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides class="no-shadow" :visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2 } }"&gt;
       &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline='#4.'] 2 visible slides, full-width, sliding 2 by 2, with arrows inside
-  //- vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
+  h4 #[span.lightertext--text.headline #4. ] 2 visible slides, full-width, sliding 2 by 2, with arrows inside
+  vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;
+      &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  h4 #[span.lightertext--text.headline #5. ] 3 visible slides, fading.
+  vueper-slides(:visible-slides="3" slide-multiple :slide-ratio="1/4" fade)
+    vueper-slide(v-for="i in 12" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;
       &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
@@ -885,7 +896,9 @@ div.documentation
   h3
     a(href="#vueper-slides--settings") Settings
     a(name="vueper-slides--settings")
-  p Here is the list of all the parameters you can define on a #[span.code &lt;vueper-slides&gt;] tag.
+  p.
+    Here is the list of all the parameters you can define on a #[span.code &lt;vueper-slides&gt;] tag.
+    #[br]#[span.grey--text.text--lighten-1 Reminder: To use in HTML Replace #[span.code CamelCase] with #[span.code kebab-case].]
   ssh-pre(language="js").
     initSlide:                [Number],          default: 1
     slideRatio:               [Number],          default: 1/3
@@ -938,7 +951,7 @@ div.documentation
         Disable or enable the navigation arrows.#[br]
         You can also override the arrows by providing them in the html content of the
         #[span.code &lt;vueper-slides&gt;].#[br]
-        See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
+        See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets] example.
 
     li
       | #[code arrowsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
@@ -951,7 +964,7 @@ div.documentation
     li
       | #[code disableArrowsOnEdges], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p Disable the left or right arrow when respectively, no previous or no next slides are available.
-      | Check the #[a(href="#ex--add-remove-slides--disable") Add / remove slides & disable slideshow] example.
+      | Check the #[a(href="#ex--add-remove-slides--disable") Add / remove slides &amp; disable slideshow] example.
       highlight.
         Setting #[span.code disableArrowsOnEdges] to #[span.code true] will also prevent infinite sliding
         and dragging behavior beyond limits.
@@ -964,7 +977,7 @@ div.documentation
       | #[code bulletsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p.
         If bullets is set to #[span.code true], place the slides index inside or outside the slideshow track.#[br]
-        See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows & Bullets] example.
+        See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets] example.
 
     li
       | #[code fade], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
@@ -972,14 +985,14 @@ div.documentation
         Sets the transition type to fade when changing slide.#[br]
         By default the slideshow slides when changing slide (and so #[span.code fade] is set to
         #[span.code false]).#[br]
-        See this setting live in the #[a(href="#ex--images-and-fading") Images & Fading] example.
+        See this setting live in the #[a(href="#ex--images-and-fading") Images &amp; Fading] example.
     li
       | #[code slideContentOutside], #[strong Type:] #[span.code [Boolean, String]], #[strong Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
       p.
-        Display the current slide title & content outside the slide.#[br]
+        Display the current slide title &amp; content outside the slide.#[br]
         You can position the content above or under the slideshow with the keywords
-        #[span.code top] & #[span.code bottom].#[br]
-        See this setting live in the #[a(href="#ex--images-and-fading") Images & Fading] example.
+        #[span.code top] &amp; #[span.code bottom].#[br]
+        See this setting live in the #[a(href="#ex--images-and-fading") Images &amp; Fading] example.
 
     li
       | #[code slideContentOutsideClass], #[strong Type:] #[span.code [String]], #[strong Default:] #[span.code ""]
@@ -1130,7 +1143,8 @@ div.documentation
       a(name="vueper-slides-settings--image-inside")
       | #[code slideImageInside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p.
-        Allow you to CSS transform the slides images with no impact on slideshow behavior.
+        A #[span.code &lt;div class="vueperslide__image"&gt;] will be created inside each slide.#[br]
+        This will allow you to CSS transform the slides images with no impact on slideshow behavior.
 
       p See this setting live in the #[a(href="#ex--slide-image-inside") Slide Image Inside] example.
 
@@ -1138,7 +1152,7 @@ div.documentation
       a(name="vueper-slides-settings--visible-slides")
       | #[code visibleSlides], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code 1]
       p.
-        Allow you to show multiple items per slide.#[br]
+        Allows you to show multiple items per slide.#[br]
         You can then decide to slide items one by one or by the same amount as
         #[span.code visibleSlides], using #[span.code slideMultiple].#[br]
 
@@ -1148,8 +1162,8 @@ div.documentation
       a(name="vueper-slides-settings--slide-multiple")
       | #[code slideMultiple], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
       p.
-        Allow you to slide multiple items at once when clicking arrows, or on drag.#[br]
-        The number to slide if #[span.code slideMultiple] is set true is always equal to
+        Allows you to slide multiple items at once when clicking arrows, or on drag.#[br]
+        The number to slide if #[span.code slideMultiple] is set to #[span.code true] is always equal to
         #[span.code visibleSlides].
 
       p See this setting live in the #[a(href="#ex--show-multiple-slides") Show Multiple Slides] example.
@@ -1182,10 +1196,10 @@ div.documentation
         This event is emitted with:
       ul
         li.
-          a #[span.code currentSlide] object containing the slide index, title & content
+          a #[span.code currentSlide] object containing the slide index, title &amp; content
           of the current slide.
         li.
-          a #[span.code nextSlide] object containing the slide index, title & content
+          a #[span.code nextSlide] object containing the slide index, title &amp; content
           of the next slide.
     li
       h4
@@ -1195,7 +1209,7 @@ div.documentation
         This event is emitted with:
       ul
         li.
-          a #[span.code currentSlide] object containing the slide index, title & content of
+          a #[span.code currentSlide] object containing the slide index, title &amp; content of
           the new current slide.
 
   h2
@@ -1251,14 +1265,14 @@ div.documentation
       | #[br]Don't forget to inspect an element to check the styles applied. ;)
       ul
         li.
-          #[a(href="#ex--arrows-and-bullets") Arrows & Bullets example] for arrows & bullets
+          #[a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets example] for arrows &amp; bullets
           custom styles, or #[a(href="#ex--center-mode") Center Mode example] for bullets.
         li.
           #[a(href="#ex--updating-content") Content Inside/Outside example] for content layouts.
         li.
           #[a(href="#ex--events") Events example] for custom styles on the current slide.
         li.
-          #[a(href="#ex--images-and-fading") Images & Fading example] for transition style on
+          #[a(href="#ex--images-and-fading") Images &amp; Fading example] for transition style on
           the content using #[span.code vueperslides--animated].
 
   h2

@@ -1,13 +1,13 @@
 <template lang="pug">
-div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--3d': conf['3d'], 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
-  div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
-    div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
-    div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
+.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--3d': conf['3d'], 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
+  .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
+    .vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
+    .vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 
-  div.vueperslides__inner
-    div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
-      div.vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" :style="trackStyles" ref="track")
-        div.vueperslides__track-inner(:style="trackInnerStyles")
+  .vueperslides__inner
+    .vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
+      .vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" :style="trackStyles" ref="track")
+        .vueperslides__track-inner(:style="trackInnerStyles")
           vueper-slide.vueperslide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style" aria-hidden="true")
             div(v-if="clones[0].titleSlot" slot="slideTitle" v-html="clones[0].titleSlot")
             div(v-if="clones[0].contentSlot" slot="slideContent" v-html="clones[0].contentSlot")
@@ -16,26 +16,26 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
             div(v-if="clones[1].titleSlot" slot="slideTitle" v-html="clones[1].titleSlot")
             div(v-if="clones[1].contentSlot" slot="slideContent" v-html="clones[1].contentSlot")
 
-    div.vueperslides__paused(v-if="$slots.pausedIcon")
+    .vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
-    div.vueperslides__arrows(:class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
-      button.vueperslides__arrow.vueperslides__arrow--prev(@click="previous()" v-show="!arrowPrevDisabled" aria-label="Previous")
+    .vueperslides__arrows(:class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
+      button.vueperslides__arrow.vueperslides__arrow--prev(@click="previous()" v-show="!arrowPrevDisabled" aria-label="Previous" @keyup.left="previous()" @keyup.right="next()")
         slot(name="arrowLeft")
           svg(viewBox="0 0 24 24")
             path(d="M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z")
-      button.vueperslides__arrow.vueperslides__arrow--next(@click="next()" v-show="!arrowNextDisabled" aria-label="Next")
+      button.vueperslides__arrow.vueperslides__arrow--next(@click="next()" v-show="!arrowNextDisabled" aria-label="Next" @keyup.left="previous()" @keyup.right="next()")
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-    div.vueperslides__bullets(v-if="conf.bullets && slides.count > 1 && !disable && !conf.bulletsOutside" role="tablist" aria-label="Slideshow navigation")
+    .vueperslides__bullets(v-if="conf.bullets && slides.count > 1 && !disable && !conf.bulletsOutside" role="tablist" aria-label="Slideshow navigation")
       button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }" v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)" :key="i" @click="goToSlide(i * conf.slideMultiple)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
         span {{ i + 1 }}
 
-  div.vueperslides__bullets.vueperslides__bullets--outside(v-if="conf.bullets && slides.count > 1 && !disable && conf.bulletsOutside")
+  .vueperslides__bullets.vueperslides__bullets--outside(v-if="conf.bullets && slides.count > 1 && !disable && conf.bulletsOutside")
     button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }" v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)" :key="i" @click="goToSlide(i * conf.slideMultiple)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
       span {{ i + 1 }}
 
-  div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
+  .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
     div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 </template>
@@ -222,7 +222,7 @@ export default {
         }
 
         if (typeof includeNextSlide === 'number') {
-          let { nextSlide: nextSlideIndex } = this.getSlideInRange(includeNextSlide)
+          const { nextSlide: nextSlideIndex } = this.getSlideInRange(includeNextSlide)
           args[1].nextSlide = this.getSlideData(nextSlideIndex)
         }
       }
@@ -231,10 +231,10 @@ export default {
     },
 
     getSlideData (index, withStyle = false) {
-      let slide = this.slides.list[index]
-      let { slideTitle = [{}], slideContent = [{}] } = slide.$slots
-      let { elm: elmT = {} } = slideTitle[0]
-      let { elm: elmC = {} } = slideContent[0]
+      const slide = this.slides.list[index]
+      const { slideTitle = [{}], slideContent = [{}] } = slide.$slots
+      const { elm: elmT = {} } = slideTitle[0]
+      const { elm: elmC = {} } = slideContent[0]
 
       let data =  {
         index: index,
@@ -246,7 +246,7 @@ export default {
       }
 
       if (withStyle) {
-        let { attributes: { style: { value = '' } = {} } = {} } = slide.$el
+        const { attributes: { style: { value = '' } = {} } = {} } = slide.$el
         data.style = value
       }
 
@@ -254,29 +254,28 @@ export default {
     },
 
     getCurrentSlideData (what) {
-      let { titleSlot, title, contentSlot, content } = this.getSlideData(this.slides.current)
+      const { titleSlot, title, contentSlot, content } = this.getSlideData(this.slides.current)
       // If both slot and attribute are provided use the attribute source.
       return what === 'title' ? title || titleSlot : (content || contentSlot)
     },
 
     setBreakpointsList () {
-      this.breakpointsData.list = [99999, ...Object.keys(this.breakpoints)].sort((a, b) => parseInt(a) < parseInt(b))
+      this.breakpointsData.list = [99999, ...Object.keys(this.breakpoints)].map(bp => parseInt(bp)).sort((a, b) => parseInt(b) - parseInt(a))
     },
 
     getCurrentBreakpoint () {
-      let windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-      let breakpoints = [windowWidth, ...this.breakpointsData.list].sort((a, b) => parseInt(a) < parseInt(b))
-
+      const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+      const breakpoints = [windowWidth, ...this.breakpointsData.list].sort((a, b) => parseInt(b) - parseInt(a))
       return this.breakpointsData.list[breakpoints.indexOf(windowWidth) - 1]
     },
 
     hasBreakpointChanged (breakpoint) {
-      return this.breakpointsData.current !== breakpoint
+      return this.breakpointsData.current !== parseInt(breakpoint)
     },
 
     setBreakpointConfig (breakpoint) {
-      let bp = this.breakpoints && this.breakpoints[breakpoint] || {}
-      let slideMultipleChanged = bp.slideMultiple !== this.conf.slideMultiple
+      const bp = this.breakpoints && this.breakpoints[breakpoint] || {}
+      const slideMultipleChanged = bp.slideMultiple !== this.conf.slideMultiple
 
       // this.conf gets updated by itself when this.breakpointsData.current changes.
       this.breakpointsData.current = breakpoint
@@ -341,33 +340,33 @@ export default {
     },
 
     onScroll () {
-      let doc = document.documentElement
-      let scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
-      let windowHeight = window.innerHeight || doc.clientHeight || document.body.clientHeight
-      let slideshowHeight = this.container.clientHeight
-      let slideshowTopOffset = this.getSlideshowOffsetTop()
+      const doc = document.documentElement
+      const scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+      const windowHeight = window.innerHeight || doc.clientHeight || document.body.clientHeight
+      const slideshowHeight = this.container.clientHeight
+      const slideshowTopOffset = this.getSlideshowOffsetTop()
 
       // The distance between the bottom line of the current vueperslides slideshow and top of window.
       // Negative value means the slideshow is totally above the current window box.
-      let vsBottom2WinTop = slideshowTopOffset + slideshowHeight - scrollTop
+      const vsBottom2WinTop = slideshowTopOffset + slideshowHeight - scrollTop
       // The distance between the top line of the current vueperslides slideshow and bottom of window.
       // Negative value means the slideshow is totally bellow the current window box.
-      let vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset
+      const vsTop2winBottom = windowHeight + scrollTop - slideshowTopOffset
 
       this.parallaxData.isVisible = vsBottom2WinTop > 0 && vsTop2winBottom > 0
 
       // Only apply translation when slideshow is visible.
       if (this.parallaxData.isVisible) {
-        let heightToCoverWithTranslation = windowHeight + slideshowHeight
-        let percentage = vsBottom2WinTop * 100 / heightToCoverWithTranslation
-        let translatePercentage = this.conf.parallax === -1 ? 100 - percentage : percentage
+        const heightToCoverWithTranslation = windowHeight + slideshowHeight
+        const percentage = vsBottom2WinTop * 100 / heightToCoverWithTranslation
+        const translatePercentage = this.conf.parallax === -1 ? 100 - percentage : percentage
         this.parallaxData.translation = - translatePercentage / 2
       }
     },
 
     onResize () {
       if (this.breakpointsData.list.length) {
-        let breakpoint = this.getCurrentBreakpoint()
+        const breakpoint = this.getCurrentBreakpoint()
         if (this.hasBreakpointChanged(breakpoint)) {
           this.setBreakpointConfig(breakpoint)
         }
@@ -429,7 +428,7 @@ export default {
 
         if (this.conf.draggingDistance) {
           this.touch.dragAmount = this.touch.dragNowX - this.touch.dragStartX
-          let dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
+          const dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
           this.updateCurrentTranslation()
           this.transition.currentTranslation += 100 * dragAmountPercentage
@@ -446,14 +445,14 @@ export default {
       if (!this.touch.dragging) return this.cancelSlideChange()
 
       this.touch.dragging = false
-      let dragAmount = this.conf.draggingDistance ? - this.touch.dragAmount : 0
-      let realCurrentSlideIndex = this.slides.current + !!this.clones.length * 1// Takes clones in account if any.
-      let dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
-      let dragPercentageNow = (this.touch.dragNowX - this.container.offsetLeft) / this.container.clientWidth
-      let dragPercentage = ((dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow) * 100
-      let forwards = (dragAmount || dragPercentage) > 0
+      const dragAmount = this.conf.draggingDistance ? - this.touch.dragAmount : 0
+      // const realCurrentSlideIndex = this.slides.current + !!this.clones.length * 1// Takes clones in account if any.
+      const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
+      const dragPercentageNow = (this.touch.dragNowX - this.container.offsetLeft) / this.container.clientWidth
+      const dragPercentage = ((dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow) * 100
+      const forwards = (dragAmount || dragPercentage) > 0
 
-      let reasonsToCancelSliding = [
+      const reasonsToCancelSliding = [
         // Dragging distance conf is set & drag amount is lesser than dragging distance conf.
         Math.abs(dragAmount) < this.conf.draggingDistance,
 
@@ -469,7 +468,7 @@ export default {
 
       // If no reason to cancel sliding.
       if (reasonsToCancelSliding.indexOf(true) === -1) {
-        let targetSlide = this.slides.current + this.conf.slideMultiple * (forwards ? 1 : -1)
+        const targetSlide = this.slides.current + this.conf.slideMultiple * (forwards ? 1 : -1)
         this.goToSlide(targetSlide)
       }
 
@@ -479,6 +478,17 @@ export default {
       this.touch.dragNowX = null
       this.touch.dragAmount = null
       // this.enableScroll()
+
+      // Can be called from a click event.
+      // As click event triggers after mouseup, we need a persistent variable until
+      // click event triggers.
+      this.touch.justDragged = true
+      setTimeout(() => this.touch.justDragged = false, 50)
+    },
+
+    // Check if dragging just happened.
+    justDragged () {
+      return this.touch.justDragged
     },
 
     // Dragging did not pass conditions to change slide, snap back to current slide.
@@ -513,7 +523,7 @@ export default {
      *                                    the value of the current drag.
      */
     updateCurrentTranslation (nextSlideIsClone = null, currentMouseX = null) {
-      let dragging = currentMouseX
+      // let dragging = currentMouseX
       let translation = this.getBasicTranslation()
 
       if (this.conf.infinite && nextSlideIsClone !== null) {
@@ -523,8 +533,8 @@ export default {
       // If dragging.
       if (this.touch.dragStartX && currentMouseX) {
         let dragPercentage = 0
-        let dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
-        let dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
+        const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
+        const dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
 
@@ -536,12 +546,12 @@ export default {
       if (this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1) {
         // If not inifinite sliding.
         if (!this.conf.infinite) {
-          let preferredPosition = Math.ceil(this.conf.visibleSlides / 2)
-          let remainingSlides = this.slides.count - (this.slides.current + 1)
-          let positionsAfterPreferred = this.conf.visibleSlides - preferredPosition
-          let preferredPositionIsPassed = remainingSlides < positionsAfterPreferred
+          const preferredPosition = Math.ceil(this.conf.visibleSlides / 2)
+          const remainingSlides = this.slides.count - (this.slides.current + 1)
+          const positionsAfterPreferred = this.conf.visibleSlides - preferredPosition
+          const preferredPositionIsPassed = remainingSlides < positionsAfterPreferred
 
-          let slidesWOTranslation = preferredPosition - 1
+          const slidesWOTranslation = preferredPosition - 1
           let substractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
 
           // From next position after the preferred position.
@@ -563,9 +573,7 @@ export default {
     },
 
     enableScroll () {
-      document.ontouchmove = function() {
-        return true
-      }
+      document.ontouchmove = () => true
     },
 
     clearTimer () {
@@ -617,8 +625,8 @@ export default {
       let newIndex = (index + this.slides.count) % this.slides.count
 
       if (this.conf.slideMultiple > 1) {
-        let lastSlideItems = this.slides.count % this.conf.slideMultiple || this.conf.slideMultiple
-        let missingItems = this.conf.slideMultiple - lastSlideItems
+        const lastSlideItems = this.slides.count % this.conf.slideMultiple || this.conf.slideMultiple
+        const missingItems = this.conf.slideMultiple - lastSlideItems
 
         newIndex += index < 0 ? missingItems : 0
         newIndex = this.getFirstVisibleSlide(newIndex)
@@ -642,7 +650,7 @@ export default {
         newIndex = this.slides.current
       }
 
-      return { nextSlide: newIndex, clone: clone }
+      return { nextSlide: newIndex, clone }
     },
 
     goToSlide (index, options = {}) {
@@ -653,13 +661,13 @@ export default {
       // animation = slide transition is animated.
       // autoPlaying = go to the next slide by autoplay - no user intervention.
       // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
-      let { animation = true, autoPlaying = false, jumping = false } = options
+      const { animation = true, autoPlaying = false, jumping = false } = options
 
       this.transition.animated = animation
       setTimeout(() => this.transition.animated = false, this.transitionSpeed)
 
       // Get the next slide index and whether it's a clone.
-      let { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index, autoPlaying)
+      const { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index, autoPlaying)
 
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady && !jumping) {
@@ -684,9 +692,9 @@ export default {
         setTimeout(() => {
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
-          let passedCloneBackward = index === -1 && this.slides.current !== this.slides.count - 1
-          let passedCloneForward = index === this.slides.count && this.slides.current !== 0
-          let tooLateToSetTimeout = passedCloneBackward || passedCloneForward
+          const passedCloneBackward = index === -1 && this.slides.current !== this.slides.count - 1
+          const passedCloneForward = index === this.slides.count && this.slides.current !== 0
+          const tooLateToSetTimeout = passedCloneBackward || passedCloneForward
 
           if (!tooLateToSetTimeout) {
             this.transition.speed = 0
@@ -715,7 +723,7 @@ export default {
           if (this.isReady && !jumping) this.emit('slide')
         }
 
-        if (this.isReady && !autoPlaying && !jumping && this.$refs.bullet[this.slides.current]) {
+        if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullet && this.$refs.bullet[this.slides.current]) {
           this.$refs.bullet[this.slides.current].focus()
         }
       }
@@ -803,13 +811,13 @@ export default {
       return conf
     },
     vueperStyles () {
-      return /^-?\d/.test(this.conf.fixedHeight) ? 'height: ' + this.conf.fixedHeight : null
+      return /^-?\d/.test(this.conf.fixedHeight) ? `height: ${this.conf.fixedHeight}` : null
     },
     trackStyles () {
       let styles = {}
 
       if (this.conf.parallax) {
-        styles.transform = 'translateY(' + this.parallaxData.translation + '%)'
+        styles.transform = `translate3d(0, ${this.parallaxData.translation}%, 0)`
 
         // Increase browser optimizations by allocating more machine resource.
         // ! \\ To be used wisely so deactivate when not needed.
@@ -832,7 +840,11 @@ export default {
       }
 
       else if (!this.conf.fade) {
-        styles.transform = 'translateX(' + this.transition.currentTranslation + '%)'
+        styles.transform = `translate3d(${this.transition.currentTranslation}%, 0, 0)`
+
+        // Increase browser optimizations by allocating more machine resource.
+        // ! \\ To be used wisely so deactivate when not needed.
+        styles.willChange = this.touch.dragging || this.transition.animated ? 'transform' : 'auto'
       }
 
       return styles
