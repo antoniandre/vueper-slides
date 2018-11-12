@@ -1,13 +1,13 @@
 <template lang="pug">
-div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
-  div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
-    div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
-    div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
+.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade': conf.fade, 'vueperslides--parallax': conf.parallax, 'vueperslides--touchable': touch.enabled && !disable, 'vueperslides--fixed-height': conf.fixedHeight, 'vueperslides--animated': transition.animated }" ref="vueperslides" aria-label="Slideshow" :style="vueperStyles")
+  .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'top'")
+    .vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
+    .vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 
-  div.vueperslides__inner
-    div.vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
-      div.vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" :style="trackStyles" ref="track")
-        div.vueperslides__track-inner(:style="trackInnerStyles")
+  .vueperslides__inner
+    .vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
+      .vueperslides__track(:class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }" :style="trackStyles" ref="track")
+        .vueperslides__track-inner(:style="trackInnerStyles")
           vueper-slide.vueperslide--clone(v-if="slides.count && clones[0]" :clone="0" :title="clones[0].title" :content="clones[0].content" :image="clones[0].image" :style="clones[0].style" aria-hidden="true")
             div(v-if="clones[0].titleSlot" slot="slideTitle" v-html="clones[0].titleSlot")
             div(v-if="clones[0].contentSlot" slot="slideContent" v-html="clones[0].contentSlot")
@@ -16,9 +16,9 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
             div(v-if="clones[1].titleSlot" slot="slideTitle" v-html="clones[1].titleSlot")
             div(v-if="clones[1].contentSlot" slot="slideContent" v-html="clones[1].contentSlot")
 
-    div.vueperslides__paused(v-if="$slots.pausedIcon")
+    .vueperslides__paused(v-if="$slots.pausedIcon")
       slot(name="pausedIcon")
-    div.vueperslides__arrows(:class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
+    .vueperslides__arrows(:class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
       button.vueperslides__arrow.vueperslides__arrow--prev(@click="previous()" v-show="!arrowPrevDisabled" aria-label="Previous" @keyup.left="previous()" @keyup.right="next()")
         slot(name="arrowLeft")
           svg(viewBox="0 0 24 24")
@@ -27,15 +27,15 @@ div.vueperslides(:class="{ 'vueperslides--ready': isReady, 'vueperslides--fade':
         slot(name="arrowRight")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
-    div.vueperslides__bullets(v-if="conf.bullets && slides.count > 1 && !disable && !conf.bulletsOutside" role="tablist" aria-label="Slideshow navigation")
+    .vueperslides__bullets(v-if="conf.bullets && slides.count > 1 && !disable && !conf.bulletsOutside" role="tablist" aria-label="Slideshow navigation")
       button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }" v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)" :key="i" @click="goToSlide(i * conf.slideMultiple)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
         span {{ i + 1 }}
 
-  div.vueperslides__bullets.vueperslides__bullets--outside(v-if="conf.bullets && slides.count > 1 && !disable && conf.bulletsOutside")
+  .vueperslides__bullets.vueperslides__bullets--outside(v-if="conf.bullets && slides.count > 1 && !disable && conf.bulletsOutside")
     button.vueperslides__bullet(:class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }" v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)" :key="i" @click="goToSlide(i * conf.slideMultiple)" @keyup.left="previous()" @keyup.right="next()" ref="bullet")
       span {{ i + 1 }}
 
-  div.vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
+  .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
     div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 </template>
@@ -805,13 +805,13 @@ export default {
       return conf
     },
     vueperStyles () {
-      return /^-?\d/.test(this.conf.fixedHeight) ? 'height: ' + this.conf.fixedHeight : null
+      return /^-?\d/.test(this.conf.fixedHeight) ? `height: ${this.conf.fixedHeight}` : null
     },
     trackStyles () {
       let styles = {}
 
       if (this.conf.parallax) {
-        styles.transform = 'translate3d(0, ' + this.parallaxData.translation + '%, 0)'
+        styles.transform = `translate3d(0, ${this.parallaxData.translation}%, 0)`
 
         // Increase browser optimizations by allocating more machine resource.
         // ! \\ To be used wisely so deactivate when not needed.
@@ -826,7 +826,7 @@ export default {
       styles.transitionDuration = this.transition.speed + 'ms'
 
       if (!this.conf.fade) {
-        styles.transform = 'translate3d(' + this.transition.currentTranslation + '%, 0, 0)'
+        styles.transform = `translate3d(${this.transition.currentTranslation}%, 0, 0)`
 
         // Increase browser optimizations by allocating more machine resource.
         // ! \\ To be used wisely so deactivate when not needed.
