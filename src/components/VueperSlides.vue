@@ -531,10 +531,17 @@ export default {
       }
 
       // If dragging.
-      if (this.touch.dragStartX && currentMouseX) {
+      else if (this.touch.dragStartX && currentMouseX) {
         let dragPercentage = 0
         const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
-        const dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
+        let dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
+
+        if (this.conf['3d']) {
+          // console.log(dragPercentageStart, dragPercentageNow)
+          // Prevent dragging more than 1 face away from front face.
+          let range = Math.round(dragPercentageStart) ? [0, 2] : [-1, 1]
+          dragPercentageNow = Math.min(Math.max(dragPercentageNow, range[0]), range[1])
+        }
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
 
