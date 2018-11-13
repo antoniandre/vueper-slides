@@ -1,5 +1,5 @@
 <template lang="pug">
-.vueperslide(:class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }" :index="index" :face="slideFace3d" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
+.vueperslide(:class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }" :face="slideFace3d" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
   .vueperslide__image(v-if="image && $parent.conf.slideImageInside" :style="imageStyles")
   .vueperslide__content-wrapper(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
     .vueperslide__title(v-show="title || hasTitleSlotData")
@@ -49,7 +49,7 @@ export default {
     wrapperStyles () {
       return {
         ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }),
-        ...(this.$parent.conf.visibleSlides && { width: 100 / this.$parent.conf.visibleSlides + '%' }),
+        ...(this.$parent.conf.visibleSlides > 1 && { width: 100 / this.$parent.conf.visibleSlides + '%' }),
         ...(this.$parent.conf.visibleSlides > 1 && this.$parent.conf.fade && { left: ((this.slideIndex % this.$parent.conf.visibleSlides) / this.$parent.conf.visibleSlides) * 100 + '%' })
       }
     },
