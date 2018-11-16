@@ -1,5 +1,5 @@
 <template lang="pug">
-.vueperslide(:class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }" :face="slideFace3d" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid ? 'false' : 'true'")
+.vueperslide(:class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }" :face="slideFace3d" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid || isSlideVisible ? 'false' : 'true'")
   .vueperslide__image(v-if="image && $parent.conf.slideImageInside" :style="imageStyles")
   .vueperslide__content-wrapper(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
     .vueperslide__title(v-show="title || hasTitleSlotData")
@@ -64,28 +64,30 @@ export default {
       const { slideContent } = this.$slots
       return slideContent !== undefined
     },
+    slideFace3d () {
+      if (!this.$parent.conf['3d']) return false
+      const faces = ['front', 'right', 'back', 'left']
+      const slidesCount = this.$parent.slides.list.length
+      const prevSlideIndex = (this.$parent.slides.current - 1 + slidesCount) % slidesCount
+      const nextSlideIndex = (this.$parent.slides.current + 1) % slidesCount
+
+      // Index starts at 1 so this.index-1.
+      if (this.index - 1 === prevSlideIndex) return faces[(4 + this.$parent.slides.current - 1) % 4]
+      else if (this.index - 1 === nextSlideIndex) return faces[(this.$parent.slides.current + 1) % 4]
+
+      return faces[(this.index - 1) % 4]
+    },
     isPreviousSlide () {
-      let prevSlideIndex = this.$parent.getSlideInRange(this.$parent.slides.current - this.$parent.conf.slideMultiple)
-      return this._uid === this.$parent.slides.list[prevSlideIndex.nextSlide]._uid
+      if (!this.$parent.conf['3d']) return false
+      const slidesCount = this.$parent.slides.list.length
+      const prevSlideIndex = (this.$parent.slides.current - 1 + slidesCount) % slidesCount
+      return this._uid === this.$parent.slides.list[prevSlideIndex]._uid
     },
     isNextSlide () {
-      let nextSlideIndex = this.$parent.getSlideInRange(this.$parent.slides.current + this.$parent.conf.slideMultiple)
-      return this._uid === this.$parent.slides.list[nextSlideIndex.nextSlide]._uid
-    },
-    slideFace3d () {
-    //   facesStyles = [
-    //     // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
-    //     // But doesn't require to set a fixed width on the slideshow ;)
-    //     'transform: rotateY(90deg) translateX(-50%) rotateY(-90deg);',
-    //     'transform: rotateY(90deg) translateX(50%);transform-origin: 100% 0;',
-    //     // Trickier than rotateY(180deg) translateZ($slideshowWidth / 2);
-    //     // But doesn't require to set a fixed width on the slideshow ;)
-    //     'transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);',
-    //     'transform: rotateY(270deg) translateX(-50%);transform-origin: 0 0;'
-    //   ]
-    //   return facesStyles[]
-    // console.log(['front', 'right', 'back', 'left'][(this.index - 1) % 4], this.index)
-      return ['front', 'right', 'back', 'left'][(this.index - 1) % 4]
+      if (!this.$parent.conf['3d']) return false
+      const slidesCount = this.$parent.slides.list.length
+      const nextSlideIndex = (this.$parent.slides.current + 1) % slidesCount
+      return this._uid === this.$parent.slides.list[nextSlideIndex]._uid
     },
     isSlideVisible () {
       const activeSlideUid = this.$parent.slides.activeUid
@@ -147,22 +149,6 @@ export default {
     // But doesn't require to set a fixed width on the slideshow ;)
     // transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);
     z-index: -1;
-
-    // &--active {
-    //   // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
-    //   // But doesn't require to set a fixed width on the slideshow ;)
-    //   transform: rotateY(90deg) translateX(-50%) rotateY(-90deg);
-    // }
-
-    // &--next-slide {
-    //   transform: rotateY(90deg) translateX(50%);
-    //   transform-origin: 100% 0;
-    // }
-
-    // &--previous-slide {
-    //   transform: rotateY(270deg) translateX(-50%);
-    //   transform-origin: 0 0;
-    // }
 
     &--previous-slide, &--active, &--next-slide {z-index: 0;}
     &--active {z-index: 1;}

@@ -537,8 +537,8 @@ export default {
         let dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
 
         if (this.conf['3d']) {
-          // console.log(dragPercentageStart, dragPercentageNow)
-          // Prevent dragging more than 1 face away from front face.
+          // Prevent dragging more than 1 face away from front face,
+          // So that we don't need to update faces on drag.
           let range = Math.round(dragPercentageStart) ? [0, 2] : [-1, 1]
           dragPercentageNow = Math.min(Math.max(dragPercentageNow, range[0]), range[1])
         }
@@ -807,7 +807,7 @@ export default {
       //-------------------------------//
       conf.slideMultiple = conf.slideMultiple ? conf.visibleSlides : 1
 
-      if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1) {
+      if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1 || conf['3d']) {
         conf.infinite = false
       }
 
@@ -843,7 +843,7 @@ export default {
         // Following calculation is equivalent to:
         // 'translateZ(slideshowWidth / 2) rotateY(' + rotation + 'deg)'
         // but does not require a fixed width.
-        styles.transform = 'rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(' + rotation + 'deg)'
+        styles.transform = `rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(${rotation}deg)`
       }
 
       else if (!this.conf.fade) {

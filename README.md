@@ -29,6 +29,7 @@ ___
 
 ## Release Notes
 
+- __Version 1.15.0__ Add 3D Rotation feature
 - __Version 1.14.0__ Allow fade transition with multiple items per slide
 - __Version 1.13.0__ Allow multiple items per slide
 - __Version 1.12.0__ Add a 'no-shadow' class to remove default inner shadow

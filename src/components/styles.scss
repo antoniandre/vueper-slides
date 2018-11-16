@@ -1,6 +1,6 @@
 // Nice-to-have styles, easy to override by the end-user.
 .vueperslides {
-  &:not(.no-shadow) &__parallax-wrapper {
+  &:not(.no-shadow):not(.vueperslides--3d) &__parallax-wrapper {
     &::before,
     &::after {
       content: "";
