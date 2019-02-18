@@ -2,7 +2,7 @@ import { VueperSlides, VueperSlide } from '../../../../dist/vueperslides'
 import { simpleSyntaxHighlighter } from 'simple-syntax-highlighter'
 import { highlight } from '../../components/highlight-message'
 
-import 'simple-syntax-highlighter/dist/simple-syntax-highlighter.min.css'
+import 'simple-syntax-highlighter/dist/sshpre.css'
 import '../../../../dist/vueperslides.min.css'
 import './style.scss'
 import './examples.scss'
