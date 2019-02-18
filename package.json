@@ -44,7 +44,6 @@
     "rollup-plugin-sass": "^0.9.1",
     "rollup-plugin-uglify": "^4.0.0",
     "rollup-plugin-vue": "^4.3.2",
-    "simple-syntax-highlighter": "^1.0.6",
     "vue": "^2.5.17",
     "vue-template-compiler": "^2.5.17"
   },

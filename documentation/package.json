@@ -33,6 +33,7 @@
     "postcss-loader": "^2.1.6",
     "pug-html-loader": "^1.1.5",
     "sass-loader": "^6.0.6",
+    "simple-syntax-highlighter": "^1.0.6",
     "style-loader": "^0.19.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "vue": "^2.5.16",
@@ -55,7 +56,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.1.1",
     "html-loader": "^0.5.4",
-    "simple-syntax-highlighter": "^1.0.0",
     "url-parse": "^1.4.3",
     "vue-template-compiler": "^2.5.13"
   },
