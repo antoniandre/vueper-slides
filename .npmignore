@@ -1,6 +1,0 @@
-.eslintrc.json
-.babelrc
-rollup.config.js
-build.js
-documentation/
-.DS_Store
