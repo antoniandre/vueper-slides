@@ -695,12 +695,12 @@
       | &nbsp; Reverse parallax effect
     strong #[span.code parallax = {{ parallax.toString() }}]
   vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
-    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
-  ssh-pre(language="html-vue" label="HTML Vue Template" v-pre).
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :title="slide.title" :image="slide.image")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;v-btn @click="parallax *= -1;$refs.myVueperSlides.refreshParallax()"&gt;
       reverse parallax effect
     &lt;/v-btn&gt;
-    parallax value: {{ parallax.toString() }}
+    parallax value: {{ '\{\{ parallax.toString() \}\}' }}
 
     &lt;vueper-slides :parallax="parallax" ref="myVueperSlides"&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
