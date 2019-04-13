@@ -26,20 +26,20 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.4.0",
-    "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-service": "^3.4.0",
+    "@vue/cli-plugin-babel": "^3.5.5",
+    "@vue/cli-plugin-eslint": "^3.5.1",
+    "@vue/cli-service": "^3.5.3",
     "@vue/eslint-config-standard": "^3.0.5",
+    "babel-polyfill": "^6.26.0",
     "node-sass": "^4.11.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^7.0.1",
     "simple-syntax-highlighter": "^1.0.6",
-    "vue": "^2.6.6",
+    "vue": "^2.6.10",
     "vue-cli-plugin-vuetify": "^0.2.1",
-    "vue-scrollto": "^2.13.0",
-    "vue-template-compiler": "^2.6.6",
-    "vuetify": "^1.5.1",
-    "babel-polyfill": "^6.26.0"
+    "vue-scrollto": "^2.15.0",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify": "^1.5.11"
   }
 }
