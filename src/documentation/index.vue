@@ -1274,6 +1274,7 @@
     image:   [String], default: ''
     title:   [String], default: ''
     content: [String], default: ''
+    link:    [String], default: ''
 
   h2
     a(href="#styling") Styling
