@@ -39,6 +39,7 @@ v-toolbar.top-bar(app light color="white" dense flat fixed align-center :class="
         v-list-tile(color="secondary" href="#ex--basic") Basic with Autoplay
         v-list-tile(color="secondary" href="#ex--arrows-and-bullets") Arrows &amp; Bullets
         v-list-tile(color="secondary" href="#ex--images-and-fading") Images &amp; Fading
+        v-list-tile(color="secondary" href="#ex--link-on-the-whole-slide") Link on the Whole Slide
         v-list-tile(color="secondary" href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content
         v-list-tile(color="secondary" href="#ex--updating-content") Updating Content Inside/Outside
         v-list-tile(color="secondary" href="#ex--add-remove-slides--disable") Add / Remove Slides &amp; Disable
@@ -51,10 +52,8 @@ v-toolbar.top-bar(app light color="white" dense flat fixed align-center :class="
         v-list-tile(color="secondary" href="#ex--slide-image-inside") Slide Image Inside
         v-list-tile(color="secondary" href="#ex--show-multiple-slides")
           | Show Multiple Slides
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outline) NEW
-        v-list-tile(color="secondary" href="#ex--3d-rotation")
-          | 3D Rotation
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outline) NEW
+          //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outline) NEW
+        v-list-tile(color="secondary" href="#ex--3d-rotation") 3D Rotation
         v-list-tile(color="secondary" href="#ex--external-controls") External Controls
 </template>
 

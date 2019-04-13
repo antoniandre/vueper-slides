@@ -1,5 +1,5 @@
 <template lang="pug">
-.vueperslide(:class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }" :face="slideFace3d" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid || isSlideVisible ? 'false' : 'true'")
+.vueperslide(:is="link ? 'a' : 'div'" :href="link || false" :class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }" :face="slideFace3d" :style="wrapperStyles" :aria-hidden="$parent.slides.activeUid === _uid || isSlideVisible ? 'false' : 'true'")
   .vueperslide__image(v-if="image && $parent.conf.slideImageInside" :style="imageStyles")
   .vueperslide__content-wrapper(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
     .vueperslide__title(v-show="title || hasTitleSlotData")
@@ -28,6 +28,10 @@ export default {
       default: ''
     },
     content: {
+      type: String,
+      default: ''
+    },
+    link: {
       type: String,
       default: ''
     }

@@ -313,6 +313,34 @@
     }
 
   h3
+    a(href="#ex--link-on-the-whole-slide") Link on the Whole Slide
+    a(name="ex--link-on-the-whole-slide")
+  p.
+    By default, you can put a link on the title or the description of the slide.#[br]
+    But if you need to, you can also wrap the whole slide into a link using the #[span.code link] attribute of the #[span.code &lt;vueperslide&gt;] component.
+  vueper-slides.text-xs-center.my-4.ex--link-on-the-whole-slide(:touchable="false" :slide-ratio="0.3")
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content" :link="slide.link")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :touchable="false" :slide-ratio="0.3"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="i"
+        :image="'images/' + slide.image"
+        :title="'# ' + slide.title"
+        :content="slide.content"
+        :link="slide.link"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  ssh-pre(language="js" label="Javascript").
+    // In your VueJS component.
+    data: () => ({
+      slides: [
+        { title: 'Mountain 1', content: 'Slide content 1', link: '#link-to-article-1' },
+        ...
+      ]
+    })
+
+  h3
     a(href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content
     a(name="ex--complex-slide-title-and-content")
   p.
@@ -1421,17 +1449,20 @@ export default {
       {
         title: 'Mountain 1',
         content: 'Slide 1 content.',
-        image: require('@/assets/images/rough-horn.jpg')
+        image: require('@/assets/images/rough-horn.jpg'),
+        link: '#link-to-article-1'
       },
       {
         title: 'Mountain 2',
         content: 'Slide 2 content.',
-        image: require('@/assets/images/snow-1.jpg')
+        image: require('@/assets/images/snow-1.jpg'),
+        link: '#link-to-article-2'
       },
       {
         title: 'Mountain 3',
         content: 'Slide 3 content.',
-        image: require('@/assets/images/snow-2.jpg')
+        image: require('@/assets/images/snow-2.jpg'),
+        link: '#link-to-article-3'
       }
     ],
     slides3: [
