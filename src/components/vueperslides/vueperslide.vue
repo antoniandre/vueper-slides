@@ -140,6 +140,7 @@ export default {
     bottom: 0;
     opacity: 0;
     transition: .8s ease-in-out opacity;
+    transition-duration: inherit;
 
     &--active, &--visible {
       z-index: 1;
