@@ -350,12 +350,8 @@ export default {
     bindEvents () {
       const hasTouch = 'ontouchstart' in window
 
-      // Touch enabled slideshow.
-      if (this.touch.enabled) {
-        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown)
-        document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove)
-        document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp)
-      }
+      // Allow mouse or touch dragging slides.
+      if (this.touch.enabled) this.toggleTouchableOption(true)
 
       // Pause autoplay on mouseover.
       if (this.conf.pauseOnHover && !hasTouch && this.conf.autoplay) {
@@ -846,6 +842,26 @@ export default {
       if (this.slides.count && needReclone) {
         this.cloneSlides()
       }
+    },
+
+    toggleTouchableOption (isTouchable) {
+      const { track } = this.$refs
+      if (!track) return
+
+      this.touch.enabled = isTouchable
+      const hasTouch = 'ontouchstart' in window
+
+      // Touch enabled slideshow.
+      if (isTouchable) {
+        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown)
+        document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove)
+        document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp)
+      }
+      else {
+        this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown)
+        document.removeEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove)
+        document.removeEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp)
+      }
     }
   },
 
@@ -870,6 +886,8 @@ export default {
 
       conf.arrowsOutside = conf.arrowsOutside || (conf.visibleSlides > 1 && conf.arrowsOutside === null)
       conf.bulletsOutside = conf.bulletsOutside || (conf.visibleSlides > 1 && conf.bulletsOutside === null)
+
+      if (this.touch.enabled !== conf.touchable) this.toggleTouchableOption(conf.touchable)
       // ------------------------------- //
 
       return conf
