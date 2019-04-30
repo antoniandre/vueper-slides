@@ -58,7 +58,7 @@ export default {
       }
     },
     imageStyles () {
-      return { ...(this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }) }
+      return { ...(this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url('${this.image}')` }) }
     },
     hasTitleSlotData () {
       const { slideTitle } = this.$slots
