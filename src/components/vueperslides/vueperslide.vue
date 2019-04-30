@@ -52,13 +52,13 @@ export default {
   computed: {
     wrapperStyles () {
       return {
-        ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url(${this.image})` }),
+        ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
         ...(this.$parent.conf.visibleSlides > 1 && { width: 100 / this.$parent.conf.visibleSlides + '%' }),
         ...(this.$parent.conf.visibleSlides > 1 && this.$parent.conf.fade && { left: ((this.slideIndex % this.$parent.conf.visibleSlides) / this.$parent.conf.visibleSlides) * 100 + '%' })
       }
     },
     imageStyles () {
-      return { ...(this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url('${this.image}')` }) }
+      return { ...(this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }) }
     },
     hasTitleSlotData () {
       const { slideTitle } = this.$slots
