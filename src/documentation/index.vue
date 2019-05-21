@@ -1275,6 +1275,26 @@
     title:   [String], default: ''
     content: [String], default: ''
     link:    [String], default: ''
+  h3
+    a(href="#vueper-slide--events") Events
+    a(name="vueper-slide--events")
+  p.
+    Here is the list of all the available events on the
+    #[span.code.black--text name="vueper-slide"] tag.
+  ul.max-widthed
+    li
+      h4
+        code mouseenter
+      p.
+        Triggered on slide mouse enter with parameters:
+      ssh-pre(language="js").
+        slide: {Object} // The current slide object containing: index, title, content, image, link.
+        el:   {String} // DOM Element.
+    li
+      h4
+        code mouseleave
+      p.
+        Triggered on slide mouse leave.
 
   h2
     a(href="#styling") Styling
