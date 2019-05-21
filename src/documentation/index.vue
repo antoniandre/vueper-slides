@@ -1288,8 +1288,8 @@
       p.
         Triggered on slide mouse enter with parameters:
       ssh-pre(language="js").
-        slide: {Object} // The current slide object containing: index, title, content, image, link.
-        el:   {String} // DOM Element.
+        slide: {Object}, // The current slide object containing: index, title, content, image, link.
+        el: {String} // DOM Element.
     li
       h4
         code mouseleave
