@@ -226,7 +226,7 @@ export default {
     clones: [],
     mouseDown: false,
     mouseOver: false,
-    touch: { enabled: true, dragging: false, dragStartX: 0, dragNowX: 0, dragAmount: 0 },
+    touch: { enabled: true, dragging: false, justDragged: false, dragStartX: 0, dragNowX: 0, dragAmount: 0 },
     transition: { currentTranslation: 0, speed: 0, animated: false },
     timer: null,
     arrowPrevDisabled: false,

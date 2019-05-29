@@ -318,10 +318,10 @@
   p.
     By default, you can put a link on the title or the description of the slide.#[br]
     But if you need to, you can also wrap the whole slide into a link using the #[span.code link] attribute of the #[span.code &lt;vueperslide&gt;] component.
-  vueper-slides.text-xs-center.my-4.ex--link-on-the-whole-slide(:touchable="false" :slide-ratio="0.3")
+  vueper-slides.text-xs-center.my-4.ex--link-on-the-whole-slide(:dragging-distance="50" :slide-ratio="0.3")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content" :link="slide.link")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :touchable="false" :slide-ratio="0.3"&gt;
+    &lt;vueper-slides :dragging-distance="50" :slide-ratio="0.3"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"

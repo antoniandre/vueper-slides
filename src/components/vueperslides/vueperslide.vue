@@ -1,7 +1,7 @@
 <template lang="pug">
 .vueperslide(
   :is="link ? 'a' : 'div'"
-  :href="link || false"
+  :href="link && !justDragged ? link : false"
   :class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }"
   :face="slideFace3d"
   :style="wrapperStyles"
@@ -113,6 +113,9 @@ export default {
     },
     slideIndex () {
       return this.slidesList.indexOf(this._uid)
+    },
+    justDragged () {
+      return this.$parent.touch.justDragged
     }
   }
 }
