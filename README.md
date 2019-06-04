@@ -9,7 +9,7 @@
 ## Installation
 
 ```
-npm install vueperslides --save-dev
+npm install vueperslides --save
 ```
 
 ## Demo & Documentation
