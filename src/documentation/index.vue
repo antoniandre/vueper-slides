@@ -113,7 +113,7 @@
     a(name="installation")
   p You have two options: #[em.mr-1 NPM] or #[span.ml-1.code &lt;script&gt;] tag.
   h3 Via NPM
-  ssh-pre(language="shell" label="Shell") npm install vueperslides --save-dev
+  ssh-pre(language="shell" label="Shell") npm i --S vueperslides
   p Then import the 2 components and use it:
   ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
