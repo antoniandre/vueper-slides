@@ -29,6 +29,7 @@ ___
 
 ## Release Notes
 
+- __Version 1.20.0__ Option to prevent Y-axis scroll while dragging
 - __Version 1.19.0__ Allow slide link on the entire slide
 - __Version 1.18.0__ Emit mouseenter mouseleave events on slides
 - __Version 1.16.0__ Change build system and external css file

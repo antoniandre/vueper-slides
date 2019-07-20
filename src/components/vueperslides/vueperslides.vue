@@ -177,6 +177,10 @@ export default {
       type: Boolean,
       default: true
     },
+    preventYScroll: {
+      type: Boolean,
+      default: false
+    },
     // By default when touch is enabled you have to drag from a slide side and pass 50% of slideshow width to change
     // slide. This setting changes this behavior to a horizontal pixel amount from anywhere on slideshow.
     draggingDistance: {
@@ -466,6 +470,7 @@ export default {
 
     onMouseMove (e) {
       if (this.mouseDown || this.touch.dragging) {
+        if (this.preventYScroll) e.preventDefault()
         this.mouseDown = false
         this.touch.dragging = true
 
@@ -853,16 +858,23 @@ export default {
 
       // Touch enabled slideshow.
       if (isTouchable) {
-        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown)
-        document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove)
-        document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp)
+        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: true })
+        document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
+        document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp, { passive: true })
       }
-      else {
-        this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown)
-        document.removeEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove)
-        document.removeEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp)
-      }
+      else this.removeEventListener()
+    },
+
+    removeEventListener () {
+      const hasTouch = 'ontouchstart' in window
+      this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: true })
+      document.removeEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
+      document.removeEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp, { passive: true })
     }
+  },
+
+  beforeDestroy () {
+    this.removeEventListener()
   },
 
   computed: {
