@@ -7,21 +7,23 @@
         v-icon.pr-2(color="secondary") check
         | Vueper Slides is #[strong fully responsive] and scales with its container.#[br]
         v-icon.pr-2(color="secondary") check
-        | Brand new #[strong parallax] feature!#[br]
+        | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
+        v-icon.pr-2(color="secondary") check
+        | #[strong Accessibility friendly].#[br]
         v-icon.pr-2(color="secondary") check
         | Show multiple items per slides.#[br]
-        v-icon.pr-2(color="secondary") check
-        | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
         v-icon.pr-2(color="secondary") check
         | Uses #[strong CSS for animations] &amp; comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
         v-icon.pr-2(color="secondary") check
         | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
         v-icon.pr-2(color="secondary") check
+        | Built-in #[strong parallax] effect &amp; #[strong 3D rotation].#[br]
+        v-icon.pr-2(color="secondary") check
         | Customizable bullets with or without numeric index.#[br]
         v-icon.pr-2(color="secondary") check
         | Navigate with #[strong keyboard arrows].#[br]
         v-icon.pr-2(color="secondary") check
-        | Separate settings per #[strong breakpoint].#[br]
+        | Different settings per #[strong breakpoint].#[br]
         v-icon.pr-2(color="secondary") check
         | Slide content supports #[strong title &amp; description, inside OR outside] the current slide.#[br]
         v-icon.pr-2(color="secondary") check
@@ -34,76 +36,13 @@
         a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[v-icon(small color="primary") open_in_new]
     v-card.md3.coming-soon(align-center-center)
       v-card-title.pb-0
-        div To do...
+        div To do next...
       v-card-text
         v-layout(row)
           v-layout(column)
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Minify Vueper Slides
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Emit events with params
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Slide with keyboard arrows
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Add / remove slides
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Disable / enable slideshow
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Center mode
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Settings per breakpoint
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Dragging distance
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Parallax
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | More parallax options
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Arrows outside
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Complex slide title &amp; content
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Content outside Top / Bottom
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Externalize CSS
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Improve Reactivity
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Add animated class
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Fixed height
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Slide image inside
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Multiple items per slide
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | Multiple items w/ fade
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Multiple items w/ infinite
-            v-chip(color="light-green lighten-1" text-color="white" small)
-              v-icon check_circle
-              | 3D rotation
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon remove_circle
               | Lazy loading
@@ -382,14 +321,14 @@
         &lt;!-- Wrong way. The v-layout class will be lost. --&gt;
         &lt;v-layout slot="slideContent"&gt;
           Some content.
-        &lt/v-layout&gt;
+        &lt;/v-layout&gt;
       ssh-pre.flex.xs6.my-2.ml-2.mr-0(language="html-vue").
         &lt;!-- Right way. --&gt;
         &lt;div slot="slideContent"&gt;
           &lt;v-layout&gt;
             Some content.
-          &lt/v-layout&gt;
-        &lt/div&gt;
+          &lt;/v-layout&gt;
+        &lt;/div&gt;
 
   h3
     a(href="#ex--updating-content") Updating Content Inside/Outside
@@ -663,20 +602,20 @@
     })
 
   h3
-    a(href="#ex--dragging-distance") Dragging distance for touch-enabled slideshows
+    a(href="#ex--dragging-distance") Dragging distance &amp; prevent y-axis scroll for touch-enabled slideshows
     a(name="ex--dragging-distance")
   p.
-    This example demonstrates how to define a dragging distance for touch-enabled slideshows.#[br]
+    This example demonstrates how to define a dragging distance and prevent the y-axis scrolling while dragging, for touch-enabled slideshows.#[br]
     By default the dragging distance is #[span.code 50%] of the slideshow width.#[br]
     This means that when you start dragging from one side you have to pass half-slide to
     change slide.#[br]
     With this configuration the behavior is slightly different and to change slide you
     need to drag more that the specified distance in pixels.#[br]
     If the dragging distance is lower than the specified one, the current slide remains the same.
-  vueper-slides.ex--dragging-distance(:dragging-distance="70")
+  vueper-slides.ex--dragging-distance(:dragging-distance="70" prevent-y-scroll)
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :dragging-distance="70"&gt;
+    &lt;vueper-slides :dragging-distance="70" prevent-y-scroll&gt;
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
@@ -695,7 +634,7 @@
       | &nbsp; Reverse parallax effect
     strong #[span.code parallax = {{ parallax.toString() }}]
   vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
-    vueper-slide(v-for="(slide, i) in slides2" :key="i" :title="slide.title" :image="slide.image")
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;v-btn @click="parallax *= -1;$refs.myVueperSlides.refreshParallax()"&gt;
       reverse parallax effect
@@ -920,6 +859,7 @@
     refreshClonesOnDrag:      [Boolean],         default: false
     parallax:                 [Boolean, Number], default: false
     touchable:                [Boolean],         default: true
+    preventYScroll:           [Boolean],         default: false
     draggingDistance:         [Number],          default: null
     disable:                  [Boolean],         default: false
     breakpoints:              [Object],          default: {}
@@ -1103,10 +1043,16 @@
         #[strong the slide's closest end won't snap to your cursor position].
 
     li
+      | #[code preventYScroll], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      p.
+        For touch-enabled slideshows, enable or disable the Y-axis scroll while dragging slides.#[br]
+        See this setting live in the #[a(href="#ex--dragging-distance") Dragging distance &amp; prevent y-axis scroll] example.
+
+    li
       | #[code draggingDistance], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code null]
       p.
         With this option you can provide a specific dragging distance for touch-enabled slideshows.#[br]
-        See this setting live in the #[a(href="#ex--dragging-distance") Dragging distance] example.
+        See this setting live in the #[a(href="#ex--dragging-distance") Dragging distance &amp; prevent y-axis scroll] example.
 
     li
       | #[code disable], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
