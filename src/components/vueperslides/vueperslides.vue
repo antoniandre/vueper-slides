@@ -456,7 +456,6 @@ export default {
 
       // The clones are created with a copy of content. Refresh this content before dragging.
       if (this.conf.infinite) this.cloneSlides()
-      // this.disableScroll()
 
       this.mouseDown = true
 
@@ -535,7 +534,6 @@ export default {
       this.touch.dragStartX = null
       this.touch.dragNowX = null
       this.touch.dragAmount = null
-      // this.enableScroll()
 
       // Can be called from a click event.
       // As click event triggers after mouseup, we need a persistent variable until
@@ -629,16 +627,6 @@ export default {
       }
 
       this.transition.currentTranslation = -translation * 100
-    },
-
-    disableScroll () {
-      document.ontouchmove = function (e) {
-        e.preventDefault()
-      }
-    },
-
-    enableScroll () {
-      document.ontouchmove = () => true
     },
 
     clearTimer () {
