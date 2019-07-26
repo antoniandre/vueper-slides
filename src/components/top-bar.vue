@@ -16,47 +16,47 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           v-icon school
           | &nbsp;
           span Doc
-      v-list.no-wrap
-        v-list-tile(color="secondary" href="#installation") Installation
-        v-list-tile(color="secondary" href="#how-to-use") How To Use
-        v-list-tile(color="secondary" href="#vueper-slides--api")
+      v-list(dense).text-no-wrap
+        v-list-item(color="secondary" href="#installation") Installation
+        v-list-item(color="secondary" href="#how-to-use") How To Use
+        v-list-item(color="secondary" href="#vueper-slides--api")
           | #[span.code &lt;vueperslides&gt;]&nbsp; API
-        v-list-tile(color="secondary" href="#vueper-slides--settings")
+        v-list-item(color="secondary" href="#vueper-slides--settings")
           | #[span.code &lt;vueperslides&gt;]&nbsp; Settings
-        v-list-tile(color="secondary" href="#events") Events
-        v-list-tile(color="secondary" href="#vueper-slide--api")
+        v-list-item(color="secondary" href="#events") Events
+        v-list-item(color="secondary" href="#vueper-slide--api")
           | #[span.code &lt;vueperslide&gt;]&nbsp; API
-        v-list-tile(color="secondary" href="#vueper-slide--settings")
+        v-list-item(color="secondary" href="#vueper-slide--settings")
           | #[span.code &lt;vueperslide&gt;]&nbsp; Settings
-        v-list-tile(color="secondary" href="#styling") Styling
-        v-list-tile(color="secondary" href="#notable-version-changes") Notable Version Changes
+        v-list-item(color="secondary" href="#styling") Styling
+        v-list-item(color="secondary" href="#notable-version-changes") Notable Version Changes
     v-menu(offset-y open-on-hover left attach transition="slide-y-transition")
       template(v-slot:activator="{ on }")
         v-btn(text color="secondary" href="#examples" slot="activator" v-on="on")
           v-icon apps
           | &nbsp;
           span Examples
-      v-list.no-wrap
-        v-list-tile(color="secondary" href="#ex--simplest-ever") Simplest Ever
-        v-list-tile(color="secondary" href="#ex--basic") Basic with Autoplay
-        v-list-tile(color="secondary" href="#ex--arrows-and-bullets") Arrows &amp; Bullets
-        v-list-tile(color="secondary" href="#ex--images-and-fading") Images &amp; Fading
-        v-list-tile(color="secondary" href="#ex--link-on-the-whole-slide") Link on the Whole Slide
-        v-list-tile(color="secondary" href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content
-        v-list-tile(color="secondary" href="#ex--updating-content") Updating Content Inside/Outside
-        v-list-tile(color="secondary" href="#ex--add-remove-slides--disable") Add / Remove Slides &amp; Disable
-        v-list-tile(color="secondary" href="#ex--center-mode") Center Mode
-        v-list-tile(color="secondary" href="#ex--events") Events
-        v-list-tile(color="secondary" href="#ex--breakpoints") Breakpoints
-        v-list-tile(color="secondary" href="#ex--dragging-distance") Dragging Distance
-        v-list-tile(color="secondary" href="#ex--parallax") Parallax
-        v-list-tile(color="secondary" href="#ex--fixed-height") Fixed Height
-        v-list-tile(color="secondary" href="#ex--slide-image-inside") Slide Image Inside
-        v-list-tile(color="secondary" href="#ex--show-multiple-slides")
+      v-list(dense).text-no-wrap
+        v-list-item(color="secondary" href="#ex--simplest-ever") Simplest Ever
+        v-list-item(color="secondary" href="#ex--basic") Basic with Autoplay
+        v-list-item(color="secondary" href="#ex--arrows-and-bullets") Arrows &amp; Bullets
+        v-list-item(color="secondary" href="#ex--images-and-fading") Images &amp; Fading
+        v-list-item(color="secondary" href="#ex--link-on-the-whole-slide") Link on the Whole Slide
+        v-list-item(color="secondary" href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content
+        v-list-item(color="secondary" href="#ex--updating-content") Updating Content Inside/Outside
+        v-list-item(color="secondary" href="#ex--add-remove-slides--disable") Add / Remove Slides &amp; Disable
+        v-list-item(color="secondary" href="#ex--center-mode") Center Mode
+        v-list-item(color="secondary" href="#ex--events") Events
+        v-list-item(color="secondary" href="#ex--breakpoints") Breakpoints
+        v-list-item(color="secondary" href="#ex--dragging-distance") Dragging Distance
+        v-list-item(color="secondary" href="#ex--parallax") Parallax
+        v-list-item(color="secondary" href="#ex--fixed-height") Fixed Height
+        v-list-item(color="secondary" href="#ex--slide-image-inside") Slide Image Inside
+        v-list-item(color="secondary" href="#ex--show-multiple-slides")
           | Show Multiple Slides
           //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outline) NEW
-        v-list-tile(color="secondary" href="#ex--3d-rotation") 3D Rotation
-        v-list-tile(color="secondary" href="#ex--external-controls") External Controls
+        v-list-item(color="secondary" href="#ex--3d-rotation") 3D Rotation
+        v-list-item(color="secondary" href="#ex--external-controls") External Controls
 </template>
 
 <script>
@@ -166,7 +166,7 @@ $lighter-text: #ccc;
     opacity: 0;
   }
 
-  &__items .v-menu__content .v-list__tile {
+  &__items .v-menu__content .v-list__item {
     height: 34px;
     font-size: 1.1em;
   }

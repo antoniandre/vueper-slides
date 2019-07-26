@@ -1,7 +1,7 @@
 <template lang="pug">
 .documentation
-  v-layout.max-widthed(row wrap align-center-center justify-center)
-    v-layout.flex.xs12.md9(column align-center-center)
+  v-layout.max-widthed(row wrap justify-space-between)
+    v-layout.flex.xs12.md9(column)
       div.mb-3.title Features
       div.mb-5.features
         v-icon.pr-2(color="secondary") check
@@ -41,10 +41,10 @@
         v-layout(row)
           v-layout(column)
             v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
+              v-icon(size="20") remove_circle
               | Multiple items w/ infinite
             v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon remove_circle
+              v-icon(size="20") remove_circle
               | Lazy loading
 
   h2
@@ -257,7 +257,7 @@
   p.
     By default, you can put a link on the title or the description of the slide.#[br]
     But if you need to, you can also wrap the whole slide into a link using the #[span.code link] attribute of the #[span.code &lt;vueperslide&gt;] component.
-  vueper-slides.text-xs-center.my-4.ex--link-on-the-whole-slide(:dragging-distance="50" :slide-ratio="0.3")
+  vueper-slides.text-center.my-4.ex--link-on-the-whole-slide(:dragging-distance="50" :slide-ratio="0.3")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content" :link="slide.link")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :dragging-distance="50" :slide-ratio="0.3"&gt;
@@ -802,7 +802,7 @@
       position if you are using a parallax effect.#[br]
       refer to the #[a(href="#ex--parallax") Parallax Effect] example.
 
-  div.text-xs-center.mb-3
+  div.text-center.mb-3
     v-btn.ma-1(color="primary" small @click="$refs.myVueperSlides.previous()")
       v-icon arrow_back
       | &nbsp; Previous
@@ -1592,7 +1592,7 @@ pre {
 
 .v-chip i.v-icon {
   position: relative;
-  color: rgba(0, 0, 0, .25);
+  color: rgba(0, 0, 0, .25) !important;
   margin: 0 7px 0 -7px;
 }
 
