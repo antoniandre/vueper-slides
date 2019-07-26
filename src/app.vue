@@ -1,8 +1,9 @@
 <template lang="pug">
   v-app.white(:class="{ ready: ready }" v-scroll="onScroll")
-    v-container
-      top-bar(:offset-top="offsetTop")
-      documentation
+    v-content
+      v-container
+        top-bar(:offset-top="offsetTop")
+        documentation
 
     v-fab-transition
       v-btn(color="primary" fixed bottom right fab v-show="!goTopHidden" small href="#top")

@@ -1,5 +1,5 @@
 <template lang="pug">
-component(:is="tag" :class="'highlight ' + type")
+component(:is="tag" :class="'highlight highlight--' + type")
   v-icon {{ icon }}
   slot
 </template>
@@ -53,27 +53,27 @@ export default {
   padding: 8px 15px;
   border-left: 3px solid;
 
-  &.info {
+  &--info {
     background-color: rgba(#09f, 0.08) !important;
     border-color: #09f !important;
   }
 
-  &.success {
+  &--success {
     background-color: rgba(#6c0, 0.1) !important;
     border-color: #6c0 !important;
   }
 
-  &.tips {
+  &--tips {
     background-color: rgba(#ff0, 0.15) !important;
     border-color: #fd0 !important;
   }
 
-  &.warning {
+  &--warning {
     background-color: rgba(#fa0, 0.1) !important;
     border-color: #fa0 !important;
   }
 
-  &.error {
+  &--error {
     background-color: rgba(#f33, 0.08) !important;
     border-color: #f33 !important;
   }
@@ -87,33 +87,33 @@ export default {
     height: 15px;
   }
 
-  &.info .v-icon {
+  &--info .v-icon {
     background: #09f !important;
     transform: rotate(180deg);
     font-size: 23px;
     top: 0.4em;
   }
 
-  &.success .v-icon {
+  &--success .v-icon {
     background-color: #6c0 !important;
     font-size: 15px;
     top: 0.7em;
   }
 
-  &.error .v-icon {
+  &--error .v-icon {
     background-color: #f33 !important;
     font-size: 15px;
     top: 0.7em;
   }
 
-  &.tips .v-icon {
+  &--tips .v-icon {
     background-color: #fd0 !important;
     font-size: 14px;
     top: 0.7em;
     transform: rotate(180deg);
   }
 
-  &.warning .v-icon {
+  &--warning .v-icon {
     background-color: #fa0 !important;
     top: 0.4em;
   }

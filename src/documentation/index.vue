@@ -343,13 +343,13 @@
     v-layout.flex.xs12.sm6(align-center)
       div Try it:
       v-layout.flex.xs10.sm11(align-center wrap)
-        v-btn(color="primary" @click="toggleSlidesTime" small)
+        v-btn.ma-1(color="primary" @click="toggleSlidesTime" small)
           v-icon.pr-2 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
           | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
         v-slide-x-transition.xs6.sm3
-          v-chip(v-show="slidesTimeTimerId === 0" small outline disabled) CPU says THANK YOU!
+          v-chip(v-show="slidesTimeTimerId === 0" small outlined disabled) CPU says THANK YOU!
     v-layout.flex.xs12.sm6.mb-4(align-center wrap)
-      v-btn(color="primary" @click="contentPositionChange" small)
+      v-btn.ma-1(color="primary" @click="contentPositionChange" small)
         v-icon swap_vert
         | &nbsp;Move content position
       strong.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
@@ -417,13 +417,13 @@
   p
     | This example illustrates how to add or remove slides on the fly from a running Vueper Slides instance.#[br]
     | You can also completely freeze the slideshow and unfreeze when you want to.#[br]
-    v-btn(color="primary" @click="appendSlide" small)
+    v-btn.ma-1(color="primary" @click="appendSlide" small)
       v-icon add
       | &nbsp; Add Slide
-    v-btn(color="primary" @click="removeSlide" small)
+    v-btn.ma-1(color="primary" @click="removeSlide" small)
       v-icon remove
       | &nbsp; Remove Slide
-    v-btn(color="secondary" @click="toggleSlideshow" small)
+    v-btn.ma-1(color="secondary" @click="toggleSlideshow" small)
       v-icon {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
   highlight Note that the slideshow disables controls if you have only 1 slide or none.
@@ -629,7 +629,7 @@
   p
     | This example demonstrates how to create a parallax effect on your slideshow.#[br]
     | Two values can be set for different parallax effects: #[span.code 1] for standard effect, and #[span.code -1] for reverse effect.
-    v-btn(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
+    v-btn.ma-1(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
       v-icon sync
       | &nbsp; Reverse parallax effect
     strong #[span.code parallax = {{ parallax.toString() }}]
@@ -803,13 +803,13 @@
       refer to the #[a(href="#ex--parallax") Parallax Effect] example.
 
   div.text-xs-center.mb-3
-    v-btn(color="primary" small @click="$refs.myVueperSlides.previous()")
+    v-btn.ma-1(color="primary" small @click="$refs.myVueperSlides.previous()")
       v-icon arrow_back
       | &nbsp; Previous
-    v-btn(color="primary" small @click="$refs.myVueperSlides.goToSlide(5)")
+    v-btn.ma-1(color="primary" small @click="$refs.myVueperSlides.goToSlide(5)")
       v-icon call_made
       | &nbsp; Go to slide 6
-    v-btn(color="primary" small @click="$refs.myVueperSlides.next()")
+    v-btn.ma-1(color="primary" small @click="$refs.myVueperSlides.next()")
       v-icon arrow_forward
       | &nbsp; Next
   vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
@@ -1532,12 +1532,12 @@ pre {
 
 // APPLICATION
 //=================================================//
-.application {
+.v-application {
   background-color: #fff !important;
   padding-top: 8em;
 }
 
-.application--wrap {
+.v-application--wrap {
   padding-top: 16em;
   overflow-x: hidden;
 }
