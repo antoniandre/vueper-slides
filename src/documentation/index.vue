@@ -1495,15 +1495,23 @@ export default {
 
 // GLOBAL
 //=================================================//
-a[name] {
-  position: relative;
-  top: -4em;
-  display: block;
+a {
+  text-decoration: none;
+
+  &[name] {
+    position: relative;
+    top: -4em;
+    display: block;
+  }
 }
 
 ul, ol {
   margin-top: 1em;
   padding-left: 1.3em;
+}
+
+.code {
+  font-family: monospace, sans-serif;
 }
 
 pre {
@@ -1533,12 +1541,15 @@ pre {
 // APPLICATION
 //=================================================//
 .v-application {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background-color: #fff !important;
   padding-top: 8em;
 }
 
 .v-application--wrap {
-  padding-top: 16em;
+  padding-top: 12em;
   overflow-x: hidden;
 }
 

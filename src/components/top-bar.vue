@@ -1,5 +1,5 @@
 <template lang="pug">
-v-app-bar.top-bar(app light color="white" dense text fixed align-center :class="{'scrolled': offsetTop > 104}")
+v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-center :class="{'scrolled': offsetTop > 104}")
   v-toolbar-title.top-bar__title
     h1.primary--text
       a.top-bar__logo-link(href="#top")
@@ -84,11 +84,13 @@ $secondary: #42b983;
 $lighter-text: #ccc;
 
 .top-bar {
-  z-index: 100;
-  position: absolute;
-  border-bottom: 1px solid transparent !important;
-  transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
-  top: 0;
+  &.v-app-bar--fixed {
+    z-index: 100;
+    position: absolute;
+    border-bottom: 1px solid transparent !important;
+    transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
+    top: 0;
+  }
 
   .v-toolbar__content {
     padding-left: 0;
@@ -207,9 +209,11 @@ $lighter-text: #ccc;
   }
 
   &.scrolled {
-    transition: 0.6s ease-in-out all, 0.3s 0.5s ease-in-out border-color;
-    border-bottom-color: $lighter-text !important;
-    position: fixed;
+    &.v-app-bar--fixed {
+      transition: 0.6s ease-in-out all, 0.3s 0.5s ease-in-out border-color;
+      border-bottom-color: $lighter-text !important;
+      position: fixed;
+    }
 
     & .top-bar__title {
       width: 100%;

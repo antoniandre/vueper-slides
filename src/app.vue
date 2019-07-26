@@ -1,9 +1,8 @@
 <template lang="pug">
   v-app.white(:class="{ ready: ready }" v-scroll="onScroll")
-    v-content
-      v-container
-        top-bar(:offset-top="offsetTop")
-        documentation
+    v-container
+      top-bar(:offset-top="offsetTop")
+      documentation
 
     v-fab-transition
       v-btn(color="primary" fixed bottom right fab v-show="!goTopHidden" small href="#top")
@@ -50,43 +49,16 @@ $main-text: #888;
   padding: 0;
 }
 
-a {
-  text-decoration: none;
-
-  &[name] {
-    position: relative;
-    top: -4em;
-    display: block;
-  }
-}
-
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  padding-top: 8em;
-}
-
-.application--wrap {
-  padding-top: 12em;
-  overflow-x: hidden;
-}
-
 .main-content {
   max-width: 800px;
   height: 650px;
-}
-
-.code {
-  font-family: monospace, sans-serif;
 }
 
 .v-card {box-shadow: none;}
 
 // FOOTER
 //=================================================//
-.application--wrap footer.v-footer {
+.v-application--wrap footer.v-footer {
   background: none;
   font-style: italic;
   color: $main-text;
