@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-app.white(:class="{ ready: ready }" v-scroll="onScroll")
+  v-app(:class="{ ready: ready }" v-scroll="onScroll")
     v-container
       top-bar(:offset-top="offsetTop")
       documentation
@@ -8,12 +8,12 @@
       v-btn(color="primary" fixed bottom right fab v-show="!goTopHidden" small href="#top")
         v-icon(color="white" size="26") keyboard_arrow_up
 
-    v-footer.mt-5.pa-2.pb-4(color="white")
+    v-footer.pa-2(color="white")
       v-layout.max-widthed(row wrap align-center justify-center)
         v-flex.xs12.sm6.text-center.text-sm-left.copyright.
           Copyright © {{ (new Date()).getFullYear() }} Antoni André, all rights reserved.
         v-flex.xs12.sm6.text-center.text-sm-right.made-with
-          div.mb-1 This documentation is made with #[v-icon fab fa-vuejs], #[v-icon fab fa-html5], #[v-icon fab fa-css3], #[v-icon fab fa-sass] &amp; #[v-icon.heart favorite]
+          .mb-1 This documentation is made with #[v-icon fab fa-vuejs], #[v-icon fab fa-html5], #[v-icon fab fa-css3], #[v-icon fab fa-sass] &amp; #[v-icon.heart favorite]
           | View project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") #[v-icon fab fa-github] Github].
 </template>
 

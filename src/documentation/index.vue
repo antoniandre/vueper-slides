@@ -1615,10 +1615,6 @@ pre {
   }
 }
 
-.code {
-  font-family: monospace;
-}
-
 .pulse {
   animation: pulse 1.5s infinite;
 }

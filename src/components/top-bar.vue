@@ -1,5 +1,5 @@
 <template lang="pug">
-v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-center :class="{'scrolled': offsetTop > 104}")
+v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-center :class="{ scrolled: offsetTop > 104 }")
   v-toolbar-title.top-bar__title
     h1.primary--text
       a.top-bar__logo-link(href="#top")
