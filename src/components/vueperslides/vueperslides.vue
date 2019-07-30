@@ -452,7 +452,7 @@ export default {
 
     onMouseDown (e) {
       if (!this.touch.enabled || this.disable) return
-      if (!e.touches) e.preventDefault()
+      if (!e.touches && this.preventYScroll) e.preventDefault()
 
       // The clones are created with a copy of content. Refresh this content before dragging.
       if (this.conf.infinite) this.cloneSlides()
@@ -846,7 +846,7 @@ export default {
 
       // Touch enabled slideshow.
       if (isTouchable) {
-        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: true })
+        this.$refs.track.addEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: !this.preventYScroll })
         document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
         document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp, { passive: true })
       }
@@ -855,7 +855,7 @@ export default {
 
     removeEventListener () {
       const hasTouch = 'ontouchstart' in window
-      this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: true })
+      this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: !this.preventYScroll })
       document.removeEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
       document.removeEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp, { passive: true })
     }

@@ -130,6 +130,8 @@ export default {
   width: 100%;
   height: 100%;
 
+  &[href] {-webkit-user-drag: none;}
+
   &__image {
     position: absolute;
     top: 0;
