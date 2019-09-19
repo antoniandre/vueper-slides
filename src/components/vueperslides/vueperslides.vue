@@ -255,10 +255,7 @@ export default {
         this.setBreakpointConfig(this.getCurrentBreakpoint())
       }
 
-      if (this.conf.infinite) {
-        this.cloneSlides()
-        this.$nextTick(() => this.cloneSlides())
-      }
+      if (this.conf.infinite && this.slides.list.length) this.$nextTick(this.cloneSlides)
 
       this.goToSlide(this.conf.initSlide - 1)
       this.bindEvents()
@@ -277,11 +274,11 @@ export default {
         // Emit param 1 is object like { currentSlide: ...[, nextSlide: ...] }.
         args[1] = {}
 
-        if (includeCurrentSlide && this.slides.activeUid) {
+        if (includeCurrentSlide && this.slides.activeUid && this.slides.list.length) {
           args[1].currentSlide = this.getSlideData(this.slides.current)
         }
 
-        if (typeof includeNextSlide === 'number') {
+        if (typeof includeNextSlide === 'number' && this.slides.list.length) {
           const { nextSlide: nextSlideIndex } = this.getSlideInRange(includeNextSlide)
           args[1].nextSlide = this.getSlideData(nextSlideIndex)
         }
