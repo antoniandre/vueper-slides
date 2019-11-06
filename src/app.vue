@@ -19,7 +19,7 @@
 
 <script>
 import Documentation from '@/documentation'
-import TopBar from '@/components/top-bar'
+import TopBar from '@/documentation/top-bar'
 
 export default {
   name: 'app',
@@ -71,16 +71,7 @@ $main-text: #888;
     transition: 1s ease-out;
     cursor: pointer;
 
-    &.fa-vuejs:hover,
-    &.fa-html5:hover,
-    &.fa-css3:hover,
-    &.fa-sass:hover {
-      transform: rotate(360deg);
-    }
-
-    &.heart:hover {
-      animation: pulse 1.8s ease-out infinite;
-    }
+    &.heart:hover {animation: pulse 1.8s ease-out infinite;}
   }
 }
 </style>

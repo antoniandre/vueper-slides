@@ -67,21 +67,13 @@ Vue.use(VueScrollTo)
 
 export default {
   props: {
-    offsetTop: {
-      type: Number,
-      default: 0
-    }
-  },
-  data: () => ({
-    todayDate: (new Date()).getDate()
-  })
+    offsetTop: { type: Number, default: 0 }
+  }
 }
 </script>
 
 <style lang="scss">
-$primary: #ff5252;
-$secondary: #42b983;
-$lighter-text: #ccc;
+@import './variables';
 
 .top-bar {
   &.v-app-bar--fixed {
