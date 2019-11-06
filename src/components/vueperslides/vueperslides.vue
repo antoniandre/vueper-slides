@@ -38,7 +38,7 @@
             div(v-if="clones[1].titleSlot" slot="slideTitle" v-html="clones[1].titleSlot")
             div(v-if="clones[1].contentSlot" slot="slideContent" v-html="clones[1].contentSlot")
 
-    .vueperslides__paused(v-if="$slots.pausedIcon")
+    .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pausedIcon")
       slot(name="pausedIcon")
     .vueperslides__arrows(:class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
       button.vueperslides__arrow.vueperslides__arrow--prev(
@@ -232,7 +232,7 @@ export default {
     mouseOver: false,
     touch: { enabled: true, dragging: false, justDragged: false, dragStartX: 0, dragNowX: 0, dragAmount: 0 },
     transition: { currentTranslation: 0, speed: 0, animated: false },
-    timer: null,
+    autoplayTimer: null,
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
     breakpointsData: { list: [], current: null },
@@ -271,7 +271,7 @@ export default {
       let args = [name]
 
       if (includeCurrentSlide || typeof includeNextSlide === 'number') {
-        // Emit param 1 is object like { currentSlide: ...[, nextSlide: ...] }.
+        // the `emit` 2nd parameter is an object like { currentSlide: ...[, nextSlide: ...] }.
         args[1] = {}
 
         if (includeCurrentSlide && this.slides.activeUid && this.slides.list.length) {
@@ -433,18 +433,12 @@ export default {
 
     onMouseIn () {
       this.mouseOver = true
-
-      if (this.conf.pauseOnHover && this.conf.autoplay) {
-        this.clearTimer()
-      }
+      if (this.conf.pauseOnHover && this.conf.autoplay) this.pauseAutoplay()
     },
 
     onMouseOut () {
       this.mouseOver = false
-
-      if (this.conf.pauseOnHover && this.conf.autoplay) {
-        this.setTimer()
-      }
+      if (this.conf.pauseOnHover && this.conf.autoplay) this.resumeAutoplay()
     },
 
     onMouseDown (e) {
@@ -570,10 +564,10 @@ export default {
      * Update the current translation of the slides track - for sliding slideshows.
      * The resulting translation will be set in percentage and negative value.
      *
-     * @param {null, 0, 1} nextSlideIsClone: wheter the slide to access is a clone, and
-     *                                       if so, if it's the first or last one.
-     * @param {null, float} currentDragX: whether the slide track is being dragged and if so
-     *                                    the value of the current drag.
+     * @param {null | 0 | 1} nextSlideIsClone: wheter the slide to access is a clone, and
+     *                                         if so, if it's the first or last one.
+     * @param {null | float} currentDragX: whether the slide track is being dragged and if so
+     *                                     the value of the current drag.
      */
     updateCurrentTranslation (nextSlideIsClone = null, currentMouseX = null) {
       // let dragging = currentMouseX
@@ -626,15 +620,17 @@ export default {
       this.transition.currentTranslation = -translation * 100
     },
 
-    clearTimer () {
-      clearTimeout(this.timer)
-      this.timer = 0
+    pauseAutoplay () {
+      clearTimeout(this.autoplayTimer)
+      this.autoplayTimer = 0
+      this.emit('autoplay-pause')
     },
 
-    setTimer () {
-      this.timer = setTimeout(() => {
+    resumeAutoplay () {
+      this.autoplayTimer = setTimeout(() => {
         this.goToSlide(this.slides.current + this.conf.slideMultiple, { autoPlaying: true })
       }, this.conf.speed)
+      this.emit('autoplay-resume')
     },
 
     previous () {
@@ -655,7 +651,8 @@ export default {
     /**
      * When visibleSlides > 1 and slideMultiple > 1, get the first visible slide from given index.
      *
-     * @return {integer} the first visible slide index
+     * @param {number} index the slide index where to get the next visible one from.
+     * @return {number} the first visible slide index.
      */
     getFirstVisibleSlide (index) {
       return Math.floor(index / this.conf.slideMultiple) * this.conf.slideMultiple
@@ -706,7 +703,7 @@ export default {
     goToSlide (index, options = {}) {
       if (!this.slides.count || this.disable) return
 
-      if (this.conf.autoplay) this.clearTimer()
+      if (this.conf.autoplay) this.pauseAutoplay()
 
       // animation = slide transition is animated.
       // autoPlaying = go to the next slide by autoplay - no user intervention.
@@ -757,15 +754,11 @@ export default {
       this.slides.current = nextSlide
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
-      if (!this.conf.fade) {
-        this.updateCurrentTranslation(nextSlideIsClone)
-      }
+      if (!this.conf.fade) this.updateCurrentTranslation(nextSlideIsClone)
 
       this.slides.activeUid = this.slides.list[this.slides.current]._uid
 
-      if (this.conf.autoplay && !this.mouseOver) {
-        this.setTimer()
-      }
+      if (this.conf.autoplay && !(this.conf.pauseOnHover && this.mouseOver)) this.resumeAutoplay()
 
       if (this.slides.count) {
         if (this.$slots.default[this.slides.current]) {
@@ -847,10 +840,10 @@ export default {
         document.addEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
         document.addEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp, { passive: true })
       }
-      else this.removeEventListener()
+      else this.removeEventListeners()
     },
 
-    removeEventListener () {
+    removeEventListeners () {
       const hasTouch = 'ontouchstart' in window
       this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: !this.preventYScroll })
       document.removeEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
@@ -859,7 +852,7 @@ export default {
   },
 
   beforeDestroy () {
-    this.removeEventListener()
+    this.removeEventListeners()
   },
 
   computed: {

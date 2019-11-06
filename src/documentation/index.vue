@@ -138,41 +138,74 @@
     a(name="ex--basic")
   p
     | This example uses autoplay, slide titles &amp; contents &amp; an infinite mode (by default).#[br]
-    em The autoplay circles between all the slides and goes back to the begining after the last slide.
-  vueper-slides.ex2(autoplay)
+    em The autoplay circles between all the slides and goes back to the begining after the last slide.#[br]
+    | You can also pause and resume the autoplay from an external button using Vue refs like this:
+    v-btn.ml-2(
+      small
+      color="primary"
+      @click="$refs.exBasic[`${autoPlaying ? 'pause' : 'resume'}Autoplay`]();autoPlaying = !autoPlaying;pauseOnHover = false")
+      v-icon.mr-1 {{ autoPlaying ? 'pause_circle_outline' : 'play_circle_outline' }}
+      | {{ autoPlaying ? 'Pause' : 'Resume' }}
+    v-btn.ml-2(small color="primary" :outlined="!pauseOnHover" @click="pauseOnHover = !pauseOnHover")
+      v-icon.mr-1(v-if="pauseOnHover") check
+      | Pause on mouseover
+    code.ml-2 Currently {{ internalAutoPlaying ? 'playing' : 'paused' }}
+  vueper-slides.ex2(
+    ref="exBasic"
+    autoplay
+    :pause-on-hover="pauseOnHover"
+    @autoplay-pause="internalAutoPlaying = false"
+    @autoplay-resume="internalAutoPlaying = true")
     v-icon(slot="pausedIcon" large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
-  ssh-pre(language="html-vue" label="HTML Vue Template").
+
+  .subtitle-1.mt-6 Basic autoplay (with pause on mouseover) source code:
+  ssh-pre.mt-2(language="html-vue" label="Vue Template").
     &lt;vueper-slides autoplay&gt;
-      &lt;v-icon slot="pausedIcon" large color="white"&gt;pause_circle_outline&lt;/v-icon&gt;
       &lt;vueper-slide v-for="(slide, i) in slides"
         :key="slide.id"
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
+      &lt;i slot="pausedIcon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
     &lt;/vueper-slides&gt;
-  ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
-    import { VueperSlides, VueperSlide } from 'vueperslides'
 
-    // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
-    import 'vueperslides/dist/vueperslides.css'
+  .subtitle-1 This example full source code:
+  ssh-pre.mt-2(language="html-vue" label="Vue Template").
+    &lt;button @click="$refs.myVueperSlides[`${autoPlaying ? 'pause' : 'resume'}Autoplay`]();autoPlaying = !autoPlaying"&gt;
+      {{ "\{\{ autoPlaying ? 'Pause' : 'Resume' \}\}" }}
+    &lt;/button&gt;
+    &lt;button @click="pauseOnHover = !pauseOnHover"&gt;Pause on mouseover&lt;/button&gt;
+    &lt;code&gt;Currently {{ "\{\{ internalAutoPlaying ? 'playing' : 'paused' \}\}" }}&lt;/code&gt;
 
-    export default {
-      components: { VueperSlides, VueperSlide },
-      template: ...,
-      data: () => ({
-        slides: [
-          {
-            id: 'slide-1',
-            title: 'Slide &lt;b style="font-size: 1.3em;color: yellow"&gt;#1&lt;/b&gt;',
-            content: 'Slide title can be HTML.&lt;br&gt;And so does the slide content, &lt;span style="font-size: 1.2em;color: yellow"&gt;why not?&lt;/span&gt;'
-          },
-          ...
-        ]
-      }),
-      ...
-    }
+    &lt;vueper-slides
+      ref="myVueperSlides"
+      autoplay
+      :pause-on-hover="pauseOnHover"
+      @autoplay-pause="internalAutoPlaying = false"
+      @autoplay-resume="internalAutoPlaying = true"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="slide.id"
+        :title="slide.title"
+        :content="slide.content"
+        :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
+      &lt;i slot="pausedIcon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
+    &lt;/vueper-slides&gt;
+  ssh-pre(language="js" label="Vue JS component").
+    data: () => ({
+      pauseOnHover: true,
+      autoPlaying: true,
+      internalAutoPlaying: true,
+      slides: [
+        {
+          id: 'slide-1',
+          title: 'Slide &lt;b style="font-size: 1.3em;color: yellow"&gt;#1&lt;/b&gt;',
+          content: 'Slide title can be HTML.&lt;br&gt;And so does the slide content, &lt;span style="font-size: 1.2em;color: yellow"&gt;why not?&lt;/span&gt;'
+        },
+        ...
+      ]
+    })
 
   h3
     a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets
@@ -362,7 +395,7 @@
             div.py-2.title {{ slide.title }}
             div {{ slide.content }}
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;v-btn @click="toggleSlidesTime"&gt;Keep updating time&lt;/v-btn&gt;
+    &lt;button @click="toggleSlidesTime"&gt;Keep updating time&lt;/button&gt;
     &lt;vueper-slides :slide-ratio="1/4" :slide-content-outside="contentPosition"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
@@ -372,13 +405,13 @@
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
         &lt;div slot="slideContent"&gt;
           &lt;v-layout"&gt;
-            &lt;v-icon&gt;access_time&lt/v-icon&gt;
+            &lt;v-icon&gt;access_time&lt;/v-icon&gt;
             &lt;div&gt;
-              &lt;div&gt;{{ '\{\{ slide.title \}\}' }}&lt/div&gt;
-              &lt;div&gt;{{ '\{\{ slide.content \}\}' }}&lt/div&gt;
-            &lt/div&gt;
-          &lt/v-layout&gt;
-        &lt/div&gt;
+              &lt;div&gt;{{ '\{\{ slide.title \}\}' }}&lt;/div&gt;
+              &lt;div&gt;{{ '\{\{ slide.content \}\}' }}&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/v-layout&gt;
+        &lt;/div&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
@@ -431,15 +464,15 @@
   vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
     vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;v-btn color="primary" @click="appendSlide" small&gt;
+    &lt;button @click="appendSlide" small&gt;
       &lt;v-icon&gt;add&lt;/v-icon&gt; Add Slide
-    &lt;/v-btn&gt;
-    &lt;v-btn color="primary" @click="removeSlide" small&gt;
+    &lt;/button&gt;
+    &lt;button @click="removeSlide" small&gt;
       &lt;v-icon&gt;remove&lt;/v-icon&gt; Remove Slide
-    &lt;/v-btn&gt;
-    &lt;v-btn color="secondary" @click="toggleSlideshow" small&gt;
+    &lt;/button&gt;
+    &lt;button @click="toggleSlideshow" small&gt;
       &lt;v-icon&gt; {{ "\{\{ slideshowDisabled ? 'check_circle' : 'highlight_off'\}\}" }}&lt;/v-icon&gt; {{ "\{\{ slideshowDisabled ? 'Enable' : 'Disable' \}\}" }} Slideshow
-    &lt;/v-btn&gt;
+    &lt;/button&gt;
 
     &lt;vueper-slides
       :slide-ratio="0.2"
@@ -636,9 +669,9 @@
   vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;v-btn @click="parallax *= -1;$refs.myVueperSlides.refreshParallax()"&gt;
+    &lt;button @click="parallax *= -1;$refs.myVueperSlides.refreshParallax()"&gt;
       reverse parallax effect
-    &lt;/v-btn&gt;
+    &lt;/button&gt;
     parallax value: {{ '\{\{ parallax.toString() \}\}' }}
 
     &lt;vueper-slides :parallax="parallax" ref="myVueperSlides"&gt;
@@ -773,7 +806,7 @@
   vueper-slides.mb-5.ex--3d-rotation(3d fixed-height="300px" arrows-outside bullets-outside)
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides 3d fixed-height="300px" arrows-outside bullets-outside"&gt;
+    &lt;vueper-slides 3d fixed-height="300px" arrows-outside bullets-outside&gt;
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
@@ -815,12 +848,12 @@
   vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;v-btn @click="$refs.myVueperSlides.previous()"&gt;Previous&lt;/v-btn&gt;
-    &lt;v-btn @click="$refs.myVueperSlides.goToSlide(6 - 1)"&gt;
+    &lt;button @click="$refs.myVueperSlides.previous()"&gt;Previous&lt;/button&gt;
+    &lt;button @click="$refs.myVueperSlides.goToSlide(6 - 1)"&gt;
       &lt;!-- (6 - 1) because slide index starts at 0. --&gt;
       Go to slide 6
-    &lt;/v-btn&gt;
-    &lt;v-btn @click="$refs.myVueperSlides.next()"&gt;Next&lt;/v-btn&gt;
+    &lt;/button&gt;
+    &lt;button @click="$refs.myVueperSlides.next()"&gt;Next&lt;/button&gt;
 
     &lt;vueper-slides ref="myVueperSlides"&gt;
       &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
@@ -871,11 +904,11 @@
 
   ul.max-widthed.settings-list
     li
-      | #[code initSlide], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code 1]
+      | #[code initSlide], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 1]
       p Init the slideshow with a specific slide as the active slide.
 
     li
-      | #[code slideRatio], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code 1/3]
+      | #[code slideRatio], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 1/3]
       p.
         Sets the slideshow ratio so it will naturally stay ratio-ed on different browser width.#[br]
         See the #[a(href="#ex--events") Events] example or #[a(href="#ex--breakpoints") Using Breakpoints] example.
@@ -889,7 +922,7 @@
         If you prefer you can also define breakpoints in your own CSS overriding the slides ratio.
 
     li
-      | #[code arrows], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
+      | #[code arrows], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
       p.
         Disable or enable the navigation arrows.#[br]
         You can also override the arrows by providing them in the html content of the
@@ -897,7 +930,7 @@
         See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets] example.
 
     li
-      | #[code arrowsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code arrowsOutside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         Place the navigation arrows outside of the slideshow (on left and right).#[br]
         See this setting live in the #[a(href="#ex--center-mode") Center mode] example.
@@ -905,7 +938,7 @@
         If you place arrows outside on a full screen slideshow you won't be able to see the arrows.
 
     li
-      | #[code disableArrowsOnEdges], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code disableArrowsOnEdges], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p Disable the left or right arrow when respectively, no previous or no next slides are available.
       | Check the #[a(href="#ex--add-remove-slides--disable") Add / remove slides &amp; disable slideshow] example.
       highlight.
@@ -913,24 +946,24 @@
         and dragging behavior beyond limits.
 
     li
-      | #[code bullets], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
+      | #[code bullets], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
       p Disable or enable the slides index.
 
     li
-      | #[code bulletsOutside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code bulletsOutside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         If bullets is set to #[span.code true], place the slides index inside or outside the slideshow track.#[br]
         See this setting live in the #[a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets] example.
 
     li
-      | #[code fade], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code fade], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         Sets the transition type to fade when changing slide.#[br]
         By default the slideshow slides when changing slide (and so #[span.code fade] is set to
         #[span.code false]).#[br]
         See this setting live in the #[a(href="#ex--images-and-fading") Images &amp; Fading] example.
     li
-      | #[code slideContentOutside], #[strong Type:] #[span.code [Boolean, String]], #[strong Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
+      | #[code slideContentOutside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, String]], #[strong.mr-1 Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
       p.
         Display the current slide title &amp; content outside the slide.#[br]
         You can position the content above or under the slideshow with the keywords
@@ -938,20 +971,20 @@
         See this setting live in the #[a(href="#ex--images-and-fading") Images &amp; Fading] example.
 
     li
-      | #[code slideContentOutsideClass], #[strong Type:] #[span.code [String]], #[strong Default:] #[span.code ""]
+      | #[code slideContentOutsideClass], #[strong.mr-1 Type:] #[span.code.mr-1 [String]], #[strong.mr-1 Default:] #[span.code ""]
       p.
         With this option you can have a specific CSS class to style your slide contents
         when it's outside the active slide.
 
     li
-      | #[code autoplay], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code autoplay], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         Plays a slideshow automatically. Changing slide after a defined amount
         of time (set in #[span.code speed]).#[br]
         See this setting live in the #[a(href="#ex--basic") Basic with Autoplay] example.
 
     li
-      | #[code speed], #[strong Type:] #[span.code [Number, String]], #[strong Default:] #[span.code 4000]
+      | #[code speed], #[strong.mr-1 Type:] #[span.code.mr-1 [Number, String]], #[strong.mr-1 Default:] #[span.code 4000]
       p.
         Defines an amount of time in milliseconds before the autoplaying slideshow
         changes slide automatically.
@@ -961,20 +994,20 @@
         hovering then resets to the defined #[span.code speed] when you stop hovering.
 
     li
-      | #[code transitionSpeed], #[strong Type:] #[span.code [Number, String]], #[strong Default:] #[span.code 600]
+      | #[code transitionSpeed], #[strong.mr-1 Type:] #[span.code.mr-1 [Number, String]], #[strong.mr-1 Default:] #[span.code 600]
       p.
         Defines how long the transition from a slide to another will last - in milliseconds.#[br]
         See this setting live in the #[a(href="#ex--center-mode") Center mode] example.
 
     li
-      | #[code pauseOnHover], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
+      | #[code pauseOnHover], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
       p.
         If #[span.code autoplay] is on, setting #[span.code pauseOnHover]  stops the autoplay
         while hovering then resets to the defined #[span.code speed] when you stop hovering.#[br]
         See this setting live in the #[a(href="#ex--basic") Basic with Autoplay] example.
 
     li
-      | #[code infinite], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
+      | #[code infinite], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
       p.
         When set to #[span.code true], the slideshow acts like a carousel.#[br]
         Going to the next slide or previous slide when respectively on last slide
@@ -994,7 +1027,7 @@
         as a fade transition slideshow does not need such effect.
 
     li
-      | #[code refreshClonesOnDrag], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code refreshClonesOnDrag], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         With #[span.code infinite] mode on and sliding transitions, the clones
         (#[a(href="#what-are-clones" @click="onWhatAreClonesClick") What are clones?]) are created with a copy of content at
@@ -1006,7 +1039,7 @@
         not need it.
 
     li
-      | #[code parallax], #[strong Type:] #[span.code [Boolean, Number]], #[strong Default:] #[span.code false]
+      | #[code parallax], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, Number]], #[strong.mr-1 Default:] #[span.code false]
       p.
         When set to #[span.code true], #[span.code 1] or #[span.code -1], adds a parallax effect on the slideshow.#[br]
         If #[span.code -1] is given, the parallax effect is reversed and the image will go in the opposite way of the scrolling direction.#[br]
@@ -1024,7 +1057,7 @@
             resize to keep your image ratio.
 
     li
-      | #[code touchable], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code true]
+      | #[code touchable], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
       p.
         Whether the slideshow should allow slide dragging to change slide or not.#[br]
         If set to #[span.code true], dragging will be possible on both touchable device or
@@ -1043,25 +1076,25 @@
         #[strong the slide's closest end won't snap to your cursor position].
 
     li
-      | #[code preventYScroll], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code preventYScroll], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         For touch-enabled slideshows, enable or disable the Y-axis scroll while dragging slides.#[br]
         See this setting live in the #[a(href="#ex--dragging-distance") Dragging distance &amp; prevent y-axis scroll] example.
 
     li
-      | #[code draggingDistance], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code null]
+      | #[code draggingDistance], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code null]
       p.
         With this option you can provide a specific dragging distance for touch-enabled slideshows.#[br]
         See this setting live in the #[a(href="#ex--dragging-distance") Dragging distance &amp; prevent y-axis scroll] example.
 
     li
-      | #[code disable], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code disable], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         Disable or enable the whole slideshow. All the slides will remain as is and the
         slideshow freezes on the current slide. No autoplay and no possible action.
 
     li
-      | #[code breakpoints], #[strong Type:] #[span.code [Object]], #[strong Default:] #[span.code {}]
+      | #[code breakpoints], #[strong.mr-1 Type:] #[span.code.mr-1 [Object]], #[strong.mr-1 Default:] #[span.code {}]
       p.
         With this option you can provide different configurations to apply to the slideshow
         at a particular screen width.#[br]
@@ -1069,7 +1102,7 @@
 
     li
       a(name="vueper-slides-settings--fixed-height")
-      | #[code fixedHeight], #[strong Type:] #[span.code [Boolean, String]], #[strong Default:] #[span.code false]
+      | #[code fixedHeight], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, String]], #[strong.mr-1 Default:] #[span.code false]
       p.
         The attribute #[strong.darktext--text.code fixed-height]
         #[strong accepts either a Boolean or a String]:
@@ -1090,7 +1123,7 @@
 
     li
       a(name="vueper-slides-settings--image-inside")
-      | #[code slideImageInside], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code slideImageInside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         A #[span.code &lt;div class="vueperslide__image"&gt;] will be created inside each slide.#[br]
         This will allow you to CSS transform the slides images with no impact on slideshow behavior.
@@ -1099,7 +1132,7 @@
 
     li
       a(name="vueper-slides-settings--visible-slides")
-      | #[code visibleSlides], #[strong Type:] #[span.code [Number]], #[strong Default:] #[span.code 1]
+      | #[code visibleSlides], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 1]
       p.
         Allows you to show multiple items per slide.#[br]
         You can then decide to slide items one by one or by the same amount as
@@ -1109,7 +1142,7 @@
 
     li
       a(name="vueper-slides-settings--slide-multiple")
-      | #[code slideMultiple], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code slideMultiple], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         Allows you to slide multiple items at once when clicking arrows, or on drag.#[br]
         The number to slide if #[span.code slideMultiple] is set to #[span.code true] is always equal to
@@ -1148,7 +1181,7 @@
 
     li
       a(name="vueper-slides-settings--3d") 3D Rotation
-      | #[code 3d], #[strong Type:] #[span.code [Boolean]], #[strong Default:] #[span.code false]
+      | #[code 3d], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         Allows you to slide one slide at a time with a 3D effect transition.#[br]
         You can combine this with #[span.code fixedHeight], #[span.code arrows-outside], #[span.code bullets-outside]
@@ -1177,20 +1210,20 @@
       h4
         code before-init
       p.
-        Triggered in the first place before the initialization of the slideshow.#[br]
+        Fired in the first place before the initialization of the slideshow.#[br]
         No parameter available.
     li
       h4
         code ready
       p.
-        Triggered right after the initialization of the slideshow is complete.#[br]
+        Fired right after the initialization of the slideshow is complete.#[br]
         No parameter available.
     li
       h4
         code before-slide
       p.
-        Triggered on slide change, just before the effective change.#[br]
-        This event is emitted with:
+        Fired on slide change, just before the effective change.#[br]
+        This event returns an object containing:
       ul
         li.
           a #[span.code currentSlide] object containing the slide index, title &amp; content
@@ -1202,8 +1235,30 @@
       h4
         code slide
       p.
-        Triggered on slide change, just after the effective change.#[br]
-        This event is emitted with:
+        Fired on slide change, just after the effective change.#[br]
+        This event returns an object containing:
+      ul
+        li.
+          a #[span.code currentSlide] object containing the slide index, title &amp; content of
+          the new current slide.
+    li
+      h4
+        code autoplay-pause
+      p.
+        Fired when #[span.code autoplay] is set to true, and a pause has been triggered either by a mouseover
+        or by calling the function #[span.code pauseAutoplay()] via Vue refs.#[br]
+        This event returns an object containing:
+      ul
+        li.
+          a #[span.code currentSlide] object containing the slide index, title &amp; content of
+          the new current slide.
+    li
+      h4
+        code autoplay-resume
+      p.
+        Fired when #[span.code autoplay] is set to true, and a pause has been triggered either by a mouseover and mouseout
+        or by calling the function #[span.code resumeAutoplay()] via Vue refs.#[br]
+        This event returns an object containing:
       ul
         li.
           a #[span.code currentSlide] object containing the slide index, title &amp; content of
@@ -1297,9 +1352,8 @@
     a(href="#notable-version-changes") Notable Version Changes
     a(name="notable-version-changes")
   highlight.
-    Vueper Slides is evolving fast and for the better!#[br]
-    Along the way, some changes made to Vueper Slides may impact your project.#[br]
-    Here is a list of notable changes after version releases.
+    Vueper Slides is constantly evolving and some changes might affect the way you use it sometimes.#[br]
+    Here is a list of the releases with their changes that might have an impact in your project.
   highlight(type="tips").
     After a Vueper Slides update, don't forget to refer to this section to check the
     possible side effects.
@@ -1357,6 +1411,9 @@ export default {
     Highlight
   },
   data: () => ({
+    autoPlaying: true,
+    internalAutoPlaying: true,
+    pauseOnHover: true,
     events: '',
     slideshowDisabled: false,
     parallax: 1,
@@ -1510,9 +1567,7 @@ ul, ol {
   padding-left: 1.3em;
 }
 
-.code {
-  font-family: monospace, sans-serif;
-}
+.code {font-family: monospace, sans-serif;}
 
 pre {
   padding: 0.5em;
@@ -1581,13 +1636,8 @@ pre {
 .coming-soon {
   font-style: italic;
 
-  .v-card__title {
-    font-size: 1.2em;
-  }
-
-  .v-chip {
-    margin: 2px 0;
-  }
+  .v-card__title {font-size: 1.2em;}
+  .v-chip {margin: 2px 0;}
 }
 
 .v-chip i.v-icon {
@@ -1597,9 +1647,7 @@ pre {
 }
 
 .settings-list {
-  li {
-    padding: 20px 10px;
-  }
+  li {padding: 20px 10px;}
 
   li li {
     padding-top: 0;
@@ -1615,7 +1663,5 @@ pre {
   }
 }
 
-.pulse {
-  animation: pulse 1.5s infinite;
-}
+.pulse {animation: pulse 1.5s infinite;}
 </style>
