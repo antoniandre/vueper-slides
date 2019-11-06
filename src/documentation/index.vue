@@ -322,6 +322,13 @@
 
   vueper-slides
     vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+      template(v-slot:slideContent)
+        v-icon(color="white") check
+        | Complex content {{ i.toString() }} with vueJS
+        | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
+        | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
+  vueper-slides
+    vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
       div(slot="slideContent")
         v-icon(color="white") check
         | Complex content {{ i.toString() }} with vueJS

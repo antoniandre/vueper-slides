@@ -2,9 +2,9 @@
 .vueperslide(
   :is="link ? 'a' : 'div'"
   :href="link && !justDragged ? link : false"
-  :class="{ 'vueperslide--active': $parent.slides.activeUid === _uid, 'vueperslide--previous-slide': isPreviousSlide, 'vueperslide--next-slide': isNextSlide, 'vueperslide--visible': isSlideVisible }"
+  :class="slideClasses"
   :face="slideFace3d"
-  :style="wrapperStyles"
+  :style="slideStyles"
   :aria-hidden="$parent.slides.activeUid === _uid || isSlideVisible ? 'false' : 'true'"
   @mouseenter="$emit('mouseenter', { index, title, content, image, link }, $el)"
   @mouseleave="$emit('mouseleave')")
@@ -23,42 +23,39 @@
 <script>
 export default {
   props: {
-    clone: {
-      type: Number,
-      default: null
-    },
-    image: {
-      type: String,
-      default: ''
-    },
-    title: {
-      type: String,
-      default: ''
-    },
-    content: {
-      type: String,
-      default: ''
-    },
-    link: {
-      type: String,
-      default: ''
-    }
+    clone: { type: Number, default: null },
+    image: { type: String, default: '' },
+    title: { type: String, default: '' },
+    content: { type: String, default: '' },
+    link: { type: String, default: '' }
   },
+
   data: () => ({
     index: 0
   }),
+
   created () {
     // vueperslide component has this useful attributes:
     // _uid, image, title, titleSlot, content, contentSlot, clone.
     this.index = this.$parent.addSlide(this)
   },
+
   // When removing a slide programmatically, remove it from the config so vueperslides
   // component is aware of the change.
   destroyed () {
     if (this.clone === null) this.$parent.removeSlide(this._uid)
   },
+
   computed: {
-    wrapperStyles () {
+    slideClasses () {
+      return {
+        'vueperslide--active': this.$parent.slides.activeUid === this._uid,
+        'vueperslide--previous-slide': this.isPreviousSlide,
+        'vueperslide--next-slide': this.isNextSlide,
+        'vueperslide--visible': this.isSlideVisible
+      }
+    },
+    slideStyles () {
       return {
         ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
         ...(this.$parent.conf.visibleSlides > 1 && { width: 100 / this.$parent.conf.visibleSlides + '%' }),

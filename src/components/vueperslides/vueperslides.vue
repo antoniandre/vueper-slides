@@ -3,7 +3,7 @@
   :class="vueperslidesClasses"
   ref="vueperslides"
   aria-label="Slideshow"
-  :style="vueperStyles")
+  :style="vueperslidesStyles")
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(
     :class="conf.slideContentOutsideClass"
     v-if="conf.slideContentOutside === 'top'")
@@ -11,10 +11,11 @@
     .vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 
   .vueperslides__inner
-    .vueperslides__parallax-wrapper(:style="'padding-bottom:' + (conf.slideRatio * 100) + '%'" aria-live="polite")
+    .vueperslides__parallax-wrapper(:style="`padding-bottom: ${conf.slideRatio * 100}%`" aria-live="polite")
       .vueperslides__track(
         :class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }"
-        :style="trackStyles" ref="track")
+        :style="trackStyles"
+        ref="track")
         .vueperslides__track-inner(:style="trackInnerStyles")
           vueper-slide.vueperslide--clone(
             v-if="slides.count && clones[0]"
@@ -40,7 +41,9 @@
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pausedIcon")
       slot(name="pausedIcon")
-    .vueperslides__arrows(:class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }" v-if="conf.arrows && slides.count > 1 && !disable")
+    .vueperslides__arrows(
+      :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }"
+      v-if="conf.arrows && slides.count > 1 && !disable")
       button.vueperslides__arrow.vueperslides__arrow--prev(
         @click="previous()"
         v-show="!arrowPrevDisabled"
@@ -91,130 +94,52 @@
       ref="bullet")
       span {{ i + 1 }}
 
-  .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(:class="conf.slideContentOutsideClass" v-if="conf.slideContentOutside === 'bottom'")
+  .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(
+    :class="conf.slideContentOutsideClass"
+    v-if="conf.slideContentOutside === 'bottom'")
     div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 </template>
 
 <script>
-import VueperSlide from './vueperslide.vue'
+import VueperSlide from './vueperslide'
 import './styles.scss'
 
 export default {
   name: 'vueper-slides',
   components: { VueperSlide },
   props: {
-    initSlide: {
-      type: Number,
-      default: 1
-    },
-    slideRatio: {
-      type: Number,
-      default: 1 / 3
-    },
-    arrows: {
-      type: Boolean,
-      default: true
-    },
-    arrowsOutside: {
-      type: Boolean,
-      default: null
-    },
+    initSlide: { type: Number, default: 1 },
+    slideRatio: { type: Number, default: 1 / 3 },
+    arrows: { type: Boolean, default: true },
+    arrowsOutside: { type: Boolean, default: null },
     // Ability to disable arrows on slideshow edges. Only if not infinite mode.
-    disableArrowsOnEdges: {
-      type: [Boolean, String],
-      default: false
-    },
-    bullets: {
-      type: Boolean,
-      default: true
-    },
-    bulletsOutside: {
-      type: Boolean,
-      default: null
-    },
-    fade: {
-      type: Boolean,
-      default: false
-    },
-    slideContentOutside: {
-      type: [Boolean, String],
-      default: false
-    },
-    slideContentOutsideClass: {
-      type: String,
-      default: ''
-    },
-    autoplay: {
-      type: Boolean,
-      default: false
-    },
-    speed: {
-      type: [Number, String],
-      default: 4000
-    },
-    transitionSpeed: {
-      type: [Number, String],
-      default: 600
-    },
-    pauseOnHover: {
-      type: Boolean,
-      default: true
-    },
-    infinite: {
-      type: Boolean,
-      default: true
-    },
-    refreshClonesOnDrag: {
-      type: Boolean,
-      default: false
-    },
-    parallax: {
-      type: [Boolean, Number],
-      default: false
-    },
-    touchable: {
-      type: Boolean,
-      default: true
-    },
-    preventYScroll: {
-      type: Boolean,
-      default: false
-    },
-    // By default when touch is enabled you have to drag from a slide side and pass 50% of slideshow width to change
-    // slide. This setting changes this behavior to a horizontal pixel amount from anywhere on slideshow.
-    draggingDistance: {
-      type: Number,
-      default: null
-    },
-    disable: {
-      type: Boolean,
-      default: false
-    },
-    breakpoints: {
-      type: Object,
-      default: () => ({})
-    },
-    fixedHeight: {
-      type: [Boolean, String],
-      default: false
-    },
-    slideImageInside: {
-      type: Boolean,
-      default: false
-    },
-    slideMultiple: {
-      type: [Boolean, Number],
-      default: false
-    },
-    visibleSlides: {
-      type: Number,
-      default: 1
-    },
-    '3d': {
-      type: Boolean,
-      default: false
-    }
+    disableArrowsOnEdges: { type: [Boolean, String], default: false },
+    bullets: { type: Boolean, default: true },
+    bulletsOutside: { type: Boolean, default: null },
+    fade: { type: Boolean, default: false },
+    slideContentOutside: { type: [Boolean, String], default: false },
+    slideContentOutsideClass: { type: String, default: '' },
+    autoplay: { type: Boolean, default: false },
+    speed: { type: [Number, String], default: 4000 },
+    transitionSpeed: { type: [Number, String], default: 600 },
+    pauseOnHover: { type: Boolean, default: true },
+    infinite: { type: Boolean, default: true },
+    refreshClonesOnDrag: { type: Boolean, default: false },
+    parallax: { type: [Boolean, Number], default: false },
+    touchable: { type: Boolean, default: true },
+    preventYScroll: { type: Boolean, default: false },
+    // By default when touch is enabled you have to drag from a slide side and pass 50% of
+    // slideshow width to change slide. This setting changes this behavior to a horizontal
+    // pixel amount from anywhere on slideshow.
+    draggingDistance: { type: Number, default: null },
+    disable: { type: Boolean, default: false },
+    breakpoints: { type: Object, default: () => ({}) },
+    fixedHeight: { type: [Boolean, String], default: false },
+    slideImageInside: { type: Boolean, default: false },
+    slideMultiple: { type: [Boolean, Number], default: false },
+    visibleSlides: { type: Number, default: 1 },
+    '3d': { type: Boolean, default: false }
   },
   data: () => ({
     isReady: false,
@@ -893,7 +818,7 @@ export default {
         'vueperslides--animated': this.transition.animated
       }
     },
-    vueperStyles () {
+    vueperslidesStyles () {
       return /^-?\d/.test(this.conf.fixedHeight) ? `height: ${this.conf.fixedHeight}` : null
     },
     trackStyles () {
