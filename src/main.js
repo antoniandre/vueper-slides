@@ -1,11 +1,13 @@
 import 'babel-polyfill'
 import Vue from 'vue'
 import vuetify from './plugins/vuetify'
-import App from './app.vue'
+import App from './app'
+import router from './router/'
 
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
-  vuetify
+  router,
+  vuetify,
+  render: h => h(App)
 }).$mount('#app')
