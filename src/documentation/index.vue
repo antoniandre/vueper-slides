@@ -574,8 +574,18 @@
     This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
     The events box bellow will log all the events (and the given params) triggered while using the slideshow.#[br]
     Change slide to see new events in the events box bellow.
-  vueper-slides.ex--events(@before-init="logEvents" @ready="logEvents" @before-slide="logEvents" @slide="logEvents" :slide-ratio="0.2")
-    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  vueper-slides.ex--events(
+    @before-init="logEvents"
+    @ready="logEvents"
+    @before-slide="logEvents"
+    @slide="logEvents"
+    :slide-ratio="0.2")
+    vueper-slide(
+      v-for="i in 6"
+      :key="i"
+      :title="i.toString()"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+
   pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
     p(v-html="events")
     | listening...
@@ -589,8 +599,7 @@
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
-        :title="i.toString()"
-        :content="slide.content"&gt;&lt;/vueper-slide&gt;
+        :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
     // In your VueJS component.
@@ -830,8 +839,9 @@
     This example demonstrates how to use a 3D rotation transition.#[br]
     Refer to the #[a(href="#vueper-slides-settings--3d") settings &gt; 3D Rotation] for more details.
 
-  vueper-slides.mb-5.ex--3d-rotation(3d fixed-height="300px" arrows-outside bullets-outside)
+  vueper-slides.mb-8.ex--3d-rotation(3d fixed-height="300px" arrows-outside bullets-outside)
     vueper-slide(v-for="i in 9" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  br
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides 3d fixed-height="300px" arrows-outside bullets-outside&gt;
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
@@ -1387,6 +1397,15 @@
 
   ul.max-widthed
     li
+      strong Version 2.0
+      p Breaking changes
+      ul
+        li Remove #[span.code before-init] emitted event
+        li Can now use new slot syntax
+        li Renamed slots to kebab-case
+        li If both slot and attribute are provided now use the attribute source.
+
+    li.mt-6
       strong Version 1.16.0
       p.
         The Vueper Slides CSS file has been renamed from #[span.code import 'vueperslides/dist/vueperslides.min.css'] to #[span.code import 'vueperslides/dist/vueperslides.css']

@@ -5,51 +5,87 @@
   :class="slideClasses"
   :face="slideFace3d"
   :style="slideStyles"
-  :aria-hidden="$parent.slides.activeUid === _uid || isSlideVisible ? 'false' : 'true'"
-  @mouseenter="$emit('mouseenter', { index, title, content, image, link }, $el)"
+  :aria-hidden="$parent.slides.activeId === _uid || isSlideVisible ? 'false' : 'true'"
+  @mouseenter="$emit('mouseenter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouseleave')")
-  .vueperslide__image(v-if="image && $parent.conf.slideImageInside" :style="imageStyles")
-  .vueperslide__content-wrapper(v-show="!$parent.conf.slideContentOutside && (title || hasTitleSlotData || content || hasContentSlotData)")
-    .vueperslide__title(v-show="title || hasTitleSlotData")
-      div(v-show="!$parent.conf.slideContentOutside && !title")
-        slot(name="slideTitle")
-      div(v-if="title" v-html="title")
-    .vueperslide__content(v-if="content || hasContentSlotData")
-      div(v-show="!$parent.conf.slideContentOutside && !content")
-        slot(name="slideContent")
-      div(v-if="content" v-html="content")
+  .vueperslide__image(v-if="image && conf.slideImageInside" :style="imageStyles")
+  .vueperslide__content-wrapper(v-show="!conf.slideContentOutside")
+    .vueperslide__title
+      slot(name="slideTitle")
+        div(v-if="title" v-html="title")
+    .vueperslide__content
+      slot(name="slideContent")
+        div(v-if="content" v-html="content")
 </template>
 
 <script>
 export default {
   props: {
-    clone: { type: Number, default: null },
+    clone: { type: Boolean, default: false },
     image: { type: String, default: '' },
     title: { type: String, default: '' },
     content: { type: String, default: '' },
     link: { type: String, default: '' }
   },
 
-  data: () => ({
-    index: 0
-  }),
-
-  created () {
-    // vueperslide component has this useful attributes:
-    // _uid, image, title, titleSlot, content, contentSlot, clone.
-    this.index = this.$parent.addSlide(this)
+  methods: {
+    updateSlide(props) {
+      this.$parent.updateSlide(this._uid, props)
+    }
   },
 
-  // When removing a slide programmatically, remove it from the config so vueperslides
-  // component is aware of the change.
+  created () {
+    if (this.clone) return
+
+    this.$parent.addSlide({
+      id: this._uid,
+      image: this.image,
+      title: this.title,
+      titleSlot: this.$slots.slideTitle,
+      content: this.content,
+      contentSlot: this.$slots.slideContent,
+      link: this.link,
+      style: {}
+    })
+  },
+
+  mounted () {
+    if (this.clone) return
+
+    this.updateSlide({
+      titleSlot: this.$slots.slideTitle,
+      contentSlot: this.$slots.slideContent,
+      style: ((this.$el.attributes || {}).style || {}).value
+    })
+  },
+
+  watch: {
+    image () {
+      if (!this.clone) this.updateSlide({ image: this.image })
+    },
+    title () {
+      if (!this.clone) this.updateSlide({ title: this.title })
+    },
+    content () {
+      if (!this.clone) this.updateSlide({ content: this.content })
+    },
+    link () {
+      if (!this.clone) this.updateSlide({ link: this.link })
+    }
+  },
+
   destroyed () {
-    if (this.clone === null) this.$parent.removeSlide(this._uid)
+    // When removing a slide programmatically, remove it from the list of slides.
+    if (!this.clone) this.$parent.removeSlide(this._uid)
   },
 
   computed: {
+    conf () {
+      return this.$parent.conf
+    },
     slideClasses () {
       return {
-        'vueperslide--active': this.$parent.slides.activeUid === this._uid,
+        'vueperslide--active': this.$parent.slides.activeId === this._uid,
         'vueperslide--previous-slide': this.isPreviousSlide,
         'vueperslide--next-slide': this.isNextSlide,
         'vueperslide--visible': this.isSlideVisible
@@ -57,56 +93,54 @@ export default {
     },
     slideStyles () {
       return {
-        ...(!this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
-        ...(this.$parent.conf.visibleSlides > 1 && { width: 100 / this.$parent.conf.visibleSlides + '%' }),
-        ...(this.$parent.conf.visibleSlides > 1 && this.$parent.conf.fade && { left: ((this.slideIndex % this.$parent.conf.visibleSlides) / this.$parent.conf.visibleSlides) * 100 + '%' })
+        ...(!this.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
+        ...(this.conf.visibleSlides > 1 && { width: 100 / this.conf.visibleSlides + '%' }),
+        ...(this.conf.visibleSlides > 1 && this.conf.fade && { left: ((this.slideIndex % this.conf.visibleSlides) / this.conf.visibleSlides) * 100 + '%' })
       }
     },
     imageStyles () {
-      return { ...(this.$parent.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }) }
+      return { ...(this.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }) }
     },
     hasTitleSlotData () {
-      const { slideTitle } = this.$slots
-      return slideTitle !== undefined
+      return this.$slots.slideTitle !== undefined
     },
     hasContentSlotData () {
-      const { slideContent } = this.$slots
-      return slideContent !== undefined
+      return this.$slots.slideContent !== undefined
     },
     slideFace3d () {
-      if (!this.$parent.conf['3d']) return false
+      if (!this.conf['3d']) return false
       const faces = ['front', 'right', 'back', 'left']
-      const slidesCount = this.$parent.slides.list.length
+      const slidesCount = this.$parent.slidesCount
       const prevSlideIndex = (this.$parent.slides.current - 1 + slidesCount) % slidesCount
       const nextSlideIndex = (this.$parent.slides.current + 1) % slidesCount
 
-      // Index starts at 1 so this.index-1.
-      if (this.index - 1 === prevSlideIndex) return faces[(4 + this.$parent.slides.current - 1) % 4]
-      else if (this.index - 1 === nextSlideIndex) return faces[(this.$parent.slides.current + 1) % 4]
+      // Index starts at 1 so this.slideIndex.
+      if (this.slideIndex === prevSlideIndex) return faces[(4 + this.$parent.slides.current - 1) % 4]
+      else if (this.slideIndex === nextSlideIndex) return faces[(this.$parent.slides.current + 1) % 4]
 
-      return faces[(this.index - 1) % 4]
+      return faces[this.slideIndex % 4]
     },
     isPreviousSlide () {
-      if (!this.$parent.conf['3d']) return false
-      const slidesCount = this.$parent.slides.list.length
+      if (!this.conf['3d']) return false
+      const slidesCount = this.$parent.slidesCount
       const prevSlideIndex = (this.$parent.slides.current - 1 + slidesCount) % slidesCount
-      return this._uid === this.$parent.slides.list[prevSlideIndex]._uid
+      return this._uid === this.$parent.slides.list[prevSlideIndex].id
     },
     isNextSlide () {
-      if (!this.$parent.conf['3d']) return false
-      const slidesCount = this.$parent.slides.list.length
+      if (!this.conf['3d']) return false
+      const slidesCount = this.$parent.slidesCount
       const nextSlideIndex = (this.$parent.slides.current + 1) % slidesCount
-      return this._uid === this.$parent.slides.list[nextSlideIndex]._uid
+      return this._uid === this.$parent.slides.list[nextSlideIndex].id
     },
     isSlideVisible () {
-      const activeSlideUid = this.$parent.slides.activeUid
+      const activeSlideUid = this.$parent.slides.activeId
       const activeSlideIndex = this.slidesList.indexOf(activeSlideUid)
-      const visibleSlidesCount = this.$parent.conf.visibleSlides
+      const visibleSlidesCount = this.conf.visibleSlides
 
       return this.slideIndex >= activeSlideIndex && this.slideIndex < activeSlideIndex + visibleSlidesCount
     },
     slidesList () {
-      return this.$parent.slides.list.map(slide => slide._uid)
+      return this.$parent.slides.list.map(slide => slide.id)
     },
     slideIndex () {
       return this.slidesList.indexOf(this._uid)

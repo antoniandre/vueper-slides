@@ -1,13 +1,16 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides
+  vueper-slides(:infinite="false")
     vueper-slide(
       v-for="(slide, i) in slides"
       :key="i"
-      :title="slide.content"
+      :title="slide.title"
       :content="slide.content"
-      :image="slide.image")
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+      template(v-slot:slideTitle)
+        v-icon.white--text check_circle
+        p {{ slide.title }}
 </template>
 
 <script>
