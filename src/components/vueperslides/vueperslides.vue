@@ -1,21 +1,21 @@
 <template lang="pug">
 .vueperslides(
-  :class="vueperslidesClasses"
   ref="vueperslides"
+  :class="vueperslidesClasses"
   aria-label="Slideshow"
   :style="vueperslidesStyles")
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(
-    :class="conf.slideContentOutsideClass"
-    v-if="conf.slideContentOutside === 'top'")
+    v-if="conf.slideContentOutside === 'top'"
+    :class="conf.slideContentOutsideClass")
     .vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     .vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 
   .vueperslides__inner
     .vueperslides__parallax-wrapper(:style="`padding-bottom: ${conf.slideRatio * 100}%`" aria-live="polite")
       .vueperslides__track(
+        ref="track"
         :class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }"
-        :style="trackStyles"
-        ref="track")
+        :style="trackStyles")
         .vueperslides__track-inner(:style="trackInnerStyles")
           vueper-slide.vueperslide--clone(
             v-if="slides.count && clones[0]"
@@ -67,6 +67,7 @@
       role="tablist"
       aria-label="Slideshow navigation")
       button.vueperslides__bullet(
+        ref="bullet"
         :class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }"
         v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)"
         :key="i"
@@ -74,8 +75,7 @@
         :aria-label="`Slide ${i + 1}`"
         @click="goToSlide(i * conf.slideMultiple)"
         @keyup.left="previous()"
-        @keyup.right="next()"
-        ref="bullet")
+        @keyup.right="next()")
         span {{ i + 1 }}
 
   .vueperslides__bullets.vueperslides__bullets--outside(
@@ -83,6 +83,7 @@
     role="tablist"
     aria-label="Slideshow navigation")
     button.vueperslides__bullet(
+      ref="bullet"
       :class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }"
       v-for="(item, i) in Math.ceil(slides.count / conf.slideMultiple)"
       :key="i"
@@ -90,13 +91,12 @@
       :aria-label="`Slide ${i + 1}`"
       @click="goToSlide(i * conf.slideMultiple)"
       @keyup.left="previous()"
-      @keyup.right="next()"
-      ref="bullet")
+      @keyup.right="next()")
       span {{ i + 1 }}
 
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(
-    :class="conf.slideContentOutsideClass"
-    v-if="conf.slideContentOutside === 'bottom'")
+    v-if="conf.slideContentOutside === 'bottom'"
+    :class="conf.slideContentOutsideClass")
     div.vueperslide__title(v-if="slides.count" v-html="getCurrentSlideData('title')")
     div.vueperslide__content(v-if="slides.count" v-html="getCurrentSlideData('content')")
 </template>
@@ -141,6 +141,7 @@ export default {
     visibleSlides: { type: Number, default: 1 },
     '3d': { type: Boolean, default: false }
   },
+
   data: () => ({
     isReady: false,
     container: null,
@@ -163,9 +164,11 @@ export default {
     breakpointsData: { list: [], current: null },
     parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false }
   }),
+
   mounted () {
     this.init()
   },
+
   methods: {
     init () {
       this.emit('before-init', false)
@@ -180,9 +183,12 @@ export default {
         this.setBreakpointConfig(this.getCurrentBreakpoint())
       }
 
-      if (this.conf.infinite && this.slides.list.length) this.$nextTick(this.cloneSlides)
+      if (this.conf.infinite && this.slides.list.length) {
+        this.cloneSlides()
+        this.$nextTick(this.cloneSlides)
+      }
 
-      this.goToSlide(this.conf.initSlide - 1)
+      this.goToSlide(this.conf.initSlide - 1, { animation: false })
       this.bindEvents()
 
       this.isReady = true
@@ -871,13 +877,9 @@ export default {
   &--fixed-height {
     .vueperslides__inner,
     .vueperslides__parallax-wrapper,
-    .vueperslide {
-      height: inherit;
-    }
+    .vueperslide {height: inherit;}
 
-    .vueperslides__parallax-wrapper {
-      padding-bottom: 0 !important;
-    }
+    .vueperslides__parallax-wrapper {padding-bottom: 0 !important;}
   }
 
   &__inner {
@@ -889,9 +891,7 @@ export default {
     position: relative;
     overflow: hidden;
 
-    .vueperslides--3d & {
-      overflow: visible;
-    }
+    .vueperslides--3d & {overflow: visible;}
   }
 
   &__track {
@@ -935,21 +935,10 @@ export default {
       transition: none;
     }
 
-    .vueperslides--3d & {
-      transform-style: preserve-3d;
-    }
-
-    .vueperslides__track--mousedown & {
-      transition: 0.2s ease-in-out transform !important;
-    }
-
-    .vueperslides__track--dragging & {
-      transition: none;
-    }
-
-    .vueperslides__track--no-animation & {
-      transition-duration: 0s;
-    }
+    .vueperslides--3d & {transform-style: preserve-3d;}
+    .vueperslides__track--mousedown & {transition: 0.2s ease-in-out transform !important;}
+    .vueperslides__track--dragging & {transition: none;}
+    .vueperslides__track--no-animation & {transition-duration: 0s;}
   }
 
   &__arrow {
@@ -978,9 +967,7 @@ export default {
     left: 0;
     right: 0;
 
-    &--outside {
-      position: relative;
-    }
+    &--outside {position: relative;}
   }
 
   &__bullet {
@@ -992,9 +979,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    &::-moz-focus-inner {
-      border: 0;
-    }
+    &::-moz-focus-inner {border: 0;}
   }
 }
 </style>

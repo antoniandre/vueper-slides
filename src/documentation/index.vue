@@ -260,8 +260,18 @@
     or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
     #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
     #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
-  vueper-slides.ex--images-and-fading(fade slide-content-outside="top" slide-content-outside-class="max-widthed text-xs-center my-4" :touchable="false" :slide-ratio="0.3")
-    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content")
+  vueper-slides.ex--images-and-fading(
+    fade
+    slide-content-outside="top"
+    slide-content-outside-class="max-widthed text-center my-4"
+    :touchable="false"
+    :slide-ratio="0.3")
+    vueper-slide(
+      v-for="(slide, i) in slides2"
+      :key="i"
+      :image="slide.image"
+      :title="'# ' + slide.title"
+      :content="slide.content")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
       &lt;vueper-slide
@@ -393,7 +403,12 @@
         v-icon swap_vert
         | &nbsp;Move content position
       strong.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
-  vueper-slides.ex--updating-content(:slide-ratio="1/4" autoplay :slide-content-outside="contentPosition === 'false' ? false : contentPosition" slide-content-outside-class="text-xs-center py-4" :refresh-clones-on-drag="true")
+  vueper-slides.ex--updating-content(
+    :slide-ratio="1/4"
+    autoplay
+    :slide-content-outside="contentPosition === 'false' ? false : contentPosition"
+    slide-content-outside-class="text-center py-4"
+    :refresh-clones-on-drag="true")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       div(slot="slideContent")
         v-layout(align-center justify-center)
@@ -469,7 +484,12 @@
   highlight Note that the slideshow disables controls if you have only 1 slide or none.
 
   vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
-    vueper-slide(v-for="(slide, i) in slides3" :key="i" :title="slide.title" :content="slide.content" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+    vueper-slide(
+      v-for="(slide, i) in slides3"
+      :key="i"
+      :title="slide.title"
+      :content="slide.content"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="appendSlide" small&gt;
       &lt;v-icon&gt;add&lt;/v-icon&gt; Add Slide

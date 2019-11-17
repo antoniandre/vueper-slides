@@ -2,28 +2,19 @@
   "name": "vueperslides",
   "version": "1.21.0",
   "description": "A touch ready and responsive slideshow for Vue JS.",
-  "repository": "https://github.com/antoniandre/vueper-slides",
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
-  "license": "MIT",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build-bundle": "vue-cli-service build --target lib --name vueperslides ./src/components/vueperslides/index.js --dest ./dist"
+  },
   "main": "dist/vueperslides.common.js",
   "unpkg": "dist/vueperslides.umd.min.js",
-  "keywords": [
-    "carousel",
-    "slideshow",
-    "vue",
-    "vuejs",
-    "ui"
-  ],
   "files": [
     "dist/",
     "src/"
   ],
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-bundle": "vue-cli-service build --target lib --name vueperslides ./src/components/vueperslides/index.js --dest ./dist",
-    "lint": "vue-cli-service lint"
-  },
   "dependencies": {},
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
@@ -37,9 +28,19 @@
     "sass-loader": "^7.3.1",
     "simple-syntax-highlighter": "^1.0.6",
     "vue": "^2.6.10",
-    "vue-cli-plugin-vuetify": "^0.6.3",
+    "vue-cli-plugin-vuetify": "^2.0.2",
+    "vue-router": "^3.0.3",
     "vue-scrollto": "^2.17.1",
     "vue-template-compiler": "^2.6.10",
     "vuetify": "^2.1.9"
-  }
+  },
+  "keywords": [
+    "carousel",
+    "slideshow",
+    "vue",
+    "vuejs",
+    "ui"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/antoniandre/vueper-slides"
 }
