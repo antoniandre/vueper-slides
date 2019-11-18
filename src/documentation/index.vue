@@ -327,19 +327,19 @@
     a(name="ex--complex-slide-title-and-content")
   p.
     This example (and the next one #[a(href="#ex--updating-content") Updating Content]) shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
-    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slideTitle] &amp; #[span.code slideContent]
+    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slide-title] &amp; #[span.code slide-content]
     if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
 
   vueper-slides
     vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      template(v-slot:slideContent)
+      template(v-slot:slide-content)
         v-icon(color="white") check
         | Complex content {{ i.toString() }} with vueJS
         | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
         | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
   vueper-slides
     vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      div(slot="slideContent")
+      div(slot="slide-content")
         v-icon(color="white") check
         | Complex content {{ i.toString() }} with vueJS
         | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
@@ -350,7 +350,7 @@
         v-for="i in 4"
         :key="i"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
-        &lt;div slot="slideContent"&gt;
+        &lt;div slot="slide-content"&gt;
          &lt;v-icon color="white"&gt;check&lt;/v-icon&gt;
          Complex content with vueJS {{ "\{\{ 1 === 1 ? 'interpreted' : 'non-interpreted' \}\}" }} compilable content &amp; &lt;span v-pre&gt;{{ '\{\{ mustaches \}\}' }}&lt;/span&gt;.
         &lt;/div&gt;
@@ -358,23 +358,23 @@
     &lt;/vueper-slides&gt;
   highlight(type="info")
     ul.my-0
-      li if both #[span.code :title="Some title"] and #[span.code slot="slideTitle"] are provided, only the title from the attribute will be displayed.
-      li if both #[span.code :content="Some content"] and #[span.code slot="slideContent"] are provided, only the content from the attribute will be displayed.
+      li if both #[span.code :title="Some title"] and #[span.code slot="slide-title"] are provided, only the title from the attribute will be displayed.
+      li if both #[span.code :content="Some content"] and #[span.code slot="slide-content"] are provided, only the content from the attribute will be displayed.
   highlight(type="warning")
     strong Caution if you use the slide slots with the infinite sliding mode
     | #[br]At each end of the slideshow, slide clones mirror the original slides.
     | For them to display exactly like the original slide, the element with the
-    | #[span.code slot="slideContent"] attribute should wrap &nbsp;
+    | #[span.code slot="slide-content"] attribute should wrap &nbsp;
     | #[strong everything you want to keep]. E.g. (with Vuetify component)#[br]
     v-layout
       ssh-pre.flex.xs6.my-2.ml-0.mr-2(language="html-vue").
         &lt;!-- Wrong way. The v-layout class will be lost. --&gt;
-        &lt;v-layout slot="slideContent"&gt;
+        &lt;v-layout slot="slide-content"&gt;
           Some content.
         &lt;/v-layout&gt;
       ssh-pre.flex.xs6.my-2.ml-2.mr-0(language="html-vue").
         &lt;!-- Right way. --&gt;
-        &lt;div slot="slideContent"&gt;
+        &lt;div slot="slide-content"&gt;
           &lt;v-layout&gt;
             Some content.
           &lt;/v-layout&gt;
@@ -410,7 +410,7 @@
     slide-content-outside-class="text-center py-4"
     :refresh-clones-on-drag="true")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
-      div(slot="slideContent")
+      div(slot="slide-content")
         v-layout(align-center justify-center)
           v-icon.pr-3(color="white" size="5em") access_time
           div.text-xs-left
@@ -425,7 +425,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
-        &lt;div slot="slideContent"&gt;
+        &lt;div slot="slide-content"&gt;
           &lt;v-layout"&gt;
             &lt;v-icon&gt;access_time&lt;/v-icon&gt;
             &lt;div&gt;
@@ -886,10 +886,8 @@
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="$refs.myVueperSlides.previous()"&gt;Previous&lt;/button&gt;
-    &lt;button @click="$refs.myVueperSlides.goToSlide(6 - 1)"&gt;
-      &lt;!-- (6 - 1) because slide index starts at 0. --&gt;
-      Go to slide 6
-    &lt;/button&gt;
+    &lt;!-- (6 - 1) since slide index starts from 0. --&gt;
+    &lt;button @click="$refs.myVueperSlides.goToSlide(6 - 1)"&gt;Go to slide 6&lt;/button&gt;
     &lt;button @click="$refs.myVueperSlides.next()"&gt;Next&lt;/button&gt;
 
     &lt;vueper-slides ref="myVueperSlides"&gt;
@@ -1322,7 +1320,7 @@
   ul.max-widthed
     li
       h4
-        code mouseenter
+        code mouse-enter
       p.
         Triggered on slide mouse enter with parameters:
       ssh-pre(language="js").
@@ -1330,7 +1328,7 @@
         el: {String} // DOM Element.
     li
       h4
-        code mouseleave
+        code mouse-leave
       p.
         Triggered on slide mouse leave.
 

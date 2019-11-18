@@ -6,15 +6,15 @@
   :face="slideFace3d"
   :style="slideStyles"
   :aria-hidden="$parent.slides.activeId === _uid || isSlideVisible ? 'false' : 'true'"
-  @mouseenter="$emit('mouseenter', { slideIndex, title, content, image, link }, $el)"
-  @mouseleave="$emit('mouseleave')")
+  @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
+  @mouseleave="$emit('mouse-leave')")
   .vueperslide__image(v-if="image && conf.slideImageInside" :style="imageStyles")
   .vueperslide__content-wrapper(v-show="!conf.slideContentOutside")
     .vueperslide__title
-      slot(name="slideTitle")
+      slot(name="slide-title")
         div(v-if="title" v-html="title")
     .vueperslide__content
-      slot(name="slideContent")
+      slot(name="slide-content")
         div(v-if="content" v-html="content")
 </template>
 
@@ -29,7 +29,7 @@ export default {
   },
 
   methods: {
-    updateSlide(props) {
+    updateSlide (props) {
       this.$parent.updateSlide(this._uid, props)
     }
   },
@@ -101,18 +101,11 @@ export default {
     imageStyles () {
       return { ...(this.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }) }
     },
-    hasTitleSlotData () {
-      return this.$slots.slideTitle !== undefined
-    },
-    hasContentSlotData () {
-      return this.$slots.slideContent !== undefined
-    },
     slideFace3d () {
       if (!this.conf['3d']) return false
       const faces = ['front', 'right', 'back', 'left']
-      const slidesCount = this.$parent.slidesCount
-      const prevSlideIndex = (this.$parent.slides.current - 1 + slidesCount) % slidesCount
-      const nextSlideIndex = (this.$parent.slides.current + 1) % slidesCount
+      const prevSlideIndex = (this.$parent.slides.current - 1 + this.slidesCount) % this.slidesCount
+      const nextSlideIndex = (this.$parent.slides.current + 1) % this.slidesCount
 
       // Index starts at 1 so this.slideIndex.
       if (this.slideIndex === prevSlideIndex) return faces[(4 + this.$parent.slides.current - 1) % 4]
@@ -122,14 +115,12 @@ export default {
     },
     isPreviousSlide () {
       if (!this.conf['3d']) return false
-      const slidesCount = this.$parent.slidesCount
-      const prevSlideIndex = (this.$parent.slides.current - 1 + slidesCount) % slidesCount
+      const prevSlideIndex = (this.$parent.slides.current - 1 + this.slidesCount) % this.slidesCount
       return this._uid === this.$parent.slides.list[prevSlideIndex].id
     },
     isNextSlide () {
       if (!this.conf['3d']) return false
-      const slidesCount = this.$parent.slidesCount
-      const nextSlideIndex = (this.$parent.slides.current + 1) % slidesCount
+      const nextSlideIndex = (this.$parent.slides.current + 1) % this.slidesCount
       return this._uid === this.$parent.slides.list[nextSlideIndex].id
     },
     isSlideVisible () {
@@ -141,6 +132,9 @@ export default {
     },
     slidesList () {
       return this.$parent.slides.list.map(slide => slide.id)
+    },
+    slidesCount () {
+      return this.slidesList.length
     },
     slideIndex () {
       return this.slidesList.indexOf(this._uid)

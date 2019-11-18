@@ -8,10 +8,10 @@
     v-if="slidesCount && conf.slideContentOutside === 'top'"
     :class="conf.slideContentOutsideClass")
     .vueperslide__title
-      vnodes(v-if="currentSlide.titleSlot" slot="slideTitle" :vnodes="currentSlide.titleSlot")
+      vnodes(v-if="currentSlide.titleSlot" slot="slide-title" :vnodes="currentSlide.titleSlot")
       div(v-else v-html="currentSlide.title")
     .vueperslide__content
-      vnodes(v-if="currentSlide.contentSlot" slot="slideContent" :vnodes="currentSlide.contentSlot")
+      vnodes(v-if="currentSlide.contentSlot" slot="slide-content" :vnodes="currentSlide.contentSlot")
       div(v-else v-html="currentSlide.content")
 
   .vueperslides__inner
@@ -30,10 +30,10 @@
             :link="lastSlide.link"
             :style="conf.refreshClonesOnDrag ? getLastSlideStyle() : lastSlide.style"
             aria-hidden="true")
-            template(v-slot:slideTitle)
-              vnodes(v-if="lastSlide.titleSlot" :vnodes="lastSlide.titleSlot")
-            template(v-slot:slideContent)
-              vnodes(v-if="lastSlide.contentSlot" :vnodes="lastSlide.contentSlot")
+            template(v-if="lastSlide.titleSlot" v-slot:slide-title)
+              vnodes(:vnodes="lastSlide.titleSlot")
+            template(v-if="lastSlide.contentSlot" v-slot:slide-content)
+              vnodes(:vnodes="lastSlide.contentSlot")
           slot(:currentSlide="slides.current")
           vueper-slide.vueperslide--clone(
             v-if="isReady && conf.infinite && slidesCount > 1 && firstSlide"
@@ -44,8 +44,10 @@
             :link="firstSlide.link"
             :style="conf.refreshClonesOnDrag ? getFirstSlideStyle() : firstSlide.style"
             aria-hidden="true")
-            vnodes(v-if="lastSlide.titleSlot" slot="slideTitle" :vnodes="firstSlide.titleSlot")
-            vnodes(v-if="lastSlide.contentSlot" slot="slideContent" :vnodes="firstSlide.contentSlot")
+            template(v-if="firstSlide.titleSlot" v-slot:slide-title)
+              vnodes(:vnodes="firstSlide.titleSlot")
+            template(v-if="firstSlide.contentSlot" v-slot:slide-content)
+              vnodes(:vnodes="firstSlide.contentSlot")
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pausedIcon")
       slot(name="pausedIcon")
@@ -106,10 +108,10 @@
     v-if="slidesCount && conf.slideContentOutside === 'bottom'"
     :class="conf.slideContentOutsideClass")
     .vueperslide__title
-      vnodes(v-if="currentSlide.titleSlot" slot="slideTitle" :vnodes="currentSlide.titleSlot")
+      vnodes(v-if="currentSlide.titleSlot" slot="slide-title" :vnodes="currentSlide.titleSlot")
       div(v-else v-html="currentSlide.title")
     .vueperslide__content
-      vnodes(v-if="currentSlide.contentSlot" slot="slideContent" :vnodes="currentSlide.contentSlot")
+      vnodes(v-if="currentSlide.contentSlot" slot="slide-content" :vnodes="currentSlide.contentSlot")
       div(v-else v-html="currentSlide.content")
 </template>
 
@@ -279,7 +281,7 @@ export default {
 
     setBreakpointConfig (breakpoint) {
       const bp = (this.breakpoints && this.breakpoints[breakpoint]) || {}
-      const slideMultipleChanged = bp.slideMultiple !== this.conf.slideMultiple
+      const slideMultipleChanged = bp.slideMultiple && bp.slideMultiple !== this.conf.slideMultiple
 
       // this.conf gets updated by itself when this.breakpointsData.current changes.
       this.breakpointsData.current = breakpoint
@@ -362,15 +364,11 @@ export default {
     onResize () {
       if (this.breakpointsData.list.length) {
         const breakpoint = this.getCurrentBreakpoint()
-        if (this.hasBreakpointChanged(breakpoint)) {
-          this.setBreakpointConfig(breakpoint)
-        }
+        if (this.hasBreakpointChanged(breakpoint)) this.setBreakpointConfig(breakpoint)
       }
 
-      if (this.conf.parallax) {
-        // Only refresh parallaxData.slideshowOffsetTop value on resize for better performance.
-        this.getSlideshowOffsetTop(true)
-      }
+      // Only refresh parallaxData.slideshowOffsetTop value on resize for better performance.
+      if (this.conf.parallax) this.getSlideshowOffsetTop(true)
     },
 
     onMouseIn () {
@@ -797,7 +795,10 @@ export default {
       return this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
     },
     currentSlide () {
-      return this.slidesCount ? this.slides.list[this.slides.current] : {}
+      // Means it didn't have time to update this.slidesCount on hot-reload.
+      if (this.slides.current > this.slidesCount - 1) this.goToSlide(0, { animation: false })
+
+      return (this.slidesCount && this.slides.list[this.slides.current]) || {}
     },
     vueperslidesClasses () {
       return {
@@ -807,7 +808,7 @@ export default {
         'vueperslides--touchable': this.touchEnabled && !this.disable,
         'vueperslides--fixed-height': this.conf.fixedHeight,
         'vueperslides--3d': this.conf['3d'],
-        'vueperslides--animated': this.transition.animated
+        'vueperslides--animated': this.transition.animated // While transitioning.
       }
     },
     vueperslidesStyles () {
