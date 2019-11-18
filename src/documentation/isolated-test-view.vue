@@ -1,16 +1,20 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides(:breakpoints="breakpoints")
+  vueper-slides(
+    :breakpoints="breakpoints"
+    arrows-outside
+    bullets-outside
+    :visible-slides="3"
+    :infinite="true")
     vueper-slide(
-      v-for="(slide, i) in slides"
+      v-for="(slide, i) in 10"
       :key="i"
-      :title="slide.title"
-      :content="slide.content"
+      :content="`Content ${i}`"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      template(v-slot:slideTitle)
+      template(v-slot:slide-title)
         v-icon.white--text check_circle
-        p {{ slide.title }}
+        p {{ `Title ${i}` }}
 </template>
 
 <script>
@@ -41,22 +45,14 @@ export default {
       }
     ],
     breakpoints: {
-      1200: {
-        slideRatio: 1 / 5,
+      700: {
         slideMultiple: 2,
-        visibleSlides: 2
-      },
-      900: {
-        slideRatio: 1 / 3
+        visibleSlides: 2,
+        slideRatio: 1 / 3,
+        infinite: false
       },
       600: {
-        slideRatio: 1 / 2,
-        arrows: false,
-        bulletsOutside: true
-      },
-      // The order you list breakpoints does not matter, Vueper Slides will sort them for you.
-      1100: {
-        slideRatio: 1 / 4
+        slideRatio: 1 / 2
       }
     }
   }),
