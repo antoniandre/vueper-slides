@@ -1,8 +1,7 @@
 // Nice-to-have styles, easy to override by the end-user.
 .vueperslides {
   &:not(.no-shadow):not(.vueperslides--3d) &__parallax-wrapper {
-    &::before,
-    &::after {
+    &:before, &:after {
       content: "";
       position: absolute;
       bottom: 100%;
@@ -13,7 +12,7 @@
       z-index: 2;
     }
 
-    &::after {
+    &:after {
       top: 100%;
       bottom: auto;
     }
@@ -22,9 +21,7 @@
   &__arrows {
     color: #fff;
 
-    &--outside {
-      color: currentColor;
-    }
+    &--outside {color: currentColor;}
   }
 
   &__arrow {
@@ -34,26 +31,14 @@
     font-size: 3em;
     opacity: 0.7;
 
-    &--prev {
-      left: 10px;
-    }
+    &--prev {left: 10px;}
+    &--next {right: 10px;}
 
-    &--next {
-      right: 10px;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
+    &:hover {opacity: 1;}
   }
 
-  &__arrows--outside &__arrow--prev {
-    left: -40px;
-  }
-
-  &__arrows--outside &__arrow--next {
-    right: -40px;
-  }
+  &__arrows--outside &__arrow--prev {left: -40px;}
+  &__arrows--outside &__arrow--next {right: -40px;}
 
   &__paused {
     top: 3%;
@@ -63,9 +48,7 @@
     z-index: 1;
   }
 
-  &:hover &__paused {
-    opacity: 1;
-  }
+  &:hover &__paused {opacity: 1;}
 
   &__bullet {
     width: 12px;
@@ -78,13 +61,9 @@
     padding: 0;
     transition: 0.4s ease-in-out;
 
-    &--active {
-      border-width: 6px;
-    }
+    &--active {border-width: 6px;}
 
-    span {
-      display: none;
-    }
+    span {display: none;}
   }
 }
 
@@ -92,9 +71,7 @@
   background-position: center;
   overflow: hidden;
 
-  &__image {
-    background-position: center;
-  }
+  &__image {background-position: center;}
 
   &__content-wrapper:not(&__content-wrapper--outside-top):not(&__content-wrapper--outside-bottom) {
     top: 50%;
