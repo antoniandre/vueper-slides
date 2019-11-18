@@ -22,7 +22,7 @@
         :style="trackStyles")
         .vueperslides__track-inner(:style="trackInnerStyles")
           vueper-slide.vueperslide--clone(
-            v-if="conf.infinite && slidesCount > 1 && lastSlide"
+            v-if="isReady && conf.infinite && slidesCount > 1 && lastSlide"
             clone
             :title="lastSlide.title"
             :content="lastSlide.content"
@@ -36,7 +36,7 @@
               vnodes(v-if="lastSlide.contentSlot" :vnodes="lastSlide.contentSlot")
           slot(:currentSlide="slides.current")
           vueper-slide.vueperslide--clone(
-            v-if="conf.infinite && slidesCount > 1 && firstSlide"
+            v-if="isReady && conf.infinite && slidesCount > 1 && firstSlide"
             clone
             :title="firstSlide.title"
             :content="firstSlide.content"
@@ -199,8 +199,11 @@ export default {
       this.goToSlide(this.conf.initSlide - 1, { animation: false })
       this.bindEvents()
 
-      this.isReady = true
-      this.emit('ready')
+      // Give it a tick to be mounted in the DOM.
+      this.$nextTick(() => {
+        this.isReady = true
+        this.emit('ready')
+      })
     },
 
     // Emit a named event outside the component with 2 possible parameters:
@@ -245,13 +248,16 @@ export default {
     getSlideData (index) {
       const slide = this.slides.list[index]
       let data = {}
-      if (slide) data = {
-        title: slide.title,
-        titleSlot: slide.titleSlot,
-        content: slide.content,
-        contentSlot: slide.contentSlot,
-        image: slide.image,
-        link: slide.link
+
+      if (slide) {
+        data = {
+          title: slide.title,
+          titleSlot: slide.titleSlot,
+          content: slide.content,
+          contentSlot: slide.contentSlot,
+          image: slide.image,
+          link: slide.link
+        }
       }
 
       return data
@@ -626,15 +632,13 @@ export default {
       return { nextSlide: newIndex, clone }
     },
 
-    goToSlide (index, options = {}) {
+    // animation = slide transition will be animated.
+    // autoPlaying = go to the next slide by autoplay - no user intervention.
+    // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
+    goToSlide (index, { animation = true, autoPlaying = false, jumping = false } = {}) {
       if (!this.slidesCount || this.disable) return
 
       if (this.conf.autoplay) this.pauseAutoplay()
-
-      // animation = slide transition is animated.
-      // autoPlaying = go to the next slide by autoplay - no user intervention.
-      // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
-      const { animation = true, autoPlaying = false, jumping = false } = options
 
       this.transition.animated = animation
       setTimeout(() => (this.transition.animated = false), this.transitionSpeed)
@@ -825,7 +829,8 @@ export default {
     trackInnerStyles () {
       let styles = {}
 
-      styles.transitionDuration = this.transition.speed + 'ms'
+      // Prevent animation if VueperSlides is not yet ready (so that the first clone is not shown before ready).
+      styles.transitionDuration = (this.isReady ? this.transition.speed : 0) + 'ms'
 
       if (this.conf['3d']) {
         let rotation = this.transition.currentTranslation * 90 / 100
