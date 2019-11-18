@@ -4,7 +4,6 @@
   :class="vueperslidesClasses"
   aria-label="Slideshow"
   :style="vueperslidesStyles")
-  p -{{slides.focus}}-{{slides.current}}-
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(
     v-if="slidesCount && conf.slideContentOutside === 'top'"
     :class="conf.slideContentOutsideClass")
@@ -31,9 +30,9 @@
             :link="lastSlide.link"
             :style="conf.refreshClonesOnDrag ? getLastSlideStyle() : lastSlide.style"
             aria-hidden="true")
-            template(v-if="lastSlide.titleSlot" v-slot:slide-title)
+            template(v-if="lastSlide.titleSlot" slot="slide-title")
               vnodes(:vnodes="lastSlide.titleSlot")
-            template(v-if="lastSlide.contentSlot" v-slot:slide-content)
+            template(v-if="lastSlide.contentSlot" slot="slide-content")
               vnodes(:vnodes="lastSlide.contentSlot")
           slot(:currentSlide="slides.current")
           vueper-slide.vueperslide--clone(
@@ -45,13 +44,13 @@
             :link="firstSlide.link"
             :style="conf.refreshClonesOnDrag ? getFirstSlideStyle() : firstSlide.style"
             aria-hidden="true")
-            template(v-if="firstSlide.titleSlot" v-slot:slide-title)
+            template(v-if="firstSlide.titleSlot" slot="slide-title")
               vnodes(:vnodes="firstSlide.titleSlot")
-            template(v-if="firstSlide.contentSlot" v-slot:slide-content)
+            template(v-if="firstSlide.contentSlot" slot="slide-content")
               vnodes(:vnodes="firstSlide.contentSlot")
 
-    .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pausedIcon")
-      slot(name="pausedIcon")
+    .vueperslides__paused(v-if="conf.pauseOnHover && $slots['pause-icon']")
+      slot(name="pause-icon")
     .vueperslides__arrows(
       :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }"
       v-if="conf.arrows && slidesCount > 1 && !disable")
@@ -61,7 +60,7 @@
         aria-label="Previous"
         @keyup.left="previous()"
         @keyup.right="next()")
-        slot(name="arrowLeft")
+        slot(name="arrow-left")
           svg(viewBox="0 0 24 24")
             path(d="M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z")
       button.vueperslides__arrow.vueperslides__arrow--next(
@@ -70,7 +69,7 @@
         aria-label="Next"
         @keyup.left="previous()"
         @keyup.right="next()")
-        slot(name="arrowRight")
+        slot(name="arrow-right")
           svg(viewBox="0 0 24 24")
             path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
     .vueperslides__bullets(
@@ -199,7 +198,8 @@ export default {
         this.setBreakpointConfig(this.getCurrentBreakpoint())
       }
 
-      this.goToSlide(this.conf.initSlide - 1, { animation: false })
+      const options = { animation: false, autoPlaying: this.conf.autoplay }
+      this.goToSlide(this.conf.initSlide - 1, options)
       this.bindEvents()
 
       // Give it a tick to be mounted in the DOM.
@@ -284,15 +284,15 @@ export default {
       const bp = (this.breakpoints && this.breakpoints[breakpoint]) || {}
       const slideMultipleChanged = bp.slideMultiple && bp.slideMultiple !== this.conf.slideMultiple
       const visibleSlidesChanged = bp.visibleSlides && bp.visibleSlides !== this.conf.visibleSlides
-      console.log('changing breakpoint', bp, slideMultipleChanged, this.slides.focus)
 
       // this.conf gets updated by itself when this.breakpointsData.current changes.
       this.breakpointsData.current = breakpoint
+      this.slides.current = this.getFirstVisibleSlide(this.slides.focus)
 
       if (slideMultipleChanged || visibleSlidesChanged) {
-        this.slides.current = this.slides.focus
-        this.goToSlide(this.slides.current)
+        this.goToSlide(this.slides.current, { breakpointChange: true })
       }
+      else this.updateCurrentTranslation()
     },
 
     bindEvents () {
@@ -473,9 +473,7 @@ export default {
 
     // Dragging did not pass conditions to change slide, snap back to current slide.
     cancelSlideChange () {
-      if (!this.conf.fade) {
-        this.updateCurrentTranslation()
-      }
+      if (!this.conf.fade) this.updateCurrentTranslation()
     },
 
     getCurrentMouseX (e) {
@@ -488,7 +486,7 @@ export default {
     getBasicTranslation () {
       let translation = this.slides.current / this.conf.visibleSlides
 
-      if (this.conf.infinite) translation += 1 / this.conf.visibleSlides// A clone is prepended to the slides track.
+      if (this.conf.infinite) translation += 1 / this.conf.visibleSlides // A clone is prepended to the slides track.
 
       return translation
     },
@@ -503,7 +501,6 @@ export default {
      *                                     the value of the current drag.
      */
     updateCurrentTranslation (nextSlideIsClone = null, currentMouseX = null) {
-      // let dragging = currentMouseX
       let translation = this.getBasicTranslation()
 
       if (this.conf.infinite && nextSlideIsClone !== null) {
@@ -610,19 +607,6 @@ export default {
 
         newIndex += index < 0 ? missingItems : 0
         newIndex = this.getFirstVisibleSlide(newIndex)
-
-        // When using slideMultiple & breakpoints, on breakpoint change if slideMultiple has
-        // changed, the slideshow will snap to the current slide. but current slide is always the
-        // first of visible slides so by playing around breakpoints we lose the original slide on
-        // focus. this.slides.focus is here to never lose it.
-        // E.g.
-        // slideMultiple = 3, currentSlide = 9 (10th slide), means this is the only visible slide,
-        // now change breakpoint and slideMultiple = 2, so go to slide index 8 (shows slide 9 & 10)
-        // now current slide is 8. If we change back to previous breakpoint (slideMultiple = 3),
-        // current slide index becomes 6! and so on.
-        if (this.getFirstVisibleSlide(this.slides.focus) !== newIndex) {
-          this.slides.focus = newIndex
-        }
       }
 
       // Disable sliding if already on edge with disableArrowsOnEdges.
@@ -634,12 +618,12 @@ export default {
     },
 
     // animation = slide transition will be animated.
-    // autoPlaying = go to the next slide by autoplay - no user intervention.
+    // autoPlaying = going to the next slide from autoplay - no user intervention.
     // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
-    goToSlide (index, { animation = true, autoPlaying = false, jumping = false } = {}) {
+    goToSlide (index, { animation = true, autoPlaying = false, jumping = false, breakpointChange = false } = {}) {
       if (!this.slidesCount || this.disable) return
 
-      if (this.conf.autoplay) this.pauseAutoplay()
+      if (this.conf.autoplay && autoPlaying) this.pauseAutoplay()
 
       this.transition.animated = animation
       setTimeout(() => (this.transition.animated = false), this.transitionSpeed)
@@ -681,21 +665,27 @@ export default {
       }
 
       this.slides.current = nextSlide
-      this.slides.focus = nextSlide
+      // Don't change the focus slide if calling goToSlide from breakpoint change.
+      // The focused slide is to keep track which slide to snap to when switching
+      // between 2 breakpoints that have multiple visible slides.
+      if (!breakpointChange) this.slides.focus = nextSlide
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.conf.fade) this.updateCurrentTranslation(nextSlideIsClone)
 
       this.slides.activeId = this.slides.list[this.slides.current].id
 
-      if (this.conf.autoplay && !(this.conf.pauseOnHover && this.mouseOver)) this.resumeAutoplay()
+      if (this.conf.autoplay && autoPlaying && !(this.conf.pauseOnHover && this.mouseOver)) {
+        this.resumeAutoplay()
+      }
 
       if (this.slidesCount) {
-        if (this.$slots.default[this.slides.current]) {
-          // First use of goToSlide is while init, so should not propagate an event.
-          if (this.isReady && !jumping) this.emit('slide')
+        // First use of goToSlide is while init, so should not propagate an event.
+        if (this.$slots.default[this.slides.current] && this.isReady && !jumping) {
+          this.emit('slide')
         }
 
+        // Focus the current bullet for accessibility.
         if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullet && this.$refs.bullet[this.slides.current]) {
           this.$refs.bullet[this.slides.current].focus()
         }
@@ -754,6 +744,8 @@ export default {
 
   beforeDestroy () {
     this.removeEventListeners()
+    document.removeEventListener('scroll', this.onScroll)
+    window.removeEventListener('resize', this.onResize)
   },
 
   computed: {
@@ -766,7 +758,7 @@ export default {
         ...((this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current]) || {})
       }
 
-      // Overrides: once config from breakpoints is imported, we can use the conf object
+      // Overrides: once config from breakpoints is imported, we can use the `conf` object
       // and be sure all the options are up to date.
       // ------------------------------- //
       conf.slideMultiple = conf.slideMultiple ? conf.visibleSlides : 1
@@ -775,8 +767,9 @@ export default {
         conf.infinite = false
       }
 
-      conf.arrowsOutside = conf.arrowsOutside || (conf.visibleSlides > 1 && conf.arrowsOutside === null)
-      conf.bulletsOutside = conf.bulletsOutside || (conf.visibleSlides > 1 && conf.bulletsOutside === null)
+      // Place arrows & bullets outside by default if visibleSlides > 1.
+      if (conf.visibleSlides > 1 && conf.arrowsOutside === null) conf.arrowsOutside = true
+      if (conf.visibleSlides > 1 && conf.bulletsOutside === null) conf.bulletsOutside = true
 
       if (this.touchEnabled !== conf.touchable) this.toggleTouchableOption(conf.touchable)
       // ------------------------------- //
@@ -799,10 +792,12 @@ export default {
       return this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
     },
     currentSlide () {
-      console.log(this.slidesCount, this.slides.current, this.slides.list[this.slides.current])
-
       // Means it didn't have time to update this.slidesCount on hot-reload.
-      if (this.slides.current > this.slidesCount - 1) this.goToSlide(0, { animation: false })
+      if (this.slides.current > this.slidesCount - 1) {
+        this.goToSlide(0, { animation: false })
+        console.log('Does not seem to ever happen in the end.')
+        debugger
+      }
 
       return (this.slidesCount && this.slides.list[this.slides.current]) || {}
     },

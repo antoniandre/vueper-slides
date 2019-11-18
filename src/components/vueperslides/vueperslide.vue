@@ -41,9 +41,9 @@ export default {
       id: this._uid,
       image: this.image,
       title: this.title,
-      titleSlot: this.$slots.slideTitle,
+      titleSlot: this.$slots['slide-title'],
       content: this.content,
-      contentSlot: this.$slots.slideContent,
+      contentSlot: this.$slots['slide-content'],
       link: this.link,
       style: {}
     })
@@ -53,8 +53,8 @@ export default {
     if (this.clone) return
 
     this.updateSlide({
-      titleSlot: this.$slots.slideTitle,
-      contentSlot: this.$slots.slideContent,
+      titleSlot: this.$slots['slide-title'],
+      contentSlot: this.$slots['slide-content'],
       style: ((this.$el.attributes || {}).style || {}).value
     })
   },
