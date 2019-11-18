@@ -1,7 +1,7 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides(:infinite="false")
+  vueper-slides(:breakpoints="breakpoints")
     vueper-slide(
       v-for="(slide, i) in slides"
       :key="i"
@@ -39,7 +39,26 @@ export default {
         image: require('@/assets/images/snow-2.jpg'),
         link: '#link-to-article-3'
       }
-    ]
+    ],
+    breakpoints: {
+      1200: {
+        slideRatio: 1 / 5,
+        slideMultiple: 2,
+        visibleSlides: 2
+      },
+      900: {
+        slideRatio: 1 / 3
+      },
+      600: {
+        slideRatio: 1 / 2,
+        arrows: false,
+        bulletsOutside: true
+      },
+      // The order you list breakpoints does not matter, Vueper Slides will sort them for you.
+      1100: {
+        slideRatio: 1 / 4
+      }
+    }
   }),
 
   methods: {

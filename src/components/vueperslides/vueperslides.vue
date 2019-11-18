@@ -4,6 +4,7 @@
   :class="vueperslidesClasses"
   aria-label="Slideshow"
   :style="vueperslidesStyles")
+  p -{{slides.focus}}-{{slides.current}}-
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(
     v-if="slidesCount && conf.slideContentOutside === 'top'"
     :class="conf.slideContentOutsideClass")
@@ -282,11 +283,13 @@ export default {
     setBreakpointConfig (breakpoint) {
       const bp = (this.breakpoints && this.breakpoints[breakpoint]) || {}
       const slideMultipleChanged = bp.slideMultiple && bp.slideMultiple !== this.conf.slideMultiple
+      const visibleSlidesChanged = bp.visibleSlides && bp.visibleSlides !== this.conf.visibleSlides
+      console.log('changing breakpoint', bp, slideMultipleChanged, this.slides.focus)
 
       // this.conf gets updated by itself when this.breakpointsData.current changes.
       this.breakpointsData.current = breakpoint
 
-      if (slideMultipleChanged) {
+      if (slideMultipleChanged || visibleSlidesChanged) {
         this.slides.current = this.slides.focus
         this.goToSlide(this.slides.current)
       }
@@ -678,6 +681,7 @@ export default {
       }
 
       this.slides.current = nextSlide
+      this.slides.focus = nextSlide
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
       if (!this.conf.fade) this.updateCurrentTranslation(nextSlideIsClone)
@@ -795,6 +799,8 @@ export default {
       return this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
     },
     currentSlide () {
+      console.log(this.slidesCount, this.slides.current, this.slides.list[this.slides.current])
+
       // Means it didn't have time to update this.slidesCount on hot-reload.
       if (this.slides.current > this.slidesCount - 1) this.goToSlide(0, { animation: false })
 
