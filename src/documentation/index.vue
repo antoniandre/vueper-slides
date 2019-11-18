@@ -156,7 +156,7 @@
     :pause-on-hover="pauseOnHover"
     @autoplay-pause="internalAutoPlaying = false"
     @autoplay-resume="internalAutoPlaying = true")
-    v-icon(slot="pausedIcon" large color="white") pause_circle_outline
+    v-icon(slot="pause-icon" large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
   .subtitle-1.mt-6 Basic autoplay (with pause on mouseover) source code:
@@ -167,7 +167,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
-      &lt;i slot="pausedIcon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
+      &lt;i slot="pause-icon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
     &lt;/vueper-slides&gt;
 
   .subtitle-1 This example full source code:
@@ -190,7 +190,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
-      &lt;i slot="pausedIcon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
+      &lt;i slot="pause-icon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Vue JS component").
     data: () => ({
@@ -215,13 +215,13 @@
     The bullets are showing slide indexes which is disabled by default.#[br]
     You can also disable arrows and/or bullets. E.g. #[span.code :arrows="false"], #[span.code :bullets="false"]
   vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
-    v-icon(slot="arrowLeft" color="white" x-large) undo
-    v-icon(slot="arrowRight" color="white" x-large) redo
+    v-icon(slot="arrow-left" color="white" x-large) undo
+    v-icon(slot="arrow-right" color="white" x-large) redo
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
-      &lt;v-icon slot="arrowLeft" color="white" large&gt;arrow_left&lt;/v-icon&gt;
-      &lt;v-icon slot="arrowRight" color="white" large&gt;arrow_right&lt;/v-icon&gt;
+      &lt;v-icon slot="arrow-left" color="white" large&gt;arrow_left&lt;/v-icon&gt;
+      &lt;v-icon slot="arrow-right" color="white" large&gt;arrow_right&lt;/v-icon&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="slide.id"
@@ -328,20 +328,13 @@
   p.
     This example (and the next one #[a(href="#ex--updating-content") Updating Content]) shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
     The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slide-title] &amp; #[span.code slide-content]
-    if using the html attribute way (#[span.code &lt;vueper-slide :title="..." :content="..."&gt;]) is too restrictive for your content.
+    if using the html attributes #[span.code :title="..."] &amp; #[span.code :content="..."] is too restrictive for your content.
 
   vueper-slides
     vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
       template(v-slot:slide-content)
         v-icon(color="white") check
-        | Complex content {{ i.toString() }} with vueJS
-        | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
-        | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
-  vueper-slides
-    vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      div(slot="slide-content")
-        v-icon(color="white") check
-        | Complex content {{ i.toString() }} with vueJS
+        | Complex content {{ i.toString() }} with Vue.js
         | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
         | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -350,35 +343,16 @@
         v-for="i in 4"
         :key="i"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
-        &lt;div slot="slide-content"&gt;
+        &lt;template v-slot:slide-content&gt;
          &lt;v-icon color="white"&gt;check&lt;/v-icon&gt;
-         Complex content with vueJS {{ "\{\{ 1 === 1 ? 'interpreted' : 'non-interpreted' \}\}" }} compilable content &amp; &lt;span v-pre&gt;{{ '\{\{ mustaches \}\}' }}&lt;/span&gt;.
-        &lt;/div&gt;
+         Complex content with Vue.js {{ "\{\{ 1 === 1 ? 'interpreted' : 'non-interpreted' \}\}" }} compilable content &amp; &lt;span v-pre&gt;{{ '\{\{ mustaches \}\}' }}&lt;/span&gt;.
+        &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   highlight(type="info")
     ul.my-0
-      li if both #[span.code :title="Some title"] and #[span.code slot="slide-title"] are provided, only the title from the attribute will be displayed.
-      li if both #[span.code :content="Some content"] and #[span.code slot="slide-content"] are provided, only the content from the attribute will be displayed.
-  highlight(type="warning")
-    strong Caution if you use the slide slots with the infinite sliding mode
-    | #[br]At each end of the slideshow, slide clones mirror the original slides.
-    | For them to display exactly like the original slide, the element with the
-    | #[span.code slot="slide-content"] attribute should wrap &nbsp;
-    | #[strong everything you want to keep]. E.g. (with Vuetify component)#[br]
-    v-layout
-      ssh-pre.flex.xs6.my-2.ml-0.mr-2(language="html-vue").
-        &lt;!-- Wrong way. The v-layout class will be lost. --&gt;
-        &lt;v-layout slot="slide-content"&gt;
-          Some content.
-        &lt;/v-layout&gt;
-      ssh-pre.flex.xs6.my-2.ml-2.mr-0(language="html-vue").
-        &lt;!-- Right way. --&gt;
-        &lt;div slot="slide-content"&gt;
-          &lt;v-layout&gt;
-            Some content.
-          &lt;/v-layout&gt;
-        &lt;/div&gt;
+      li if both #[span.code :title="..."] and #[span.code slot="slide-title"] are provided, the title slot will be displayed.
+      li if both #[span.code :content="..."] and #[span.code slot="slide-content"] are provided, the content slot will be displayed.
 
   h3
     a(href="#ex--updating-content") Updating Content Inside/Outside
@@ -410,7 +384,7 @@
     slide-content-outside-class="text-center py-4"
     :refresh-clones-on-drag="true")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
-      div(slot="slide-content")
+      template(v-slot:slide-content)
         v-layout(align-center justify-center)
           v-icon.pr-3(color="white" size="5em") access_time
           div.text-xs-left
@@ -1185,17 +1159,32 @@
 
       p See this setting live in the #[a(href="#ex--show-multiple-slides") Show Multiple Slides] example.
 
-      highlight.
-        In some cases like in the first 3 examples bellow, you will not want the default
-        inner top and bottom shadow (the fourth example has it). To remove it, add the class
-        #[span.code no-shadow] on the #[span.code &lt;vueper-slides&gt;] tag.#[br]
-        Refer to the example source code.
-      highlight.
-        In most cases you will want to have the arrows and bullets outside, so if
-        #[span.code.black--text visible-slides] is set, arrows and bullets will be outside
-        by default.#[br]
-        You can override this by explicitly setting #[span.code :arrows-outside="false"],
-        or #[span.code :bullets-outside="false"].
+      highlight(type="warning")
+        strong.black--text.
+          WARNING#[br]
+          The #[span.code infinite] mode is not supported with the #[span.code visible-slides] option for now.
+      highlight
+        ul.pl-3
+          li
+            strong CSS class #[span.code no-shadow]:
+            div.
+              In some cases like in the #[a(href="#ex--show-multiple-slides") first 3 examples], you will not want the default
+              inner top and bottom shadow (the fourth example has it). To remove it, add the class
+              #[span.code no-shadow] on the #[span.code &lt;vueper-slides&gt;] tag.#[br]
+              Refer to the example source code.
+          li
+            strong Arrows &amp; bullets outside by default:
+            div.
+              In most cases you will want to have the arrows and bullets outside, so if
+              #[span.code.black--text visible-slides] is set, arrows and bullets will be outside
+              by default.#[br]
+              You can override this by explicitly setting #[span.code :arrows-outside="false"],
+              or #[span.code :bullets-outside="false"].
+          li
+            strong Slide 1 by 1 with fading:
+            div.
+              The #[span.code fade] transition is designed for all the visible slides to change at once (#[span.code :slide-multiple="true"]).#[br]
+              If you try to change slides 1 by 1 #[span.code :slide-multiple="false"] with multiple visible slides, you should use the #[span.code slide] transition instead.
       highlight(type="success")
         p.mb-2.
           When the #[span.code.black--text infinite] &amp; #[span.code.black--text slide-multiple]
@@ -1206,16 +1195,9 @@
           li With 3 items, active slide will be at position 2
           li With 5 items, active slide will be at position 3
           li With even numbers of items, active slide will be at position #[span.code visibleItemsCount / 2]
-      highlight(type="warning")
-        strong.black--text.
-          WARNING#[br]
-          The #[span.code infinite] mode is not supported with the #[span.code visible-slides] option for now.
-      highlight(type="info").
-          The #[span.code fade] transition is designed for all the visible slides to change at once (#[span.code :slide-multiple="true"]).#[br]
-          If you try to change slides 1 by 1 #[span.code :slide-multiple="false"] with multiple visible slides, you should use the #[span.code slide] transition instead.
 
     li
-      a(name="vueper-slides-settings--3d") 3D Rotation
+      a(name="vueper-slides-settings--3d")
       | #[code 3d], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         Allows you to slide one slide at a time with a 3D effect transition.#[br]
@@ -1241,12 +1223,6 @@
     Here is the list of all the available events. To see them in action you can check
     the #[a(href="#ex--events") Events example].
   ul.max-widthed
-    li
-      h4
-        code before-init
-      p.
-        Fired in the first place before the initialization of the slideshow.#[br]
-        No parameter available.
     li
       h4
         code ready
@@ -1386,7 +1362,7 @@
   h2
     a(href="#notable-version-changes") Notable Version Changes
     a(name="notable-version-changes")
-  highlight.
+  p.
     Vueper Slides is constantly evolving and some changes might affect the way you use it sometimes.#[br]
     Here is a list of the releases with their changes that might have an impact in your project.
   highlight(type="tips").
@@ -1396,12 +1372,29 @@
   ul.max-widthed
     li
       strong Version 2.0
-      p Breaking changes
-      ul
-        li Remove #[span.code before-init] emitted event
-        li Can now use new slot syntax
-        li Renamed slots to kebab-case
-        li If both slot and attribute are provided now use the attribute source.
+      highlight(type="warning")
+        strong Breaking changes
+        ul
+          li Can now use new Vue.js 2.6+ slots syntax
+          li Removed the #[span.code before-init] emitted event
+          li
+            span Renamed slots to kebab-case:
+            ul.pl-4.mt-1.mb-3
+              li #[span.code slideTitle] to #[span.code slide-title]
+              li #[span.code slideContent] to #[span.code slide-content]
+              li #[span.code arrowLeft] to #[span.code arrow-left]
+              li #[span.code arrowRight] to #[span.code arrow-right]
+              li #[span.code pausedIcon] to #[span.code pause-icon]
+          li
+            span Renamed events to kebab-case:
+            ul.pl-4.mt-1.mb-3
+              li #[span.code mouseover] to #[span.code mouse-enter]
+              li #[span.code mouseout] to #[span.code mouse-leave]
+          li If both slide-title slot and title attribute are provided now use the slot.
+          li If both slide-content slot and content attribute are provided now use the slot.
+          li Improved autoplay pause &amp; resume - manual slide does not resume if paused.
+          li TODO: update clones on content/title slots update
+          li TODO: update all examples with new slots syntax
 
     li.mt-6
       strong Version 1.16.0
