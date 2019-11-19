@@ -1408,6 +1408,7 @@
           li TODO: update clones on content/title slots update
           li TODO: update all examples with new slots syntax
           li TODO: document alwaysRefreshClones
+          li TODO: fix case "Does not seem to ever happen in the end."
 
     li.mt-6
       strong Version 1.16.0
