@@ -156,7 +156,8 @@
     :pause-on-hover="pauseOnHover"
     @autoplay-pause="internalAutoPlaying = false"
     @autoplay-resume="internalAutoPlaying = true")
-    v-icon(slot="pause-icon" large color="white") pause_circle_outline
+    template(v-slot:pause-icon)
+      v-icon(large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
   .subtitle-1.mt-6 Basic autoplay (with pause on mouseover) source code:
@@ -167,7 +168,9 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
-      &lt;i slot="pause-icon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
+      &lt;template v-slot:pause-icon&gt;
+        &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
+      &lt;/template&gt;
     &lt;/vueper-slides&gt;
 
   .subtitle-1 This example full source code:
@@ -190,7 +193,9 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
-      &lt;i slot="pause-icon" class="icon pause_circle_outline"&gt;&lt;/i&gt;
+      &lt;template v-slot:pause-icon&gt;
+        &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
+      &lt;/template&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Vue JS component").
     data: () => ({
@@ -215,13 +220,19 @@
     The bullets are showing slide indexes which is disabled by default.#[br]
     You can also disable arrows and/or bullets. E.g. #[span.code :arrows="false"], #[span.code :bullets="false"]
   vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
-    v-icon(slot="arrow-left" color="white" x-large) undo
-    v-icon(slot="arrow-right" color="white" x-large) redo
+    template(v-slot:arrow-left)
+      v-icon(color="white" x-large) undo
+    template(v-slot:arrow-right)
+      v-icon(color="white" x-large) redo
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
-      &lt;v-icon slot="arrow-left" color="white" large&gt;arrow_left&lt;/v-icon&gt;
-      &lt;v-icon slot="arrow-right" color="white" large&gt;arrow_right&lt;/v-icon&gt;
+      &lt;template v-slot:arrow-left&gt;
+        &lt;i class="icon icon-arrow-left"&gt;&lt;/i&gt;
+      &lt;/template&gt;
+      &lt;template v-slot:arrow-right&gt;
+        &lt;i class="icon icon-arrow-right"&gt;&lt;/i&gt;
+      &lt;/template&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="slide.id"
@@ -344,15 +355,15 @@
         :key="i"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
         &lt;template v-slot:slide-content&gt;
-         &lt;v-icon color="white"&gt;check&lt;/v-icon&gt;
+         &lt;i class="icon icon-check"&gt;&lt;/i&gt;
          Complex content with Vue.js {{ "\{\{ 1 === 1 ? 'interpreted' : 'non-interpreted' \}\}" }} compilable content &amp; &lt;span v-pre&gt;{{ '\{\{ mustaches \}\}' }}&lt;/span&gt;.
         &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   highlight(type="info")
     ul.my-0
-      li if both #[span.code :title="..."] and #[span.code slot="slide-title"] are provided, the title slot will be displayed.
-      li if both #[span.code :content="..."] and #[span.code slot="slide-content"] are provided, the content slot will be displayed.
+      li if both #[span.code :title="..."] and #[span.code v-slot:slide-title] are provided, the title slot will be displayed.
+      li if both #[span.code :content="..."] and #[span.code v-slot:slide-content] are provided, the content slot will be displayed.
 
   h3
     a(href="#ex--updating-content") Updating Content Inside/Outside
@@ -380,9 +391,9 @@
   vueper-slides.ex--updating-content(
     :slide-ratio="1/4"
     autoplay
+    always-refresh-clones
     :slide-content-outside="contentPosition === 'false' ? false : contentPosition"
-    slide-content-outside-class="text-center py-4"
-    :refresh-clones-on-drag="true")
+    slide-content-outside-class="text-center py-4")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       template(v-slot:slide-content)
         v-layout(align-center justify-center)
@@ -399,7 +410,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
-        &lt;div slot="slide-content"&gt;
+        &lt;template slot:slide-content&gt;
           &lt;v-layout"&gt;
             &lt;v-icon&gt;access_time&lt;/v-icon&gt;
             &lt;div&gt;
@@ -407,7 +418,7 @@
               &lt;div&gt;{{ '\{\{ slide.content \}\}' }}&lt;/div&gt;
             &lt;/div&gt;
           &lt;/v-layout&gt;
-        &lt;/div&gt;
+        &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
@@ -898,7 +909,7 @@
     transitionSpeed:          [Number, String],  default: 600
     pauseOnHover:             [Boolean],         default: true
     infinite:                 [Boolean],         default: true
-    refreshClonesOnDrag:      [Boolean],         default: false
+    alwaysRefreshClones:      [Boolean],         default: false
     parallax:                 [Boolean, Number], default: false
     touchable:                [Boolean],         default: true
     preventYScroll:           [Boolean],         default: false
@@ -1036,12 +1047,12 @@
         as a fade transition slideshow does not need such effect.
 
     li
-      | #[code refreshClonesOnDrag], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code alwaysRefreshClones], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
         With #[span.code infinite] mode on and sliding transitions, the clones
         (#[a(href="#what-are-clones" @click="onWhatAreClonesClick") What are clones?]) are created with a copy of content at
         the time it's created.#[br]Your content can get outdated if you have a fast #[span.code setInterval]
-        operating on content (E.g. a clock).#[br]Set #[span.code refreshClonesOnDrag] to
+        operating on content (E.g. a clock).#[br]Set #[span.code alwaysRefreshClones] to
         #[span.code true] if you want to keep updating clones before you see them while you drag.
       highlight(type="success").
         By default this parameter is disabled to save up operations. In most cases you should
@@ -1393,8 +1404,10 @@
           li If both slide-title slot and title attribute are provided now use the slot.
           li If both slide-content slot and content attribute are provided now use the slot.
           li Improved autoplay pause &amp; resume - manual slide does not resume if paused.
+          li Removed #[span.code refreshClonesOnDrag] option and introduced #[span.code alwaysRefreshClones].
           li TODO: update clones on content/title slots update
           li TODO: update all examples with new slots syntax
+          li TODO: document alwaysRefreshClones
 
     li.mt-6
       strong Version 1.16.0
