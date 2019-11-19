@@ -28,7 +28,7 @@
             :content="lastSlide.content"
             :image="lastSlide.image"
             :link="lastSlide.link"
-            :style="conf.refreshClonesOnDrag ? getLastSlideStyle() : lastSlide.style"
+            :style="lastSlide.style"
             aria-hidden="true")
             template(v-if="lastSlide.titleSlot" slot="slide-title")
               vnodes(:vnodes="lastSlide.titleSlot")
@@ -42,7 +42,7 @@
             :content="firstSlide.content"
             :image="firstSlide.image"
             :link="firstSlide.link"
-            :style="conf.refreshClonesOnDrag ? getFirstSlideStyle() : firstSlide.style"
+            :style="firstSlide.style"
             aria-hidden="true")
             template(v-if="firstSlide.titleSlot" slot="slide-title")
               vnodes(:vnodes="firstSlide.titleSlot")
@@ -142,7 +142,7 @@ export default {
     transitionSpeed: { type: [Number, String], default: 600 },
     pauseOnHover: { type: Boolean, default: true },
     infinite: { type: Boolean, default: true },
-    refreshClonesOnDrag: { type: Boolean, default: false },
+    alwaysRefreshClones: { type: Boolean, default: false },
     parallax: { type: [Boolean, Number], default: false },
     touchable: { type: Boolean, default: true },
     preventYScroll: { type: Boolean, default: false },
@@ -230,22 +230,6 @@ export default {
       }
 
       this.$emit(name, ...args)
-    },
-
-    getFirstSlideStyle () {
-      const domElement = (this.$slots.default[0] || {}).elm
-      if (!domElement) return ''
-
-      const { attributes: { style: { value = '' } = {} } = {} } = domElement
-      return value
-    },
-
-    getLastSlideStyle () {
-      const domElement = (this.$slots.default[this.$slots.default.length - 1] || {}).elm
-      if (!domElement) return ''
-
-      const { attributes: { style: { value = '' } = {} } = {} } = domElement
-      return value
     },
 
     getSlideData (index) {

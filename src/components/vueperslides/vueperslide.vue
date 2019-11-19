@@ -59,6 +59,16 @@ export default {
     })
   },
 
+  beforeUpdate () {
+    if (this.shouldSkipUpdate || !Object.values(this.$slots).length) return
+
+    this.updateSlide({
+      titleSlot: this.$slots['slide-title'],
+      contentSlot: this.$slots['slide-content'],
+      style: ((this.$el.attributes || {}).style || {}).value
+    })
+  },
+
   watch: {
     image () {
       if (!this.clone) this.updateSlide({ image: this.image })
@@ -107,7 +117,6 @@ export default {
       const prevSlideIndex = (this.$parent.slides.current - 1 + this.slidesCount) % this.slidesCount
       const nextSlideIndex = (this.$parent.slides.current + 1) % this.slidesCount
 
-      // Index starts at 1 so this.slideIndex.
       if (this.slideIndex === prevSlideIndex) return faces[(4 + this.$parent.slides.current - 1) % 4]
       else if (this.slideIndex === nextSlideIndex) return faces[(this.$parent.slides.current + 1) % 4]
 
@@ -141,6 +150,12 @@ export default {
     },
     justDragged () {
       return this.$parent.touch.justDragged
+    },
+    shouldSkipUpdate () {
+      return (
+        this.clone || !this.conf.infinite ||
+        (!this.conf.slideContentOutside && !this.conf.alwaysRefreshClones)
+      )
     }
   }
 }
