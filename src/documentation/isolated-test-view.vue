@@ -12,7 +12,7 @@ div
       :key="i"
       :content="`Content ${i}`"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      template(v-slot:slide-title)
+      template(v-slot:title)
         v-icon.white--text check_circle
         p {{ `Title ${i}` }}
 </template>
