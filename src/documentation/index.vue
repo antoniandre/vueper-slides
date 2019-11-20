@@ -160,7 +160,7 @@
       v-icon(large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
-  .subtitle-1.mt-6 Basic autoplay (with pause on mouseover) source code:
+  p.subtitle-1.mt-6 Basic autoplay (with pause on mouseover) source code:
   ssh-pre.mt-2(language="html-vue" label="Vue Template").
     &lt;vueper-slides autoplay&gt;
       &lt;vueper-slide v-for="(slide, i) in slides"
@@ -173,7 +173,7 @@
       &lt;/template&gt;
     &lt;/vueper-slides&gt;
 
-  .subtitle-1 This example full source code:
+  p.subtitle-1 This example full source code:
   ssh-pre.mt-2(language="html-vue" label="Vue Template").
     &lt;button @click="$refs.myVueperSlides[`${autoPlaying ? 'pause' : 'resume'}Autoplay`]();autoPlaying = !autoPlaying"&gt;
       {{ "\{\{ autoPlaying ? 'Pause' : 'Resume' \}\}" }}
@@ -213,7 +213,7 @@
     })
 
   h3
-    a(href="#ex--arrows-and-bullets") Arrows &amp; Bullets
+    a(href="#ex--arrows-and-bullets") Custom Arrows &amp; Bullets
     a(name="ex--arrows-and-bullets")
   p.
     This example uses custom arrows and positions the bullets outside of the slideshow.#[br]
@@ -344,10 +344,11 @@
   vueper-slides
     vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
       template(v-slot:slide-content)
-        v-icon(color="white") check
-        | Complex content {{ i.toString() }} with Vue.js
-        | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
-        | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
+        .subtitle-1
+          v-icon.mr-2(color="white") check
+          | Complex content {{ i.toString() }} with Vue.js
+          | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
+          | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
       &lt;vueper-slide
@@ -374,17 +375,16 @@
     Well, nothing to do really. It will just update by itself!
     #[br]For this demonstration the content is complex (refer to #[a(href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content] for more details) and uses
     Vue JS Vuetify components like #[span.code v-layout], #[span.code v-icon] &amp; mustaches #[span.code(v-pre) {{ }}].
-  v-layout.max-widthed(align-start wrap)
-    v-layout.flex.xs12.sm6(align-center)
-      div Try it:
-      v-layout.flex.xs10.sm11(align-center wrap)
-        v-btn.ma-1(color="primary" @click="toggleSlidesTime" small)
-          v-icon.pr-2 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
-          | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
-        v-slide-x-transition.xs6.sm3
-          v-chip(v-show="slidesTimeTimerId === 0" small outlined disabled) CPU says THANK YOU!
-    v-layout.flex.xs12.sm6.mb-4(align-center wrap)
-      v-btn.ma-1(color="primary" @click="contentPositionChange" small)
+  v-layout.max-widthed.mt-1.mb-4(align-center wrap)
+    v-layout.shrink.mr-4(align-center)
+      | Try it:
+      v-btn.mx-2(color="primary" @click="toggleSlidesTime" small)
+        v-icon.pr-2 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
+        | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
+      v-expand-x-transition
+        v-chip(v-if="!slidesTimeTimerId" small outlined) CPU says THANK YOU!
+    v-layout(align-center wrap)
+      v-btn.mx-2(color="primary" @click="contentPositionChange" small)
         v-icon swap_vert
         | &nbsp;Move content position
       strong.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
@@ -398,26 +398,25 @@
       template(v-slot:slide-content)
         v-layout(align-center justify-center)
           v-icon.pr-3(color="white" size="5em") access_time
-          div.text-xs-left
-            div.py-2.title {{ slide.title }}
+          .text-left
+            .headline {{ slide.title }}
             div {{ slide.content }}
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="toggleSlidesTime"&gt;Keep updating time&lt;/button&gt;
-    &lt;vueper-slides :slide-ratio="1/4" :slide-content-outside="contentPosition"&gt;
+
+    &lt;vueper-slides :slide-ratio="1/4" autoplay :slide-content-outside="contentPosition"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"
-        :title="slide.title"
-        :content="slide.content"
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
         &lt;template slot:slide-content&gt;
-          &lt;v-layout"&gt;
-            &lt;v-icon&gt;access_time&lt;/v-icon&gt;
+          &lt;div class="flex"&gt;
+            &lt;i "icon icon-access-time"&gt;&lt;/i&gt;
             &lt;div&gt;
               &lt;div&gt;{{ '\{\{ slide.title \}\}' }}&lt;/div&gt;
               &lt;div&gt;{{ '\{\{ slide.content \}\}' }}&lt;/div&gt;
             &lt;/div&gt;
-          &lt;/v-layout&gt;
+          &lt;/div&gt;
         &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -535,7 +534,7 @@
     This example demonstrates how to use Vueper Slides in a center mode.#[br]
     It also has a shorter transition speed #[span.code transition-speed='250']
     and no shadow thanks to the #[span.code no-shadow] class.
-  vueper-slides.no-shadow.ex--center-mode(arrows-outside bullets-outside transition-speed="250")
+  vueper-slides.no-shadow.ex--center-mode.pt-6(arrows-outside bullets-outside transition-speed="250")
     vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides class="no-shadow" arrows-outside bullets-outside transition-speed="250"&gt;

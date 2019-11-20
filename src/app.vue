@@ -1,6 +1,6 @@
 <template lang="pug">
   v-app(:class="{ ready: ready }" v-scroll="onScroll")
-    v-container
+    v-container.px-0(fluid)
       top-bar(:offset-top="offsetTop")
       router-view
 
