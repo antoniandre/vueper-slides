@@ -55,10 +55,8 @@
   ssh-pre(language="shell" label="Shell") npm i --S vueperslides
   p Then import the 2 components and use it:
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
     import { VueperSlides, VueperSlide } from 'vueperslides'
-
-    // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
     import 'vueperslides/dist/vueperslides.css'
     ...
 
@@ -67,10 +65,6 @@
       ...
     }
 
-  highlight(type="warning")
-    b Since version 1.6.0, Vueper Slides CSS is externalized into a file.
-    | #[br]This allows you to override those styles more easily or discard it if you prefer to have your own.
-
   h3 Via #[span.code &lt;script&gt;] tag
   p Include the Vueper Slides script in your document #[span.code &lt;head&gt;] as follows:
   ssh-pre(language="html" label="HTML").
@@ -78,21 +72,15 @@
       ...
       &lt;script src="https://unpkg.com/vue"&gt;&lt;/script&gt;
       &lt;script src="https://unpkg.com/vueperslides"&gt;&lt;/script&gt;
-
-      // Since v. 1.6.0, you need to include Vueper Slides CSS file for default styles.
       &lt;link href="https://unpkg.com/vueperslides/dist/vueperslides.css" rel="stylesheet"&gt;
     &lt;/head&gt;
   p Then define the component to use in your template:
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
     export default {
       components: { VueperSlides, VueperSlide },
       ...
     }
-
-  highlight(type="warning")
-    b Since version 1.6.0, Vueper Slides CSS is externalized into a file.
-    | #[br]This allows you to override those styles more easily or discard it if you prefer to have your own.
 
   h2
     a(href="#how-to-use") How to use
@@ -106,7 +94,7 @@
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
     data: () => ({
       slides: [
         {
@@ -116,7 +104,7 @@
         ...
       ]
     })
-  highlight(type="tips") If you don't need a #[span.code v-for] loop, you don't need to place your slides data in your VueJs component's data.
+  highlight(type="tips") If you don't need a #[span.code v-for] loop, you don't need to place your slides data in your Vue.js component's data.
 
   h2
     a(href="#examples") Examples of Use
@@ -265,9 +253,9 @@
     a(href="#ex--images-and-fading") Images &amp; Fading
     a(name="ex--images-and-fading")
   p.
-    This example uses #[b images] and #[b fading] as the slide transition.#[br]
-    The #[b dragging] ability to change slide is #[b disabled].#[br]
-    The current slide title &amp; content are shown #[b outside] of the slider, you can place it above
+    This example uses images and fading as the slide transition.#[br]
+    The dragging ability to change slide is disabled via #[span.code :touchable="false"].#[br]
+    The current slide title &amp; content are shown outside of the slider, you can place it above
     or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
     #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
     #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
@@ -325,7 +313,7 @@
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
     data: () => ({
       slides: [
         { title: 'Mountain 1', content: 'Slide content 1', link: '#link-to-article-1' },
@@ -337,7 +325,7 @@
     a(href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content
     a(name="ex--complex-slide-title-and-content")
   p.
-    This example (and the next one #[a(href="#ex--updating-content") Updating Content]) shows how to use a complex html content with interpreted VueJS keywords inside your slides.#[br]
+    This example (and the next one #[a(href="#ex--updating-content") Updating Content]) shows how to use a complex html content with interpreted Vue.js keywords inside your slides.#[br]
     The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slide-title] &amp; #[span.code slide-content]
     if using the html attributes #[span.code :title="..."] &amp; #[span.code :content="..."] is too restrictive for your content.
 
@@ -430,7 +418,7 @@
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
 
     data: () => ({
       slidesTimeTimerId: null,
@@ -506,7 +494,7 @@
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
 
     data: () => ({
       slides: [
@@ -564,13 +552,12 @@
     a(name="ex--events")
   p.
     This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
-    The events box bellow will log all the events (and the given params) triggered while using the slideshow.#[br]
+    The events box bellow will log all the events triggered while using the slideshow along with their returned params.#[br]
     Change slide to see new events in the events box bellow.
   vueper-slides.ex--events(
-    @before-init="logEvents"
-    @ready="logEvents"
-    @before-slide="logEvents"
-    @slide="logEvents"
+    @ready="logEvents('ready', $event)"
+    @before-slide="logEvents('before-slide', $event)"
+    @slide="logEvents('slide', $event)"
     :slide-ratio="0.2")
     vueper-slide(
       v-for="i in 6"
@@ -579,14 +566,16 @@
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
 
   pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
-    p(v-html="events")
-    | listening...
+    div.grey--text(v-if="events")
+      strong // event-name:
+      span.ml-2 params
+    div(v-html="events")
+    div.mt-2 Listening...
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides
-      @before-init="logEvents"
-      @ready="logEvents"
-      @before-slide="logEvents"
-      @slide="logEvents"
+      @ready="logEvents('ready', $event)"
+      @before-slide="logEvents('before-slide', $event)"
+      @slide="logEvents('slide', $event)"
       :slide-ratio="0.2"&gt;
       &lt;vueper-slide
         v-for="i in 6"
@@ -594,11 +583,11 @@
         :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
 
     methods: {
       logEvents (eventName, params) {
-        this.events += `<b>&bull; Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
+        this.events += `&lt;strong&gt;${eventName}&lt;/strong&gt;, ${JSON.stringify(params)}&lt;br&gt;`
       }
     }
   ssh-pre(language="css" label="CSS").
@@ -640,7 +629,7 @@
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
 
     data: () => ({
       breakpoints: {
@@ -689,11 +678,13 @@
     a(name="ex--parallax")
   p
     | This example demonstrates how to create a parallax effect on your slideshow.#[br]
-    | Two values can be set for different parallax effects: #[span.code 1] for standard effect, and #[span.code -1] for reverse effect.
-    v-btn.my-1.mr-2(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
-      v-icon sync
-      | &nbsp; Reverse parallax effect
-    strong #[span.code parallax = {{ parallax.toString() }}]
+    v-layout(align-center wrap)
+      | Two values can be set for different parallax effects: #[span.code.mx-1 1] for standard effect, and #[span.code.mx-1 -1] for reverse effect.
+      v-spacer
+      v-btn.my-1.mr-2(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
+        v-icon sync
+        | &nbsp; Reverse parallax effect
+      strong #[span.code parallax = {{ parallax.toString() }}]
   vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -706,7 +697,7 @@
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
-    // In your VueJS component.
+    // In your Vue.js component.
     data: () => ({
       parallax: 1
     })
@@ -1056,14 +1047,11 @@
     li
       | #[code alwaysRefreshClones], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
       p.
-        With #[span.code infinite] mode on and sliding transitions, the clones
-        (#[a(href="#what-are-clones" @click="onWhatAreClonesClick") What are clones?]) are created with a copy of content at
-        the time it's created.#[br]Your content can get outdated if you have a fast #[span.code setInterval]
-        operating on content (E.g. a clock).#[br]Set #[span.code alwaysRefreshClones] to
-        #[span.code true] if you want to keep updating clones before you see them while you drag.
-      highlight(type="success").
-        By default this parameter is disabled to save up operations. In most cases you should
-        not need it.
+        With the #[span.code infinite] mode, the clones (#[a(href="#what-are-clones" @click="onWhatAreClonesClick") What are clones?])
+        are created with a copy of content in the mounted Vue.js lifecycle hook.#[br]
+        If you modify the content of the slides after it's mounted, the option #[span.code alwaysRefreshClones] will
+        make sure to always keep the clones up to date.#[br]
+        By default this parameter is disabled to save up operations. In most cases you should not need it.
 
     li
       | #[code parallax], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, Number]], #[strong.mr-1 Default:] #[span.code false]
@@ -1226,11 +1214,8 @@
         strong.black--text.
           WARNING#[br]
           The #[span.code 3d] mode is not compatible with infinite sliding, fade, slide-multiple, visible-slides &amp; parallax features.
-
-      highlight(type="info").
-        A few features will not be compatible with the 3D rotations.
-        This is mainly due to the complexity of placing more than 4 slides on a cube in 3D.
-        #[br]Adapting to all the above features would decrease the overall performance of the slideshow.
+        | #[br]This is mainly due to the complexity of placing #[strong more than 4 slides] on a cube in 3D,
+        | Adapting to all these features would decrease the overall performance of the slideshow.
 
       p See this setting live in the #[a(href="#ex--3d-rotation") 3D Rotation] example.
 
@@ -1316,7 +1301,7 @@
       h4
         code mouse-enter
       p.
-        Triggered on slide mouse enter with parameters:
+        Fired on slide mouseenter with parameters:
       ssh-pre(language="js").
         slide: {Object}, // The current slide object containing: index, title, content, image, link.
         el: {String} // DOM Element.
@@ -1324,7 +1309,7 @@
       h4
         code mouse-leave
       p.
-        Triggered on slide mouse leave.
+        Fired on slide mouseleave with no parameter.
 
   h2
     a(href="#styling") Styling
@@ -1408,11 +1393,12 @@
             ul.pl-4.mt-1.mb-3
               li #[span.code mouseover] to #[span.code mouse-enter]
               li #[span.code mouseout] to #[span.code mouse-leave]
+          li The emitted event #[span.code before-slide] now only returns a single parameter containing the currentSlide info.
+          li The emitted event #[span.code slide] now only returns a single parameter containing the currentSlide and nextSlide info.
           li If both slide-title slot and title attribute are provided now use the slot.
           li If both slide-content slot and content attribute are provided now use the slot.
           li Improved autoplay pause &amp; resume - manual slide does not resume if paused.
           li Removed #[span.code refreshClonesOnDrag] option and introduced #[span.code alwaysRefreshClones].
-          li TODO: document alwaysRefreshClones
           li TODO: fix case "Does not seem to ever happen in the end."
 
     li.mt-6
@@ -1560,7 +1546,7 @@ export default {
       setTimeout(() => (this.highlightWhatAreClones = false), 3000)
     },
     logEvents (eventName, params) {
-      this.events += `<b>&bull; Event:</b> ${eventName}, <b>Params:</b> ${JSON.stringify(params, null, 0)}<br>`
+      this.events += `<strong>${eventName}</strong>: ${JSON.stringify(params)}<br>`
     },
     appendSlide () {
       this.slides3.push({
