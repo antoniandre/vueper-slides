@@ -773,7 +773,7 @@ export default {
       // Means it didn't have time to update this.slidesCount on hot-reload.
       if (this.slides.current > this.slidesCount - 1) {
         this.goToSlide(0, { animation: false })
-        console.log('Does not seem to ever happen in the end.', this.slides.current, this.slidesCount - 1)
+        console.log('Does not seem to ever happen in the end.', this.slides.current, this.slidesCount - 1, this.slides.list.length)
         debugger
       }
 

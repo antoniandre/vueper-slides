@@ -1,8 +1,9 @@
 # Vueper Slides
 
-[![Latest Version on NPM](https://img.shields.io/npm/v/vueperslides.svg?style=flat-square)](https://npmjs.com/package/vueperslides)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![npm](https://img.shields.io/npm/dt/vueperslides.svg?style=flat-square)](https://www.npmjs.com/package/vueperslides)
+[![Latest Version on NPM](https://img.shields.io/npm/v/vueperslides.svg)](https://npmjs.com/package/vueperslides)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
+[![npm](https://img.shields.io/npm/dt/vueperslides.svg)](https://www.npmjs.com/package/vueperslides)
+[![npm](https://img.shields.io/npm/dw/vueperslides.svg)](https://www.npmjs.com/package/vueperslides)
 
 > A touch ready and responsive slideshow / carousel for Vue JS.
 
@@ -27,8 +28,28 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | 10+ ✔ |
 ___
 
 
+## Donation
+
+If you want to support the project, you can buy me a beer!
+
+[![paypal](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/antoniandre1)
+Thank you!
+
+
+___
+
+
+## Contributing
+
+If you have any idea, feel free to fork Vueper Slides and submit your changes back to me or discuss it in an issue.
+
+
+___
+
+
 ## Release Notes
 
+- __Version 2.0__ Allow new Vue slot syntax &amp; other improvements
 - __Version 1.21.0__ Allow external autoplay pause / resume
 - __Version 1.20.0__ Option to prevent Y-axis scroll while dragging
 - __Version 1.19.0__ Allow slide link on the entire slide

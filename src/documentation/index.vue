@@ -1,6 +1,6 @@
 <template lang="pug">
 .documentation
-  v-layout.max-widthed(row wrap justify-space-between)
+  v-layout.max-widthed(wrap justify-space-between)
     v-layout.flex.xs12.md9(column)
       div.mb-3.title Features
       div.mb-5.features
@@ -30,10 +30,7 @@
         | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
         v-icon.pr-2(color="secondary") check
         | #[strong Events] for callbacks, etc...
-      div.mb-3.title Github project
-      v-layout.mb-5(align-center shrink)
-        v-icon.pr-4.lightgrey--text(x-large) fab fa-github
-        a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[v-icon(small color="primary") open_in_new]
+
     v-card.md3.coming-soon(align-center-center)
       v-card-title.pb-0
         div To do next...
@@ -46,6 +43,24 @@
             v-chip(color="deep-orange lighten-1" text-color="white" small)
               v-icon(size="20") remove_circle
               | Lazy loading
+
+  .max-widthed.mt-8.mb-3.title Github project
+  v-layout.max-widthed.mb-5(align-center shrink)
+    v-icon.pr-4.lightgrey--text(x-large) fab fa-github
+    a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[v-icon(small color="primary") open_in_new]
+
+  v-layout.my-12(justify-center style="max-width: 700px;margin: auto")
+    v-icon.flame.amber--text.text--lighten-2(size="100") whatshot
+    highlight(type="tips" no-icon)
+      .headline.mt-2.mb-3 #[span.code.mr-1 vueper-slides@2.0] is out! &nbsp; 🎉
+      .subtitle-1.
+        Big changes. Check what's new in the #[a(href="#notable-version-changes") Release Notes]!
+      .mt-6.layout.flex.align-center.subtitle-1.font-weight-medium
+        v-icon.mr-2(size="20") favorite_border
+        span.mr-10 Thank you to all the supporters!
+        v-spacer
+        v-icon.mr-1(size="18" color="primary") attach_money
+        a(href="https://www.paypal.me/antoniandre1" target="_blank") #[strong Support the project]
 
   h2
     a(href="#installation") Installation
@@ -1391,7 +1406,7 @@
     Here is a list of the releases with their changes that might have an impact in your project.
   highlight(type="tips").
     After a Vueper Slides update, don't forget to refer to this section to check the
-    possible side effects.
+    possible breaking changes.
 
   ul.max-widthed
     li
