@@ -370,24 +370,30 @@
     a(href="#ex--updating-content") Updating Content Inside/Outside
     a(name="ex--updating-content")
   p.mb-0.
-    This example is a great demonstration of Vue JS reactivity.#[br]
-    It shows how to update the content (title and/or content) after slideshow is initialized.
-    Well, nothing to do really. It will just update by itself!
-    #[br]For this demonstration the content is complex (refer to #[a(href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content] for more details) and uses
-    Vue JS Vuetify components like #[span.code v-layout], #[span.code v-icon] &amp; mustaches #[span.code(v-pre) {{ }}].
-  v-layout.max-widthed.mt-1.mb-4(align-center wrap)
-    v-layout.shrink.mr-4(align-center)
-      | Try it:
-      v-btn.mx-2(color="primary" @click="toggleSlidesTime" small)
+    This example shows how Vueper Slides keeps content up to date reactively even when placed outside of the slide
+    itself (where the content slot resides) and in an auto-playing slideshow.#[br]
+
+    The content can be placed inside the slides (default) or outside above or bellow the slideshow.#[br]
+    In this example the content is set in a slot (refer to #[a(href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content]
+    for more details) and uses interpreted mustaches #[span.code(v-pre) {{ }} and Vuetify components like #[span.code v-layout] &amp; #[span.code v-icon]].
+
+  highlight(type="tips").
+    The only thing that does not keep updated by default - as more costly, is the slides clones
+    (1 prepended, 1 appended to slides list when infinite mode).#[br]
+    But you have an option to keep it always updated using #[span.code always-refresh-clones] like in this example.#[br]
+    This is only for particular cases like this clock and you usually don't need this as the slides are copied from original content on mounted.
+  v-layout.max-widthed.mb-4(align-center wrap)
+    v-layout.shrink.mr-4(align-center wrap)
+      v-btn.mt-2.mr-2(color="primary" @click="toggleSlidesTime" small)
         v-icon.pr-2 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
         | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
       v-expand-x-transition
-        v-chip(v-if="!slidesTimeTimerId" small outlined) CPU says THANK YOU!
+        v-chip.mt-2(v-if="slidesTimeTimerId === 0" small outlined) CPU says THANK YOU!
     v-layout(align-center wrap)
-      v-btn.mx-2(color="primary" @click="contentPositionChange" small)
+      v-btn.mt-2.mx-2(color="primary" @click="contentPositionChange" small)
         v-icon swap_vert
         | &nbsp;Move content position
-      strong.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
+      strong.mt-2.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
   vueper-slides.ex--updating-content(
     :slide-ratio="1/4"
     autoplay
@@ -401,6 +407,7 @@
           .text-left
             .headline {{ slide.title }}
             div {{ slide.content }}
+
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="toggleSlidesTime"&gt;Keep updating time&lt;/button&gt;
 
@@ -410,13 +417,14 @@
         :key="i"
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
         &lt;template slot:slide-content&gt;
-          &lt;div class="flex"&gt;
-            &lt;i "icon icon-access-time"&gt;&lt;/i&gt;
+          &lt;!-- Using Vuetify --&gt;
+          &lt;v-layout align-center justify-center&gt;
+            &lt;v-icon color="white" size="5em"&gt;access_time&lt;/v-icon&gt;
             &lt;div&gt;
               &lt;div&gt;{{ '\{\{ slide.title \}\}' }}&lt;/div&gt;
               &lt;div&gt;{{ '\{\{ slide.content \}\}' }}&lt;/div&gt;
             &lt;/div&gt;
-          &lt;/div&gt;
+          &lt;/v-layout&gt;
         &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
@@ -682,7 +690,7 @@
   p
     | This example demonstrates how to create a parallax effect on your slideshow.#[br]
     | Two values can be set for different parallax effects: #[span.code 1] for standard effect, and #[span.code -1] for reverse effect.
-    v-btn.ma-1(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
+    v-btn.my-1.mr-2(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
       v-icon sync
       | &nbsp; Reverse parallax effect
     strong #[span.code parallax = {{ parallax.toString() }}]
@@ -1404,8 +1412,6 @@
           li If both slide-content slot and content attribute are provided now use the slot.
           li Improved autoplay pause &amp; resume - manual slide does not resume if paused.
           li Removed #[span.code refreshClonesOnDrag] option and introduced #[span.code alwaysRefreshClones].
-          li TODO: update clones on content/title slots update
-          li TODO: update all examples with new slots syntax
           li TODO: document alwaysRefreshClones
           li TODO: fix case "Does not seem to ever happen in the end."
 

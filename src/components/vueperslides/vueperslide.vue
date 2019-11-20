@@ -45,7 +45,7 @@ export default {
       content: this.content,
       contentSlot: this.$slots['slide-content'],
       link: this.link,
-      style: {}
+      style: ''
     })
   },
 
