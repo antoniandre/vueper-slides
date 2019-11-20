@@ -18,5 +18,6 @@ module.exports = {
         options.compilerOptions.whitespace = 'preserve'
         return options
       })
-  }
+  },
+  transpileDependencies: ['vuetify']
 }
