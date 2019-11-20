@@ -48,7 +48,16 @@
 }
 
 //---------------------//
-.ex--arrows-and-bullets {
+.ex--arrows-and-bullets-1 {
+  width: 600px;
+  max-width: 100%;
+  margin: auto;
+
+  .vueperslides__content-wrapper {width: 80%;}
+  .vueperslides__arrow svg {stroke-width: 2;}
+}
+
+.ex--arrows-and-bullets-2 {
   .vueperslides__bullet {
     background-color: rgba(0, 0, 0, 0.3);
     border: none;
@@ -62,7 +71,7 @@
       display: block;
       color: #fff;
       font-size: 10px;
-      line-height: 15px;
+      line-height: 16px;
     }
   }
 }
@@ -154,6 +163,9 @@
 .ex--3d-rotation {
   width: 300px;
   margin: auto;
+
+  .vueperslides__arrow--prev {left: -6.2em;}
+  .vueperslides__arrow--next {right: -6.2em;}
 }
 
 

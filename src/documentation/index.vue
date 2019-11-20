@@ -203,18 +203,34 @@
   h3
     a(href="#ex--arrows-and-bullets") Custom Arrows &amp; Bullets
     a(name="ex--arrows-and-bullets")
-  p.
-    This example uses custom arrows and positions the bullets outside of the slideshow.#[br]
-    The bullets are showing slide indexes which is disabled by default.#[br]
-    You can also disable arrows and/or bullets. E.g. #[span.code :arrows="false"], #[span.code :bullets="false"]
-  vueper-slides.ex--arrows-and-bullets(:infinite="false" :bullets-outside="true")
+
+  ul.max-widthed
+    li
+      strong Arrows
+      p You can easily customize the default arrows or change them if you prefer.
+      vueper-slides.ex--arrows-and-bullets-1.no-shadow(:infinite="false" :slide-ratio="0.25" :bullets="false")
+        vueper-slide(v-for="i in 2" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
+          template(v-slot:content)
+            div You can also increase default arrows thickness, just with:
+            strong.code .vueperslides__arrow svg {stroke-width: 2;}
+      p.mt-4 If you still want your own arrows icons, you can use the slots #[span.code v-slot:arrow-left] and #[span.code v-slot:arrow-right] as follows.
+    li
+      strong Bullets
+      p The bullets don't show numeric indexes by default, but they are there in case you need it, like in this example.#[br]
+    li
+      strong Inside or outside
+      p You can place arrows and/or bullets outside of the slideshow: #[span.code arrows-outside], #[span.code bullets-outside].
+    li
+      strong Disable arrows and bullets
+      p You can disable arrows and/or bullets: #[span.code :arrows="false"], #[span.code :bullets="false"].
+  vueper-slides.ex--arrows-and-bullets-2(:infinite="false" bullets-outside)
     template(v-slot:arrow-left)
       v-icon(color="white" x-large) undo
     template(v-slot:arrow-right)
       v-icon(color="white" x-large) redo
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :infinite="false" :bullets-outside="true"&gt;
+    &lt;vueper-slides :infinite="false" bullets-outside&gt;
       &lt;template v-slot:arrow-left&gt;
         &lt;i class="icon icon-arrow-left"&gt;&lt;/i&gt;
       &lt;/template&gt;
@@ -326,12 +342,12 @@
     a(name="ex--complex-slide-title-and-content")
   p.
     This example (and the next one #[a(href="#ex--updating-content") Updating Content]) shows how to use a complex html content with interpreted Vue.js keywords inside your slides.#[br]
-    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code slide-title] &amp; #[span.code slide-content]
+    The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code title] &amp; #[span.code content]
     if using the html attributes #[span.code :title="..."] &amp; #[span.code :content="..."] is too restrictive for your content.
 
   vueper-slides
     vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      template(v-slot:slide-content)
+      template(v-slot:content)
         .subtitle-1
           v-icon.mr-2(color="white") check
           | Complex content {{ i.toString() }} with Vue.js
@@ -343,7 +359,7 @@
         v-for="i in 4"
         :key="i"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
-        &lt;template v-slot:slide-content&gt;
+        &lt;template v-slot:content&gt;
          &lt;i class="icon icon-check"&gt;&lt;/i&gt;
          Complex content with Vue.js {{ "\{\{ 1 === 1 ? 'interpreted' : 'non-interpreted' \}\}" }} compilable content &amp; &lt;span v-pre&gt;{{ '\{\{ mustaches \}\}' }}&lt;/span&gt;.
         &lt;/template&gt;
@@ -351,8 +367,8 @@
     &lt;/vueper-slides&gt;
   highlight(type="info")
     ul.my-0
-      li if both #[span.code :title="..."] and #[span.code v-slot:slide-title] are provided, the title slot will be displayed.
-      li if both #[span.code :content="..."] and #[span.code v-slot:slide-content] are provided, the content slot will be displayed.
+      li if both #[span.code :title="..."] and #[span.code v-slot:title] are provided, the title slot will be displayed.
+      li if both #[span.code :content="..."] and #[span.code v-slot:content] are provided, the content slot will be displayed.
 
   h3
     a(href="#ex--updating-content") Updating Content Inside/Outside
@@ -389,7 +405,7 @@
     :slide-content-outside="contentPosition === 'false' ? false : contentPosition"
     slide-content-outside-class="text-center py-4")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
-      template(v-slot:slide-content)
+      template(v-slot:content)
         v-layout(align-center justify-center)
           v-icon.pr-3(color="white" size="5em") access_time
           .text-left
@@ -404,7 +420,7 @@
         v-for="(slide, i) in slides"
         :key="i"
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
-        &lt;template slot:slide-content&gt;
+        &lt;template v-slot:content&gt;
           &lt;!-- Using Vuetify --&gt;
           &lt;v-layout align-center justify-center&gt;
             &lt;v-icon color="white" size="5em"&gt;access_time&lt;/v-icon&gt;
@@ -462,8 +478,13 @@
       v-icon {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
   highlight Note that the slideshow disables controls if you have only 1 slide or none.
+  p The arrows are also disabled on edges in this example.
 
-  vueper-slides(:slide-ratio="0.2" :infinite="false" disableArrowsOnEdges :disable="slideshowDisabled")
+  vueper-slides(
+    :slide-ratio="0.2"
+    :infinite="false"
+    disable-arrows-on-edges
+    :disable="slideshowDisabled")
     vueper-slide(
       v-for="(slide, i) in slides3"
       :key="i"
@@ -484,7 +505,7 @@
     &lt;vueper-slides
       :slide-ratio="0.2"
       :infinite="false"
-      disableArrowsOnEdges
+      disable-arrows-on-edges
       :disable="slideshowDisabled"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
@@ -1304,7 +1325,7 @@
         Fired on slide mouseenter with parameters:
       ssh-pre(language="js").
         slide: {Object}, // The current slide object containing: index, title, content, image, link.
-        el: {String} // DOM Element.
+        el: {Object} // DOM Element.
     li
       h4
         code mouse-leave
@@ -1383,8 +1404,8 @@
           li
             span Renamed slots to kebab-case:
             ul.pl-4.mt-1.mb-3
-              li #[span.code slideTitle] to #[span.code slide-title]
-              li #[span.code slideContent] to #[span.code slide-content]
+              li #[span.code slideTitle] to #[span.code title]
+              li #[span.code slideContent] to #[span.code content]
               li #[span.code arrowLeft] to #[span.code arrow-left]
               li #[span.code arrowRight] to #[span.code arrow-right]
               li #[span.code pausedIcon] to #[span.code pause-icon]
@@ -1395,10 +1416,11 @@
               li #[span.code mouseout] to #[span.code mouse-leave]
           li The emitted event #[span.code before-slide] now only returns a single parameter containing the currentSlide info.
           li The emitted event #[span.code slide] now only returns a single parameter containing the currentSlide and nextSlide info.
-          li If both slide-title slot and title attribute are provided now use the slot.
-          li If both slide-content slot and content attribute are provided now use the slot.
+          li If both title slot and title attribute are provided now use the slot.
+          li If both content slot and content attribute are provided now use the slot.
           li Improved autoplay pause &amp; resume - manual slide does not resume if paused.
           li Removed #[span.code refreshClonesOnDrag] option and introduced #[span.code alwaysRefreshClones].
+          li Redesigned arrows - easy to change the thickness
           li TODO: fix case "Does not seem to ever happen in the end."
 
     li.mt-6
