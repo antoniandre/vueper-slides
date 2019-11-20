@@ -212,24 +212,23 @@ export default {
     // Emit a named event outside the component with 2 possible parameters:
     // current slide info & next slide info.
     emit (name, includeCurrentSlide = true, includeNextSlide = false) {
-      // Emit param 0 = event name string.
-      let args = [name]
+      let args = null
 
       if (includeCurrentSlide || typeof includeNextSlide === 'number') {
         // the `emit` 2nd parameter is an object like { currentSlide: ...[, nextSlide: ...] }.
-        args[1] = {}
+        args = {}
 
         if (includeCurrentSlide && this.slides.activeId && this.slidesCount) {
-          args[1].currentSlide = this.getSlideData(this.slides.current)
+          args.currentSlide = this.getSlideData(this.slides.current)
         }
 
         if (typeof includeNextSlide === 'number' && this.slidesCount) {
           const { nextSlide: nextSlideIndex } = this.getSlideInRange(includeNextSlide)
-          args[1].nextSlide = this.getSlideData(nextSlideIndex)
+          args.nextSlide = this.getSlideData(nextSlideIndex)
         }
       }
 
-      this.$emit(name, ...args)
+      this.$emit(...(args ? [name, args] : [name]))
     },
 
     getSlideData (index) {
@@ -429,12 +428,11 @@ export default {
         this.arrowNextDisabled && this.slides.current === this.slidesCount - 1 && forwards
       ]
 
-      // If no reason to cancel sliding.
-      if (reasonsToCancelSliding.indexOf(true) === -1) {
+      if (reasonsToCancelSliding.includes(true)) this.cancelSlideChange()
+      else {
         const targetSlide = this.slides.current + this.conf.slideMultiple * (forwards ? 1 : -1)
         this.goToSlide(targetSlide)
       }
-      else this.cancelSlideChange()
 
       this.touch.dragStartX = null
       this.touch.dragNowX = null
@@ -447,7 +445,7 @@ export default {
       setTimeout(() => (this.touch.justDragged = false), 50)
     },
 
-    // Check if dragging just happened.
+    // Check if dragging just happened - also for external use.
     justDragged () {
       return this.touch.justDragged
     },
@@ -502,7 +500,6 @@ export default {
         }
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
-
         translation += dragPercentage
       }
 
