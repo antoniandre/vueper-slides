@@ -398,9 +398,7 @@ export default {
           this.updateCurrentTranslation()
           this.transition.currentTranslation += 100 * dragAmountPercentage
         }
-        else {
-          this.updateCurrentTranslation(null, this.touch.dragNowX)
-        }
+        else this.updateCurrentTranslation(null, this.touch.dragNowX)
       }
     },
 
@@ -436,7 +434,6 @@ export default {
         const targetSlide = this.slides.current + this.conf.slideMultiple * (forwards ? 1 : -1)
         this.goToSlide(targetSlide)
       }
-
       else this.cancelSlideChange()
 
       this.touch.dragStartX = null
@@ -825,7 +822,6 @@ export default {
         // but does not require a fixed width.
         styles.transform = `rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(${rotation}deg)`
       }
-
       else if (!this.conf.fade) {
         styles.transform = `translate3d(${this.transition.currentTranslation}%, 0, 0)`
 
