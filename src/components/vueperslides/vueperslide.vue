@@ -11,10 +11,10 @@
   .vueperslide__image(v-if="image && conf.slideImageInside" :style="imageStyles")
   .vueperslide__content-wrapper(v-show="!conf.slideContentOutside")
     .vueperslide__title
-      slot(name="slide-title")
+      slot(name="title")
         div(v-if="title" v-html="title")
     .vueperslide__content
-      slot(name="slide-content")
+      slot(name="content")
         div(v-if="content" v-html="content")
 </template>
 
@@ -41,9 +41,9 @@ export default {
       id: this._uid,
       image: this.image,
       title: this.title,
-      titleSlot: this.$slots['slide-title'],
+      titleSlot: this.$slots.title,
       content: this.content,
-      contentSlot: this.$slots['slide-content'],
+      contentSlot: this.$slots.content,
       link: this.link,
       style: ''
     })
@@ -53,8 +53,8 @@ export default {
     if (this.clone) return
 
     this.updateSlide({
-      titleSlot: this.$slots['slide-title'],
-      contentSlot: this.$slots['slide-content'],
+      titleSlot: this.$slots.title,
+      contentSlot: this.$slots.content,
       style: ((this.$el.attributes || {}).style || {}).value
     })
   },
@@ -63,8 +63,8 @@ export default {
     if (this.shouldSkipUpdate || !Object.values(this.$slots).length) return
 
     this.updateSlide({
-      titleSlot: this.$slots['slide-title'],
-      contentSlot: this.$slots['slide-content'],
+      titleSlot: this.$slots.title,
+      contentSlot: this.$slots.content,
       style: ((this.$el.attributes || {}).style || {}).value
     })
   },

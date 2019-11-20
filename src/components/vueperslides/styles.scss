@@ -28,21 +28,20 @@
     top: 50%;
     background-color: transparent;
     border: none;
-    font-size: 3em;
     opacity: 0.7;
 
-    &--prev {left: 10px;}
-    &--next {right: 10px;}
+    &--prev {left: 0.5em;}
+    &--next {right: 0.5em;}
 
     &:hover {opacity: 1;}
   }
 
-  &__arrows--outside &__arrow--prev {left: -40px;}
-  &__arrows--outside &__arrow--next {right: -40px;}
+  &__arrows--outside &__arrow--prev {left: -3em;}
+  &__arrows--outside &__arrow--next {right: -3em;}
 
   &__paused {
-    top: 3%;
-    right: 3%;
+    top: 0.7em;
+    right: 0.7em;
     opacity: 0;
     text-shadow: 0 0 3px rgba(#000, .4);
     z-index: 1;

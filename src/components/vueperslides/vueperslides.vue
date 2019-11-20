@@ -8,10 +8,10 @@
     v-if="slidesCount && conf.slideContentOutside === 'top'"
     :class="conf.slideContentOutsideClass")
     .vueperslide__title
-      vnodes(v-if="currentSlide.titleSlot" slot="slide-title" :vnodes="currentSlide.titleSlot")
+      vnodes(v-if="currentSlide.titleSlot" slot="title" :vnodes="currentSlide.titleSlot")
       div(v-else v-html="currentSlide.title")
     .vueperslide__content
-      vnodes(v-if="currentSlide.contentSlot" slot="slide-content" :vnodes="currentSlide.contentSlot")
+      vnodes(v-if="currentSlide.contentSlot" slot="content" :vnodes="currentSlide.contentSlot")
       div(v-else v-html="currentSlide.content")
 
   .vueperslides__inner
@@ -30,9 +30,9 @@
             :link="lastSlide.link"
             :style="lastSlide.style"
             aria-hidden="true")
-            template(v-if="lastSlide.titleSlot" slot="slide-title")
+            template(v-if="lastSlide.titleSlot" slot="title")
               vnodes(:vnodes="lastSlide.titleSlot")
-            template(v-if="lastSlide.contentSlot" slot="slide-content")
+            template(v-if="lastSlide.contentSlot" slot="content")
               vnodes(:vnodes="lastSlide.contentSlot")
           slot(:currentSlide="slides.current")
           vueper-slide.vueperslide--clone(
@@ -44,9 +44,9 @@
             :link="firstSlide.link"
             :style="firstSlide.style"
             aria-hidden="true")
-            template(v-if="firstSlide.titleSlot" slot="slide-title")
+            template(v-if="firstSlide.titleSlot" slot="title")
               vnodes(:vnodes="firstSlide.titleSlot")
-            template(v-if="firstSlide.contentSlot" slot="slide-content")
+            template(v-if="firstSlide.contentSlot" slot="content")
               vnodes(:vnodes="firstSlide.contentSlot")
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots['pause-icon']")
@@ -61,8 +61,8 @@
         @keyup.left="previous()"
         @keyup.right="next()")
         slot(name="arrow-left")
-          svg(viewBox="0 0 24 24")
-            path(d="M16.2,21c0.3,0,0.5-0.1,0.7-0.3c0.4-0.4,0.4-1,0-1.4L9.6,12L17,4.7c0.4-0.4,0.4-1,0-1.4c-0.4-0.4-1-0.4-1.4,0L6.8,12l8.8,8.7C15.7,20.9,16,21,16.2,21z")
+          svg(viewBox="0 0 9 18")
+            path(stroke-linecap="round" d="m8 1 l-7 8 7 8")
       button.vueperslides__arrow.vueperslides__arrow--next(
         @click="next()"
         v-show="!arrowNextDisabled"
@@ -70,8 +70,8 @@
         @keyup.left="previous()"
         @keyup.right="next()")
         slot(name="arrow-right")
-          svg(viewBox="0 0 24 24")
-            path(d="M7.8,21c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l7.4-7.3L7,4.7c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l8.8,8.7l-8.8,8.7C8.3,20.9,8,21,7.8,21z")
+          svg(viewBox="0 0 9 18")
+            path(stroke-linecap="round" d="m1 1 l7 8 -7 8")
     .vueperslides__bullets(
       v-if="conf.bullets && slidesCount > 1 && !disable && !conf.bulletsOutside"
       role="tablist"
@@ -108,10 +108,10 @@
     v-if="slidesCount && conf.slideContentOutside === 'bottom'"
     :class="conf.slideContentOutsideClass")
     .vueperslide__title
-      vnodes(v-if="currentSlide.titleSlot" slot="slide-title" :vnodes="currentSlide.titleSlot")
+      vnodes(v-if="currentSlide.titleSlot" slot="title" :vnodes="currentSlide.titleSlot")
       div(v-else v-html="currentSlide.title")
     .vueperslide__content
-      vnodes(v-if="currentSlide.contentSlot" slot="slide-content" :vnodes="currentSlide.contentSlot")
+      vnodes(v-if="currentSlide.contentSlot" slot="content" :vnodes="currentSlide.contentSlot")
       div(v-else v-html="currentSlide.content")
 </template>
 
@@ -909,8 +909,7 @@ export default {
 
   &__arrow {
     position: absolute;
-    fill: currentColor;
-    width: 1em;
+    color: inherit;
     text-align: center;
     transform: translateY(-50%);
     transition: 0.3s ease-in-out;
@@ -918,6 +917,18 @@ export default {
     user-select: none;
     outline: none;
     z-index: 2;
+    line-height: 1;
+
+    svg {
+      vertical-align: middle;
+      stroke: currentColor;
+      fill: none;
+      width: 3.3em;
+      padding: 1em;
+      stroke-width: 1;
+      transition: 0.3s ease-in-out;
+    }
+    svg:hover {stroke-width: 1.3;}
   }
 
   &__paused {
