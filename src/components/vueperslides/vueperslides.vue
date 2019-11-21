@@ -166,13 +166,19 @@ export default {
       list: [],
       activeId: null,
       current: 0,
-      focus: 0, // Don't loose the focused slide when changing breakpoint & slideMultiple > 1.
-      clones: []
+      // Don't loose the focused slide when changing breakpoint & slideMultiple > 1.
+      focus: 0
     },
-    clones: [],
     mouseDown: false,
     mouseOver: false,
-    touch: { enabled: true, dragging: false, justDragged: false, dragStartX: 0, dragNowX: 0, dragAmount: 0 },
+    touch: {
+      enabled: true,
+      dragging: false,
+      justDragged: false,
+      dragStartX: 0,
+      dragNowX: 0,
+      dragAmount: 0
+    },
     transition: { currentTranslation: 0, speed: 0, animated: false },
     autoplayTimer: null,
     arrowPrevDisabled: false,
@@ -182,7 +188,6 @@ export default {
   }),
 
   mounted () {
-    console.log('mounted')
     this.init()
   },
 
@@ -216,7 +221,6 @@ export default {
       let args = null
 
       if (includeCurrentSlide || typeof includeNextSlide === 'number') {
-        // the `emit` 2nd parameter is an object like { currentSlide: ...[, nextSlide: ...] }.
         args = {}
 
         if (includeCurrentSlide && this.slides.activeId && this.slidesCount) {
@@ -313,9 +317,7 @@ export default {
         let el = this.container
         let top = el.offsetTop
 
-        while ((el = el.offsetParent)) {
-          top += el.offsetTop
-        }
+        while ((el = el.offsetParent)) top += el.offsetTop
 
         this.parallaxData.slideshowOffsetTop = top
       }
@@ -600,8 +602,6 @@ export default {
     // autoPlaying = going to the next slide from autoplay - no user intervention.
     // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
     goToSlide (index, { animation = true, autoPlaying = false, jumping = false, breakpointChange = false } = {}) {
-      console.log('going to slide', {current: this.slides.current, index, slidesCount: this.slidesCount, slides: this.slides.list})
-
       if (!this.slidesCount || this.disable) return
 
       if (this.conf.autoplay && autoPlaying) this.pauseAutoplay()
@@ -646,7 +646,6 @@ export default {
       }
 
       this.slides.current = nextSlide
-      console.log('goToSlide: new current slide = ', nextSlide)
 
       // Don't change the focus slide if calling goToSlide from breakpoint change.
       // The focused slide is to keep track which slide to snap to when switching
@@ -679,7 +678,6 @@ export default {
       this.slides.list.push(newSlide)
 
       // If adding the first slide.
-      if (this.slidesCount === 1) this.goToSlide(0, { animation: false, autoPlaying: true })
       return this.slidesCount
     },
 
@@ -690,21 +688,20 @@ export default {
 
     removeSlide (slideId) {
       const index = this.slides.list.findIndex(slide => slide.id === slideId)
-      console.log(
-        'removing slide here',
-        { current: this.slides.current, slideId, index, activeId: this.slides.activeId, slidesCount: this.slidesCount, slides: this.slides.list }
-      )
 
       if (index > -1) {
+        this.slides.list.splice(index, 1) // Remove the slide.
+
         // If the slide to remove is the current slide, slide to the previous slide,
         // unless it was the only one.
-        if (this.slidesCount > 1 && slideId === this.slides.activeId) {
-          console.log('Current slide gets deleted, going to previous slide')
+        if (this.slidesCount && slideId === this.slides.activeId) {
           this.goToSlide(index - 1, { autoPlaying: true })
-          console.log('New slide:', {active: this.slides.activeId, current: this.slides.current})
         }
+      }
 
-        this.slides.list.splice(index, 1) // Remove the slide.
+      // This can only happen if removing and adding slides very fast - like hot reloading.
+      if (this.slides.current >= this.slidesCount) {
+        this.goToSlide(0, { autoPlaying: true })
       }
     },
 
@@ -782,12 +779,8 @@ export default {
       return this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
     },
     currentSlide () {
-      console.log('currentSlide computed', {current: this.slides.current, slidesCount: this.slidesCount, slides: this.slides.list})
-      if (this.slides.current > this.slidesCount - 1) {
-        console.log('current slide index is bigger than slidesCount, going to slide 1')
-        this.goToSlide(0, { animation: false })
-        console.log('Does not seem to ever happen in the end.', {current: this.slides.current, slidesCount: this.slidesCount, slides: this.slides.list})
-        debugger
+      if (this.slides.current < this.slidesCount && (this.slides.list[this.slides.current] || {}).id !== this.slides.activeId) {
+        this.goToSlide(this.slides.current, { animation: false, autoPlaying: true })
       }
 
       return (this.slidesCount && this.slides.list[this.slides.current]) || {}
