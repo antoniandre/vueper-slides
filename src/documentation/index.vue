@@ -153,7 +153,7 @@
       v-icon.mr-1(v-if="pauseOnHover") check
       | Pause on mouseover
     code.ml-2 Currently {{ internalAutoPlaying ? 'playing' : 'paused' }}
-  vueper-slides.ex2(
+  //- vueper-slides.ex2(
     ref="exBasic"
     autoplay
     :pause-on-hover="pauseOnHover"
@@ -413,7 +413,7 @@
         v-icon swap_vert
         | &nbsp;Move content position
       strong.mt-2.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
-  vueper-slides.ex--updating-content(
+  //- vueper-slides.ex--updating-content(
     :slide-ratio="1/4"
     autoplay
     always-refresh-clones
