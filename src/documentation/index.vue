@@ -153,7 +153,7 @@
       v-icon.mr-1(v-if="pauseOnHover") check
       | Pause on mouseover
     code.ml-2 Currently {{ internalAutoPlaying ? 'playing' : 'paused' }}
-  //- vueper-slides.ex2(
+  vueper-slides.ex2(
     ref="exBasic"
     autoplay
     :pause-on-hover="pauseOnHover"
@@ -360,8 +360,11 @@
     The #[span.code &lt;vueper-slide&gt;] tag accepts 2 slots called #[span.code title] &amp; #[span.code content]
     if using the html attributes #[span.code :title="..."] &amp; #[span.code :content="..."] is too restrictive for your content.
 
-  vueper-slides
-    vueper-slide(v-for="i in 4" :key="i" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  vueper-slides.ex--complex-slide-content(:breakpoints="{ 500: { bulletsOutside: true } }")
+    vueper-slide(
+      v-for="i in 4"
+      :key="i"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
       template(v-slot:content)
         .subtitle-1
           v-icon.mr-2(color="white") check
@@ -413,7 +416,7 @@
         v-icon swap_vert
         | &nbsp;Move content position
       strong.mt-2.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
-  //- vueper-slides.ex--updating-content(
+  vueper-slides.ex--updating-content(
     :slide-ratio="1/4"
     autoplay
     always-refresh-clones
@@ -499,6 +502,7 @@
     :slide-ratio="0.2"
     :infinite="false"
     disable-arrows-on-edges
+    bullets-outside
     :disable="slideshowDisabled")
     vueper-slide(
       v-for="(slide, i) in slides3"
@@ -521,6 +525,7 @@
       :slide-ratio="0.2"
       :infinite="false"
       disable-arrows-on-edges
+      bullets-outside
       :disable="slideshowDisabled"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
@@ -594,7 +599,8 @@
     @ready="logEvents('ready', $event)"
     @before-slide="logEvents('before-slide', $event)"
     @slide="logEvents('slide', $event)"
-    :slide-ratio="0.2")
+    :slide-ratio="0.2"
+    bullets-outside)
     vueper-slide(
       v-for="i in 6"
       :key="i"
@@ -612,7 +618,8 @@
       @ready="logEvents('ready', $event)"
       @before-slide="logEvents('before-slide', $event)"
       @slide="logEvents('slide', $event)"
-      :slide-ratio="0.2"&gt;
+      :slide-ratio="0.2"
+      bullets-outside&gt;
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
@@ -698,14 +705,18 @@
     With this configuration the behavior is slightly different and to change slide you
     need to drag more that the specified distance in pixels.#[br]
     If the dragging distance is lower than the specified one, the current slide remains the same.
-  vueper-slides.ex--dragging-distance(:dragging-distance="70" prevent-y-scroll)
-    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  vueper-slides.ex--dragging-distance(:dragging-distance="70" prevent-y-scroll :breakpoints="{ 500: { bulletsOutside: true } }")
+    vueper-slide(
+      v-for="i in 6"
+      :key="i"
+      content="Drag the slide horizontally of 70px from anywhere to slide.<br>Test the disabled y-axis scroll on touch device!"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :dragging-distance="70" prevent-y-scroll&gt;
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
-        :title="i.toString()"
+        content="Drag the slide horizontally..."
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
@@ -1436,7 +1447,6 @@
           li Improved autoplay pause &amp; resume - manual slide does not resume if paused.
           li Removed #[span.code refreshClonesOnDrag] option and introduced #[span.code alwaysRefreshClones].
           li Redesigned arrows - easy to change the thickness
-          li TODO: fix case "Does not seem to ever happen in the end."
 
     li.mt-6
       strong Version 1.16.0

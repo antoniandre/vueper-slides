@@ -92,6 +92,12 @@
 }
 
 //---------------------//
+.ex--complex-slide-content {
+  .vueperslide__content-wrapper {width: 80%;}
+}
+//---------------------//
+
+//---------------------//
 .events-box p {margin-bottom: 0;}
 
 .ex--events .vueperslide--active:before {
@@ -121,6 +127,11 @@
 .ex--updating-content .vueperslide__content-wrapper--outside-top *,
 .ex--updating-content .vueperslide__content-wrapper--outside-bottom * {
   color: $secondary !important;
+}
+
+//---------------------//
+.ex--dragging-distance {
+  .vueperslide__content-wrapper {width: 80%;}
 }
 
 //---------------------//
@@ -158,6 +169,10 @@
   }
 
   &.ex2 {width: auto;}
+}
+
+@media screen and (max-width: 600px) {
+  .ex--show-multiple-slides .vueperslide:before {left: 0.5em;right: 0.5em;}
 }
 
 .ex--3d-rotation {
