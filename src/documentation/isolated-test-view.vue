@@ -3,9 +3,8 @@
 div
   vueper-slides(
     :breakpoints="breakpoints"
-    arrows-outside
-    bullets-outside
-    :visible-slides="3")
+    :visible-slides="3"
+    slide-multiple)
     vueper-slide(
       v-for="(slide, i) in 10"
       :key="i"
@@ -52,6 +51,7 @@ export default {
         infinite: false
       },
       600: {
+        visibleSlides: 1,
         slideRatio: 1 / 2
       }
     }

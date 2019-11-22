@@ -764,10 +764,14 @@ export default {
       set () {}
     },
     firstSlide () {
-      return this.slidesCount ? this.slides.list[0] : {}
+      let slide = this.slidesCount ? this.slides.list[0] : {}
+      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+      return slide
     },
     lastSlide () {
-      return this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
+      let slide = this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
+      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+      return slide
     },
     currentSlide () {
       if (this.slides.current < this.slidesCount && (this.slides.list[this.slides.current] || {}).id !== this.slides.activeId) {
