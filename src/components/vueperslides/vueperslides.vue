@@ -915,6 +915,7 @@ export default {
 
   &__arrow {
     position: absolute;
+    font-size: inherit;
     color: inherit;
     text-align: center;
     transform: translateY(-50%);
@@ -929,10 +930,11 @@ export default {
       vertical-align: middle;
       stroke: currentColor;
       fill: none;
-      width: 3.3em;
+      width: 3.5em;
       padding: 1em;
       stroke-width: 1;
       transition: 0.3s ease-in-out;
+      box-sizing: border-box;
     }
     svg:hover {stroke-width: 1.3;}
   }
