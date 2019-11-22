@@ -1419,13 +1419,23 @@
     After a Vueper Slides update, don't forget to refer to this section to check the
     possible breaking changes.
 
-  ul.max-widthed
+  ul.max-widthed.mt-8
     li
       strong Version 2.0
-      highlight(type="warning")
-        strong Breaking changes
-        ul
-          li Can now use new Vue.js 2.6+ slots syntax
+      highlight(type="warning" no-icon)
+        p.mb-2.subtitle-1.
+          The v2 features a deep refactoring of the library, with revised logic and multiple improvements, in particular:
+        ul.mt-0
+          li New Vue.js 2.6+ slots syntax is now possible!
+          li Slides cloning, slides rendering, and more performant &amp; reliable content updating.
+          li Autoplay pause &amp; resume - manual slide does not resume if paused.
+          li Hide first clone during init - on infinite mode.
+          li Redesigned arrows - easy to change the thickness.
+          li Slide deletion reliability.
+          li unbind all DOM events handlers on component destroy.
+
+        .subtitle-1.mt-6 Breaking changes
+        ul.mt-2
           li Removed the #[span.code before-init] emitted event
           li
             span Renamed slots to kebab-case:
@@ -1444,9 +1454,7 @@
           li The emitted event #[span.code slide] now only returns a single parameter containing the currentSlide and nextSlide info.
           li If both title slot and title attribute are provided now use the slot.
           li If both content slot and content attribute are provided now use the slot.
-          li Improved autoplay pause &amp; resume - manual slide does not resume if paused.
           li Removed #[span.code refreshClonesOnDrag] option and introduced #[span.code alwaysRefreshClones].
-          li Redesigned arrows - easy to change the thickness
 
     li.mt-6
       strong Version 1.16.0
