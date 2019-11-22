@@ -159,7 +159,7 @@
     :pause-on-hover="pauseOnHover"
     @autoplay-pause="internalAutoPlaying = false"
     @autoplay-resume="internalAutoPlaying = true")
-    template(v-slot:pause-icon)
+    template(v-slot:pause)
       v-icon(large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
@@ -171,7 +171,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
-      &lt;template v-slot:pause-icon&gt;
+      &lt;template v-slot:pause&gt;
         &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
       &lt;/template&gt;
     &lt;/vueper-slides&gt;
@@ -196,7 +196,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
-      &lt;template v-slot:pause-icon&gt;
+      &lt;template v-slot:pause&gt;
         &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
       &lt;/template&gt;
     &lt;/vueper-slides&gt;
@@ -385,7 +385,6 @@
     &lt;/vueper-slides&gt;
   highlight(type="info")
     ul.my-0
-      li if both #[span.code :title="..."] and #[span.code v-slot:title] are provided, the title slot will be displayed.
       li if both #[span.code :content="..."] and #[span.code v-slot:content] are provided, the content slot will be displayed.
 
   h3
@@ -1437,14 +1436,14 @@
         .subtitle-1.mt-6 Breaking changes
         ul.mt-2
           li Removed the #[span.code before-init] emitted event
+          li Removed the #[span.code slideTitle] slot
           li
             span Renamed slots to kebab-case:
             ul.pl-4.mt-1.mb-3
-              li #[span.code slideTitle] to #[span.code title]
               li #[span.code slideContent] to #[span.code content]
               li #[span.code arrowLeft] to #[span.code arrow-left]
               li #[span.code arrowRight] to #[span.code arrow-right]
-              li #[span.code pausedIcon] to #[span.code pause-icon]
+              li #[span.code pausedIcon] to #[span.code pause]
           li
             span Renamed events to kebab-case:
             ul.pl-4.mt-1.mb-3
@@ -1452,7 +1451,6 @@
               li #[span.code mouseout] to #[span.code mouse-leave]
           li The emitted event #[span.code before-slide] now only returns a single parameter containing the currentSlide info.
           li The emitted event #[span.code slide] now only returns a single parameter containing the currentSlide and nextSlide info.
-          li If both title slot and title attribute are provided now use the slot.
           li If both content slot and content attribute are provided now use the slot.
           li Removed #[span.code refreshClonesOnDrag] option and introduced #[span.code alwaysRefreshClones].
 

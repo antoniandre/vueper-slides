@@ -7,12 +7,10 @@
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(
     v-if="slidesCount && conf.slideContentOutside === 'top'"
     :class="conf.slideContentOutsideClass")
-    .vueperslide__title
-      vnodes(v-if="currentSlide.titleSlot" slot="title" :vnodes="currentSlide.titleSlot")
-      div(v-else v-html="currentSlide.title")
-    .vueperslide__content
-      vnodes(v-if="currentSlide.contentSlot" slot="content" :vnodes="currentSlide.contentSlot")
-      div(v-else v-html="currentSlide.content")
+    vnodes(v-if="currentSlide.contentSlot" :vnodes="currentSlide.contentSlot")
+    template(v-else)
+      .vueperslide__title(v-if="currentSlide.title" v-html="currentSlide.title")
+      .vueperslide__content(v-if="currentSlide.content" v-html="currentSlide.content")
 
   .vueperslides__inner
     .vueperslides__parallax-wrapper(:style="`padding-bottom: ${conf.slideRatio * 100}%`" aria-live="polite")
@@ -30,8 +28,6 @@
             :link="lastSlide.link"
             :style="lastSlide.style"
             aria-hidden="true")
-            template(v-if="lastSlide.titleSlot" slot="title")
-              vnodes(:vnodes="lastSlide.titleSlot")
             template(v-if="lastSlide.contentSlot" slot="content")
               vnodes(:vnodes="lastSlide.contentSlot")
           slot(:currentSlide="slides.current")
@@ -44,13 +40,11 @@
             :link="firstSlide.link"
             :style="firstSlide.style"
             aria-hidden="true")
-            template(v-if="firstSlide.titleSlot" slot="title")
-              vnodes(:vnodes="firstSlide.titleSlot")
             template(v-if="firstSlide.contentSlot" slot="content")
               vnodes(:vnodes="firstSlide.contentSlot")
 
-    .vueperslides__paused(v-if="conf.pauseOnHover && $slots['pause-icon']")
-      slot(name="pause-icon")
+    .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
+      slot(name="pause")
     .vueperslides__arrows(
       :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }"
       v-if="conf.arrows && slidesCount > 1 && !disable")
@@ -107,12 +101,10 @@
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(
     v-if="slidesCount && conf.slideContentOutside === 'bottom'"
     :class="conf.slideContentOutsideClass")
-    .vueperslide__title
-      vnodes(v-if="currentSlide.titleSlot" slot="title" :vnodes="currentSlide.titleSlot")
-      div(v-else v-html="currentSlide.title")
-    .vueperslide__content
-      vnodes(v-if="currentSlide.contentSlot" slot="content" :vnodes="currentSlide.contentSlot")
-      div(v-else v-html="currentSlide.content")
+    vnodes(v-if="currentSlide.contentSlot" :vnodes="currentSlide.contentSlot")
+    template(v-else)
+      .vueperslide__title(v-if="currentSlide.title" v-html="currentSlide.title")
+      .vueperslide__content(v-if="currentSlide.content" v-html="currentSlide.content")
 </template>
 
 <script>
@@ -243,7 +235,6 @@ export default {
       if (slide) {
         data = {
           title: slide.title,
-          titleSlot: slide.titleSlot,
           content: slide.content,
           contentSlot: slide.contentSlot,
           image: slide.image,

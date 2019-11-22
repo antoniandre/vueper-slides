@@ -5,16 +5,16 @@ div
     :breakpoints="breakpoints"
     arrows-outside
     bullets-outside
-    :visible-slides="3"
-    :infinite="true")
+    :visible-slides="3")
     vueper-slide(
       v-for="(slide, i) in 10"
       :key="i"
       :content="`Content ${i}`"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      template(v-slot:title)
+      template(v-slot:content)
         v-icon.white--text check_circle
-        p {{ `Title ${i}` }}
+        h1 {{ `Title ${i}` }}
+        p {{ `Content ${i}` }}
 </template>
 
 <script>

@@ -10,12 +10,9 @@
   @mouseleave="$emit('mouse-leave')")
   .vueperslide__image(v-if="image && conf.slideImageInside" :style="imageStyles")
   .vueperslide__content-wrapper(v-show="!conf.slideContentOutside")
-    .vueperslide__title
-      slot(name="title")
-        div(v-if="title" v-html="title")
-    .vueperslide__content
-      slot(name="content")
-        div(v-if="content" v-html="content")
+    slot(name="content")
+      .vueperslide__title(v-if="title" v-html="title")
+      .vueperslide__content(v-if="content" v-html="content")
 </template>
 
 <script>
@@ -41,7 +38,6 @@ export default {
       id: this._uid,
       image: this.image,
       title: this.title,
-      titleSlot: this.$slots.title,
       content: this.content,
       contentSlot: this.$slots.content,
       link: this.link,
@@ -53,7 +49,6 @@ export default {
     if (this.clone) return
 
     this.updateSlide({
-      titleSlot: this.$slots.title,
       contentSlot: this.$slots.content,
       style: ((this.$el.attributes || {}).style || {}).value
     })
@@ -63,7 +58,6 @@ export default {
     if (this.shouldSkipUpdate || !Object.values(this.$slots).length) return
 
     this.updateSlide({
-      titleSlot: this.$slots.title,
       contentSlot: this.$slots.content,
       style: ((this.$el.attributes || {}).style || {}).value
     })
