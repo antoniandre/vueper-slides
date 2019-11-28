@@ -281,6 +281,20 @@
     }
 
   h3
+    a(href="#ex--fractions") Simplest with Fractions
+    a(name="ex--fractions")
+  p.
+    This example demonstrates a fraction display in the top left corner illustrating progress through the slides. The
+    content can be overridden using the #[span.code fraction] slot, which accepts #[span.code current] and #[span.code total] properties.
+    The style of the fraction can be affected by overriding the #[span.code vueperslides__fractions] class.
+  vueper-slides.ex--simplest-ever(fractions)
+    vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides fractions&gt;
+      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  h3
     a(href="#ex--images-and-fading") Images &amp; Fading
     a(name="ex--images-and-fading")
   p.
@@ -921,20 +935,6 @@
 
     &lt;vueper-slides ref="myVueperSlides"&gt;
       &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
-    &lt;/vueper-slides&gt;
-
-  h3
-    a(href="#ex--fractions") Simplest with Fractions
-    a(name="ex--fractions")
-  p.
-    This example demonstrates a fraction display in the top corner illustrating progress through the slides. The
-    content can be overridden using the #[span.code fraction] slot, which accepts #[span.code current] and #[span.code total] properties.
-    The style of the fraction can be affected by overriding the #[span.code vueperslides__fractions] class.
-  vueper-slides.ex--simplest-ever(fractions)
-    vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
-  ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides fractions&gt;
-      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
   h2

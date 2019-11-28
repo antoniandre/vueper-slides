@@ -46,10 +46,8 @@
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
       slot(name="pause")
     .vueperslides__fractions(v-if="conf.fractions")
-      slot(
-        name="fraction"
-        v-bind:current="(slides.current + 1).toString()"
-        v-bind:total="slidesCount.toString()") {{ (slides.current + 1).toString() + " / " + slidesCount.toString() }}
+      slot(name="fraction" :current="slides.current + 1" :total="slidesCount")
+        | {{ `${slides.current + 1} / ${slidesCount}` }}
     .vueperslides__arrows(
       :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }"
       v-if="conf.arrows && slidesCount > 1 && !disable")

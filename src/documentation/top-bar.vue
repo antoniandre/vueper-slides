@@ -40,6 +40,7 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
         v-list-item(color="secondary" href="#ex--simplest-ever") Simplest Ever
         v-list-item(color="secondary" href="#ex--basic") Basic with Autoplay
         v-list-item(color="secondary" href="#ex--arrows-and-bullets") Arrows &amp; Bullets
+        v-list-item(color="secondary" href="#ex--fractions") Fractions
         v-list-item(color="secondary" href="#ex--images-and-fading") Images &amp; Fading
         v-list-item(color="secondary" href="#ex--link-on-the-whole-slide") Link on the Whole Slide
         v-list-item(color="secondary" href="#ex--complex-slide-title-and-content") Complex Slide Title &amp; Content

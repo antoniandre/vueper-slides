@@ -49,6 +49,7 @@ ___
 
 ## Release Notes
 
+- __Version 2.1__ Add fractions option
 - __Version 2.0__ Allow new Vue slot syntax &amp; other improvements
 - __Version 1.21.0__ Allow external autoplay pause / resume
 - __Version 1.20.0__ Option to prevent Y-axis scroll while dragging
@@ -63,12 +64,12 @@ ___
 - __Version 1.10.0__ Allow fixed height
 - __Version 1.9.4__ Add a method to refresh parallax
 - __Version 1.9.1__ Add onload parallax translation calculation
-- __Version 1.9.0__ Add previous() & next() methods for external controls
+- __Version 1.9.0__ Add previous() &amp; next() methods for external controls
 - __Version 1.8.0__ Add animated class while slideshow is animated
-- __Version 1.7.0__ Improve slide data reactivity & allow to refresh clones on drag
-- __Version 1.6.0__ Externalize CSS & add accessibility attributes
-- __Version 1.5.0__ Add transition speed param & slide content outside above or under slideshow
-- __Version 1.4.0__ Allow complex slide title & content
+- __Version 1.7.0__ Improve slide data reactivity &amp; allow to refresh clones on drag
+- __Version 1.6.0__ Externalize CSS &amp; add accessibility attributes
+- __Version 1.5.0__ Add transition speed param &amp; slide content outside above or under slideshow
+- __Version 1.4.0__ Allow complex slide title &amp; content
 - __Version 1.3.2__ Add option to place arrows outside. The config is now VueJS-reactive
 - __Version 1.3.0__ Add parallax feature
 - __Version 1.2.0__ Add dragging distance feature
