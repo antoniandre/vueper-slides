@@ -45,6 +45,11 @@
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
       slot(name="pause")
+    .vueperslides__fractions(v-if="conf.fractions")
+      slot(
+        name="fraction"
+        v-bind:current="(slides.current + 1).toString()"
+        v-bind:total="slidesCount.toString()") {{ (slides.current + 1).toString() + " / " + slidesCount.toString() }}
     .vueperslides__arrows(
       :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }"
       v-if="conf.arrows && slidesCount > 1 && !disable")
@@ -126,6 +131,7 @@ export default {
     disableArrowsOnEdges: { type: [Boolean, String], default: false },
     bullets: { type: Boolean, default: true },
     bulletsOutside: { type: Boolean, default: null },
+    fractions: { type: Boolean, default: false },
     fade: { type: Boolean, default: false },
     slideContentOutside: { type: [Boolean, String], default: false },
     slideContentOutsideClass: { type: String, default: '' },
@@ -960,6 +966,17 @@ export default {
     align-items: center;
 
     &::-moz-focus-inner {border: 0;}
+  }
+
+  &__fractions {
+    position: absolute;
+    top: 0.8em;
+    left: 0.5em;
+    z-index: 2;
+    padding: 0.5em 1em;
+    border: 1px solid #fff;
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
   }
 }
 </style>
