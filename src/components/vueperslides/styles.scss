@@ -68,17 +68,15 @@
 
 .vueperslide {
   background-position: center;
-  overflow: hidden;
 
   &__image {background-position: center;}
 
   &__content-wrapper:not(&__content-wrapper--outside-top):not(&__content-wrapper--outside-bottom) {
-    width: 100%;
-    height: 100%;
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-content: center;
     text-align: center;
   }
 }

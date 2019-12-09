@@ -9,10 +9,11 @@
   @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouse-leave')")
   .vueperslide__image(v-if="image && conf.slideImageInside" :style="imageStyles")
-  .vueperslide__content-wrapper(v-show="!conf.slideContentOutside")
+  template(v-show="!conf.slideContentOutside")
     slot(name="content")
-      .vueperslide__title(v-if="title" v-html="title")
-      .vueperslide__content(v-if="content" v-html="content")
+      .vueperslide__content-wrapper
+        .vueperslide__title(v-if="title" v-html="title")
+        .vueperslide__content(v-if="content" v-html="content")
 </template>
 
 <script>
@@ -159,10 +160,10 @@ export default {
 .vueperslide {
   white-space: normal;
   background-size: cover;
-  display: inline-block;
-  position: relative;
+  flex-shrink: 0;
+  display: block;
   width: 100%;
-  height: 100%;
+  position: relative;
 
   &[href] {-webkit-user-drag: none;}
 
@@ -176,7 +177,8 @@ export default {
   }
 
   &__content-wrapper:not(&__content-wrapper--outside-top):not(&__content-wrapper--outside-bottom) {
-    position: absolute;
+    height: 100%;
+    margin: auto;
   }
 
   .vueperslides--fade & {
@@ -194,6 +196,8 @@ export default {
       opacity: 1;
     }
   }
+
+  .vueperslides--slide-image-inside & {overflow: hidden;}
 
   .vueperslides--3d & {
     position: absolute;
