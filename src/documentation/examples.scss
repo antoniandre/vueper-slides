@@ -186,16 +186,9 @@
 }
 
 //---------------------//
-.ex--synced-instances-2 .vueperslide__content-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
-}
 .ex--synced-instances-2 {
+  color: #fff;
+
   .vueperslide {padding: 1em 2em;}
 
   .vueperslide .vueperslide__content-wrapper {

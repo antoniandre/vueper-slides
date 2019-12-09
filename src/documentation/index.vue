@@ -632,7 +632,7 @@
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
 
   pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
-    v-layout.justify-space-between
+    v-layout.justify-space-between.mb-2
       div.grey--text(v-if="logs")
         strong // event-name:
         span.ml-2 params
@@ -962,6 +962,10 @@
   p.
     This example demonstrates how to sync 2 Vueper Slides instances.#[br]
     You can use any navigation controller from both sliders and keep the current slide in sync.
+  highlight(type="tips")
+    strong.
+      The key here is to disable the event emission with #[span.code `{ emit: false }`] when changing slide.#[br]
+      This allows a 2-way syncing without ending up in an infinite loop.
   vueper-slides.ex--synced-instances(
     ref="vueperslides1"
     @slide="$refs.vueperslides2 && $refs.vueperslides2.goToSlide($event.currentSlide.index, { emit: false })"
@@ -1380,24 +1384,24 @@
       h4
         code previous
       p.
-        Fired when going to previous slide either from user drag or from slideshow arrows or from keyboard arrows.#[br]
-        Happens before the `before-slide` event.#[br]
+        Fired when going to the previous slide either from user drag or from slideshow arrows or from keyboard arrows.#[br]
+        This event happens before the `before-slide` event and the next slide is not yet available.#[br]
         This event returns an object containing:
       ul
         li.
           #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
-          the new current slide.
+          the current slide.
     li
       h4
         code next
       p.
-        Fired when going to next slide either from user drag or from slideshow arrows or from keyboard arrows.#[br]
-        Happens before the `before-slide` event.#[br]
+        Fired when going to the next slide either from user drag or from slideshow arrows or from keyboard arrows.#[br]
+        This event happens before the `before-slide` event and the next slide is not yet available.#[br]
         This event returns an object containing:
       ul
         li.
           #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
-          the new current slide.
+          the current slide.
     li
       h4
         code before-slide
@@ -1557,11 +1561,12 @@
               &lt;/template&gt;
             &lt;/vueper-slide&gt;
         li Added previous &amp; next emitted events
-        li Added current numeric index in all the emitted events
-        li Allow using previous() and next() functions without emitting event (useful for synced slideshows)
+        li.
+          Allow using #[span.code previous()], #[span.code next()] and #[span.code goToSlide()] functions
+          without emitting event (useful for synced slideshows)
         li Added a default margin bottom on the slideshow when using fixed height and bullets outside
 
-    li
+    li.mt-6
       strong Version 2.0
       highlight(type="warning" no-icon)
         p.mb-2.subtitle-1.
