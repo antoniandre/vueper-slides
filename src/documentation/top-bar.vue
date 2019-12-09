@@ -38,7 +38,7 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           v-icon apps
           | &nbsp;
           span Examples
-      v-list(dense).text-no-wrap
+      v-list.text-no-wrap(dense allow-overflow)
         v-list-item(color="secondary" href="#ex--simplest-ever") Simplest Ever
         v-list-item(color="secondary" href="#ex--basic") Basic with Autoplay
         v-list-item(color="secondary" href="#ex--arrows-and-bullets") Arrows &amp; Bullets
@@ -82,6 +82,8 @@ export default {
 @import './variables';
 
 .top-bar {
+  box-sizing: content-box;
+
   &.v-app-bar--fixed {
     z-index: 100;
     position: absolute;
@@ -163,6 +165,8 @@ export default {
     transform: translateX(100%);
     opacity: 0;
   }
+
+  .v-menu__content {max-height: 90vh;}
 
   &__items .v-menu__content .v-list__item {
     height: 34px;

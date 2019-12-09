@@ -11,9 +11,10 @@ div
       :content="`Content ${i}`"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
       template(v-slot:content)
-        v-icon.white--text check_circle
-        h1 {{ `Title ${i}` }}
-        p {{ `Content ${i}` }}
+        .vueperslide__content-wrapper
+          v-icon.white--text check_circle
+          h1 {{ `Title ${i}` }}
+          p {{ `Content ${i}` }}
 </template>
 
 <script>
