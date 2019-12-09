@@ -9,11 +9,15 @@
   @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouse-leave')")
   .vueperslide__image(v-if="image && conf.slideImageInside" :style="imageStyles")
-  template(v-show="!conf.slideContentOutside")
+  div(v-if="conf.slideContentOutside" v-show="!conf.slideContentOutside")
     slot(name="content")
       .vueperslide__content-wrapper
         .vueperslide__title(v-if="title" v-html="title")
         .vueperslide__content(v-if="content" v-html="content")
+  slot(name="content" v-else)
+    .vueperslide__content-wrapper
+      .vueperslide__title(v-if="title" v-html="title")
+      .vueperslide__content(v-if="content" v-html="content")
 </template>
 
 <script>
