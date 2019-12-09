@@ -238,6 +238,7 @@ export default {
 
       if (slide) {
         data = {
+          index,
           title: slide.title,
           content: slide.content,
           contentSlot: slide.contentSlot,
@@ -429,6 +430,7 @@ export default {
       if (reasonsToCancelSliding.includes(true)) this.cancelSlideChange()
       else {
         const targetSlide = this.slides.current + this.conf.slideMultiple * (forwards ? 1 : -1)
+        this.emit(forwards ? 'next' : 'previous')
         this.goToSlide(targetSlide)
       }
 
@@ -539,11 +541,13 @@ export default {
       this.emit('autoplay-resume')
     },
 
-    previous () {
+    previous (emit = true) {
+      if (emit) this.emit('previous')
       this.goToSlide(this.slides.current - this.conf.slideMultiple)
     },
 
-    next () {
+    next (emit = true) {
+      if (emit) this.emit('next')
       this.goToSlide(this.slides.current + this.conf.slideMultiple)
     },
 
@@ -596,7 +600,7 @@ export default {
     // animation = slide transition will be animated.
     // autoPlaying = going to the next slide from autoplay - no user intervention.
     // jumping = after reaching a clone, the callback jumps back to original slide with no animation.
-    goToSlide (index, { animation = true, autoPlaying = false, jumping = false, breakpointChange = false } = {}) {
+    goToSlide (index, { animation = true, autoPlaying = false, jumping = false, breakpointChange = false, emit = true } = {}) {
       if (!this.slidesCount || this.disable) return
 
       if (this.conf.autoplay && autoPlaying) this.pauseAutoplay()
@@ -611,7 +615,7 @@ export default {
       if (!this.slides.list[nextSlide]) return
 
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
-      if (this.isReady && !jumping) this.emit('before-slide', true, nextSlide)
+      if (this.isReady && !jumping && emit) this.emit('before-slide', true, nextSlide)
 
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.conf.arrows && this.conf.disableArrowsOnEdges) {
@@ -658,7 +662,7 @@ export default {
 
       if (this.slidesCount) {
         // First use of goToSlide is while init, so should not propagate an event.
-        if (this.$slots.default[this.slides.current] && this.isReady && !jumping) {
+        if (this.$slots.default[this.slides.current] && this.isReady && !jumping && emit) {
           this.emit('slide')
         }
 
@@ -789,9 +793,11 @@ export default {
         'vueperslides--ready': this.isReady,
         'vueperslides--fade': this.conf.fade,
         'vueperslides--parallax': this.conf.parallax,
+        'vueperslides--slide-image-inside': this.conf.slideImageInside,
         'vueperslides--touchable': this.touchEnabled && !this.disable,
         'vueperslides--fixed-height': this.conf.fixedHeight,
         'vueperslides--3d': this.conf['3d'],
+        'vueperslides--bullets-outside': this.conf.bulletsOutside,
         'vueperslides--animated': this.transition.animated // While transitioning.
       }
     },
@@ -851,6 +857,8 @@ export default {
     .vueperslide {height: inherit;}
 
     .vueperslides__parallax-wrapper {padding-bottom: 0 !important;}
+
+    &.vueperslides--bullets-outside {margin-bottom: 4em;}
   }
 
   &__inner {
@@ -900,6 +908,7 @@ export default {
     white-space: nowrap;
     transition: 0.5s ease-in-out transform;
     height: 100%;
+    display: flex;
 
     .vueperslides--fade & {
       white-space: normal;
