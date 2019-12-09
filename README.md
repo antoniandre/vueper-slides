@@ -49,6 +49,7 @@ ___
 
 ## Release Notes
 
+- __Version 2.2__ Allow syncing 2 slideshows + added previous &amp; next emitted events
 - __Version 2.1__ Add fractions option
 - __Version 2.0__ Allow new Vue slot syntax &amp; other improvements
 - __Version 1.21.0__ Allow external autoplay pause / resume

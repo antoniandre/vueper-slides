@@ -23,7 +23,9 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           | #[span.code &lt;vueperslides&gt;]&nbsp; API
         v-list-item(color="secondary" href="#vueper-slides--settings")
           | #[span.code &lt;vueperslides&gt;]&nbsp; Settings
-        v-list-item(color="secondary" href="#events") Events
+        v-list-item(color="secondary" href="#events")
+          | Emitted Events
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#vueper-slide--api")
           | #[span.code &lt;vueperslide&gt;]&nbsp; API
         v-list-item(color="secondary" href="#vueper-slide--settings")
@@ -47,17 +49,20 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
         v-list-item(color="secondary" href="#ex--updating-content") Updating Content Inside/Outside
         v-list-item(color="secondary" href="#ex--add-remove-slides--disable") Add / Remove Slides &amp; Disable
         v-list-item(color="secondary" href="#ex--center-mode") Center Mode
-        v-list-item(color="secondary" href="#ex--events") Events
+        v-list-item(color="secondary" href="#ex--events")
+          | Emitted Events
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#ex--breakpoints") Breakpoints
         v-list-item(color="secondary" href="#ex--dragging-distance") Dragging Distance
         v-list-item(color="secondary" href="#ex--parallax") Parallax
         v-list-item(color="secondary" href="#ex--fixed-height") Fixed Height
         v-list-item(color="secondary" href="#ex--slide-image-inside") Slide Image Inside
-        v-list-item(color="secondary" href="#ex--show-multiple-slides")
-          | Show Multiple Slides
-          //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outline) NEW
+        v-list-item(color="secondary" href="#ex--show-multiple-slides") Show Multiple Slides
         v-list-item(color="secondary" href="#ex--3d-rotation") 3D Rotation
         v-list-item(color="secondary" href="#ex--external-controls") External Controls
+        v-list-item(color="secondary" href="#ex--synced-instances")
+          | Sync 2 instances
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
 </template>
 
 <script>

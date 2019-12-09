@@ -226,8 +226,9 @@
       vueper-slides.ex--arrows-and-bullets-1.no-shadow(:infinite="false" :slide-ratio="0.25" :bullets="false")
         vueper-slide(v-for="i in 2" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
           template(v-slot:content)
-            div You can also increase default arrows thickness, just with:
-            strong.code .vueperslides__arrow svg {stroke-width: 2;}
+            .vueperslide__content-wrapper
+              div You can also increase default arrows thickness, just with:
+              strong.code .vueperslides__arrow svg {stroke-width: 2;}
       p.mt-4 If you still want your own arrows icons, you can use the slots #[span.code v-slot:arrow-left] and #[span.code v-slot:arrow-right] as follows.
     li
       strong Bullets
@@ -243,7 +244,12 @@
       v-icon(color="white" x-large) undo
     template(v-slot:arrow-right)
       v-icon(color="white" x-large) redo
-    vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[(i + 1) % 4]")
+    vueper-slide(
+      v-for="(slide, i) in slides1"
+      :key="slide.id"
+      :title="slide.title"
+      :content="slide.content"
+      :style="'background-color: ' + colors[(i + 1) % 4]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :infinite="false" bullets-outside&gt;
       &lt;template v-slot:arrow-left&gt;
@@ -380,11 +386,12 @@
       :key="i"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
       template(v-slot:content)
-        .subtitle-1
-          v-icon.mr-2(color="white") check
-          | Complex content {{ i.toString() }} with Vue.js
-          | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
-          | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
+        .vueperslide__content-wrapper
+          .subtitle-1
+            v-icon.mr-2(color="white") check
+            | Complex content {{ i.toString() }} with Vue.js
+            | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
+            | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
       &lt;vueper-slide
@@ -437,11 +444,12 @@
     slide-content-outside-class="text-center py-4")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       template(v-slot:content)
-        v-layout(align-center justify-center)
-          v-icon.pr-3(color="white" size="5em") access_time
-          .text-left
-            .headline {{ slide.title }}
-            div {{ slide.content }}
+        .vueperslide__content-wrapper
+          v-layout(align-center justify-center)
+            v-icon.pr-3(color="white" size="5em") access_time
+            .text-left
+              .headline {{ slide.title }}
+              div {{ slide.content }}
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="toggleSlidesTime"&gt;Keep updating time&lt;/button&gt;
@@ -602,14 +610,17 @@
     }
 
   h3
-    a(href="#ex--events") Events
+    a(href="#ex--events") Emitted Events
     a(name="ex--events")
   p.
     This example demonstrates how to use the vueper slides provided events and how to style the current slide.#[br]
     The events box bellow will log all the events triggered while using the slideshow along with their returned params.#[br]
-    Change slide to see new events in the events box bellow.
+    Change slide to see new events in the events box bellow.#[br]
+    Read more about the emitted events in the #[a(href="#events") emitted events section].
   vueper-slides.ex--events(
     @ready="logEvents('ready', $event)"
+    @previous="logEvents('previous', $event)"
+    @next="logEvents('next', $event)"
     @before-slide="logEvents('before-slide', $event)"
     @slide="logEvents('slide', $event)"
     :slide-ratio="0.2"
@@ -621,14 +632,22 @@
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
 
   pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
-    div.grey--text(v-if="events")
-      strong // event-name:
-      span.ml-2 params
-    div(v-html="events")
+    v-layout.justify-space-between
+      div.grey--text(v-if="logs")
+        strong // event-name:
+        span.ml-2 params
+      v-btn(color="primary" x-small outlined @click="logs = []")
+        v-icon.mr-1(small) close
+        | Clear logs
+    div(v-for="(log, i) in logs")
+      strong.mr-2 {{ log.eventName }}:
+      | {{ JSON.stringify(log.params) }}
     div.mt-2 Listening...
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides
       @ready="logEvents('ready', $event)"
+      @previous="logEvents('previous', $event)"
+      @next="logEvents('next', $event)"
       @before-slide="logEvents('before-slide', $event)"
       @slide="logEvents('slide', $event)"
       :slide-ratio="0.2"
@@ -935,6 +954,71 @@
 
     &lt;vueper-slides ref="myVueperSlides"&gt;
       &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+  h3
+    a(href="#ex--synced-instances") Sync 2 instances
+    a(name="ex--synced-instances")
+  p.
+    This example demonstrates how to sync 2 Vueper Slides instances.#[br]
+    You can use any navigation controller from both sliders and keep the current slide in sync.
+  vueper-slides.ex--synced-instances(
+    ref="vueperslides1"
+    @slide="$refs.vueperslides2 && $refs.vueperslides2.goToSlide($event.currentSlide.index, { emit: false })"
+    :slide-ratio="1 / 4"
+    :bullets="false")
+    vueper-slide(
+      v-for="i in 8"
+      :key="i"
+      :title="i.toString()"
+      content="Navigation in sync"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  br
+  vueper-slides.ex--synced-instances.no-shadow.ex--synced-instances-2(
+    ref="vueperslides2"
+    :dragging-distance="50"
+    @slide="$refs.vueperslides1 && $refs.vueperslides1.goToSlide($event.currentSlide.index, { emit: false })"
+    :visible-slides="3"
+    fixed-height="120px")
+    vueper-slide(
+      v-for="i in 8"
+      :key="i"
+      @click.native="$refs.vueperslides2 && $refs.vueperslides2.goToSlide(i - 1)")
+      template(v-slot:content)
+        .vueperslide__content-wrapper(:style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+          .vueperslide__title {{ i.toString() }}
+
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides
+      ref="vueperslides1"
+      @slide="$refs.vueperslides2 &amp;&amp; $refs.vueperslides2.goToSlide($event.currentSlide.index, { emit: false })"
+      :slide-ratio="1 / 4"
+      :bullets="false"&gt;
+      &lt;vueper-slide
+        v-for="i in 8"
+        :key="i"
+        :title="i.toString()"
+        content="Navigation in sync"
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+
+    &lt;vueper-slides
+      ref="vueperslides2"
+      :slide-ratio="1 / 8"
+      :dragging-distance="50"
+      @slide="$refs.vueperslides1 &amp;&amp; $refs.vueperslides1.goToSlide($event.currentSlide.index, { emit: false })"
+      :visible-slides="3"
+      fixed-height="100px"&gt;
+      &lt;vueper-slide
+      v-for="i in 8"
+      :key="i"
+      @click.native="$refs.vueperslides2 &amp;&amp; $refs.vueperslides2.goToSlide(i - 1)"&gt;
+        &lt;template v-slot:content&gt;
+          &lt;div class="vueperslide__content-wrapper" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
+            &lt;div class="vueperslide__title"&gt;{{ '\{\{ i.toString() \}\}' }}&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/template&gt;
+      &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
   h2
@@ -1280,7 +1364,7 @@
       p See this setting live in the #[a(href="#ex--3d-rotation") 3D Rotation] example.
 
   h3
-    a(href="#events") Events
+    a(href="#events") Emitted Events
     a(name="events")
   p.
     Here is the list of all the available events. To see them in action you can check
@@ -1294,16 +1378,38 @@
         No parameter available.
     li
       h4
+        code previous
+      p.
+        Fired when going to previous slide either from user drag or from slideshow arrows or from keyboard arrows.#[br]
+        Happens before the `before-slide` event.#[br]
+        This event returns an object containing:
+      ul
+        li.
+          #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
+          the new current slide.
+    li
+      h4
+        code next
+      p.
+        Fired when going to next slide either from user drag or from slideshow arrows or from keyboard arrows.#[br]
+        Happens before the `before-slide` event.#[br]
+        This event returns an object containing:
+      ul
+        li.
+          #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
+          the new current slide.
+    li
+      h4
         code before-slide
       p.
         Fired on slide change, just before the effective change.#[br]
         This event returns an object containing:
       ul
         li.
-          a #[span.code currentSlide] object containing the slide index, title &amp; content
+          #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link
           of the current slide.
         li.
-          a #[span.code nextSlide] object containing the slide index, title &amp; content
+          #[span.code nextSlide]: object containing the slide index, title, content, image &amp; link
           of the next slide.
     li
       h4
@@ -1313,7 +1419,7 @@
         This event returns an object containing:
       ul
         li.
-          a #[span.code currentSlide] object containing the slide index, title &amp; content of
+          #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
           the new current slide.
     li
       h4
@@ -1324,7 +1430,7 @@
         This event returns an object containing:
       ul
         li.
-          a #[span.code currentSlide] object containing the slide index, title &amp; content of
+          #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
           the new current slide.
     li
       h4
@@ -1335,7 +1441,7 @@
         This event returns an object containing:
       ul
         li.
-          a #[span.code currentSlide] object containing the slide index, title &amp; content of
+          #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
           the new current slide.
 
   h2
@@ -1434,12 +1540,34 @@
 
   ul.max-widthed.mt-8
     li
+      strong Version 2.2
+      ul.mt-0
+        li
+          | For more flexibility, the default wrapper #[span.code `.vueperslide__content-wrapper`] has been removed
+          | when using the slide content slot. Which means your slot content will be directly at the slide root in
+          | the #[span.code `.vueperslide`] tag.#[br]
+          | You can still wrap your slot content with the #[span.code `.vueperslide__content-wrapper`] class to
+          | horizontally and vertically align center:
+          ssh-pre(language="html-vue" label="HTML Vue Template").
+            &lt;vueper-slide v-for="i in 8" :key="i"&gt;
+              &lt;template v-slot:content&gt;
+                &lt;div class="vueperslide__content-wrapper"&gt;
+                  &lt;div class="vueperslide__title"&gt;{{ '\{\{ i.toString() \}\}' }}&lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/template&gt;
+            &lt;/vueper-slide&gt;
+        li Added previous &amp; next emitted events
+        li Added current numeric index in all the emitted events
+        li Allow using previous() and next() functions without emitting event (useful for synced slideshows)
+        li Added a default margin bottom on the slideshow when using fixed height and bullets outside
+
+    li
       strong Version 2.0
       highlight(type="warning" no-icon)
         p.mb-2.subtitle-1.
           The v2 features a deep refactoring of the library, with revised logic and multiple improvements, in particular:
         ul.mt-0
-          li New Vue.js 2.6+ slots syntax is now possible!
+          li Using the new Vue.js 2.6+ slots syntax is now possible!
           li Slides cloning, slides rendering, and more performant &amp; reliable content updating.
           li Autoplay pause &amp; resume - manual slide does not resume if paused.
           li Hide first clone during init - on infinite mode.
@@ -1524,6 +1652,7 @@ export default {
     internalAutoPlaying: true,
     pauseOnHover: true,
     events: '',
+    logs: [],
     slideshowDisabled: false,
     parallax: 1,
     slidesTimeTimerId: null,
@@ -1613,7 +1742,7 @@ export default {
       setTimeout(() => (this.highlightWhatAreClones = false), 3000)
     },
     logEvents (eventName, params) {
-      this.events += `<strong>${eventName}</strong>: ${JSON.stringify(params)}<br>`
+      this.logs.push({ eventName, params })
     },
     appendSlide () {
       this.slides3.push({
