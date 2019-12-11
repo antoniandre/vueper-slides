@@ -5,8 +5,9 @@
       router-view
 
     v-fab-transition
-      v-btn(color="primary" fixed bottom right fab v-show="!goTopHidden" small href="#top")
-        v-icon(color="white" size="26") keyboard_arrow_up
+      v-btn(color="primary" fixed bottom right fab v-show="!goTopHidden" small v-scroll-to="'#top'")
+        //- Width to prevent ugly first load animation when icon is not yet ready.
+        v-icon(color="white" size="26" style="width: 24px") keyboard_arrow_up
 
     v-footer.pa-2(color="white")
       v-layout.max-widthed(row wrap align-center justify-center)
