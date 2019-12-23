@@ -152,7 +152,8 @@ export default {
     slideImageInside: { type: Boolean, default: false },
     slideMultiple: { type: [Boolean, Number], default: false },
     visibleSlides: { type: Number, default: 1 },
-    '3d': { type: Boolean, default: false }
+    '3d': { type: Boolean, default: false },
+    gap: { type: Number, default: 0 }
   },
 
   data: () => ({
@@ -481,9 +482,10 @@ export default {
      */
     updateCurrentTranslation (nextSlideIsClone = null, currentMouseX = null) {
       let translation = this.getBasicTranslation()
+      const { fade, infinite, visibleSlides, slideMultiple, gap, gapPx, ['3d']: threeD } = this.conf
 
-      if (this.conf.infinite && nextSlideIsClone !== null) {
-        translation = (nextSlideIsClone ? this.slidesCount + 1 : 0) / this.conf.visibleSlides
+      if (infinite && nextSlideIsClone !== null) {
+        translation = (nextSlideIsClone ? this.slidesCount + 1 : 0) / visibleSlides
       }
 
       // If dragging.
@@ -492,7 +494,7 @@ export default {
         const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
         let dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
 
-        if (this.conf['3d']) {
+        if (threeD) {
           // Prevent dragging more than 1 face away from front face,
           // So that we don't need to update faces on drag.
           let range = Math.round(dragPercentageStart) ? [0, 2] : [-1, 1]
@@ -501,27 +503,45 @@ export default {
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
         translation += dragPercentage
+
+        if (!threeD && gap) {
+          translation -= (!gapPx && this.slides.current ? gap * ~~(this.slides.current / visibleSlides) : 0)
+        }
       }
 
       // Special behavior if multiple visible slides and sliding 1 by 1:
       // The translation is modified as user slides just to look nicer.
-      if (this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1) {
+      if (visibleSlides > 1 && slideMultiple === 1) {
         // If not infinite sliding.
-        if (!this.conf.infinite) {
-          const preferredPosition = Math.ceil(this.conf.visibleSlides / 2)
+        if (!infinite) {
+          // The preferred position is the most center slide amongst the visible ones,
+          // if `visibleSlides` is an odd number the preferred position can never be at the center,
+          // so take the closest on the left side.
+          const preferredPosition = Math.ceil(visibleSlides / 2)
           const remainingSlides = this.slidesCount - (this.slides.current + 1)
-          const positionsAfterPreferred = this.conf.visibleSlides - preferredPosition
+          const positionsAfterPreferred = visibleSlides - preferredPosition
           const preferredPositionIsPassed = remainingSlides < positionsAfterPreferred
 
+          // Number of first slides Without translation, until we reach the preferred position.
           const slidesWOTranslation = preferredPosition - 1
-          let substractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
+          let subtractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
 
           // From next position after the preferred position.
           if (preferredPositionIsPassed) {
-            substractFromTranslation += positionsAfterPreferred - remainingSlides
+            subtractFromTranslation += positionsAfterPreferred - remainingSlides
           }
 
-          translation -= substractFromTranslation / this.conf.visibleSlides
+          translation -= subtractFromTranslation / visibleSlides
+
+          if (gap && !gapPx) {
+            if (slidesWOTranslation < this.slides.current && !preferredPositionIsPassed) {
+              translation += (gap / 100) * ((this.slides.current - slidesWOTranslation) / visibleSlides)
+            }
+            else if (preferredPositionIsPassed) {
+              subtractFromTranslation += positionsAfterPreferred - remainingSlides
+              translation += (gap / 100)
+            }
+          }
         }
       }
 
@@ -749,6 +769,9 @@ export default {
       // ------------------------------- //
       conf.slideMultiple = conf.slideMultiple ? conf.visibleSlides : 1
 
+      conf.gap = this.gap && parseInt(this.gap) || 0
+      conf.gapPx = this.gap && this.gap.toString().includes('px')
+
       if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1 || conf['3d']) {
         conf.infinite = false
       }
@@ -819,19 +842,22 @@ export default {
     },
     trackInnerStyles () {
       let styles = {}
+      const { fade, ['3d']: threeD } = this.conf
 
       // Prevent animation if VueperSlides is not yet ready (so that the first clone is not shown before ready).
       styles.transitionDuration = (this.isReady ? this.transition.speed : 0) + 'ms'
 
-      if (this.conf['3d']) {
+      if (threeD) {
         let rotation = this.transition.currentTranslation * 90 / 100
         // Following calculation is equivalent to:
         // 'translateZ(slideshowWidth / 2) rotateY(' + rotation + 'deg)'
         // but does not require a fixed width.
         styles.transform = `rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(${rotation}deg)`
       }
-      else if (!this.conf.fade) {
-        styles.transform = `translate3d(${this.transition.currentTranslation}%, 0, 0)`
+      else if (!fade) {
+        let translation = this.transition.currentTranslation
+
+        styles.transform = `translate3d(${translation}%, 0, 0)`
 
         // Increase browser optimizations by allocating more machine resource.
         // ! \\ To be used wisely so deactivate when not needed.

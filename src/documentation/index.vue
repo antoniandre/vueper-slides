@@ -119,7 +119,6 @@
         ...
       ]
     })
-  highlight(type="tips") If you don't need a #[span.code v-for] loop, you don't need to place your slides data in your Vue.js component's data.
 
   h2
     a(href="#examples" v-scroll-to="'#examples'") Examples of Use

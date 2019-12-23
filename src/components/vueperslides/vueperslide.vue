@@ -101,10 +101,13 @@ export default {
       }
     },
     slideStyles () {
+      const { visibleSlides, fade, slideImageInside, gap, gapPx } = this.conf
+
       return {
-        ...(!this.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
-        ...(this.conf.visibleSlides > 1 && { width: 100 / this.conf.visibleSlides + '%' }),
-        ...(this.conf.visibleSlides > 1 && this.conf.fade && { left: ((this.slideIndex % this.conf.visibleSlides) / this.conf.visibleSlides) * 100 + '%' })
+        ...(!slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
+        ...(visibleSlides > 1 && { width: (100 - (gap ? gap * (visibleSlides - 1) : 0)) / visibleSlides + '%' }),
+        ...(visibleSlides > 1 && fade && { left: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
+        ...(gap && this.slideIndex && { marginLeft: gap + (gapPx ? 'px' : '%') })
       }
     },
     imageStyles () {

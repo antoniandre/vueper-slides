@@ -3,8 +3,8 @@
 div
   vueper-slides(
     :breakpoints="breakpoints"
-    :visible-slides="3"
-    slide-multiple)
+    :visible-slides="2"
+    :gap="4")
     vueper-slide(
       v-for="(slide, i) in 10"
       :key="i"
