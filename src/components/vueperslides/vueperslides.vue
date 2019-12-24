@@ -504,7 +504,7 @@ export default {
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
         translation += dragPercentage
 
-        if (!threeD && gap) {
+        if (!threeD && gap && visibleSlides > 1 && slideMultiple > 1) {
           translation -= (!gapPx && this.slides.current ? gap * ~~(this.slides.current / visibleSlides) : 0)
         }
       }
@@ -534,12 +534,8 @@ export default {
           translation -= subtractFromTranslation / visibleSlides
 
           if (gap && !gapPx) {
-            if (slidesWOTranslation < this.slides.current && !preferredPositionIsPassed) {
-              translation += (gap / 100) * ((this.slides.current - slidesWOTranslation) / visibleSlides)
-            }
-            else if (preferredPositionIsPassed) {
-              subtractFromTranslation += positionsAfterPreferred - remainingSlides
-              translation += (gap / 100)
+            if (slidesWOTranslation < this.slides.current) {
+              translation += (gap / 100) * ((this.slides.current - slidesWOTranslation - (preferredPositionIsPassed ? positionsAfterPreferred - remainingSlides : 0)) / visibleSlides)
             }
           }
         }
@@ -695,8 +691,6 @@ export default {
 
     addSlide (newSlide) {
       this.slides.list.push(newSlide)
-
-      // If adding the first slide.
       return this.slidesCount
     },
 
@@ -719,9 +713,7 @@ export default {
       }
 
       // This can only happen if removing and adding slides very fast - like hot reloading.
-      if (this.slides.current >= this.slidesCount) {
-        this.goToSlide(0, { autoPlaying: true })
-      }
+      if (this.slides.current >= this.slidesCount) this.goToSlide(0, { autoPlaying: true })
     },
 
     toggleTouchableOption (isTouchable) {
