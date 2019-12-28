@@ -9,13 +9,13 @@
         //- Width to prevent ugly first load animation when icon is not yet ready.
         v-icon(color="white" size="26" style="width: 24px") keyboard_arrow_up
 
-    v-footer.pa-2(color="white")
-      v-layout.max-widthed(row wrap align-center justify-center)
+    v-footer.px-0.py-2(color="white")
+      v-layout.max-widthed(wrap justify-center)
         v-flex.xs12.sm6.text-center.text-sm-left.copyright.
           Copyright © {{ (new Date()).getFullYear() }} Antoni André, all rights reserved.
         v-flex.xs12.sm6.text-center.text-sm-right.made-with
           .mb-1 This documentation is made with #[v-icon fab fa-vuejs], #[v-icon fab fa-html5], #[v-icon fab fa-css3], #[v-icon fab fa-sass] &amp; #[v-icon.heart favorite]
-          | View project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") #[v-icon fab fa-github] Github].
+          | View this project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") #[v-icon fab fa-github] Github].
 </template>
 
 <script>
