@@ -467,7 +467,8 @@ export default {
     getBasicTranslation () {
       let translation = this.slides.current / this.conf.visibleSlides
 
-      if (this.conf.infinite) translation += 1 / this.conf.visibleSlides // A clone is prepended to the slides track.
+      // A clone is prepended to the slides track.
+      if (this.conf.infinite && this.slidesCount > 1) translation += 1 / this.conf.visibleSlides
 
       return translation
     },
