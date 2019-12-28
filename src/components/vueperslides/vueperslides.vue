@@ -180,6 +180,7 @@ export default {
     autoplayTimer: null,
     arrowPrevDisabled: false,
     arrowNextDisabled: false,
+    nextSlideIsClone: false,
     breakpointsData: { list: [], current: null },
     parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false }
   }),
@@ -377,7 +378,7 @@ export default {
       this.touch.dragStartX = this.getCurrentMouseX(e)
 
       if (!this.conf.draggingDistance) {
-        this.updateCurrentTranslation(null, this.touch.dragStartX)
+        this.updateCurrentTranslation(this.touch.dragStartX)
       }
     },
 
@@ -397,7 +398,7 @@ export default {
           this.updateCurrentTranslation()
           this.transition.currentTranslation += 100 * dragAmountPercentage
         }
-        else this.updateCurrentTranslation(null, this.touch.dragNowX)
+        else this.updateCurrentTranslation(this.touch.dragNowX)
       }
     },
 
@@ -475,20 +476,23 @@ export default {
      * Update the current translation of the slides track - for sliding slideshows.
      * The resulting translation will be set in percentage and negative value.
      *
-     * @param {null | 0 | 1} nextSlideIsClone: wheter the slide to access is a clone, and
-     *                                         if so, if it's the first or last one.
      * @param {null | float} currentDragX: whether the slide track is being dragged and if so
      *                                     the value of the current drag.
      */
-    updateCurrentTranslation (nextSlideIsClone = null, currentMouseX = null) {
+    updateCurrentTranslation (currentMouseX = null) {
       let translation = this.getBasicTranslation()
-      const { fade, infinite, visibleSlides, slideMultiple, gap, gapPx, ['3d']: threeD } = this.conf
+      const { infinite, visibleSlides, slideMultiple, gap, '3d': threeD } = this.conf
 
-      if (infinite && nextSlideIsClone !== null) {
-        translation = (nextSlideIsClone ? this.slidesCount + 1 : 0) / visibleSlides
+      if (infinite && this.nextSlideIsClone !== false) {
+        translation = (this.nextSlideIsClone ? this.slidesCount + 1 : 0) / visibleSlides
+      }
+
+      if (gap && this.nextSlideIsClone !== 0) {
+        translation += (this.gapsCount / (visibleSlides / slideMultiple)) * gap / 100
       }
 
       // If dragging.
+      if (infinite && this.nextSlideIsClone !== false) {}
       else if (this.touch.dragStartX && currentMouseX) {
         let dragPercentage = 0
         const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
@@ -503,10 +507,6 @@ export default {
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
         translation += dragPercentage
-
-        if (!threeD && gap && visibleSlides > 1 && slideMultiple > 1) {
-          translation -= (!gapPx && this.slides.current ? gap * ~~(this.slides.current / visibleSlides) : 0)
-        }
       }
 
       // Special behavior if multiple visible slides and sliding 1 by 1:
@@ -517,27 +517,15 @@ export default {
           // The preferred position is the most center slide amongst the visible ones,
           // if `visibleSlides` is an odd number the preferred position can never be at the center,
           // so take the closest on the left side.
-          const preferredPosition = Math.ceil(visibleSlides / 2)
-          const remainingSlides = this.slidesCount - (this.slides.current + 1)
-          const positionsAfterPreferred = visibleSlides - preferredPosition
-          const preferredPositionIsPassed = remainingSlides < positionsAfterPreferred
+          const preferredPositionIsPassed = this.slidePosAfterPreferred > 0
 
-          // Number of first slides Without translation, until we reach the preferred position.
-          const slidesWOTranslation = preferredPosition - 1
-          let subtractFromTranslation = Math.min(slidesWOTranslation, this.slides.current)
+          // Subtract the first slides without translation, until we reach the preferred position.
+          let subtractFromTranslation = Math.min(this.preferredPosition, this.slides.current)
 
           // From next position after the preferred position.
-          if (preferredPositionIsPassed) {
-            subtractFromTranslation += positionsAfterPreferred - remainingSlides
-          }
+          if (preferredPositionIsPassed) subtractFromTranslation += this.slidePosAfterPreferred
 
           translation -= subtractFromTranslation / visibleSlides
-
-          if (gap && !gapPx) {
-            if (slidesWOTranslation < this.slides.current) {
-              translation += (gap / 100) * ((this.slides.current - slidesWOTranslation - (preferredPositionIsPassed ? positionsAfterPreferred - remainingSlides : 0)) / visibleSlides)
-            }
-          }
         }
       }
 
@@ -585,7 +573,7 @@ export default {
     },
 
     getSlideInRange (index, autoPlaying) {
-      let clone = null
+      let clone = false
 
       // If infinite enabled, going out of range takes the first slide from the other end.
       if (this.conf.infinite && index === -1) clone = 0
@@ -626,6 +614,7 @@ export default {
 
       // Get the next slide index and whether it's a clone.
       const { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index, autoPlaying)
+      this.nextSlideIsClone = nextSlideIsClone
 
       // If the slide is not found don't go further.
       if (!this.slides.list[nextSlide]) return
@@ -644,7 +633,7 @@ export default {
       // shows up, when the animation ends the real change to the first slide is done
       // immediately with no animation.
       // Same principle when going beyond first slide.
-      if (nextSlideIsClone !== null) { // Gives clone id (0 or 1 or null).
+      if (nextSlideIsClone !== false) { // Gives clone id (0 or 1) or false.
         setTimeout(() => {
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
@@ -668,7 +657,7 @@ export default {
       if (!breakpointChange) this.slides.focus = nextSlide
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
-      if (!this.conf.fade) this.updateCurrentTranslation(nextSlideIsClone)
+      if (!this.conf.fade) this.updateCurrentTranslation()
 
       this.slides.activeId = this.slides.list[this.slides.current].id
 
@@ -761,8 +750,8 @@ export default {
       // ------------------------------- //
       conf.slideMultiple = conf.slideMultiple ? conf.visibleSlides : 1
 
-      conf.gap = this.gap && parseInt(this.gap) || 0
-      conf.gapPx = this.gap && this.gap.toString().includes('px')
+      conf.gap = (this.gap && parseInt(this.gap)) || 0
+      // conf.gapPx = this.gap && this.gap.toString().includes('px')
 
       if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1 || conf['3d']) {
         conf.infinite = false
@@ -779,6 +768,35 @@ export default {
     },
     slidesCount () {
       return this.slides.list.length
+    },
+    gapsCount () {
+      const { fade, '3d': threeD, infinite, slideMultiple, gap } = this.conf
+      if (!gap || fade || threeD) return 0
+
+      if (this.multipleSlides1by1 && this.slides.current < this.preferredPosition) return 0
+      if (!this.slides.current && this.nextSlideIsClone) return this.slidesCount + 1
+
+      let gapsCount = (this.slides.current / slideMultiple + (infinite ? 1 : 0)) - this.preferredPosition
+      if (this.multipleSlides1by1 && this.slidePosAfterPreferred > 0) {
+        gapsCount -= this.slidePosAfterPreferred
+      }
+
+      return gapsCount
+    },
+    slidesAfterCurrent () {
+      return this.slidesCount - (this.slides.current + 1)
+    },
+    // When visibleSlides > 1, the preferred position is the most center slide amongst the visible ones.
+    // If visibleSlides is an odd number the preferred position can never be at the center,
+    // so take the closest on the left side.
+    preferredPosition () {
+      return this.multipleSlides1by1 ? Math.ceil(this.conf.visibleSlides / 2) - 1 : 0
+    },
+    slidePosAfterPreferred () {
+      return this.conf.visibleSlides - this.preferredPosition - this.slidesAfterCurrent - 1
+    },
+    multipleSlides1by1 () {
+      return this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1
     },
     touchEnabled: {
       get () {
@@ -812,6 +830,7 @@ export default {
         'vueperslides--touchable': this.touchEnabled && !this.disable,
         'vueperslides--fixed-height': this.conf.fixedHeight,
         'vueperslides--3d': this.conf['3d'],
+        'vueperslides--slide-multiple': this.conf.slideMultiple > 1,
         'vueperslides--bullets-outside': this.conf.bulletsOutside,
         'vueperslides--animated': this.transition.animated // While transitioning.
       }
@@ -834,7 +853,7 @@ export default {
     },
     trackInnerStyles () {
       let styles = {}
-      const { fade, ['3d']: threeD } = this.conf
+      const { fade, '3d': threeD } = this.conf
 
       // Prevent animation if VueperSlides is not yet ready (so that the first clone is not shown before ready).
       styles.transitionDuration = (this.isReady ? this.transition.speed : 0) + 'ms'

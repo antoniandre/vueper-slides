@@ -107,7 +107,7 @@ export default {
         ...(!slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
         ...(visibleSlides > 1 && { width: (100 - (gap ? gap * (visibleSlides - 1) : 0)) / visibleSlides + '%' }),
         ...(visibleSlides > 1 && fade && { left: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
-        ...(gap && this.slideIndex && { marginLeft: gap + (gapPx ? 'px' : '%') })
+        ...(gap && { marginRight: gap + (gapPx ? 'px' : '%') })
       }
     },
     imageStyles () {
