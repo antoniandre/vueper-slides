@@ -49,23 +49,24 @@ ___
 
 ## Release Notes
 
-- __Version 2.2__ Allow syncing 2 slideshows + added previous &amp; next emitted events
-- __Version 2.1__ Add fractions option
+- __Version 2.3__ Added `gap` option
+- __Version 2.2__ Allow syncing 2 slideshows + added `previous` &amp; `next` emitted events
+- __Version 2.1__ Added `fractions` option
 - __Version 2.0__ Allow new Vue slot syntax &amp; other improvements
 - __Version 1.21.0__ Allow external autoplay pause / resume
 - __Version 1.20.0__ Option to prevent Y-axis scroll while dragging
 - __Version 1.19.0__ Allow slide link on the entire slide
 - __Version 1.18.0__ Emit mouseenter mouseleave events on slides
 - __Version 1.16.0__ Change build system and external css file
-- __Version 1.15.0__ Add 3D Rotation feature
+- __Version 1.15.0__ Added `3D` Rotation feature
 - __Version 1.14.0__ Allow fade transition with multiple items per slide
 - __Version 1.13.0__ Allow multiple items per slide
-- __Version 1.12.0__ Add a 'no-shadow' class to remove default inner shadow
+- __Version 1.12.0__ Added a `no-shadow` class to remove default inner shadow
 - __Version 1.11.0__ Allow slide background inside slide container
 - __Version 1.10.0__ Allow fixed height
-- __Version 1.9.4__ Add a method to refresh parallax
+- __Version 1.9.4__ Added a method to refresh parallax
 - __Version 1.9.1__ Add onload parallax translation calculation
-- __Version 1.9.0__ Add previous() &amp; next() methods for external controls
+- __Version 1.9.0__ Add `previous()` &amp; `next()` methods for external controls
 - __Version 1.8.0__ Add animated class while slideshow is animated
 - __Version 1.7.0__ Improve slide data reactivity &amp; allow to refresh clones on drag
 - __Version 1.6.0__ Externalize CSS &amp; add accessibility attributes
