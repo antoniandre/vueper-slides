@@ -28,14 +28,13 @@
 .vueperslides__bullets--outside .vueperslides__bullet {
   border-color: $secondary;
   box-shadow: none;
+
+  &--active {background-color: $secondary;}
 }
 
-.vueperslides__bullets--outside .vueperslides__bullet--active {
-  background-color: $secondary;
-}
-
-/* Examples */
-/*===================================*/
+// ============ EXAMPLES =============
+// Simplest ever.
+// ===================================
 .ex--simplest-ever .vueperslide {
   background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
   background-size: 400% 400%;
@@ -47,7 +46,7 @@
   }
 }
 
-//---------------------//
+// ===================================
 .ex--arrows-and-bullets-1 {
   width: 600px;
   max-width: 100%;
@@ -76,7 +75,8 @@
   }
 }
 
-//---------------------//
+// Images and fading.
+// ===================================
 .ex--images-and-fading {
   .vueperslide__content-wrapper--outside-top {
     transition: 0.3s ease-in-out;
@@ -91,13 +91,14 @@
   }
 }
 
-//---------------------//
+// Complex slide content.
+// ===================================
 .ex--complex-slide-content {
   .vueperslide__content-wrapper {width: 80%;}
 }
-//---------------------//
 
-//---------------------//
+// Events.
+// ===================================
 .events-box p {margin-bottom: 0;}
 
 .ex--events .vueperslide--active:before {
@@ -114,7 +115,8 @@
   box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
 }
 
-//---------------------//
+// Center mode.
+// ===================================
 .ex--center-mode {
   width: 600px;
   max-width: 100%;
@@ -123,18 +125,21 @@
   .vueperslides__arrows--outside {color: $secondary;}
 }
 
-//---------------------//
+// Updating content.
+// ===================================
 .ex--updating-content .vueperslide__content-wrapper--outside-top *,
 .ex--updating-content .vueperslide__content-wrapper--outside-bottom * {
   color: $secondary !important;
 }
 
-//---------------------//
+// Dragging distance.
+// ===================================
 .ex--dragging-distance {
   .vueperslide__content-wrapper {width: 80%;}
 }
 
-//---------------------//
+// Slide image inside.
+// ===================================
 .ex--slide-image-inside {
   .vueperslide__image {
     transform: scale(1.5) rotate(-10deg);
@@ -147,36 +152,32 @@
   }
 }
 
-//---------------------//
-.ex--show-multiple-slides {
+// Show multiple slides.
+// ===================================
+.ex--show-multiple-slides-and-gap {
   width: 80%;
   margin: auto;
 
-  .vueperslide:before {
-    content: '';
-    position: absolute;
-    top: 2em;
-    left: 2em;
-    right: 2em;
-    bottom: 1em;
-    background-color: $secondary;
-    transition: 0.3s ease-in-out;
-    z-index: -1;
-  }
+  .vueperslide {background-color: $secondary;}
 
-  &:not(.slide-multiple) .vueperslide--active:before {
-    transform: scale(1.15);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  &:not(.vueperslides--slide-multiple) {
+    .vueperslide {
+      transform: scale(0.85);
+      transition: 0.3s ease-in-out;
+    }
+
+    .vueperslide--active {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
   }
 
   &.ex2 {width: auto;}
 }
 
-@media screen and (max-width: 600px) {
-  .ex--show-multiple-slides .vueperslide:before {left: 0.5em;right: 0.5em;}
-}
-
-//---------------------//
+// 3d rotation.
+// ===================================
 .ex--3d-rotation {
   width: 300px;
   margin: auto;
@@ -185,7 +186,8 @@
   .vueperslides__arrow--next {right: -6.2em;}
 }
 
-//---------------------//
+// Synced instances.
+// ===================================
 .ex--synced-instances-2 {
   color: #fff;
 

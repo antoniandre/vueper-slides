@@ -1,12 +1,11 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides(
-    :breakpoints="breakpoints"
-    :visible-slides="2"
+  vueper-slides.no-shadow(
+    :visible-slides="1"
     :gap="4")
     vueper-slide(
-      v-for="(slide, i) in 10"
+      v-for="(slide, i) in 15"
       :key="i"
       :content="`Content ${i}`"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")

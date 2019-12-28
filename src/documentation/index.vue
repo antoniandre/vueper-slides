@@ -105,7 +105,7 @@
     Check the #[a(href="#examples" v-scroll-to="'#examples'") examples] &amp; #[a(href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'") API] sections to know more.
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
-      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :title="slide.title" :content="slide.content"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :title="slide.title" :content="slide.content" /&gt;
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
@@ -132,7 +132,7 @@
     vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
-      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -169,7 +169,7 @@
         :key="slide.id"
         :title="slide.title"
         :content="slide.content"
-        :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + colors[i % 4]" /&gt;
       &lt;template v-slot:pause&gt;
         &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
       &lt;/template&gt;
@@ -194,7 +194,7 @@
         :key="slide.id"
         :title="slide.title"
         :content="slide.content"
-        :style="'background-color: ' + colors[i % 4]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + colors[i % 4]" /&gt;
       &lt;template v-slot:pause&gt;
         &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
       &lt;/template&gt;
@@ -262,7 +262,7 @@
         :key="slide.id"
         :title="slide.title"
         :content="slide.content"
-        :style="'background-color: ' + colors[(i + 1) % 4]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + colors[(i + 1) % 4]" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="css" label="CSS").
     .vueperslides__bullet {
@@ -296,7 +296,7 @@
     vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides fractions&gt;
-      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -328,7 +328,7 @@
         :key="i"
         :image="'images/' + slide.image"
         :title="'# ' + slide.title"
-        :content="slide.content"&gt;&lt;/vueper-slide&gt;
+        :content="slide.content" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="css" label="CSS").
     .vueperslide__content-wrapper--outside-top {
@@ -359,7 +359,7 @@
         :image="'images/' + slide.image"
         :title="'# ' + slide.title"
         :content="slide.content"
-        :link="slide.link"&gt;&lt;/vueper-slide&gt;
+        :link="slide.link" /&gt;
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
@@ -436,7 +436,7 @@
         | &nbsp;Move content position
       strong.mt-2.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
   vueper-slides.ex--updating-content(
-    :slide-ratio="1/4"
+    :slide-ratio="1 / 4"
     autoplay
     always-refresh-clones
     :slide-content-outside="contentPosition === 'false' ? false : contentPosition"
@@ -453,7 +453,7 @@
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="toggleSlidesTime"&gt;Keep updating time&lt;/button&gt;
 
-    &lt;vueper-slides :slide-ratio="1/4" autoplay :slide-content-outside="contentPosition"&gt;
+    &lt;vueper-slides :slide-ratio="1 / 4" autoplay :slide-content-outside="contentPosition"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"
@@ -552,7 +552,7 @@
         :key="i"
         :title="slide.title"
         :content="slide.content"
-        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
@@ -599,7 +599,7 @@
         v-for="i in 6"
         :key="i"
         :title="i.toString()"
-        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="css" label="CSS").
     .ex--center-mode {
@@ -654,7 +654,7 @@
       &lt;vueper-slide
         v-for="i in 6"
         :key="i"
-        :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+        :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
@@ -700,7 +700,7 @@
         v-for="i in 6"
         :key="i"
         :title="i.toString()"
-        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
@@ -748,7 +748,7 @@
         v-for="i in 6"
         :key="i"
         content="Drag the slide horizontally..."
-        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]" /&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -772,7 +772,7 @@
     parallax value: {{ '\{\{ parallax.toString() \}\}' }}
 
     &lt;vueper-slides :parallax="parallax" ref="myVueperSlides"&gt;
-      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
@@ -808,7 +808,7 @@
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
-      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" /&gt;
     &lt;/vueper-slides&gt;
   p #[strong.darktext--text You only need this CSS if you use #[span.code :fixed-height="true"]:]
   ssh-pre(language="css" label="CSS").
@@ -829,7 +829,7 @@
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :title="(i + 1).toString()" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides slide-image-inside&gt;
-      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="css" label="CSS").
     .vueperslide__image {
@@ -842,55 +842,122 @@
     }
 
   h3
-    a(href="#ex--show-multiple-slides" v-scroll-to="'#ex--show-multiple-slides'") Show Multiple Slides
-    a(id="ex--show-multiple-slides" name="ex--show-multiple-slides")
+    a(href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap
+    a(id="ex--show-multiple-slides-and-gap" name="ex--show-multiple-slides-and-gap")
+  p
+    | The examples bellow demonstrate how to show multiple slides at the same time.#[br]
+    strong You can choose to slide all the visible items at once or one by one.#[br]
+    strong.
+      Please Read more about Multiple Slides in the
+      #[a(href="#vueper-slides-settings--slide-multiple" v-scroll-to="'#vueper-slides-settings--slide-multiple'") Settings &gt; slide-multiple] details.
+
+  h4 #[span.lightertext--text.headline #1. ] 3 visible slides, sliding 3 by 3, dragging distance of 200px
   p.
-    The examples bellow demonstrate how to show multiple slides at the same time.#[br]
-    #[strong You can choose to slide all the visible items at once or one by one. ]#[br]
-    #[strong Please Read more about Multiple Slides in the #[a(href="#vueper-slides-settings--slide-multiple" v-scroll-to="'#vueper-slides-settings--slide-multiple'") Settings &gt; slide-multiple] details. ]
-
-  h4 #[span.lightertext--text.headline #1. ] 3 visible slides, sliding 1 by 1, dragging distance of 70px
-  vueper-slides.no-shadow.ex--show-multiple-slides.ex1(:visible-slides="3" :slide-ratio="1/4" :dragging-distance="70")
-    vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
-  ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides class="no-shadow" :visible-slides="3" :slide-ratio="1/4" :dragging-distance="70"&gt;
-      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
-    &lt;/vueper-slides&gt;
-
-  h4 #[span.lightertext--text.headline #2. ] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
-  vueper-slides.no-shadow.ex--show-multiple-slides.ex2(:visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70")
-    vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
-  ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides class="no-shadow" :visible-slides="6" :arrows="false" :slide-ratio="1/4" :dragging-distance="70"&gt;
-      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
-    &lt;/vueper-slides&gt;
-
-  h4 #[span.lightertext--text.headline #3. ] 3 visible slides, sliding 3 by 3, dragging distance of 200px
-  p.
-    In this example the option #[span.code slideMultiple] is set to #[span.code true],
-    allowing to slide #[span.code n] items at a time, with #[span.code n = visibleSlides].#[br]
-    Additionally, a breakpoint is set at #[span.code 800px] to reduce #[span.code visibleSlides] &amp; #[span.code slideMultiple] to 2.
-  vueper-slides.no-shadow.ex--show-multiple-slides.slide-multiple(:visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
+    In this example a #[span.code gap] of 3% is applied between the slides and the option
+    #[span.code slideMultiple] is set to #[span.code true], allowing to slide all the visible
+    items at the same time.#[br]
+    Additionally, a breakpoint is set at #[span.code 800px] to reduce #[span.code visibleSlides]
+    &amp; #[span.code slideMultiple] to 2.
+  vueper-slides.no-shadow.ex--show-multiple-slides-and-gap.slide-multiple(
+    :visible-slides="3"
+    slide-multiple
+    :gap="3"
+    :slide-ratio="1 / 4"
+    :dragging-distance="200"
+    :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides class="no-shadow" :visible-slides="3" slide-multiple :slide-ratio="1/4" :dragging-distance="200" :breakpoints="{ 800: { visibleSlides: 2 } }"&gt;
-      &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;vueper-slides
+      class="no-shadow"
+      :visible-slides="3"
+      slide-multiple
+      :gap="3"
+      :slide-ratio="1 / 4"
+      :dragging-distance="200"
+      :breakpoints="{ 800: { visibleSlides: 2, slideMultiple: 2 } }"&gt;
+      &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #4. ] 2 visible slides, full-width, sliding 2 by 2, with arrows inside
-  vueper-slides(:visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false")
-    vueper-slide(v-for="i in 6" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  h4 #[span.lightertext--text.headline #2. ] 3 visible slides, sliding 1 by 1, dragging distance of 70px
+  p.
+    When the option [span.code slideMultiple] is set to false, and by default,
+    changing slide only move by 1 slide at a time.
+  vueper-slides.no-shadow.ex--show-multiple-slides-and-gap.ex1(
+    :visible-slides="3"
+    :slide-ratio="1 / 4"
+    :dragging-distance="70")
+    vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;
-      &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;vueper-slides
+      class="no-shadow"
+      :visible-slides="3"
+      :slide-ratio="1 / 4"
+      :dragging-distance="70"&gt;
+      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()" /&gt;
+    &lt;/vueper-slides&gt;
+
+  h4 #[span.lightertext--text.headline #3. ] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
+  vueper-slides.no-shadow.ex--show-multiple-slides-and-gap.ex2(
+    :visible-slides="6"
+    :arrows="false"
+    :slide-ratio="1 / 4"
+    :gap="3"
+    :dragging-distance="70")
+    vueper-slide(v-for="i in 9" :key="i" :title="i.toString()")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides
+      class="no-shadow"
+      :visible-slides="6"
+      :arrows="false"
+      :slide-ratio="1 / 4"
+      :gap="3"
+      :dragging-distance="70"&gt;
+      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()" /&gt;
+    &lt;/vueper-slides&gt;
+
+  h4 #[span.lightertext--text.headline #4. ] 2 visible slides, full-width, sliding 2 by 2, with arrows inside and a 5% gap
+  vueper-slides.no-shadow(
+    :visible-slides="2"
+    slide-multiple
+    :slide-ratio="1 / 4"
+    :gap="5"
+    :arrows-outside="false")
+    vueper-slide(
+      v-for="i in 6"
+      :key="i"
+      :title="i.toString()"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides
+      class="no-shadow"
+      :visible-slides="2"
+      slide-multiple
+      :slide-ratio="1 / 4"
+      :gap="5"
+      :arrows-outside="false"&gt;
+      &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
   h4 #[span.lightertext--text.headline #5. ] 3 visible slides, fading.
-  vueper-slides(:visible-slides="3" slide-multiple :slide-ratio="1/4" fade)
-    vueper-slide(v-for="i in 12" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+  vueper-slides(
+    fade
+    :visible-slides="3"
+    slide-multiple
+    :slide-ratio="1 / 4"
+    :arrows-outside="false")
+    vueper-slide(
+      v-for="i in 12"
+      :key="i"
+      :title="i.toString()"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :visible-slides="2" slide-multiple :slide-ratio="1/4" :arrows-outside="false"&gt;
-      &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+    &lt;vueper-slides
+      fade
+      :visible-slides="2"
+      slide-multiple
+      :slide-ratio="1 / 4"
+      :arrows-outside="false"&gt;
+      &lt;vueper-slide v-for="i in 12" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -905,7 +972,7 @@
   br
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides 3d fixed-height="300px" arrows-outside bullets-outside&gt;
-      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -952,7 +1019,7 @@
     &lt;button @click="$refs.myVueperSlides.next()"&gt;Next&lt;/button&gt;
 
     &lt;vueper-slides ref="myVueperSlides"&gt;
-      &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()"&gt;&lt;/vueper-slide&gt;
+      &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
   h3
@@ -1002,7 +1069,7 @@
         :key="i"
         :title="i.toString()"
         content="Navigation in sync"
-        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;&lt;/vueper-slide&gt;
+        :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]" /&gt;
     &lt;/vueper-slides&gt;
 
     &lt;vueper-slides
@@ -1066,6 +1133,7 @@
     visibleSlides:            [Number],          default: 1
     slideMultiple:            [Boolean],         default: false
     3d:                       [Boolean],         default: false
+    gap:                      [Number],          default: 0
 
   ul.max-widthed.settings-list
     li
@@ -1300,7 +1368,7 @@
         You can then decide to slide items one by one or by the same amount as
         #[span.code visibleSlides], using #[span.code slideMultiple].#[br]
 
-      p See this setting live in the #[a(href="#ex--show-multiple-slides" v-scroll-to="'#ex--show-multiple-slides'") Show Multiple Slides] example.
+      p See this setting live in the #[a(href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap] example.
 
     li
       a(id="vueper-slides-settings--slide-multiple" name="vueper-slides-settings--slide-multiple")
@@ -1310,7 +1378,7 @@
         The number to slide if #[span.code slideMultiple] is set to #[span.code true] is always equal to
         #[span.code visibleSlides].
 
-      p See this setting live in the #[a(href="#ex--show-multiple-slides" v-scroll-to="'#ex--show-multiple-slides'") Show Multiple Slides] example.
+      p See this setting live in the #[a(href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap] example.
 
       highlight(type="warning")
         strong.black--text.
@@ -1321,7 +1389,7 @@
           li
             strong CSS class #[span.code no-shadow]:
             div.
-              In some cases like in the #[a(href="#ex--show-multiple-slides" v-scroll-to="'#ex--show-multiple-slides'") first 3 examples], you will not want the default
+              In some cases like in the #[a(href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") first 3 examples], you will not want the default
               inner top and bottom shadow (the fourth example has it). To remove it, add the class
               #[span.code no-shadow] on the #[span.code &lt;vueper-slides&gt;] tag.#[br]
               Refer to the example source code.
@@ -1360,12 +1428,17 @@
       highlight(type="warning")
         strong.black--text.
           WARNING#[br]
-          The #[span.code 3d] mode is not compatible with infinite sliding, fade, slide-multiple, visible-slides &amp; parallax features.
+          The #[span.code 3d] mode is not compatible with infinite sliding, fade,
+          slide-multiple, visible-slides &amp; parallax features.
         | #[br]This is mainly due to the complexity of placing #[strong more than 4 slides] on a cube in 3D,
         | Adapting to all these features would decrease the overall performance of the slideshow.
 
       p See this setting live in the #[a(href="#ex--3d-rotation" v-scroll-to="'#ex--3d-rotation'") 3D Rotation] example.
 
+    li
+      a(id="vueper-slides-settings--gap" name="vueper-slides-settings--gap")
+      | #[code gap], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 0]
+      p Set a gap between all the slides. The gap is set in percentage of the slideshow width.
   h3
     a(href="#events" v-scroll-to="'#events'") Emitted Events
     a(id="events" name="events")
@@ -1542,6 +1615,7 @@
     possible breaking changes.
 
   ul.max-widthed.mt-8
+    li.mb-2 #[strong.mr-2 Version 2.3] Added a #[span.code gap] feature
     li
       strong Version 2.2
       ul.mt-0

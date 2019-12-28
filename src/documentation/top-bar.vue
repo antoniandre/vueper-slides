@@ -57,7 +57,9 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
         v-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax
         v-list-item(color="secondary" href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height
         v-list-item(color="secondary" href="#ex--slide-image-inside" v-scroll-to="'#ex--slide-image-inside'") Slide Image Inside
-        v-list-item(color="secondary" href="#ex--show-multiple-slides" v-scroll-to="'#ex--show-multiple-slides'") Show Multiple Slides
+        v-list-item(color="secondary" href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'")
+          | Show Multiple Slides &amp; Gap
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#ex--3d-rotation" v-scroll-to="'#ex--3d-rotation'") 3D Rotation
         v-list-item(color="secondary" href="#ex--external-controls" v-scroll-to="'#ex--external-controls'") External Controls
         v-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'")
