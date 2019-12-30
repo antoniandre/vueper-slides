@@ -23,10 +23,12 @@
 }
 
 .vueperslides__bullets--outside .vueperslides__bullet {
-  border-color: $secondary;
-  box-shadow: none;
+  .default {
+    border-color: $secondary;
+    box-shadow: none;
+  }
 
-  &--active {background-color: $secondary;}
+  &--active .default {background-color: $secondary;}
 }
 
 // ============ EXAMPLES =============
@@ -44,30 +46,58 @@
 }
 
 // ===================================
-.ex--arrows-and-bullets-1 {
+.ex--arrows-and-bullets-1,
+.ex--arrows-and-bullets-2,
+.ex--arrows-and-bullets-3,
+.ex--arrows-and-bullets-4 {
   width: 600px;
   max-width: 100%;
   margin: auto;
+}
 
+.ex--arrows-and-bullets-1 {
   .vueperslide__content-wrapper {width: 80%;}
+  .vueperslides__arrow {color: yellow;}
   .vueperslides__arrow svg {stroke-width: 2;}
 }
 
 .ex--arrows-and-bullets-2 {
   .vueperslides__bullet {
-    background-color: rgba(0, 0, 0, 0.3);
-    border: none;
-    transition: 0.3s;
-    width: 15px;
-    height: 15px;
+    .default {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      // transition: 0.3s;
+      width: 15px;
+      height: 15px;
 
-    &--active {background-color: $secondary;}
+      span {
+        display: block;
+        color: #fff;
+        font-size: 10px;
+        line-height: 16px;
+      }
+    }
 
-    span {
-      display: block;
-      color: #fff;
-      font-size: 10px;
-      line-height: 16px;
+    &--active .default {background-color: $secondary;}
+  }
+}
+
+.ex--arrows-and-bullets-4 {
+  .vueperslides__bullets button {
+    .v-icon {position: relative;}
+    & .v-icon:before {
+      position: absolute;
+      content: '';
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transition: 0.3s;
+      border-radius: 100%;
+    }
+    &:focus .v-icon:before {
+      opacity: 0.4;
+      box-shadow: 0 0 0 4px currentColor;
     }
   }
 }

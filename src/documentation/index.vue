@@ -210,54 +210,67 @@
     a(href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Custom Arrows &amp; Bullets
     a(id="ex--arrows-and-bullets" name="ex--arrows-and-bullets")
 
+  h4.primary--text Common to arrows and bullets
   ul.max-widthed
-    li
-      strong Arrows
-      p You can easily customize the default arrows or change them if you prefer.
-      vueper-slides.ex--arrows-and-bullets-1.no-shadow(:infinite="false" :slide-ratio="0.25" :bullets="false")
-        vueper-slide(v-for="i in 2" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
-          template(v-slot:content)
-            .vueperslide__content-wrapper
-              div You can also increase default arrows thickness, just with:
-              strong.code .vueperslides__arrow svg {stroke-width: 2;}
-      p.mt-4 If you still want your own arrows icons, you can use the slots #[span.code v-slot:arrow-left] and #[span.code v-slot:arrow-right] as follows.
-    li
-      strong Bullets
-      p The bullets don't show numeric indexes by default, but they are there in case you need it, like in this example.#[br]
-    li
-      strong Inside or outside
-      p You can place arrows and/or bullets outside of the slideshow: #[span.code arrows-outside], #[span.code bullets-outside].
-    li
-      strong Disable arrows and bullets
-      p You can disable arrows and/or bullets: #[span.code :arrows="false"], #[span.code :bullets="false"].
-  vueper-slides.ex--arrows-and-bullets-2(:infinite="false" bullets-outside)
+    li.
+      #[strong Inside or outside of the slideshow:] #[span.code arrows-outside],
+      #[span.code bullets-outside].
+    li #[strong Disable:] #[span.code :arrows="false"], #[span.code :bullets="false"].
+
+  h4.primary--text Arrows
+  p.
+    You can easily customize the default arrows, for instance the color
+    #[span.code.grey.lighten-3 .vueperslides__arrow {color: yellow}], and thickness:
+
+  vueper-slides.ex--arrows-and-bullets-1.no-shadow(:infinite="false" :slide-ratio="0.22" :bullets="false")
+    vueper-slide(v-for="i in 2" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
+      template(v-slot:content)
+        .vueperslide__content-wrapper
+          div You can increase default arrows thickness just with:
+          strong.code .vueperslides__arrow svg {stroke-width: 2}
+  p.mt-4.
+    Or you can put your own arrows icons via the #[span.code v-slot:arrow-left] and
+    #[span.code v-slot:arrow-right] slots.
+
+  vueper-slides.ex--arrows-and-bullets-2.no-shadow(:infinite="false" :slide-ratio="0.22" :bullets="false")
     template(v-slot:arrow-left)
       v-icon(color="white" x-large) undo
     template(v-slot:arrow-right)
       v-icon(color="white" x-large) redo
     vueper-slide(
-      v-for="(slide, i) in slides1"
-      :key="slide.id"
-      :title="slide.title"
-      :content="slide.content"
+      v-for="i in 5"
+      :key="i"
+      :title="i.toString()"
       :style="'background-color: ' + colors[(i + 1) % 4]")
+
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :infinite="false" bullets-outside&gt;
+    &lt;vueper-slides :infinite="false" :bullets="false"&gt;
       &lt;template v-slot:arrow-left&gt;
-        &lt;i class="icon icon-arrow-left"&gt;&lt;/i&gt;
+        &lt;i class="icon icon-arrow-left" /&gt;
       &lt;/template&gt;
+
       &lt;template v-slot:arrow-right&gt;
-        &lt;i class="icon icon-arrow-right"&gt;&lt;/i&gt;
+        &lt;i class="icon icon-arrow-right" /&gt;
       &lt;/template&gt;
-      &lt;vueper-slide
-        v-for="(slide, i) in slides"
-        :key="slide.id"
-        :title="slide.title"
-        :content="slide.content"
-        :style="'background-color: ' + colors[(i + 1) % 4]" /&gt;
+
+      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
-  ssh-pre(language="css" label="CSS").
-    .vueperslides__bullet {
+
+  h4.primary--text Bullets
+  p.
+    The bullets don't show numeric indexes by default, but they are there in case you need it,
+    like in this example.#[br]
+    Only #[span.code display: block] the span in the bullet and style as you wish.
+
+  vueper-slides.ex--arrows-and-bullets-2.no-shadow(:infinite="false" :arrows="false" :slide-ratio="0.22" bullets-outside)
+    vueper-slide(
+      v-for="i in 5"
+      :key="i"
+      :title="i.toString()"
+      :style="'background-color: ' + colors[(i + 1) % 4]")
+
+  ssh-pre.mt-2(language="css" label="CSS").
+    .vueperslides__bullet .default {
       background-color: rgba(0, 0, 0, 0.3);
       border: none;
       box-shadow: none;
@@ -266,9 +279,7 @@
       height: 16px;
     }
 
-    .vueperslides__bullet--active {
-      background-color: #ff5252;
-    }
+    .vueperslides__bullet--active .default {background-color: #42b983;}
 
     .vueperslides__bullet span {
       display: block;
@@ -276,6 +287,120 @@
       font-size: 10px;
       opacity: 0.8;
     }
+
+  p.mt-4.
+    You can even put your own bullets, using the appropriate slot.#[br]
+    #[span.code v-slot:bullets] will allow you to override the full list of bullets,
+    whereas #[span.code v-slot:bullet] only lets you customize the content of each bullet.
+
+  p.
+    #[strong • Using #[span.code v-slot:bullet]]#[br]
+    It should be enough in almost all the cases, and you don't have to bother with accessibility compliance
+    or triggering events.
+  vueper-slides.ex--arrows-and-bullets-3.no-shadow(
+    :infinite="false"
+    :arrows="false"
+    :slide-ratio="0.22"
+    bullets-outside)
+    vueper-slide(
+      v-for="i in 4"
+      :key="i"
+      :title="i.toString()"
+      :style="'background-color: ' + colors[(i + 1) % 4]")
+    template(v-slot:bullet="{ active, slideIndex, index }")
+      v-icon.mr-1(:color="colors[(index + 1) % 4]") {{ active ? 'check_circle' : 'radio_button_unchecked' }}
+      strong(:style="`color: ${colors[(index + 1) % 4]}`") Slide \#{{ index }}
+
+  p.mb-0 When using the #[span.code bullet] slot, 3 variables are accessible:
+  ul.max-widthed.mt-1
+    li #[strong.code active [boolean]:] true if the current bullet is the current slide.
+    li #[strong.code slideIndex [Number]:] the slide index (starting from 0).
+    li #[strong.code index [Number]:] the current bullet index (starting from 1 for display).
+
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides :infinite="false" :arrows="false"&gt;
+      &lt;vueper-slide v-for="i in 4" :key="i" :title="i.toString()" /&gt;
+
+      &lt;template v-slot:bullet="{ active, slideIndex, index }"&gt;
+        &lt;i class="icon"&gt;{{ "\{\{ active ? 'check_circle' : 'radio_button_unchecked' \}\}" }}&lt;/i&gt;
+      &lt;/template&gt;
+    &lt;/vueper-slides&gt;
+
+  p.
+    #[strong • Using #[span.code v-slot:bullets]]#[br]
+    If you want more control on events and button wrapper.
+    The drawback is that you have to handle more things yourself.
+  vueper-slides.ex--arrows-and-bullets-4.no-shadow(
+    :infinite="false"
+    :arrows="false"
+    :slide-ratio="0.22"
+    bullets-outside)
+    vueper-slide(
+      v-for="i in 4"
+      :key="i"
+      :title="i.toString()"
+      :style="'background-color: ' + colors[(i + 1) % 4]")
+    template(v-slot:bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }")
+      button.px-1.py-3(
+        v-for="(slideIndex, i) in bulletIndexes"
+        :key="i"
+        :class="{ 'active': currentSlide === slideIndex }"
+        role="tab"
+        :aria-label="`Slide ${i + 1}`"
+        @click="goToSlide(slideIndex)"
+        @keyup.left="previous()"
+        @keyup.right="next()")
+        v-icon(:color="colors[(i + 2) % 4]")
+          | {{ currentSlide === slideIndex ? 'check_circle' : 'radio_button_unchecked' }}
+
+  p.mb-0 When using the #[span.code bullets] slot, 5 variables are accessible:
+  ul.max-widthed.mt-1
+    li.
+      #[strong.code bulletIndexes [Array]:] The computed array of slide indexes (could be like
+      #[span.code [3, 6, 9]] if sliding multiple slides at once).
+    li.
+      #[strong.code goToSlide [Function]:] the function to call to go to a slide - accept the
+      slide index as a parameter.
+    li #[strong.code previous [Function]:] the function to call to go to the previous slide.
+    li #[strong.code next [Function]:] the function to call to go to the next slide.
+    li #[strong.code currentSlide [Number]:] the current slide index (starting from 0).
+
+  p.mt-4.mb-0 Let's see a simple working example first:
+  ssh-pre.mt-3(language="html-vue" label="Quick way").
+    &lt;template v-slot:bullets="{ bulletIndexes, goToSlide, currentSlide }"&gt;
+      &lt;span
+        v-for="(slideIndex, i) in bulletIndexes" :key="i"
+        :class="{ 'active': currentSlide === slideIndex }"
+        @click="goToSlide(slideIndex)"&gt;
+        &lt;i class="icon"&gt;{{ "\{\{ active ? 'check_circle' : 'radio_button_unchecked' \}\}" }}&lt;/i&gt;
+      &lt;/span&gt;
+    &lt;/template&gt;
+
+  p.mb-0 Now this example is more accessibility compliant for the following reasons:
+  ul.max-widthed.mt-1
+    li The button tag allows keyboard navigation (button is focusable).
+    li On keyup the left and right arrows of the keyboard go to the previous and next slides.
+    li The aria-label and role attributes are defined.
+  p.
+    In the above demo, you can try to click on a bullet point, then navigate with #[kbd tab] and
+    #[kbd shift] + #[kbd tab]. You will see the focus moving but not the current slide.#[br]
+    To click go to the focused slide, you can press #[kbd enter] or #[kbd space].#[br]
+    You can also navigate with the arrow keys and that will change the slide at the same time.#[br]
+    When you drag the slide (mousemove or touchmove) the current slide bullet will also be focused.
+
+  ssh-pre(language="html-vue" label="Accessibility compliant way").
+    &lt;template v-slot:bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }"&gt;
+      &lt;button
+        v-for="(slideIndex, i) in bulletIndexes" :key="i"
+        :class="{ 'active': currentSlide === slideIndex }"
+        role="tab"
+        :aria-label="`Slide ${i + 1}`"
+        @click="goToSlide(slideIndex)"
+        @keyup.left="previous()"
+        @keyup.right="next()"&gt;
+        &lt;i class="icon"&gt;{{ "\{\{ active ? 'check_circle' : 'radio_button_unchecked' \}\}" }}&lt;/i&gt;
+      &lt;/button&gt;
+    &lt;/template&gt;
 
   h3
     a(href="#ex--fractions" v-scroll-to="'#ex--fractions'") Simplest with Fractions
@@ -1600,6 +1725,13 @@
     possible breaking changes.
 
   ul.max-widthed.mt-8
+    li.mb-2
+      strong Version 2.4
+      ul.mt-0
+        li Added the #[span.code bullets] &amp; #[span.code bullet] slots
+        li.
+          For more flexibility via slots, the default bullet is wrapped in a div with a
+          #[span.code .default] class so the default style is only applied to this div.
     li.mb-2 #[strong.mr-2 Version 2.3] Added a #[span.code gap] feature
     li
       strong Version 2.2
