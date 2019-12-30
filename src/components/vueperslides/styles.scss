@@ -49,20 +49,24 @@
 
   &:hover &__paused {opacity: 1;}
 
+  &__bullets:not(&__bullets--outside) {color: #fff;}
   &__bullet {
-    width: 12px;
-    height: 12px;
-    border-radius: 12px;
-    border: 1px solid #fff;
-    background-color: transparent;
-    box-shadow: 0 0 1px rgba(#000, 0.5), 0 0 3px rgba(#000, 0.3);
     margin: 1.5em 0.6em;
     padding: 0;
-    transition: 0.4s ease-in-out;
+    border: none;
 
-    &--active {border-width: 6px;}
+    .default {
+      width: 12px;
+      height: 12px;
+      border-radius: 12px;
+      border: 1px solid currentColor;
+      background-color: transparent;
+      box-shadow: 0 0 1px rgba(#000, 0.5), 0 0 3px rgba(#000, 0.3);
+      transition: 0.4s ease-in-out;
 
-    span {display: none;}
+      span {display: none;}
+    }
+    &--active .default {border-width: 6px;}
   }
 }
 

@@ -91,7 +91,8 @@
           @keyup.left="previous()"
           @keyup.right="next()")
           slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
-            span {{ i + 1 }}
+            .default
+              span {{ i + 1 }}
 
   .vueperslides__bullets.vueperslides__bullets--outside(
     v-if="conf.bullets && slidesCount > 1 && !disable && conf.bulletsOutside"
@@ -115,7 +116,8 @@
         @keyup.left="previous()"
         @keyup.right="next()")
         slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
-          span {{ i + 1 }}
+          .default
+            span {{ i + 1 }}
 
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(
     v-if="slidesCount && conf.slideContentOutside === 'bottom'"
