@@ -17,21 +17,40 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           | &nbsp;
           span Doc
       v-list(dense).text-no-wrap
-        v-list-item(color="secondary" href="#installation" v-scroll-to="'#installation'") Installation
-        v-list-item(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'") How To Use
+        v-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
+          v-icon(small).mr-2 build
+          | Installation
+        v-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
+          v-icon(small).mr-2 info
+          | How To Use
+        v-divider
+        v-list-item.heading
+            v-icon(small).mr-2 code
+            | Vueperslides
+            span.ml-1.grey--text.text--lighten-1 (wrapper)
         v-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
-          | #[span.code &lt;vueperslides&gt;]&nbsp; API
+          | API
         v-list-item(color="secondary" href="#vueper-slides--settings" v-scroll-to="'#vueper-slides--settings'")
-          | #[span.code &lt;vueperslides&gt;]&nbsp; Settings
+          | Settings
         v-list-item(color="secondary" href="#events" v-scroll-to="'#events'")
           | Emitted Events
           v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
+        v-divider
+        v-list-item.heading
+            v-icon(small).mr-2 code
+            | Vueperslide
+            span.ml-1.grey--text.text--lighten-1 (slide)
         v-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
-          | #[span.code &lt;vueperslide&gt;]&nbsp; API
+          | API
         v-list-item(color="secondary" href="#vueper-slide--settings" v-scroll-to="'#vueper-slide--settings'")
-          | #[span.code &lt;vueperslide&gt;]&nbsp; Settings
-        v-list-item(color="secondary" href="#styling" v-scroll-to="'#styling'") Styling
-        v-list-item(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'") Notable Version Changes
+          | Settings
+        v-divider
+        v-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
+          v-icon(small).mr-2 color_lens
+          | Styling
+        v-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
+          v-icon(small).mr-2 format_list_numbered
+          | Notable Version Changes
     v-menu(offset-y open-on-hover left attach transition="slide-y-transition")
       template(v-slot:activator="{ on }")
         v-btn(text color="secondary" href="#examples" v-scroll-to="'#examples'" slot="activator" v-on="on")
@@ -169,10 +188,12 @@ export default {
   }
 
   .v-menu__content {max-height: 90vh;}
+  .v-menu__content .v-list-item {
+    height: 30px;
+    font-size: 1em;
+    padding-left: 32px;
 
-  &__items .v-menu__content .v-list__item {
-    height: 34px;
-    font-size: 1.1em;
+    &.heading {padding-left: 8px;color: #666 !important;}
   }
 
   .v-chip.v-chip--x-small {
