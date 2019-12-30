@@ -46,21 +46,15 @@
 
   .max-widthed.mt-8.mb-3.title Github project
   v-layout.max-widthed.mb-5(align-center shrink)
-    v-icon.pr-4.lightgrey--text(x-large) fab fa-github
+    v-icon.pr-5.lightgrey--text(size="46") fab fa-github
     a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[v-icon(small color="primary") open_in_new]
 
-  v-layout.my-12(justify-center style="max-width: 700px;margin: auto")
-    v-icon.flame.amber--text.text--lighten-2(size="100") whatshot
-    highlight(type="tips" no-icon)
-      .headline.mt-2.mb-3 #[span.code.mr-1 vueper-slides@2.0] is out! &nbsp; 🎉
-      .subtitle-1.
-        Big changes. Check what's new in the #[a(href="#notable-version-changes" v-scroll-to="'#notable-version-changes'") Release Notes]!
-      .mt-6.layout.flex.align-center.subtitle-1.font-weight-medium
-        v-icon.mr-2(size="20") favorite_border
-        span.mr-10 Thank you to all the supporters!
-        v-spacer
-        v-icon.mr-1(size="18" color="primary") attach_money
-        a(href="https://www.paypal.me/antoniandre1" target="_blank") #[strong Support the project]
+  v-layout.max-widthed.my-8(align-center)
+    v-icon.mr-4(size="50" color="pink lighten-3") favorite
+    v-alert.ma-0.px-6(dense border="left" text color="pink")
+      | If you like Vueper Slides, you can
+      a.pink--text.ml-2(href="https://www.paypal.me/antoniandre1" target="_blank" style="text-decoration: underline") #[strong Support the project]!
+      div Thank you to all the supporters! :)
 
   h2
     a(href="#installation" v-scroll-to="'#installation'") Installation
@@ -93,8 +87,7 @@
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
     export default {
-      components: { VueperSlides, VueperSlide },
-      ...
+      components: { VueperSlides, VueperSlide }
     }
 
   h2
@@ -115,8 +108,7 @@
         {
           title: 'Slide #1',
           content: 'Slide content.'
-        },
-        ...
+        }
       ]
     })
 
@@ -434,7 +426,7 @@
       v-btn.mt-2.mx-2(color="primary" @click="contentPositionChange" small)
         v-icon swap_vert
         | &nbsp;Move content position
-      strong.mt-2.code slide-content-outside="#[span.primary--text {{ contentPosition }}]"
+      strong.mt-2.code {{ contentPosition === 'false' ? ':' : '' }}slide-content-outside="#[span.primary--text {{ contentPosition }}]"
   vueper-slides.ex--updating-content(
     :slide-ratio="1 / 4"
     autoplay
@@ -443,12 +435,9 @@
     slide-content-outside-class="text-center py-4")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       template(v-slot:content)
-        .vueperslide__content-wrapper
-          v-layout(align-center justify-center)
-            v-icon.pr-3(color="white" size="5em") access_time
-            .text-left
-              .headline {{ slide.title }}
-              div {{ slide.content }}
+        .vueperslide__content-wrapper(style="flex-direction: row")
+          v-icon.pr-3(color="white" size="5em") access_time
+          span(style="font-size: 3.7em") {{ slide.title }}
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="toggleSlidesTime"&gt;Keep updating time&lt;/button&gt;
@@ -459,14 +448,10 @@
         :key="i"
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
         &lt;template v-slot:content&gt;
-          &lt;!-- Using Vuetify --&gt;
-          &lt;v-layout align-center justify-center&gt;
-            &lt;v-icon color="white" size="5em"&gt;access_time&lt;/v-icon&gt;
-            &lt;div&gt;
-              &lt;div&gt;{{ '\{\{ slide.title \}\}' }}&lt;/div&gt;
-              &lt;div&gt;{{ '\{\{ slide.content \}\}' }}&lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/v-layout&gt;
+          &lt;div class="vueperslide__content-wrapper" style="flex-direction: row"&gt;
+            &lt;i class="material-icons"&gt;access_time&lt;/i&gt;
+            &lt;span&gt;{{ '\{\{ slide.title \}\}' }}&lt;/span&gt;
+          &lt;/div&gt;
         &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;

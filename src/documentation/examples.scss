@@ -7,14 +7,11 @@
     color: #fff;
     font-family: Tahoma, Geneva, sans-serif;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-  }
 
-  &__content-wrapper--outside-top,
-  &__content-wrapper--outside-bottom {
-    color: #444;
-    padding-left: 2em;
-    margin-top: 0;
-    text-shadow: none;
+    &--outside-top, &--outside-bottom {
+      color: #444;
+      &, .vueperslide__content-wrapper {text-shadow: none;}
+    }
   }
 
   &__title {font-size: 2em;}
