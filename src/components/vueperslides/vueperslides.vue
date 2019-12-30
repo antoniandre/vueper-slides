@@ -71,35 +71,51 @@
             path(stroke-linecap="round" d="m1 1 l7 8 -7 8")
     .vueperslides__bullets(
       v-if="conf.bullets && slidesCount > 1 && !disable && !conf.bulletsOutside"
+      ref="bullets"
       role="tablist"
       aria-label="Slideshow navigation")
-      button.vueperslides__bullet(
-        ref="bullet"
-        v-for="(item, i) in Math.ceil(slidesCount / conf.slideMultiple)"
-        :key="i"
-        :class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }"
-        role="tab"
-        :aria-label="`Slide ${i + 1}`"
-        @click="goToSlide(i * conf.slideMultiple)"
-        @keyup.left="previous()"
-        @keyup.right="next()")
-        span {{ i + 1 }}
+      slot(
+        name="bullets"
+        :current-slide="slides.current"
+        :bullet-indexes="bulletIndexes"
+        :go-to-slide="goToSlide"
+        :previous="previous"
+        :next="next")
+        button.vueperslides__bullet(
+          v-for="(slideIndex, i) in bulletIndexes"
+          :key="i"
+          :class="{ 'vueperslides__bullet--active': slides.current === slideIndex }"
+          role="tab"
+          :aria-label="`Slide ${i + 1}`"
+          @click="goToSlide(slideIndex)"
+          @keyup.left="previous()"
+          @keyup.right="next()")
+          slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
+            span {{ i + 1 }}
 
   .vueperslides__bullets.vueperslides__bullets--outside(
     v-if="conf.bullets && slidesCount > 1 && !disable && conf.bulletsOutside"
+    ref="bullets"
     role="tablist"
     aria-label="Slideshow navigation")
-    button.vueperslides__bullet(
-      ref="bullet"
-      v-for="(item, i) in Math.ceil(slidesCount / conf.slideMultiple)"
-      :key="i"
-      :class="{ 'vueperslides__bullet--active': slides.current === i * conf.slideMultiple }"
-      role="tab"
-      :aria-label="`Slide ${i + 1}`"
-      @click="goToSlide(i * conf.slideMultiple)"
-      @keyup.left="previous()"
-      @keyup.right="next()")
-      span {{ i + 1 }}
+    slot(
+      name="bullets"
+      :current-slide="slides.current"
+      :bullet-indexes="bulletIndexes"
+      :go-to-slide="goToSlide"
+      :previous="previous"
+      :next="next")
+      button.vueperslides__bullet(
+        v-for="(slideIndex, i) in bulletIndexes"
+        :key="i"
+        :class="{ 'vueperslides__bullet--active': slides.current === slideIndex }"
+        role="tab"
+        :aria-label="`Slide ${i + 1}`"
+        @click="goToSlide(slideIndex)"
+        @keyup.left="previous()"
+        @keyup.right="next()")
+        slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
+          span {{ i + 1 }}
 
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(
     v-if="slidesCount && conf.slideContentOutside === 'bottom'"
@@ -673,8 +689,12 @@ export default {
         }
 
         // Focus the current bullet for accessibility.
-        if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullet && this.$refs.bullet[this.slides.current]) {
-          this.$refs.bullet[this.slides.current].focus()
+        // First get the ref on bullets list then try to find buttons.
+        // As this is customizable through a slot there might not be any.
+        if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullets) {
+          const bulletButtons = this.$refs.bullets.children
+          const activeBulletButton = bulletButtons && bulletButtons[this.slides.current / this.conf.slideMultiple]
+          if (activeBulletButton && activeBulletButton.nodeName.toLowerCase() === 'button') activeBulletButton.focus()
         }
       }
     },
@@ -877,6 +897,9 @@ export default {
       }
 
       return styles
+    },
+    bulletIndexes () {
+      return Array(Math.ceil(this.slidesCount / this.conf.slideMultiple)).fill().map((v, i) => i * this.conf.slideMultiple)
     }
   }
 }
@@ -1001,7 +1024,9 @@ export default {
     &--outside {position: relative;}
   }
 
-  &__bullet {
+  // Targetting all the buttons in bullets list regardless of
+  // the class for customization through slot.
+  &__bullets button, &__bullet {
     cursor: pointer;
     user-select: none;
     outline: none;
