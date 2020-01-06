@@ -158,6 +158,7 @@ export default {
     infinite: { type: Boolean, default: true },
     alwaysRefreshClones: { type: Boolean, default: false },
     parallax: { type: [Boolean, Number], default: false },
+    parallaxFixedContent: { type: Boolean, default: false },
     touchable: { type: Boolean, default: true },
     preventYScroll: { type: Boolean, default: false },
     // By default when touch is enabled you have to drag from a slide side and pass 50% of
@@ -785,6 +786,11 @@ export default {
       if (conf.visibleSlides > 1 && conf.bulletsOutside === null) conf.bulletsOutside = true
 
       if (this.touchEnabled !== conf.touchable) this.toggleTouchableOption(conf.touchable)
+
+      if (conf.parallax && conf.parallaxFixedContent) {
+        conf.slideContentOutside = 'top'
+        conf.slideContentOutsideClass = 'parallax-fixed-content'
+      }
       // ------------------------------- //
 
       return conf

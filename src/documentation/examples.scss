@@ -8,7 +8,7 @@
     font-family: Tahoma, Geneva, sans-serif;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 
-    &--outside-top, &--outside-bottom {
+    &--outside-top:not(.parallax-fixed-content), &--outside-bottom {
       color: #444;
       &, .vueperslide__content-wrapper {text-shadow: none;}
     }

@@ -864,45 +864,64 @@
   h3
     a(href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax Effect
     a(id="ex--parallax" name="ex--parallax")
-  p
-    | This example demonstrates how to create a parallax effect on your slideshow.#[br]
-    v-layout(align-center wrap)
-      | Two values can be set for different parallax effects: #[span.code.mx-1 1] for standard effect, and #[span.code.mx-1 -1] for reverse effect.
-      v-spacer
-      v-btn.my-1.mr-2(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
-        v-icon sync
-        | &nbsp; Reverse parallax effect
-      strong #[span.code parallax = {{ parallax.toString() }}]
-  vueper-slides.ex--parallax(:parallax="parallax" ref="exParallax")
-    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
+  p.
+    This example demonstrates how to create a parallax effect on your slideshow.#[br]
+    Two values can be set to obtain a different parallax effect: #[span.code 1] or #[span.code -1]
+    for a standard or reversed effect.#[br]
+    You might also want to set a fixed content on top of the moving background using
+    the #[span.code parallax-fixed-content] option.
+  v-layout.max-widthed.mb-4(align-center wrap)
+    v-btn.my-1.mr-2(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
+      v-icon sync
+      | &nbsp; Reverse parallax effect
+    strong.code.mr-4 :parallax="#[span.primary--text {{ parallax.toString() }}]"
+
+    v-btn.my-1.mr-2(small color="primary" @click="parallaxFixedContent = !parallaxFixedContent")
+      v-icon {{ parallaxFixedContent ? 'close' : 'remove_from_queue' }}
+      | &nbsp; Add a fix content
+    strong.code :parallax-fixed-content="#[span.primary--text {{ parallaxFixedContent.toString() }}]"
+  vueper-slides.ex--parallax(ref="exParallax" :parallax="parallax" :parallax-fixed-content="parallaxFixedContent")
+    vueper-slide(
+      v-for="(slide, i) in slides2"
+      :key="i"
+      :image="slide.image"
+      :title="parallaxFixedContent ? slide.title : ''"
+      :content="parallaxFixedContent ? slide.content : ''")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="parallax *= -1;$refs.myVueperSlides.refreshParallax()"&gt;
       reverse parallax effect
     &lt;/button&gt;
-    parallax value: {{ '\{\{ parallax.toString() \}\}' }}
+    &lt;button @click="parallaxFixedContent = !parallaxFixedContent"&gt;
+      Add a fix title
+    &lt;/button&gt;
 
-    &lt;vueper-slides :parallax="parallax" ref="myVueperSlides"&gt;
-      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" /&gt;
+    &lt;vueper-slides ref="myVueperSlides" :parallax="parallax" :parallax-fixed-content="parallaxFixedContent"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides" :key="i"
+        :image="slide.image"
+        :title="parallaxFixedContent ? slide.title : ''"
+        :content="parallaxFixedContent ? slide.content : ''" /&gt;
     &lt;/vueper-slides&gt;
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
     data: () => ({
-      parallax: 1
+      parallax: 1,
+      parallaxFixedContent: false
     })
   highlight(type="tips")
     strong.darktext--text.
       The parallax position is constantly recalculated while you scroll, or after a
       resize event.#[br]
-      If for some reason - like in this case when you press the "Reverse parallax effect" button - no scroll
-      or resize event is triggered but you need to recalculate the parallax position,
-      you can do so by calling the #[span.code refreshParallax()] method from a referenced
-      Vueper Slides instance, like in this example.#[br]#[br]
+      If for some reason you need to manually refresh the parallax position
+      - like in this case when you press the "Reverse parallax effect" button
+      you can call the #[span.code refreshParallax()] method from a Vueper Slides
+      Vue.js ref, like in this example.#[br]#[br]
     span.
       For more details on referencing a Vueper Slides instance refer to the
       #[a(href="#ex--external-controls" v-scroll-to="'#ex--external-controls'") External Controls] example.
   highlight.
-    If you are experiencing image jumps on scroll, keep in mind that this page is
-    considerably big and uses more than 20 instances of Vueper Slides.
+    You may experience image jumps on scroll from this considerably long documentation page
+    which has 30+ instances of Vueper Slides.
 
   h3
     a(href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height
@@ -914,10 +933,10 @@
     Refer to the #[a(href="#vueper-slides-settings--fixed-height" v-scroll-to="'#vueper-slides-settings--fixed-height'") settings &gt; fixed height] for more details.
   br
 
-  vueper-slides.ex--fixed-height(:slide-ratio="1/2" fixed-height="500px")
+  vueper-slides.ex--fixed-height(:slide-ratio="1 / 2" fixed-height="500px")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :slide-ratio="1/2" fixed-height="500px"&gt;
+    &lt;vueper-slides :slide-ratio="1 / 2" fixed-height="500px"&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" /&gt;
     &lt;/vueper-slides&gt;
   p #[strong.darktext--text You only need this CSS if you use #[span.code :fixed-height="true"]:]
@@ -1233,6 +1252,7 @@
     infinite:                 [Boolean],         default: true
     alwaysRefreshClones:      [Boolean],         default: false
     parallax:                 [Boolean, Number], default: false
+    parallaxFixedContent:     [Boolean],         default: false
     touchable:                [Boolean],         default: true
     preventYScroll:           [Boolean],         default: false
     draggingDistance:         [Number],          default: null
@@ -1377,7 +1397,6 @@
         If you modify the content of the slides after it's mounted, the option #[span.code alwaysRefreshClones] will
         make sure to always keep the clones up to date.#[br]
         By default this parameter is disabled to save up operations. In most cases you should not need it.
-
     li
       | #[code parallax], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, Number]], #[strong.mr-1 Default:] #[span.code false]
       p.
@@ -1395,6 +1414,12 @@
             The height of the image to animate is set by the slideshow height and update naturally by itself on
             resize to keep the same ratio. As it is not a fixed heigh, you don't need to re-calculate the image height on
             resize to keep your image ratio.
+
+    li
+      | #[code parallaxFixedContent], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      p.
+        Allows the slide title and/or content to be fixed on top of the moving background.#[br]
+        See this setting live in the #[a(href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax Effect] example.
 
     li
       | #[code touchable], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
@@ -1726,6 +1751,9 @@
 
   ul.max-widthed.mt-8
     li.mb-2
+      strong Version 2.5
+      | Added #[span.code parallaxFixedContent] option
+    li.mb-2
       strong Version 2.4
       ul.mt-0
         li Added the #[span.code bullets] &amp; #[span.code bullet] slots
@@ -1850,6 +1878,7 @@ export default {
     logs: [],
     slideshowDisabled: false,
     parallax: 1,
+    parallaxFixedContent: false,
     slidesTimeTimerId: null,
     highlightWhatAreClones: false,
     contentPosition: 'false',
