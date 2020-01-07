@@ -20,7 +20,7 @@
         :style="trackStyles")
         .vueperslides__track-inner(:style="trackInnerStyles")
           vueper-slide.vueperslide--clone(
-            v-if="isReady && conf.infinite && slidesCount > 1 && lastSlide"
+            v-if="isReady && conf.infinite && canSlide && lastSlide"
             clone
             :title="lastSlide.title"
             :content="lastSlide.content"
@@ -32,7 +32,7 @@
               vnodes(:vnodes="lastSlide.contentSlot")
           slot(:currentSlide="slides.current")
           vueper-slide.vueperslide--clone(
-            v-if="isReady && conf.infinite && slidesCount > 1 && firstSlide"
+            v-if="isReady && conf.infinite && canSlide && firstSlide"
             clone
             :title="firstSlide.title"
             :content="firstSlide.content"
@@ -53,7 +53,7 @@
         | {{ `${slides.current + 1} / ${slidesCount}` }}
     .vueperslides__arrows(
       :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }"
-      v-if="conf.arrows && slidesCount > 1 && !disable")
+      v-if="conf.arrows && canSlide && !disable")
       button.vueperslides__arrow.vueperslides__arrow--prev(
         @click="previous()"
         v-show="!arrowPrevDisabled"
@@ -73,7 +73,7 @@
           svg(viewBox="0 0 9 18")
             path(stroke-linecap="round" d="m1 1 l7 8 -7 8")
     .vueperslides__bullets(
-      v-if="conf.bullets && slidesCount > 1 && !disable && !conf.bulletsOutside"
+      v-if="conf.bullets && canSlide && !disable && !conf.bulletsOutside"
       ref="bullets"
       role="tablist"
       aria-label="Slideshow navigation")
@@ -98,7 +98,7 @@
               span {{ i + 1 }}
 
   .vueperslides__bullets.vueperslides__bullets--outside(
-    v-if="conf.bullets && slidesCount > 1 && !disable && conf.bulletsOutside"
+    v-if="conf.bullets && canSlide && !disable && conf.bulletsOutside"
     ref="bullets"
     role="tablist"
     aria-label="Slideshow navigation")
@@ -488,10 +488,11 @@ export default {
      * The translation of most cases, in other cases this can still be used as a base calc.
      */
     getBasicTranslation () {
-      let translation = this.slides.current / this.conf.visibleSlides
+      const { visibleSlides, infinite, slideMultiple } = this.conf
+      let translation = this.slides.current / visibleSlides
 
       // A clone is prepended to the slides track.
-      if (this.conf.infinite && this.slidesCount > 1) translation += 1 / this.conf.visibleSlides
+      if (infinite && this.canSlide) translation += 1 / visibleSlides
 
       return translation
     },
@@ -781,6 +782,8 @@ export default {
       conf.gap = (this.gap && parseInt(this.gap)) || 0
       // conf.gapPx = this.gap && this.gap.toString().includes('px')
 
+      if (conf.visibleSlides > 1) conf['3d'] = false
+
       if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1 || conf['3d']) {
         conf.infinite = false
       }
@@ -836,6 +839,9 @@ export default {
         return this.slidesCount > 1 && this.touchable
       },
       set () {}
+    },
+    canSlide () {
+      return (this.slidesCount / this.conf.visibleSlides) > 1
     },
     firstSlide () {
       let slide = this.slidesCount ? this.slides.list[0] : {}
