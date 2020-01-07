@@ -45,6 +45,9 @@
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
       slot(name="pause")
+    .vueperslides__progress(v-if="conf.progress")
+      slot(name="progress" :current="slides.current + 1" :total="slidesCount")
+        div(:style="`width: ${(slides.current + 1) * 100 / slidesCount}%`")
     .vueperslides__fractions(v-if="conf.fractions")
       slot(name="fraction" :current="slides.current + 1" :total="slidesCount")
         | {{ `${slides.current + 1} / ${slidesCount}` }}
@@ -148,6 +151,7 @@ export default {
     bullets: { type: Boolean, default: true },
     bulletsOutside: { type: Boolean, default: null },
     fractions: { type: Boolean, default: false },
+    progress: { type: Boolean, default: false },
     fade: { type: Boolean, default: false },
     slideContentOutside: { type: [Boolean, String], default: false },
     slideContentOutsideClass: { type: String, default: '' },
@@ -1052,9 +1056,28 @@ export default {
     left: 0.5em;
     z-index: 2;
     padding: 0.5em 1em;
-    border: 1px solid #fff;
-    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.25);
     color: #fff;
+  }
+
+  &__progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 6px;
+    color: rgba(0, 0, 0, 0.7);
+
+    > * {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      background: currentColor;
+      transition: 0.3s ease-in-out;
+    }
   }
 }
 </style>
