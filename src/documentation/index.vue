@@ -128,11 +128,10 @@
     &lt;/vueper-slides&gt;
 
   h3
-    a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay
+    a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay &amp; Infinite
     a(id="ex--basic" name="ex--basic")
   p
-    | This example uses autoplay, slide titles &amp; contents &amp; an infinite mode (by default).#[br]
-    em The autoplay circles between all the slides and goes back to the begining after the last slide.#[br]
+    | The autoplay circles between all the slides and goes back to the begining after the last slide.#[br]
     | You can also pause and resume the autoplay from an external button using Vue refs like this:
     v-btn.ml-2(
       small
@@ -202,7 +201,7 @@
           title: 'Slide &lt;b style="font-size: 1.3em;color: yellow"&gt;#1&lt;/b&gt;',
           content: 'Slide title can be HTML.&lt;br&gt;And so does the slide content, &lt;span style="font-size: 1.2em;color: yellow"&gt;why not?&lt;/span&gt;'
         },
-        ...
+        // Other slides...
       ]
     })
 
@@ -403,18 +402,27 @@
     &lt;/template&gt;
 
   h3
-    a(href="#ex--fractions" v-scroll-to="'#ex--fractions'") Simplest with Fractions
-    a(id="ex--fractions" name="ex--fractions")
+    a(href="#ex--fractions-and-progress" v-scroll-to="'#ex--fractions-and-progress'") Fractions &amp; Progress
+    a(id="ex--fractions-and-progress" name="ex--fractions-and-progress")
   p.
-    This example demonstrates a fraction display in the top left corner illustrating progress through the slides. The
-    content can be overridden using the #[span.code fraction] slot, which accepts #[span.code current] and #[span.code total] properties.
-    The style of the fraction can be affected by overriding the #[span.code vueperslides__fractions] class.
-  vueper-slides.ex--simplest-ever(fractions)
-    vueper-slide(v-for="i in 5" :key="i" :title="i.toString()")
+    This example displays a slide fraction at the top left corner and a progress bar.
+    You can show one or the other or both.#[br]
+    Their content can be overridden using the #[span.code fraction] or the #[span.code progress] slots
+    which both provide the #[span.code current] and #[span.code total] properties.#[br]
+    The style of the fraction can be modified through the #[span.code vueperslides__fractions]
+    and #[span.code vueperslides__progress] classes.#[br]
+  vueper-slides.ex--simplest-ever(fractions progress)
+    vueper-slide(v-for="i in 10" :key="i" :title="i.toString()")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides fractions&gt;
-      &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()" /&gt;
+    &lt;vueper-slides fractions progress&gt;
+      &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
+
+  ssh-pre(language="css" label="CSS").
+    .vueperslides__progress {
+      background: rgba(0, 0, 0, 0.25);
+      color: #ff5252;
+    }
 
   h3
     a(href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading
@@ -1242,6 +1250,8 @@
     disableArrowsOnEdges:     [Boolean],         default: false
     bullets:                  [Boolean],         default: true
     bulletsOutside:           [Boolean],         default: false
+    fractions:                [Boolean],         default: false
+    progress:                 [Boolean],         default: false
     fade:                     [Boolean],         default: false
     slideContentOutside:      [Boolean, String], default: false
     slideContentOutsideClass: [String],          default: ""
@@ -1267,11 +1277,11 @@
 
   ul.max-widthed.settings-list
     li
-      | #[code initSlide], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 1]
+      | #[code initSlide], #[strong.mr-1 Type:] #[span.code="[Number]"], #[strong.mr-1 Default:] #[span.code 1]
       p Init the slideshow with a specific slide as the active slide.
 
     li
-      | #[code slideRatio], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 1/3]
+      | #[code slideRatio], #[strong.mr-1 Type:] #[span.code="[Number]"], #[strong.mr-1 Default:] #[span.code 1/3]
       p.
         Sets the slideshow ratio so it will naturally stay ratio-ed on different browser width.#[br]
         See the #[a(href="#ex--events" v-scroll-to="'#ex--events'") Events] example or #[a(href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Using Breakpoints] example.
@@ -1285,7 +1295,7 @@
         If you prefer you can also define breakpoints in your own CSS overriding the slides ratio.
 
     li
-      | #[code arrows], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
+      | #[code arrows], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
       p.
         Disable or enable the navigation arrows.#[br]
         You can also override the arrows by providing them in the html content of the
@@ -1293,7 +1303,7 @@
         See this setting live in the #[a(href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets] example.
 
     li
-      | #[code arrowsOutside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code arrowsOutside], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Place the navigation arrows outside of the slideshow (on left and right).#[br]
         See this setting live in the #[a(href="#ex--center-mode" v-scroll-to="'#ex--center-mode'") Center mode] example.
@@ -1301,7 +1311,7 @@
         If you place arrows outside on a full screen slideshow you won't be able to see the arrows.
 
     li
-      | #[code disableArrowsOnEdges], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code disableArrowsOnEdges], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p Disable the left or right arrow when respectively, no previous or no next slides are available.
       | Check the #[a(href="#ex--add-remove-slides--disable" v-scroll-to="'#ex--add-remove-slides--disable'") Add / remove slides &amp; disable slideshow] example.
       highlight.
@@ -1309,24 +1319,36 @@
         and dragging behavior beyond limits.
 
     li
-      | #[code bullets], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
-      p Disable or enable the slides index.
+      | #[code bullets], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
+      p Disable or enable the slides pagination (bullet points).
 
     li
-      | #[code bulletsOutside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code bulletsOutside], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         If bullets is set to #[span.code true], place the slides index inside or outside the slideshow track.#[br]
         See this setting live in the #[a(href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets] example.
 
     li
-      | #[code fade], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code fractions], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
+      p.
+        Disable or enable the fractional representation of `current slide / total slides`.#[br]
+        You can override this via the #[span.code fractions] slot.
+
+    li
+      | #[code progress], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
+      p.
+        Disable or enable the top linear progress bar.#[br]
+        You can override this via the #[span.code progress] slot.
+
+    li
+      | #[code fade], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Sets the transition type to fade when changing slide.#[br]
         By default the slideshow slides when changing slide (and so #[span.code fade] is set to
         #[span.code false]).#[br]
         See this setting live in the #[a(href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading] example.
     li
-      | #[code slideContentOutside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, String]], #[strong.mr-1 Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
+      | #[code slideContentOutside], #[strong.mr-1 Type:] #[span.code="[Boolean, String]"], #[strong.mr-1 Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
       p.
         Display the current slide title &amp; content outside the slide.#[br]
         You can position the content above or under the slideshow with the keywords
@@ -1334,20 +1356,20 @@
         See this setting live in the #[a(href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading] example.
 
     li
-      | #[code slideContentOutsideClass], #[strong.mr-1 Type:] #[span.code.mr-1 [String]], #[strong.mr-1 Default:] #[span.code ""]
+      | #[code slideContentOutsideClass], #[strong.mr-1 Type:] #[span.code="[String]"], #[strong.mr-1 Default:] #[span.code ""]
       p.
         With this option you can have a specific CSS class to style your slide contents
         when it's outside the active slide.
 
     li
-      | #[code autoplay], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code autoplay], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Plays a slideshow automatically. Changing slide after a defined amount
         of time (set in #[span.code speed]).#[br]
         See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
-      | #[code speed], #[strong.mr-1 Type:] #[span.code.mr-1 [Number, String]], #[strong.mr-1 Default:] #[span.code 4000]
+      | #[code speed], #[strong.mr-1 Type:] #[span.code="[Number, String]"], #[strong.mr-1 Default:] #[span.code 4000]
       p.
         Defines an amount of time in milliseconds before the autoplaying slideshow
         changes slide automatically.
@@ -1357,20 +1379,20 @@
         hovering then resets to the defined #[span.code speed] when you stop hovering.
 
     li
-      | #[code transitionSpeed], #[strong.mr-1 Type:] #[span.code.mr-1 [Number, String]], #[strong.mr-1 Default:] #[span.code 600]
+      | #[code transitionSpeed], #[strong.mr-1 Type:] #[span.code="[Number, String]"], #[strong.mr-1 Default:] #[span.code 600]
       p.
         Defines how long the transition from a slide to another will last - in milliseconds.#[br]
         See this setting live in the #[a(href="#ex--center-mode" v-scroll-to="'#ex--center-mode'") Center mode] example.
 
     li
-      | #[code pauseOnHover], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
+      | #[code pauseOnHover], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
       p.
         If #[span.code autoplay] is on, setting #[span.code pauseOnHover]  stops the autoplay
         while hovering then resets to the defined #[span.code speed] when you stop hovering.#[br]
         See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
-      | #[code infinite], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
+      | #[code infinite], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
       p.
         When set to #[span.code true], the slideshow acts like a carousel.#[br]
         Going to the next slide or previous slide when respectively on last slide
@@ -1390,7 +1412,7 @@
         as a fade transition slideshow does not need such effect.
 
     li
-      | #[code alwaysRefreshClones], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code alwaysRefreshClones], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         With the #[span.code infinite] mode, the clones (#[a(href="#what-are-clones" v-scroll-to="'#what-are-clones'" @click="onWhatAreClonesClick") What are clones?])
         are created with a copy of content in the mounted Vue.js lifecycle hook.#[br]
@@ -1398,7 +1420,7 @@
         make sure to always keep the clones up to date.#[br]
         By default this parameter is disabled to save up operations. In most cases you should not need it.
     li
-      | #[code parallax], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, Number]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code parallax], #[strong.mr-1 Type:] #[span.code="[Boolean, Number]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         When set to #[span.code true], #[span.code 1] or #[span.code -1], adds a parallax effect on the slideshow.#[br]
         If #[span.code -1] is given, the parallax effect is reversed and the image will go in the opposite way of the scrolling direction.#[br]
@@ -1416,13 +1438,13 @@
             resize to keep your image ratio.
 
     li
-      | #[code parallaxFixedContent], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code parallaxFixedContent], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Allows the slide title and/or content to be fixed on top of the moving background.#[br]
         See this setting live in the #[a(href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax Effect] example.
 
     li
-      | #[code touchable], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code true]
+      | #[code touchable], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
       p.
         Whether the slideshow should allow slide dragging to change slide or not.#[br]
         If set to #[span.code true], dragging will be possible on both touchable device or
@@ -1441,25 +1463,25 @@
         #[strong the slide's closest end won't snap to your cursor position].
 
     li
-      | #[code preventYScroll], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code preventYScroll], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         For touch-enabled slideshows, enable or disable the Y-axis scroll while dragging slides.#[br]
         See this setting live in the #[a(href="#ex--dragging-distance" v-scroll-to="'#ex--dragging-distance'") Dragging distance &amp; prevent y-axis scroll] example.
 
     li
-      | #[code draggingDistance], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code null]
+      | #[code draggingDistance], #[strong.mr-1 Type:] #[span.code="[Number]"], #[strong.mr-1 Default:] #[span.code null]
       p.
         With this option you can provide a specific dragging distance for touch-enabled slideshows.#[br]
         See this setting live in the #[a(href="#ex--dragging-distance" v-scroll-to="'#ex--dragging-distance'") Dragging distance &amp; prevent y-axis scroll] example.
 
     li
-      | #[code disable], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code disable], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Disable or enable the whole slideshow. All the slides will remain as is and the
         slideshow freezes on the current slide. No autoplay and no possible action.
 
     li
-      | #[code breakpoints], #[strong.mr-1 Type:] #[span.code.mr-1 [Object]], #[strong.mr-1 Default:] #[span.code {}]
+      | #[code breakpoints], #[strong.mr-1 Type:] #[span.code="[Object]"], #[strong.mr-1 Default:] #[span.code {}]
       p.
         With this option you can provide different configurations to apply to the slideshow
         at a particular screen width.#[br]
@@ -1467,7 +1489,7 @@
 
     li
       a(id="vueper-slides-settings--fixed-height" name="vueper-slides-settings--fixed-height")
-      | #[code fixedHeight], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean, String]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code fixedHeight], #[strong.mr-1 Type:] #[span.code="[Boolean, String]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         The attribute #[strong.darktext--text.code fixed-height]
         #[strong accepts either a Boolean or a String]:
@@ -1488,7 +1510,7 @@
 
     li
       a(id="vueper-slides-settings--image-inside" name="vueper-slides-settings--image-inside")
-      | #[code slideImageInside], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code slideImageInside], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         A #[span.code &lt;div class="vueperslide__image"&gt;] will be created inside each slide.#[br]
         This will allow you to CSS transform the slides images with no impact on slideshow behavior.
@@ -1497,7 +1519,7 @@
 
     li
       a(id="vueper-slides-settings--visible-slides" name="vueper-slides-settings--visible-slides")
-      | #[code visibleSlides], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 1]
+      | #[code visibleSlides], #[strong.mr-1 Type:] #[span.code="[Number]"], #[strong.mr-1 Default:] #[span.code 1]
       p.
         Allows you to show multiple items per slide.#[br]
         You can then decide to slide items one by one or by the same amount as
@@ -1507,7 +1529,7 @@
 
     li
       a(id="vueper-slides-settings--slide-multiple" name="vueper-slides-settings--slide-multiple")
-      | #[code slideMultiple], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code slideMultiple], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Allows you to slide multiple items at once when clicking arrows, or on drag.#[br]
         The number to slide if #[span.code slideMultiple] is set to #[span.code true] is always equal to
@@ -1554,7 +1576,7 @@
 
     li
       a(id="vueper-slides-settings--3d" name="vueper-slides-settings--3d")
-      | #[code 3d], #[strong.mr-1 Type:] #[span.code.mr-1 [Boolean]], #[strong.mr-1 Default:] #[span.code false]
+      | #[code 3d], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Allows you to slide one slide at a time with a 3D effect transition.#[br]
         You can combine this with #[span.code fixedHeight], #[span.code arrows-outside], #[span.code bullets-outside]
@@ -1572,7 +1594,7 @@
 
     li
       a(id="vueper-slides-settings--gap" name="vueper-slides-settings--gap")
-      | #[code gap], #[strong.mr-1 Type:] #[span.code.mr-1 [Number]], #[strong.mr-1 Default:] #[span.code 0]
+      | #[code gap], #[strong.mr-1 Type:] #[span.code="[Number]"], #[strong.mr-1 Default:] #[span.code 0]
       p Set a gap between all the slides. The gap is set in percentage of the slideshow width.
   h3
     a(href="#events" v-scroll-to="'#events'") Emitted Events
@@ -1750,6 +1772,9 @@
     possible breaking changes.
 
   ul.max-widthed.mt-8
+    li.mb-2
+      strong Version 2.6
+      | Added #[span.code progress] option
     li.mb-2
       strong Version 2.5
       | Added #[span.code parallaxFixedContent] option

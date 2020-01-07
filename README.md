@@ -49,7 +49,8 @@ ___
 
 ## Release Notes
 
-- __Version 2.4__ Added `parallaxFixedContent` option
+- __Version 2.6__ Added `progress` option
+- __Version 2.5__ Added `parallaxFixedContent` option
 - __Version 2.4__ Added the `bullets` &amp; `bullet` slots
 - __Version 2.3__ Added `gap` option
 - __Version 2.2__ Allow syncing 2 slideshows + added `previous` &amp; `next` emitted events

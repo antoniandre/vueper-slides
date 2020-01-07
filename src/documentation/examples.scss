@@ -45,6 +45,16 @@
   }
 }
 
+// Fractions and progress.
+// ===================================
+.ex--simplest-ever {
+  .vueperslides__progress {
+    background: rgba(0, 0, 0, 0.25);
+    color: $primary;
+  }
+}
+
+// Arrows and bullets.
 // ===================================
 .ex--arrows-and-bullets-1,
 .ex--arrows-and-bullets-2,

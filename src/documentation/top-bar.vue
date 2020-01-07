@@ -61,7 +61,9 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
         v-list-item(color="secondary" href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever
         v-list-item(color="secondary" href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay
         v-list-item(color="secondary" href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets
-        v-list-item(color="secondary" href="#ex--fractions" v-scroll-to="'#ex--fractions'") Fractions
+        v-list-item(color="secondary" href="#ex--fractions-and-progress" v-scroll-to="'#ex--fractions-and-progress'")
+          | Fractions &amp; Progress
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading
         v-list-item(color="secondary" href="#ex--link-on-the-whole-slide" v-scroll-to="'#ex--link-on-the-whole-slide'") Link on the Whole Slide
         v-list-item(color="secondary" href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
@@ -73,7 +75,9 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Breakpoints
         v-list-item(color="secondary" href="#ex--dragging-distance" v-scroll-to="'#ex--dragging-distance'") Dragging Distance
-        v-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax
+        v-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'")
+          | Parallax
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height
         v-list-item(color="secondary" href="#ex--slide-image-inside" v-scroll-to="'#ex--slide-image-inside'") Slide Image Inside
         v-list-item(color="secondary" href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'")
