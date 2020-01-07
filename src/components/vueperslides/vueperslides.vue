@@ -488,7 +488,7 @@ export default {
      * The translation of most cases, in other cases this can still be used as a base calc.
      */
     getBasicTranslation () {
-      const { visibleSlides, infinite, slideMultiple } = this.conf
+      const { visibleSlides, infinite } = this.conf
       let translation = this.slides.current / visibleSlides
 
       // A clone is prepended to the slides track.
