@@ -208,13 +208,12 @@ export default {
 
   .vueperslides--3d & {
     position: absolute;
-    // Trickier than rotateY(180deg) translateZ($slideshowWidth / 2);
-    // But doesn't require to set a fixed width on the slideshow ;)
-    // transform: rotateY(270deg) translateX(-50%) rotateY(-90deg);
     z-index: -1;
+    height: 100%;
 
     &--previous-slide, &--active, &--next-slide {z-index: 0;}
     &--active {z-index: 1;}
+
     &[face=front] {
       // Trickier than rotateY(0deg) translateZ($slideshowWidth / 2),
       // But doesn't require to set a fixed width on the slideshow ;)
