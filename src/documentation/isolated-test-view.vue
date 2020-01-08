@@ -2,6 +2,7 @@
 //- This is an isolated test view. Just for testing purpose.
 div
   vueper-slides.no-shadow(
+    :visible-slides="4"
     slide-multiple
     :arrows-outside="false"
     lazy)
@@ -42,6 +43,12 @@ export default {
         title: 'Mountain 3',
         content: 'Slide 3 content.',
         image: require('@/assets/images/snow-2.jpg'),
+        link: '#link-to-article-3'
+      },
+      {
+        title: 'Mountain 4',
+        content: 'Slide 4 content.',
+        image: 'https://farm4.staticflickr.com/3364/3409068082_bbecd0b7cc_o.jpg',
         link: '#link-to-article-3'
       }
     ],

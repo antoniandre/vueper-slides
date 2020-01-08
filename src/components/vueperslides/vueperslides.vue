@@ -645,7 +645,24 @@ export default {
       // If the slide is not found don't go further.
       if (!this.slides.list[nextSlide]) return
 
-      if (this.conf.lazy) this.slides.list[nextSlide].loadImage()
+      if (this.conf.lazy) {
+        // Load each of the next visible slide images.
+        for (let i = 0; i < this.conf.visibleSlides; i++) {
+          const slide = this.slides.list[nextSlide + i]
+          if (!slide) break
+          slide.loadImage()
+        }
+        // this.slides.list[nextSlide].loadImage()
+          // .then(response => {
+          //   console.log('response after loadImage!', response)
+          //   const { image, style } = response
+          //   this.slides.list[nextSlide].image = image
+          //   this.slides.list[nextSlide].style = style
+          // })
+          // .catch(error => {
+          //   console.log('error after loadImage!', error)
+          // })
+      }
 
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady && !jumping && emit) {
@@ -720,8 +737,6 @@ export default {
     updateSlide (slideId, newProps) {
       let slide = this.slides.list.find(slide => slide.id === slideId)
       if (slide) slide = Object.assign(slide, newProps)
-      if (newProps.image) console.log('loading image', slide.image)
-
     },
 
     removeSlide (slideId) {

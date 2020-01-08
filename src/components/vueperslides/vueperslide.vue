@@ -41,8 +41,24 @@ export default {
 
     // Only for lazy loading.
     loadImage () {
+      // Don't try to reload image if already loaded.
+      if (this.imageSrc) return
+
+      console.log('loading image')
       this.imageSrc = this.image
-      this.updateSlide({ image: this.imageSrc })
+      this.$nextTick(() => {
+        this.updateSlide({
+          image: this.imageSrc,
+          style: ((this.$el.attributes || {}).style || {}).value
+        })
+      })
+      // return new Promise((resolve, reject) => {
+      //   this.imageSrc = this.image
+      //   console.log('resolving promise')
+      //   this.$nextTick(() => {
+      //     resolve({ image: this.imageSrc, style: ((this.$el.attributes || {}).style || {}).value })
+      //   })
+      // })
     }
   },
 
@@ -59,7 +75,7 @@ export default {
       contentSlot: this.$slots.content,
       link: this.link,
       style: '',
-      loadImage: () => this.loadImage()
+      loadImage: this.loadImage
     })
   },
 
@@ -86,9 +102,7 @@ export default {
       // If the image of the slide is changed on the fly, update the clones.
       // If lazy loading, unset the image until this slide is requested.
       this.imageSrc = this.conf.lazy && !this.isSlideVisible ? '' : this.image
-      if (!this.clone) {
-        this.updateSlide({ image: this.imageSrc })
-      }
+      if (!this.clone) this.updateSlide({ image: this.imageSrc })
     },
     title () {
       if (!this.clone) this.updateSlide({ title: this.title })
@@ -155,7 +169,6 @@ export default {
     isSlideVisible () {
       const activeSlideUid = this.$parent.slides.activeId
       const activeSlideIndex = this.slidesList.indexOf(activeSlideUid)
-      // console.log(this.slideIndex, this.slideIndex >= activeSlideIndex && this.slideIndex < activeSlideIndex + this.conf.visibleSlides)
 
       return this.slideIndex >= activeSlideIndex && this.slideIndex < activeSlideIndex + this.conf.visibleSlides
     },
