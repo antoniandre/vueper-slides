@@ -8,7 +8,7 @@
   :aria-hidden="$parent.slides.activeId === _uid || isSlideVisible ? 'false' : 'true'"
   @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouse-leave')")
-  .vueperslide__image(v-if="image && conf.slideImageInside" :style="imageStyles")
+  .vueperslide__image(v-if="imageSrc && conf.slideImageInside" :style="imageStyles")
   div(v-if="conf.slideContentOutside" v-show="!conf.slideContentOutside")
     slot(name="content")
       .vueperslide__content-wrapper
@@ -30,23 +30,36 @@ export default {
     link: { type: String, default: '' }
   },
 
+  data: () => ({
+    imageSrc: '' // For lazy loading.
+  }),
+
   methods: {
     updateSlide (props) {
       this.$parent.updateSlide(this._uid, props)
+    },
+
+    // Only for lazy loading.
+    loadImage () {
+      this.imageSrc = this.image
+      this.updateSlide({ image: this.imageSrc })
     }
   },
 
   created () {
+    this.imageSrc = this.conf.lazy ? '' : this.image
+
     if (this.clone) return
 
     this.$parent.addSlide({
       id: this._uid,
-      image: this.image,
+      image: this.imageSrc,
       title: this.title,
       content: this.content,
       contentSlot: this.$slots.content,
       link: this.link,
-      style: ''
+      style: '',
+      loadImage: () => this.loadImage()
     })
   },
 
@@ -70,7 +83,12 @@ export default {
 
   watch: {
     image () {
-      if (!this.clone) this.updateSlide({ image: this.image })
+      // If the image of the slide is changed on the fly, update the clones.
+      // If lazy loading, unset the image until this slide is requested.
+      this.imageSrc = this.conf.lazy && !this.isSlideVisible ? '' : this.image
+      if (!this.clone) {
+        this.updateSlide({ image: this.imageSrc })
+      }
     },
     title () {
       if (!this.clone) this.updateSlide({ title: this.title })
@@ -104,14 +122,14 @@ export default {
       const { visibleSlides, fade, slideImageInside, gap, gapPx } = this.conf
 
       return {
-        ...(!slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }),
+        ...(!slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")` }),
         ...(visibleSlides > 1 && { width: (100 - (gap ? gap * (visibleSlides - 1) : 0)) / visibleSlides + '%' }),
         ...(visibleSlides > 1 && fade && { left: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
         ...(gap && { marginRight: gap + (gapPx ? 'px' : '%') })
       }
     },
     imageStyles () {
-      return { ...(this.conf.slideImageInside && this.image && { backgroundImage: `url("${this.image}")` }) }
+      return { ...(this.conf.slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")` }) }
     },
     slideFace3d () {
       if (!this.conf['3d']) return false
@@ -137,9 +155,9 @@ export default {
     isSlideVisible () {
       const activeSlideUid = this.$parent.slides.activeId
       const activeSlideIndex = this.slidesList.indexOf(activeSlideUid)
-      const visibleSlidesCount = this.conf.visibleSlides
+      // console.log(this.slideIndex, this.slideIndex >= activeSlideIndex && this.slideIndex < activeSlideIndex + this.conf.visibleSlides)
 
-      return this.slideIndex >= activeSlideIndex && this.slideIndex < activeSlideIndex + visibleSlidesCount
+      return this.slideIndex >= activeSlideIndex && this.slideIndex < activeSlideIndex + this.conf.visibleSlides
     },
     slidesList () {
       return this.$parent.slides.list.map(slide => slide.id)

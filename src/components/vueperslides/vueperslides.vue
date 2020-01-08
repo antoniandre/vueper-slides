@@ -176,7 +176,8 @@ export default {
     slideMultiple: { type: [Boolean, Number], default: false },
     visibleSlides: { type: Number, default: 1 },
     '3d': { type: Boolean, default: false },
-    gap: { type: Number, default: 0 }
+    gap: { type: Number, default: 0 },
+    lazy: { type: Boolean, default: false }
   },
 
   data: () => ({
@@ -644,8 +645,12 @@ export default {
       // If the slide is not found don't go further.
       if (!this.slides.list[nextSlide]) return
 
+      if (this.conf.lazy) this.slides.list[nextSlide].loadImage()
+
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
-      if (this.isReady && !jumping && emit) this.emit('before-slide', true, nextSlide)
+      if (this.isReady && !jumping && emit) {
+        this.emit('before-slide', true, nextSlide)
+      }
 
       // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
       if (this.conf.arrows && this.conf.disableArrowsOnEdges) {
@@ -715,6 +720,8 @@ export default {
     updateSlide (slideId, newProps) {
       let slide = this.slides.list.find(slide => slide.id === slideId)
       if (slide) slide = Object.assign(slide, newProps)
+      if (newProps.image) console.log('loading image', slide.image)
+
     },
 
     removeSlide (slideId) {
