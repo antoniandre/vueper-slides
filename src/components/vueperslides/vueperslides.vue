@@ -164,6 +164,7 @@ export default {
     parallax: { type: [Boolean, Number], default: false },
     parallaxFixedContent: { type: Boolean, default: false },
     touchable: { type: Boolean, default: true },
+    // This one is not modifiable through breakpoints: event handlers are added/removed.
     preventYScroll: { type: Boolean, default: false },
     // By default when touch is enabled you have to drag from a slide side and pass 50% of
     // slideshow width to change slide. This setting changes this behavior to a horizontal
@@ -177,7 +178,8 @@ export default {
     visibleSlides: { type: Number, default: 1 },
     '3d': { type: Boolean, default: false },
     gap: { type: Number, default: 0 },
-    lazy: { type: Boolean, default: false }
+    lazy: { type: Boolean, default: false },
+    lazyLoadOnDrag: { type: Boolean, default: false }
   },
 
   data: () => ({
@@ -302,7 +304,7 @@ export default {
       if (slideMultipleChanged || visibleSlidesChanged) {
         this.goToSlide(this.slides.current, { breakpointChange: true })
       }
-      else this.updateCurrentTranslation()
+      else this.updateTrackTranslation()
     },
 
     bindEvents () {
@@ -401,9 +403,7 @@ export default {
       // Store drag start in var for distance calculation in onMouseUp().
       this.touch.dragStartX = this.getCurrentMouseX(e)
 
-      if (!this.conf.draggingDistance) {
-        this.updateCurrentTranslation(this.touch.dragStartX)
-      }
+      if (!this.conf.draggingDistance) this.updateTrackTranslation(this.touch.dragStartX)
     },
 
     onMouseMove (e) {
@@ -419,10 +419,10 @@ export default {
           this.touch.dragAmount = this.touch.dragNowX - this.touch.dragStartX
           const dragAmountPercentage = this.touch.dragAmount / this.container.clientWidth
 
-          this.updateCurrentTranslation()
+          this.updateTrackTranslation()
           this.transition.currentTranslation += 100 * dragAmountPercentage
         }
-        else this.updateCurrentTranslation(this.touch.dragNowX)
+        else this.updateTrackTranslation(this.touch.dragNowX)
       }
     },
 
@@ -478,7 +478,7 @@ export default {
 
     // Dragging did not pass conditions to change slide, snap back to current slide.
     cancelSlideChange () {
-      if (!this.conf.fade) this.updateCurrentTranslation()
+      if (!this.conf.fade) this.updateTrackTranslation()
     },
 
     getCurrentMouseX (e) {
@@ -505,14 +505,15 @@ export default {
      * @param {null | float} currentDragX: whether the slide track is being dragged and if so
      *                                     the value of the current drag.
      */
-    updateCurrentTranslation (currentMouseX = null) {
+    updateTrackTranslation (currentMouseX = null) {
       let translation = this.getBasicTranslation()
-      const { infinite, visibleSlides, slideMultiple, gap, '3d': threeD } = this.conf
+      const { infinite, visibleSlides, slideMultiple, gap, '3d': threeD, lazy, lazyLoadOnDrag } = this.conf
 
       if (infinite && this.nextSlideIsClone !== false) {
         translation = (this.nextSlideIsClone ? this.slidesCount + 1 : 0) / visibleSlides
       }
 
+      // Add all the gaps to the translation except if current slide is first.
       if (gap && this.nextSlideIsClone !== 0) {
         translation += (this.gapsCount / (visibleSlides / slideMultiple)) * gap / 100
       }
@@ -527,12 +528,22 @@ export default {
         if (threeD) {
           // Prevent dragging more than 1 face away from front face,
           // So that we don't need to update faces on drag.
-          let range = Math.round(dragPercentageStart) ? [0, 2] : [-1, 1]
+          const range = Math.round(dragPercentageStart) ? [0, 2] : [-1, 1]
           dragPercentageNow = Math.min(Math.max(dragPercentageNow, range[0]), range[1])
         }
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
         translation += dragPercentage
+
+        if (lazy && lazyLoadOnDrag) {
+          // Only works with 1 next visible slide.
+          // @todo: allow loading all the new visible slides while dragging.
+          const nextSlideGuess = this.slides.current + (dragPercentage > 0 ? 1 : -1) * visibleSlides
+          console.log('lazyloading on drag', dragPercentage, dragPercentageStart)
+          // Load the next visible slide images.
+          const slide = this.slides.list[nextSlideGuess]
+          if (slide) slide.loadImage()
+        }
       }
 
       // Special behavior if multiple visible slides and sliding 1 by 1:
@@ -704,7 +715,7 @@ export default {
       if (!breakpointChange) this.slides.focus = nextSlide
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
-      if (!this.conf.fade) this.updateCurrentTranslation()
+      if (!this.conf.fade) this.updateTrackTranslation()
 
       this.slides.activeId = this.slides.list[this.slides.current].id
 

@@ -2,10 +2,11 @@
 //- This is an isolated test view. Just for testing purpose.
 div
   vueper-slides.no-shadow(
-    :visible-slides="4"
+    :visible-slides="2"
     slide-multiple
     :arrows-outside="false"
-    lazy)
+    lazy
+    lazyLoadOnDrag)
     vueper-slide(
       v-for="(slide, i) in [...slides, ...slides, ...slides]"
       :key="i"
