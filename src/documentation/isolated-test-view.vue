@@ -2,11 +2,11 @@
 //- This is an isolated test view. Just for testing purpose.
 div
   vueper-slides.no-shadow(
-    :visible-slides="2"
+    :visible-slides="1"
     slide-multiple
     :arrows-outside="false"
     lazy
-    lazyLoadOnDrag)
+    lazy-load-on-drag)
     vueper-slide(
       v-for="(slide, i) in [...slides, ...slides, ...slides]"
       :key="i"
@@ -18,6 +18,9 @@ div
           v-icon.white--text check_circle
           h1 {{ `Title ${i}` }}
           p {{ `Content ${i}` }}
+      template(v-slot:loading)
+        v-progress-circular(color="primary" indeterminate)
+        span.primary--text.title Loading...
 </template>
 
 <script>

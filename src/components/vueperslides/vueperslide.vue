@@ -18,6 +18,8 @@
     .vueperslide__content-wrapper
       .vueperslide__title(v-if="title" v-html="title")
       .vueperslide__content(v-if="content" v-html="content")
+  .vueperslide__loading(v-if="conf.lazy && !loaded")
+    slot(name="loading")
 </template>
 
 <script>
@@ -222,6 +224,18 @@ export default {
     right: 0;
     bottom: 0;
     background-size: cover;
+  }
+
+  &__loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   &__content-wrapper:not(&__content-wrapper--outside-top):not(&__content-wrapper--outside-bottom) {
