@@ -27,7 +27,8 @@ export default {
     image: { type: String, default: '' },
     title: { type: String, default: '' },
     content: { type: String, default: '' },
-    link: { type: String, default: '' }
+    link: { type: String, default: '' },
+    duration: { type: Number, default: 0 }
   },
 
   methods: {
@@ -46,7 +47,8 @@ export default {
       content: this.content,
       contentSlot: this.$slots.content,
       link: this.link,
-      style: ''
+      style: '',
+      duration: this.duration
     })
   },
 

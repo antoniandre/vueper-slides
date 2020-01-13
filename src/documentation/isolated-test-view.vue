@@ -1,35 +1,13 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides.no-shadow(
-    :visible-slides="3"
-    slide-multiple
-    :arrows-outside="false"
-    :gap="4")
+  vueper-slides.no-shadow(autoplay)
     vueper-slide(
-      v-for="(slide, i) in 10"
+      v-for="(slide, i) in [...slides, ...slides]"
       :key="i"
-      :content="`Content ${i}`"
-      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      template(v-slot:content)
-        .vueperslide__content-wrapper
-          v-icon.white--text check_circle
-          h1 {{ `Title ${i}` }}
-          p {{ `Content ${i}` }}
-    //- template(v-slot:bullet="{ active, slideIndex, index }")
-      v-icon(color="primary") {{ active ? 'check_circle' : 'radio_button_unchecked' }}
-      | {{ index }}
-    template(v-slot:bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }")
-      button.px-1.py-3(
-        v-for="(slideIndex, i) in bulletIndexes"
-        :key="i"
-        :class="{ 'active': currentSlide === slideIndex }"
-        role="tab"
-        :aria-label="`Slide ${i + 1}`"
-        @click="goToSlide(slideIndex)"
-        @keyup.left="previous()"
-        @keyup.right="next()")
-        v-icon(color="secondary") {{ currentSlide === slideIndex ? 'check_circle' : 'radio_button_unchecked' }}
+      :title="slide.title"
+      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"
+      :duration="slide.duration")
 </template>
 
 <script>
@@ -44,13 +22,15 @@ export default {
         title: 'Mountain 1',
         content: 'Slide 1 content.',
         image: require('@/assets/images/rough-horn.jpg'),
-        link: '#link-to-article-1'
+        link: '#link-to-article-1',
+        duration: 5000
       },
       {
         title: 'Mountain 2',
         content: 'Slide 2 content.',
         image: require('@/assets/images/snow-1.jpg'),
-        link: '#link-to-article-2'
+        link: '#link-to-article-2',
+        duration: 1000
       },
       {
         title: 'Mountain 3',

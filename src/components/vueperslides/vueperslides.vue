@@ -566,7 +566,7 @@ export default {
     resumeAutoplay () {
       this.autoplayTimer = setTimeout(() => {
         this.goToSlide(this.slides.current + this.conf.slideMultiple, { autoPlaying: true })
-      }, this.conf.speed)
+      }, this.currentSlide.duration || this.conf.speed)
       this.emit('autoplay-resume')
     },
 
