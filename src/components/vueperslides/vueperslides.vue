@@ -156,7 +156,7 @@ export default {
     slideContentOutside: { type: [Boolean, String], default: false },
     slideContentOutsideClass: { type: String, default: '' },
     autoplay: { type: Boolean, default: false },
-    speed: { type: [Number, String], default: 4000 },
+    duration: { type: [Number, String], default: 4000 }, // Autoplay slide duration.
     transitionSpeed: { type: [Number, String], default: 600 },
     pauseOnHover: { type: Boolean, default: true },
     infinite: { type: Boolean, default: true },
@@ -578,7 +578,7 @@ export default {
     resumeAutoplay () {
       this.autoplayTimer = setTimeout(() => {
         this.goToSlide(this.slides.current + this.conf.slideMultiple, { autoPlaying: true })
-      }, this.conf.speed)
+      }, this.currentSlide.duration || this.conf.duration)
       this.emit('autoplay-resume')
     },
 

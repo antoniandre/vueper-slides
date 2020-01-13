@@ -27,7 +27,8 @@ export default {
     image: { type: String, default: '' },
     title: { type: String, default: '' },
     content: { type: String, default: '' },
-    link: { type: String, default: '' }
+    link: { type: String, default: '' },
+    duration: { type: Number, default: 0 }
   },
 
   data: () => ({
@@ -75,7 +76,8 @@ export default {
       contentSlot: this.$slots.content,
       link: this.link,
       style: '',
-      loadImage: this.loadImage
+      loadImage: this.loadImage,
+      duration: this.duration
     })
   },
 

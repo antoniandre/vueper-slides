@@ -1256,7 +1256,7 @@
     slideContentOutside:      [Boolean, String], default: false
     slideContentOutsideClass: [String],          default: ""
     autoplay:                 [Boolean],         default: false
-    speed:                    [Number, String],  default: 4000
+    duration:                 [Number, String],  default: 4000
     transitionSpeed:          [Number, String],  default: 600
     pauseOnHover:             [Boolean],         default: true
     infinite:                 [Boolean],         default: true
@@ -1365,18 +1365,20 @@
       | #[code autoplay], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
       p.
         Plays a slideshow automatically. Changing slide after a defined amount
-        of time (set in #[span.code speed]).#[br]
+        of time (set in #[span.code duration]).#[br]
         See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
-      | #[code speed], #[strong.mr-1 Type:] #[span.code="[Number, String]"], #[strong.mr-1 Default:] #[span.code 4000]
+      | #[code duration], #[strong.mr-1 Type:] #[span.code="[Number, String]"], #[strong.mr-1 Default:] #[span.code 4000]
       p.
-        Defines an amount of time in milliseconds before the autoplaying slideshow
-        changes slide automatically.
+        When #[span.code autoplay] in on, defines an amount of time in milliseconds before the autoplaying slideshow
+        changes slide automatically.#[br]
+        You can also override this global duration from each slide using the
+        #[span.code duration] property on the #[span.code &lt;vueper-slide&gt;] tag.
 
       highlight.
         If #[span.code pauseOnHover] is set to #[span.code true] the autoplay stops while
-        hovering then resets to the defined #[span.code speed] when you stop hovering.
+        hovering then resets to the defined #[span.code duration] when you stop hovering.
 
     li
       | #[code transitionSpeed], #[strong.mr-1 Type:] #[span.code="[Number, String]"], #[strong.mr-1 Default:] #[span.code 600]
@@ -1388,7 +1390,7 @@
       | #[code pauseOnHover], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
       p.
         If #[span.code autoplay] is on, setting #[span.code pauseOnHover]  stops the autoplay
-        while hovering then resets to the defined #[span.code speed] when you stop hovering.#[br]
+        while hovering then resets to the defined #[span.code duration] when you stop hovering.#[br]
         See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
@@ -1685,10 +1687,11 @@
     a(id="vueper-slide--settings" name="vueper-slide--settings")
   p The following options can be applied to every #[span.code &lt;vueper-slide&gt;] tag.
   ssh-pre(language="js").
-    image:   [String], default: ''
-    title:   [String], default: ''
-    content: [String], default: ''
-    link:    [String], default: ''
+    image:    [String], default: ''
+    title:    [String], default: ''
+    content:  [String], default: ''
+    link:     [String], default: ''
+    duration: [Number], default: 0 // Override the global slide duration when autoplaying.
   h3
     a(href="#vueper-slide--events" v-scroll-to="'#vueper-slide--events'") Events
     a(id="vueper-slide--events" name="vueper-slide--events")
@@ -1773,10 +1776,16 @@
 
   ul.max-widthed.mt-8
     li.mb-2
-      strong Version 2.6
+      strong Version 2.7
+      ul
+        li Added the #[span.code duration] option on the #[span.code &lt;vueper-slide&gt;] tag
+        li
+          strong The #[span.code speed] option is now renamed #[span.code duration]
+    li.mb-2
+      strong.mr-3 Version 2.6
       | Added #[span.code progress] option
     li.mb-2
-      strong Version 2.5
+      strong.mr-3 Version 2.5
       | Added #[span.code parallaxFixedContent] option
     li.mb-2
       strong Version 2.4

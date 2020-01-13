@@ -32,13 +32,15 @@ export default {
         title: 'Mountain 1',
         content: 'Slide 1 content.',
         image: require('@/assets/images/rough-horn.jpg'),
-        link: '#link-to-article-1'
+        link: '#link-to-article-1',
+        duration: 5000
       },
       {
         title: 'Mountain 2',
         content: 'Slide 2 content.',
         image: require('@/assets/images/snow-1.jpg'),
-        link: '#link-to-article-2'
+        link: '#link-to-article-2',
+        duration: 1000
       },
       {
         title: 'Mountain 3',
