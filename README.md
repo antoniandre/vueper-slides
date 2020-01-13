@@ -49,6 +49,7 @@ ___
 
 ## Release Notes
 
+- __Version 2.7__ Added `duration` option on `&lt;vueper-slide&gt;` tag
 - __Version 2.6__ Added `progress` option
 - __Version 2.5__ Added `parallaxFixedContent` option
 - __Version 2.4__ Added the `bullets` &amp; `bullet` slots
