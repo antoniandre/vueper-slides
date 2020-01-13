@@ -32,7 +32,10 @@ export default {
   },
 
   data: () => ({
-    imageSrc: '' // For lazy loading.
+    // For lazy loading.
+    imageSrc: '',
+    loading: false,
+    loaded: false
   }),
 
   methods: {
@@ -43,23 +46,25 @@ export default {
     // Only for lazy loading.
     loadImage () {
       // Don't try to reload image if already loaded.
-      if (this.imageSrc) return
+      if (this.loading || this.loaded) return
+
+      this.loading = true
 
       console.log('loading image')
-      this.imageSrc = this.image
-      this.$nextTick(() => {
-        this.updateSlide({
-          image: this.imageSrc,
-          style: ((this.$el.attributes || {}).style || {}).value
-        })
+
+      return new Promise((resolve, reject) => {
+        const img = document.createElement('img')
+        img.onload = () => {
+          this.imageSrc = this.image
+          this.loading = false
+          this.loaded = true
+          this.$nextTick(() => {
+            resolve({ image: this.imageSrc, style: ((this.$el.attributes || {}).style || {}).value })
+          })
+        }
+        img.onerror = (this.loading = false) && reject
+        img.src = this.image
       })
-      // return new Promise((resolve, reject) => {
-      //   this.imageSrc = this.image
-      //   console.log('resolving promise')
-      //   this.$nextTick(() => {
-      //     resolve({ image: this.imageSrc, style: ((this.$el.attributes || {}).style || {}).value })
-      //   })
-      // })
     }
   },
 
@@ -76,8 +81,10 @@ export default {
       contentSlot: this.$slots.content,
       link: this.link,
       style: '',
+      // For lazy loading: pass the function to Vueperslides, it will call it before slide
+      // and on slide drag for each visible slide.
       loadImage: this.loadImage,
-      duration: this.duration
+      duration: this.duration // Allow overriding the global autoplay slide duration.
     })
   },
 
@@ -131,7 +138,8 @@ export default {
         'vueperslide--active': this.$parent.slides.activeId === this._uid,
         'vueperslide--previous-slide': this.isPreviousSlide,
         'vueperslide--next-slide': this.isNextSlide,
-        'vueperslide--visible': this.isSlideVisible
+        'vueperslide--visible': this.isSlideVisible,
+        'vueperslide--loading': this.conf.lazy && !this.loaded
       }
     },
     slideStyles () {

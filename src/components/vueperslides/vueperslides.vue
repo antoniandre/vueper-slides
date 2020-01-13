@@ -197,6 +197,9 @@ export default {
     touch: {
       enabled: true,
       dragging: false,
+      // When lazy & lazyLoadOnDrag are true, try to lazy load the next visible slides
+      // and set a flag that it already triggered to not keep trying in the same drag.
+      lazyloadTriggered: false,
       justDragged: false,
       dragStartX: 0,
       dragNowX: 0,
@@ -469,6 +472,8 @@ export default {
       // click event triggers.
       this.touch.justDragged = true
       setTimeout(() => (this.touch.justDragged = false), 50)
+
+      this.touch.lazyloadTriggered = false // Reinit for the next drag.
     },
 
     // Check if dragging just happened - also for external use.
@@ -535,14 +540,17 @@ export default {
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
         translation += dragPercentage
 
-        if (lazy && lazyLoadOnDrag) {
-          // Only works with 1 next visible slide.
-          // @todo: allow loading all the new visible slides while dragging.
+        if (lazy && lazyLoadOnDrag && !this.touch.lazyloadTriggered) {
+          this.touch.lazyloadTriggered = true
+
           const nextSlideGuess = this.slides.current + (dragPercentage > 0 ? 1 : -1) * visibleSlides
-          console.log('lazyloading on drag', dragPercentage, dragPercentageStart)
-          // Load the next visible slide images.
-          const slide = this.slides.list[nextSlideGuess]
-          if (slide) slide.loadImage()
+          // console.log('lazyloading on drag', dragPercentage, dragPercentageStart, nextSlideGuess)
+
+          // Load the next visible slides images.
+          for (let i = 0; i < visibleSlides; i++) {
+            const slide = this.slides.list[nextSlideGuess + i]
+            if (slide && !slide.loaded) this.loadSlide(slide)
+          }
         }
       }
 
@@ -660,19 +668,8 @@ export default {
         // Load each of the next visible slide images.
         for (let i = 0; i < this.conf.visibleSlides; i++) {
           const slide = this.slides.list[nextSlide + i]
-          if (!slide) break
-          slide.loadImage()
+          if (slide && !slide.loaded) this.loadSlide(slide)
         }
-        // this.slides.list[nextSlide].loadImage()
-          // .then(response => {
-          //   console.log('response after loadImage!', response)
-          //   const { image, style } = response
-          //   this.slides.list[nextSlide].image = image
-          //   this.slides.list[nextSlide].style = style
-          // })
-          // .catch(error => {
-          //   console.log('error after loadImage!', error)
-          // })
       }
 
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
@@ -765,6 +762,20 @@ export default {
 
       // This can only happen if removing and adding slides very fast - like hot reloading.
       if (this.slides.current >= this.slidesCount) this.goToSlide(0, { autoPlaying: true })
+    },
+
+    loadSlide (slide) {
+      (slide.loadImage() || new Promise(reject => reject))
+        .then(response => {
+          console.log('response after loadImage!', response)
+          const { image, style } = response
+          slide.loaded = true
+          slide.image = image
+          slide.style = style
+        }, error => {
+          slide.loaded = false
+          console.log('error after loadImage!', error)
+        })
     },
 
     toggleTouchableOption (isTouchable) {
