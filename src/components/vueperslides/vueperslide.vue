@@ -18,8 +18,8 @@
     .vueperslide__content-wrapper
       .vueperslide__title(v-if="title" v-html="title")
       .vueperslide__content(v-if="content" v-html="content")
-  .vueperslide__loading(v-if="conf.lazy && !loaded")
-    slot(name="loading")
+  .vueperslide__loader(v-if="conf.lazy && !loaded")
+    slot(name="loader")
 </template>
 
 <script>
@@ -226,7 +226,7 @@ export default {
     background-size: cover;
   }
 
-  &__loading {
+  &__loader {
     position: absolute;
     top: 0;
     bottom: 0;

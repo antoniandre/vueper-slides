@@ -11,14 +11,13 @@ div
       v-for="(slide, i) in [...slides, ...slides, ...slides]"
       :key="i"
       :image="slide.image"
-      :content="`Content ${i}`"
-      :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
+      :content="`Content ${i}`")
       template(v-slot:content)
         .vueperslide__content-wrapper
           v-icon.white--text check_circle
           h1 {{ `Title ${i}` }}
           p {{ `Content ${i}` }}
-      template(v-slot:loading)
+      template(v-slot:loader)
         v-progress-circular(color="primary" indeterminate)
         span.primary--text.title Loading...
 </template>
@@ -78,8 +77,7 @@ export default {
 </script>
 
 <style lang="scss">
-button:focus .v-icon {
-  border-radius: 100%;
-  box-shadow: 0 0 0 4px rgba(#42b983, 0.4);
+.vueperslide--loading .vueperslide__content-wrapper {
+  display: none !important;
 }
 </style>
