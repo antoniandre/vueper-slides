@@ -2,24 +2,18 @@
 //- This is an isolated test view. Just for testing purpose.
 div
   vueper-slides.no-shadow(
-    :visible-slides="1"
-    slide-multiple
-    :arrows-outside="false"
+    :slide-ratio="1 / 2"
     lazy
-    lazy-load-on-drag)
+    lazy-load-on-drag
+    @image-loaded="log"
+    @image-failed="log")
     vueper-slide(
-      v-for="(slide, i) in [...slides, ...slides, ...slides]"
+      v-for="(slide, i) in slides"
       :key="i"
-      :image="slide.image"
-      :content="`Content ${i}`")
-      template(v-slot:content)
-        .vueperslide__content-wrapper
-          v-icon.white--text check_circle
-          h1 {{ `Title ${i}` }}
-          p {{ `Content ${i}` }}
+      :image="slide.image")
       template(v-slot:loader)
         v-progress-circular(color="primary" indeterminate)
-        span.primary--text.title Loading...
+        span.mt-3.primary--text.title Loading...
 </template>
 
 <script>
@@ -30,32 +24,12 @@ export default {
   components: { VueperSlides, VueperSlide },
   data: () => ({
     slides: [
-      {
-        title: 'Mountain 1',
-        content: 'Slide 1 content.',
-        image: require('@/assets/images/rough-horn.jpg'),
-        link: '#link-to-article-1',
-        duration: 5000
-      },
-      {
-        title: 'Mountain 2',
-        content: 'Slide 2 content.',
-        image: require('@/assets/images/snow-1.jpg'),
-        link: '#link-to-article-2',
-        duration: 1000
-      },
-      {
-        title: 'Mountain 3',
-        content: 'Slide 3 content.',
-        image: require('@/assets/images/snow-2.jpg'),
-        link: '#link-to-article-3'
-      },
-      {
-        title: 'Mountain 4',
-        content: 'Slide 4 content.',
-        image: 'https://farm4.staticflickr.com/3364/3409068082_bbecd0b7cc_o.jpg',
-        link: '#link-to-article-3'
-      }
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Ramon_Covelo_Sakrisoy%20Dreams.jpg' },
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Alex_Noriega_Pure_Magic.jpg' },
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Jesse_Moran_Resurrect.jpg' },
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Perez_Alonso%20Photography_Chocolate_Mountains.jpg' },
+      { image: 'https://farm4.staticflickr.com/3364/3409068082_bbecd0b7cc_o.jpg' },
+      { image: 'https://images.unsplash.com/photo-1544209207-8d2b21f3c5fe?ixlib=rb-1.2.1&q=99&fm=jpg&crop=entropy&cs=tinysrgb&w=2048&fit=max&ixid=eyJhcHBfaWQiOjcwOTV9' }
     ],
     breakpoints: {
       700: {
@@ -72,6 +46,9 @@ export default {
   }),
 
   methods: {
+    log (param) {
+      console.log(param)
+    }
   }
 }
 </script>
