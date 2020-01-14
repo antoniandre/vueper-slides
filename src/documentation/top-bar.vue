@@ -65,6 +65,9 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           | Fractions &amp; Progress
           v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading
+        v-list-item(color="secondary" href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'")
+          | Lazy Loading
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
         v-list-item(color="secondary" href="#ex--link-on-the-whole-slide" v-scroll-to="'#ex--link-on-the-whole-slide'") Link on the Whole Slide
         v-list-item(color="secondary" href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
         v-list-item(color="secondary" href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content Inside/Outside
@@ -85,9 +88,7 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
         v-list-item(color="secondary" href="#ex--3d-rotation" v-scroll-to="'#ex--3d-rotation'") 3D Rotation
         v-list-item(color="secondary" href="#ex--external-controls" v-scroll-to="'#ex--external-controls'") External Controls
-        v-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'")
-          | Sync 2 instances
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
+        v-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances
 </template>
 
 <script>

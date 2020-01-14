@@ -469,6 +469,53 @@
     }
 
   h3
+    a(href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'") Lazy Loading
+    a(id="ex--lazyloading" name="ex--lazyloading")
+  p.
+    In this example the images are bigger and take longer to load so you have more time to
+    see the actual lazy loading.#[br]
+    The lazy load of the next slide will be triggered on the #[span.code before-slide]
+    hook when you navigate from arrows, bullets, and external #[span.code previous()],
+    #[span.code next()] and #[span.code goToSlide()] function calls.#[br]
+    If you use the #[span.code lazy-load-on-drag] option, the image of the next slide you are
+    dragging towards will also get loaded.
+  highlight.max-widthed.mb-6(tag="div" type="tips")
+    ul.ma-0
+      li.
+        Once an image is loaded, it won't try to load anymore. But if the image fails to
+        load for any reason, it will retry the next time the slide will become visible.
+      li.
+        2 events are fired that you may want to listen to: #[span.code image-loaded],
+        #[span.code image-failed]. They both return the information of the slide being loaded.
+      li.
+        You can use the #[span.code loader] slot to add a spinner or a loading message
+        of your choice.
+      li.mt-4.
+        I suggest you should inspect what happens in the network tab of your browser dev tools
+        and also try to simulate a slow network ;)
+
+  vueper-slides.ex--lazyloading(lazy lazy-load-on-drag)
+    vueper-slide(v-for="(slide, i) in lazyloadSlides" :key="i" :image="slide.image")
+      template(v-slot:loader)
+        v-progress-circular(color="primary" indeterminate)
+        span.mt-3.primary--text.title Loading...
+
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides lazy lazy-load-on-drag&gt;
+      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;
+        &lt;template v-slot:loader&gt;
+          &lt;i class="icon icon-loader spinning"&gt;&lt;/i&gt;
+          &lt;span&gt;Loading...&lt;/span&gt;
+        &lt;/template&gt;
+      &lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  ssh-pre(language="css" label="CSS").
+    /* If you want to hide the slide description while loading. */
+    .vueperslide--loading .vueperslide__content-wrapper {
+      display: none !important;
+    }
+
+  h3
     a(href="#ex--link-on-the-whole-slide" v-scroll-to="'#ex--link-on-the-whole-slide'") Link on the Whole Slide
     a(id="ex--link-on-the-whole-slide" name="ex--link-on-the-whole-slide")
   p.
@@ -1695,6 +1742,18 @@
         li.
           #[span.code currentSlide]: object containing the slide index, title, content, image &amp; link of
           the new current slide.
+    li
+      h4
+        code image-loaded
+      p.
+        Fired when #[span.code lazy] is set to true, and the image succeeded to load.#[br]
+        This event returns an object containing the information of the slide to load.
+    li
+      h4
+        code image-failed
+      p.
+        Fired when #[span.code lazy] is set to true, and the image failed to load.#[br]
+        This event returns an object containing the information of the slide to load.
 
   h2
     a(href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'") &lt;vueper-slide&gt; API
@@ -2009,6 +2068,14 @@ export default {
     slides4: [
       { title: 'Time', content: 'Time in 5 hours: ' },
       { title: 'Time', content: 'Time in 5 hours: ' }
+    ],
+    lazyloadSlides: [
+      { image: 'https://farm4.staticflickr.com/3364/3409068082_bbecd0b7cc_o.jpg' },
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Ramon_Covelo_Sakrisoy%20Dreams.jpg' },
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Alex_Noriega_Pure_Magic.jpg' },
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Jesse_Moran_Resurrect.jpg' },
+      { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Perez_Alonso%20Photography_Chocolate_Mountains.jpg' },
+      { image: require('@/assets/images/easton-wa-usa.jpg') }
     ]
   }),
   methods: {
