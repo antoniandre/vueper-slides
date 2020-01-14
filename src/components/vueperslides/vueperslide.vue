@@ -46,7 +46,7 @@ export default {
       this.$parent.updateSlide(this._uid, props)
     },
 
-    // Only for lazy loading.
+    // Only for lazy loading, this method is called from the Vueperslides component.
     loadImage () {
       // Don't try to reload image if already loaded.
       if (this.loading || this.loaded) return
@@ -80,7 +80,7 @@ export default {
       title: this.title,
       content: this.content,
       contentSlot: this.$slots.content,
-      loaderSlot: this.$slots.loader,
+      loaderSlot: this.$slots.loader, // For lazy loading.
       link: this.link,
       style: '',
       // For lazy loading: pass the function to Vueperslides, it will call it before slide
@@ -95,7 +95,7 @@ export default {
 
     this.updateSlide({
       contentSlot: this.$slots.content,
-      loaderSlot: this.$slots.loader,
+      loaderSlot: this.$slots.loader, // For lazy loading.
       style: ((this.$el.attributes || {}).style || {}).value
     })
   },
@@ -105,7 +105,7 @@ export default {
 
     this.updateSlide({
       contentSlot: this.$slots.content,
-      loaderSlot: this.$slots.loader,
+      loaderSlot: this.$slots.loader, // For lazy loading.
       style: ((this.$el.attributes || {}).style || {}).value
     })
   },
