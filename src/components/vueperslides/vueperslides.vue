@@ -765,8 +765,7 @@ export default {
     },
 
     loadSlide (slide, index) {
-      const failure =
-      (slide.loadImage() || new Promise(reject => reject))
+      (slide.loadImage() || new Promise((resolve, reject) => reject))
         .then(response => {
           const { image, style } = response
           slide.loaded = true
@@ -774,9 +773,9 @@ export default {
           slide.style = style
           this.$emit('image-loaded', this.getSlideData(index))
         }, () => {
-        slide.loaded = false
-        this.$emit('image-failed', this.getSlideData(index))
-      })
+          slide.loaded = false
+          this.$emit('image-failed', this.getSlideData(index))
+        })
     },
 
     toggleTouchableOption (isTouchable) {

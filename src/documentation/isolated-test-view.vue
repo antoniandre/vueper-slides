@@ -10,6 +10,8 @@ div
     vueper-slide(
       v-for="(slide, i) in slides"
       :key="i"
+      :title="`Slide ${i + 1}`"
+      :content="`Content ${i + 1}.`"
       :image="slide.image")
       template(v-slot:loader)
         v-progress-circular(color="primary" indeterminate)
