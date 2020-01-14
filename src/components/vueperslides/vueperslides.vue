@@ -549,7 +549,7 @@ export default {
           // Load the next visible slides images.
           for (let i = 0; i < visibleSlides; i++) {
             const slide = this.slides.list[nextSlideGuess + i]
-            if (slide && !slide.loaded) this.loadSlide(slide)
+            if (slide && !slide.loaded) this.loadSlide(slide, nextSlideGuess + i)
           }
         }
       }
@@ -668,7 +668,7 @@ export default {
         // Load each of the next visible slide images.
         for (let i = 0; i < this.conf.visibleSlides; i++) {
           const slide = this.slides.list[nextSlide + i]
-          if (slide && !slide.loaded) this.loadSlide(slide)
+          if (slide && !slide.loaded) this.loadSlide(slide, nextSlide + i)
         }
       }
 
@@ -764,18 +764,19 @@ export default {
       if (this.slides.current >= this.slidesCount) this.goToSlide(0, { autoPlaying: true })
     },
 
-    loadSlide (slide) {
+    loadSlide (slide, index) {
+      const failure =
       (slide.loadImage() || new Promise(reject => reject))
         .then(response => {
-          console.log('response after loadImage!', response)
           const { image, style } = response
           slide.loaded = true
           slide.image = image
           slide.style = style
-        }, error => {
-          slide.loaded = false
-          console.log('error after loadImage!', error)
-        })
+          this.$emit('image-loaded', this.getSlideData(index))
+        }, () => {
+        slide.loaded = false
+        this.$emit('image-failed', this.getSlideData(index))
+      })
     },
 
     toggleTouchableOption (isTouchable) {

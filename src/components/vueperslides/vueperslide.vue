@@ -52,8 +52,6 @@ export default {
 
       this.loading = true
 
-      console.log('loading image')
-
       return new Promise((resolve, reject) => {
         const img = document.createElement('img')
         img.onload = () => {
@@ -64,7 +62,7 @@ export default {
             resolve({ image: this.imageSrc, style: ((this.$el.attributes || {}).style || {}).value })
           })
         }
-        img.onerror = (this.loading = false) && reject
+        img.onerror = (this.loading = false) || reject // Always call reject.
         img.src = this.image
       })
     }
