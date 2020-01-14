@@ -142,44 +142,44 @@ export default {
     vnodes: { functional: true, render: (h, ctx) => ctx.props.vnodes }
   },
   props: {
-    initSlide: { type: Number, default: 1 },
-    slideRatio: { type: Number, default: 1 / 3 },
+    alwaysRefreshClones: { type: Boolean, default: false },
     arrows: { type: Boolean, default: true },
     arrowsOutside: { type: Boolean, default: null },
-    // Ability to disable arrows on slideshow edges. Only if not infinite mode.
-    disableArrowsOnEdges: { type: [Boolean, String], default: false },
+    autoplay: { type: Boolean, default: false },
+    breakpoints: { type: Object, default: () => ({}) },
     bullets: { type: Boolean, default: true },
     bulletsOutside: { type: Boolean, default: null },
-    fractions: { type: Boolean, default: false },
-    progress: { type: Boolean, default: false },
-    fade: { type: Boolean, default: false },
-    slideContentOutside: { type: [Boolean, String], default: false },
-    slideContentOutsideClass: { type: String, default: '' },
-    autoplay: { type: Boolean, default: false },
-    duration: { type: [Number, String], default: 4000 }, // Autoplay slide duration.
-    transitionSpeed: { type: [Number, String], default: 600 },
-    pauseOnHover: { type: Boolean, default: true },
-    infinite: { type: Boolean, default: true },
-    alwaysRefreshClones: { type: Boolean, default: false },
-    parallax: { type: [Boolean, Number], default: false },
-    parallaxFixedContent: { type: Boolean, default: false },
-    touchable: { type: Boolean, default: true },
-    // This one is not modifiable through breakpoints: event handlers are added/removed.
-    preventYScroll: { type: Boolean, default: false },
+    disable: { type: Boolean, default: false },
+    // Ability to disable arrows on slideshow edges. Only if not infinite mode.
+    disableArrowsOnEdges: { type: [Boolean, String], default: false },
     // By default when touch is enabled you have to drag from a slide side and pass 50% of
     // slideshow width to change slide. This setting changes this behavior to a horizontal
     // pixel amount from anywhere on slideshow.
     draggingDistance: { type: Number, default: null },
-    disable: { type: Boolean, default: false },
-    breakpoints: { type: Object, default: () => ({}) },
+    duration: { type: [Number, String], default: 4000 }, // Autoplay slide duration.
+    infinite: { type: Boolean, default: true },
+    fade: { type: Boolean, default: false },
     fixedHeight: { type: [Boolean, String], default: false },
+    fractions: { type: Boolean, default: false },
+    gap: { type: Number, default: 0 },
+    initSlide: { type: Number, default: 1 },
+    lazy: { type: Boolean, default: false },
+    lazyLoadOnDrag: { type: Boolean, default: false },
+    pauseOnHover: { type: Boolean, default: true },
+    parallax: { type: [Boolean, Number], default: false },
+    parallaxFixedContent: { type: Boolean, default: false },
+    // This one is not modifiable through breakpoints: event handlers are added/removed.
+    preventYScroll: { type: Boolean, default: false },
+    progress: { type: Boolean, default: false },
+    slideContentOutside: { type: [Boolean, String], default: false },
+    slideContentOutsideClass: { type: String, default: '' },
     slideImageInside: { type: Boolean, default: false },
     slideMultiple: { type: [Boolean, Number], default: false },
+    slideRatio: { type: Number, default: 1 / 3 },
+    touchable: { type: Boolean, default: true },
+    transitionSpeed: { type: [Number, String], default: 600 },
     visibleSlides: { type: Number, default: 1 },
-    '3d': { type: Boolean, default: false },
-    gap: { type: Number, default: 0 },
-    lazy: { type: Boolean, default: false },
-    lazyLoadOnDrag: { type: Boolean, default: false }
+    '3d': { type: Boolean, default: false }
   },
 
   data: () => ({
