@@ -27,9 +27,12 @@
             :image="lastSlide.image"
             :link="lastSlide.link"
             :style="lastSlide.style"
+            :lazyloaded="lastSlide.loaded"
             aria-hidden="true")
             template(v-if="lastSlide.contentSlot" slot="content")
               vnodes(:vnodes="lastSlide.contentSlot")
+            template(v-if="conf.lazy && !lastSlide.loaded" slot="loader")
+              vnodes(:vnodes="lastSlide.loaderSlot")
           slot(:currentSlide="slides.current")
           vueper-slide.vueperslide--clone(
             v-if="isReady && conf.infinite && canSlide && firstSlide"
@@ -39,9 +42,12 @@
             :image="firstSlide.image"
             :link="firstSlide.link"
             :style="firstSlide.style"
+            :lazyloaded="firstSlide.loaded"
             aria-hidden="true")
             template(v-if="firstSlide.contentSlot" slot="content")
               vnodes(:vnodes="firstSlide.contentSlot")
+            template(v-if="conf.lazy && !firstSlide.loaded" slot="loader")
+              vnodes(:vnodes="firstSlide.loaderSlot")
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
       slot(name="pause")
@@ -543,8 +549,10 @@ export default {
         if (lazy && lazyLoadOnDrag && !this.touch.lazyloadTriggered) {
           this.touch.lazyloadTriggered = true
 
-          const nextSlideGuess = this.slides.current + (dragPercentage > 0 ? 1 : -1) * visibleSlides
-          // console.log('lazyloading on drag', dragPercentage, dragPercentageStart, nextSlideGuess)
+          let nextSlideGuess = this.slides.current + (dragPercentage > 0 ? 1 : -1) * visibleSlides
+          // If out of range and infinite, load the correct clone original, that will update the clone.
+          if (infinite && nextSlideGuess === -1) nextSlideGuess = this.slidesCount - 1
+          else if (infinite && nextSlideGuess === this.slidesCount) nextSlideGuess = 0
 
           // Load the next visible slides images.
           for (let i = 0; i < visibleSlides; i++) {
@@ -764,8 +772,9 @@ export default {
       if (this.slides.current >= this.slidesCount) this.goToSlide(0, { autoPlaying: true })
     },
 
+    // Lazy loading a slide image.
     loadSlide (slide, index) {
-      (slide.loadImage() || new Promise((resolve, reject) => reject))
+      slide.loadImage()
         .then(response => {
           const { image, style } = response
           slide.loaded = true
@@ -888,21 +897,22 @@ export default {
       return (this.slidesCount / this.conf.visibleSlides) > 1
     },
     firstSlide () {
-      let slide = this.slidesCount ? this.slides.list[0] : {}
+      const slide = this.slidesCount ? this.slides.list[0] : {}
       if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
       return slide
     },
     lastSlide () {
-      let slide = this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
+      const slide = this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
       if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
       return slide
     },
     currentSlide () {
-      if (this.slides.current < this.slidesCount && (this.slides.list[this.slides.current] || {}).id !== this.slides.activeId) {
+      const currentSlide = (this.slidesCount && this.slides.list[this.slides.current]) || {}
+      if (this.slides.current < this.slidesCount && currentSlide.id !== this.slides.activeId) {
         this.goToSlide(this.slides.current, { animation: false, autoPlaying: true })
       }
 
-      return (this.slidesCount && this.slides.list[this.slides.current]) || {}
+      return currentSlide
     },
     vueperslidesClasses () {
       return {

@@ -30,7 +30,8 @@ export default {
     title: { type: String, default: '' },
     content: { type: String, default: '' },
     link: { type: String, default: '' },
-    duration: { type: Number, default: 0 }
+    duration: { type: Number, default: 0 },
+    lazyloaded: { type: Boolean, default: false },
   },
 
   data: () => ({
@@ -79,6 +80,7 @@ export default {
       title: this.title,
       content: this.content,
       contentSlot: this.$slots.content,
+      loaderSlot: this.$slots.loader,
       link: this.link,
       style: '',
       // For lazy loading: pass the function to Vueperslides, it will call it before slide
@@ -93,6 +95,7 @@ export default {
 
     this.updateSlide({
       contentSlot: this.$slots.content,
+      loaderSlot: this.$slots.loader,
       style: ((this.$el.attributes || {}).style || {}).value
     })
   },
@@ -102,6 +105,7 @@ export default {
 
     this.updateSlide({
       contentSlot: this.$slots.content,
+      loaderSlot: this.$slots.loader,
       style: ((this.$el.attributes || {}).style || {}).value
     })
   },
@@ -121,6 +125,9 @@ export default {
     },
     link () {
       if (!this.clone) this.updateSlide({ link: this.link })
+    },
+    lazyloaded () {
+      if (this.clone) this.loaded = this.lazyloaded
     }
   },
 
