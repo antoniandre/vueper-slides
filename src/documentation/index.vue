@@ -13,6 +13,8 @@
         v-icon.pr-2(color="secondary") check
         | Show multiple items per slides.#[br]
         v-icon.pr-2(color="secondary") check
+        | Lazy loading.#[br]
+        v-icon.pr-2(color="secondary") check
         | Uses #[strong CSS for animations] &amp; comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
         v-icon.pr-2(color="secondary") check
         | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
@@ -31,7 +33,7 @@
         v-icon.pr-2(color="secondary") check
         | #[strong Events] for callbacks, etc...
 
-    v-card.md3.coming-soon(align-center-center)
+    //- v-card.md3.coming-soon(align-center-center)
       v-card-title.pb-0
         div To do next...
       v-card-text
@@ -1851,6 +1853,9 @@
     possible breaking changes.
 
   ul.max-widthed.mt-8
+    li.mb-2
+      strong.mr-3 Version 2.8
+      | Added lazy loading feature
     li.mb-2
       strong Version 2.7
       ul
