@@ -2115,13 +2115,13 @@ export default {
     },
     updateSlidesWithTime () {
       this.slides4.forEach(slide => {
-        let time = new Date()
+        const time = new Date()
         slide.title = time.toLocaleTimeString()
         slide.content = 'Time in 5 hours: ' + new Date(time.getTime() + 5 * 3600000).toLocaleTimeString()
       })
     },
     contentPositionChange () {
-      let positions = ['false', 'top', 'bottom']
+      const positions = ['false', 'top', 'bottom']
       this.contentPosition = positions[(positions.indexOf(this.contentPosition) + 1) % 3]
     }
   },

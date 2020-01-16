@@ -31,7 +31,7 @@ export default {
     content: { type: String, default: '' },
     link: { type: String, default: '' },
     duration: { type: Number, default: 0 },
-    lazyloaded: { type: Boolean, default: false },
+    lazyloaded: { type: Boolean, default: false }
   },
 
   data: () => ({

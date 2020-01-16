@@ -822,7 +822,7 @@ export default {
     conf () {
       // Read config from the props then check if breakpoints are defined.
       // If so override the config with the breakpoint ones.
-      let conf = {
+      const conf = {
         ...this.$props,
         ...((this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current]) || {})
       }
@@ -932,7 +932,7 @@ export default {
       return /^-?\d/.test(this.conf.fixedHeight) ? `height: ${this.conf.fixedHeight}` : null
     },
     trackStyles () {
-      let styles = {}
+      const styles = {}
 
       if (this.conf.parallax) {
         styles.transform = `translate3d(0, ${this.parallaxData.translation}%, 0)`
@@ -945,21 +945,21 @@ export default {
       return styles
     },
     trackInnerStyles () {
-      let styles = {}
+      const styles = {}
       const { fade, '3d': threeD } = this.conf
 
       // Prevent animation if VueperSlides is not yet ready (so that the first clone is not shown before ready).
       styles.transitionDuration = (this.isReady ? this.transition.speed : 0) + 'ms'
 
       if (threeD) {
-        let rotation = this.transition.currentTranslation * 90 / 100
+        const rotation = this.transition.currentTranslation * 90 / 100
         // Following calculation is equivalent to:
         // 'translateZ(slideshowWidth / 2) rotateY(' + rotation + 'deg)'
         // but does not require a fixed width.
         styles.transform = `rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(${rotation}deg)`
       }
       else if (!fade) {
-        let translation = this.transition.currentTranslation
+        const translation = this.transition.currentTranslation
 
         styles.transform = `translate3d(${translation}%, 0, 0)`
 
