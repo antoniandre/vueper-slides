@@ -1115,8 +1115,9 @@ export default {
     top: 0.8em;
     left: 0.5em;
     z-index: 2;
-    padding: 0.5em 1em;
+    padding: 0.2em 1em;
     border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 2em;
     background: rgba(255, 255, 255, 0.25);
     color: #fff;
   }
