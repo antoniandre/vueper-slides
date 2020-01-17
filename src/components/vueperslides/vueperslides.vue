@@ -1118,7 +1118,7 @@ export default {
     padding: 0.2em 1em;
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 2em;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.2);
     color: #fff;
   }
 
