@@ -436,27 +436,38 @@
     or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
     #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
     #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
-  vueper-slides.ex--images-and-fading(
-    fade
-    slide-content-outside="top"
-    slide-content-outside-class="max-widthed text-center my-4"
-    :touchable="false"
-    :slide-ratio="0.3")
+  vueper-slides.ex--images-and-fading(fade :touchable="false")
     vueper-slide(
       v-for="(slide, i) in slides2"
       :key="i"
       :image="slide.image"
-      :title="'# ' + slide.title"
+      :title="slide.title"
       :content="slide.content")
+      template(v-slot:content)
+        .vueperslide__content-wrapper
+          .vueperslide__title {{ slide.title }}
+          .vueperslide__content {{ slide.content }}
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides fade slide-content-outside="top" slide-content-outside-class="max-widthed" :touchable="false" :slide-ratio="0.3"&gt;
+    &lt;vueper-slides fade :touchable="false"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"
         :image="'images/' + slide.image"
-        :title="'# ' + slide.title"
+        :title="slide.title"
         :content="slide.content" /&gt;
     &lt;/vueper-slides&gt;
+
+  ssh-pre(language="js" label="Javascript").
+    // In your component's data.
+    slides: [
+      {
+        title: 'El Teide Volcano, Spain',
+        content: 'Photo by Max Rive',
+        // You can also provide a URL for the image.
+        image: require('@/assets/images/el-teide-volcano-spain.jpg')
+      },
+      // Other slides.
+    ],
   ssh-pre(language="css" label="CSS").
     .vueperslide__content-wrapper--outside-top {
       transition: 0.3s ease-in-out;
@@ -537,13 +548,11 @@
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
-    // In your Vue.js component.
-    data: () => ({
-      slides: [
-        { title: 'Mountain 1', content: 'Slide content 1', link: '#link-to-article-1' },
-        ...
-      ]
-    })
+    // In your component's data.
+    slides: [
+      { title: 'Mountain 1', content: 'Slide content 1', link: '#link-to-article-1' },
+      // Other slides.
+    ]
 
   h3
     a(href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
@@ -2048,22 +2057,22 @@ export default {
     ],
     slides2: [
       {
-        title: 'Mountain 1',
-        content: 'Slide 1 content.',
-        image: require('@/assets/images/rough-horn.jpg'),
-        link: '#link-to-article-1'
+        title: 'El Teide Volcano, Spain',
+        content: 'Photo by Max Rive',
+        image: require('@/assets/images/el-teide-volcano-spain.jpg'),
+        link: 'https://www.maxrivephotography.com/index/C0000rU1RKCHdqwI/G0000X57AtIzuRX0/I0000Gvr9HqdtyXk'
       },
       {
-        title: 'Mountain 2',
-        content: 'Slide 2 content.',
-        image: require('@/assets/images/snow-1.jpg'),
-        link: '#link-to-article-2'
+        title: 'Chernobyl, Ukraine',
+        content: 'Photo by Jesse Moran',
+        image: require('@/assets/images/chernobyl-ukraine.jpg'),
+        link: 'https://www.flickr.com/photos/jessemoran'
       },
       {
-        title: 'Mountain 3',
-        content: 'Slide 3 content.',
-        image: require('@/assets/images/snow-2.jpg'),
-        link: '#link-to-article-3'
+        title: 'Crater Lake, Oregon, USA',
+        content: 'Photo by Jesse Moran',
+        image: require('@/assets/images/crater-lake-oregon-usa.jpg'),
+        link: 'https://flic.kr/p/2cxrCmp'
       }
     ],
     slides3: [

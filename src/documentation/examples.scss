@@ -1,8 +1,6 @@
 @import './variables';
 
 .vueperslide {
-  background-position: bottom;
-
   &__content-wrapper {
     color: #fff;
     font-family: Tahoma, Geneva, sans-serif;
@@ -52,13 +50,12 @@
     background: rgba(0, 0, 0, 0.25);
     color: $primary;
   }
+  .vueperslides__fractions {top: 1.2em;}
 }
 
 // Lazy loading.
 // ===================================
-.ex--lazyloading .vueperslide {
-  background-position: center;
-}
+// .ex--lazyloading .vueperslide {}
 
 // Arrows and bullets.
 // ===================================
@@ -121,16 +118,12 @@
 // Images and fading.
 // ===================================
 .ex--images-and-fading {
-  .vueperslide__content-wrapper--outside-top {
-    transition: 0.3s ease-in-out;
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  &.vueperslides--animated .vueperslide__content-wrapper--outside-top {
-    transition: 0.15s ease-in-out;
-    opacity: 0;
-    transform: scale(0);
+  .vueperslide__content-wrapper {
+    justify-content: flex-start !important;
+    align-items: flex-end !important;
+    opacity: 0.7;
+    padding-top: 0.5em;
+    padding-right: 1em;
   }
 }
 
