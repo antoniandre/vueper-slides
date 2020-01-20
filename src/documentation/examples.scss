@@ -119,12 +119,28 @@
 // ===================================
 .ex--images-and-fading {
   .vueperslide__content-wrapper {
+    font-family: inherit;
     justify-content: flex-start !important;
     align-items: flex-end !important;
-    opacity: 0.7;
+    opacity: 0.8;
     padding-top: 0.5em;
     padding-right: 1em;
   }
+  .vueperslide__title {font-size: 2.3em;}
+}
+
+// Link on the whole slide.
+// ===================================
+.ex--link-on-the-whole-slide {
+  .vueperslide__content-wrapper {
+    font-family: inherit;
+    justify-content: flex-start !important;
+    align-items: flex-end !important;
+    opacity: 0.8;
+    padding-top: 0.5em;
+    padding-right: 1em;
+  }
+  .vueperslide__title {font-size: 2.3em;}
 }
 
 // Complex slide content.

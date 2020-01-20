@@ -431,11 +431,7 @@
     a(id="ex--images-and-fading" name="ex--images-and-fading")
   p.
     This example uses images and fading as the slide transition.#[br]
-    The dragging ability to change slide is disabled via #[span.code :touchable="false"].#[br]
-    The current slide title &amp; content are shown outside of the slider, you can place it above
-    or under the slideshow using #[span.code slide-content-outside="top"] or #[span.code slide-content-outside="bottom"].
-    #[br]You can also provide other CSS classes if you want using #[span.code slide-content-outside-class="class-1 class-2"].
-    #[br]In this example the content has a scale transformation effect on slide change, the CSS can be found bellow.
+    The dragging ability to change slide is disabled via #[span.code :touchable="false"].
   vueper-slides.ex--images-and-fading(fade :touchable="false")
     vueper-slide(
       v-for="(slide, i) in slides2"
@@ -467,19 +463,7 @@
         image: require('@/assets/images/el-teide-volcano-spain.jpg')
       },
       // Other slides.
-    ],
-  ssh-pre(language="css" label="CSS").
-    .vueperslide__content-wrapper--outside-top {
-      transition: 0.3s ease-in-out;
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .vueperslides--animated .vueperslide__content-wrapper--outside-top {
-      transition: 0.15s ease-in-out;
-      opacity: 0;
-      transform: scale(0);
-    }
+    ]
 
   h3
     a(href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'") Lazy Loading
@@ -534,15 +518,15 @@
   p.
     By default, you can put a link on the title or the description of the slide.#[br]
     But if you need to, you can also wrap the whole slide into a link using the #[span.code link] attribute of the #[span.code &lt;vueperslide&gt;] component.
-  vueper-slides.text-center.my-4.ex--link-on-the-whole-slide(:dragging-distance="50" :slide-ratio="0.3")
-    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="'# ' + slide.title" :content="slide.content" :link="slide.link")
+  vueper-slides.text-center.my-4.ex--link-on-the-whole-slide(:dragging-distance="50")
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="slide.title" :content="slide.content" :link="slide.link")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;vueper-slides :dragging-distance="50" :slide-ratio="0.3"&gt;
+    &lt;vueper-slides :dragging-distance="50"&gt;
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"
         :image="'images/' + slide.image"
-        :title="'# ' + slide.title"
+        :title="slide.title"
         :content="slide.content"
         :link="slide.link" /&gt;
     &lt;/vueper-slides&gt;
@@ -550,7 +534,13 @@
   ssh-pre(language="js" label="Javascript").
     // In your component's data.
     slides: [
-      { title: 'Mountain 1', content: 'Slide content 1', link: '#link-to-article-1' },
+      {
+        title: 'El Teide Volcano, Spain',
+        content: 'Photo by Max Rive',
+        // You can also provide a URL for the image.
+        image: require('@/assets/images/el-teide-volcano-spain.jpg'),
+        link: 'https://www.maxrivephotography.com/index/C0000rU1RKCHdqwI/G0000X57AtIzuRX0/I0000Gvr9HqdtyXk'
+      },
       // Other slides.
     ]
 
