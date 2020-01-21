@@ -33,6 +33,7 @@
 // Hero.
 // ===================================
 .ex--hero {
+  .vueperslide {height: 80%;} // Parallax move only starts from half screen.
   .vueperslide__content-wrapper {
     font-family: inherit;
     justify-content: flex-end;
