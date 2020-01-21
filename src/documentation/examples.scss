@@ -30,6 +30,34 @@
 }
 
 // ============ EXAMPLES =============
+// Hero.
+// ===================================
+.ex--hero {
+  .vueperslide__content-wrapper {
+    font-family: inherit;
+    justify-content: flex-end;
+    align-items: flex-end;
+    opacity: 0.8;
+    padding-bottom: 0.5em;
+    padding-right: 1em;
+  }
+  .vueperslide__title {font-size: 2.3em;line-height: 1.3;}
+
+  a {
+    padding-left: 0.3em;
+    pointer-events: all;
+    color: inherit !important;
+    text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .ex--hero .vueperslide__content-wrapper {
+    justify-content: flex-start;
+    padding-top: 0.5em;
+  }
+}
+
 // Simplest ever.
 // ===================================
 .ex--simplest-ever .vueperslide {

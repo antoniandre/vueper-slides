@@ -279,7 +279,8 @@ export default {
 
 @media screen and (max-width: 449px) {
   .top-bar__items .v-btn {
-    min-width: 50px;
+    min-width: 50px !important;
+    padding: 0 !important;
   }
 
   .top-bar__items a .v-btn__content span {

@@ -1,50 +1,51 @@
 <template lang="pug">
 .documentation
-  v-layout.max-widthed(wrap justify-space-between)
-    v-layout.flex.xs12.md9(column)
-      div.mb-3.title Features
-      div.mb-5.features
-        v-icon.pr-2(color="secondary") check
-        | Vueper Slides is #[strong fully responsive] and scales with its container.#[br]
-        v-icon.pr-2(color="secondary") check
-        | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
-        v-icon.pr-2(color="secondary") check
-        | #[strong Accessibility friendly].#[br]
-        v-icon.pr-2(color="secondary") check
-        | Show multiple items per slides.#[br]
-        v-icon.pr-2(color="secondary") check
-        | Lazy loading.#[br]
-        v-icon.pr-2(color="secondary") check
-        | Uses #[strong CSS for animations] &amp; comes with a minimum of styles (using the #[i BEM] convention). Fully customizable.#[br]
-        v-icon.pr-2(color="secondary") check
-        | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
-        v-icon.pr-2(color="secondary") check
-        | Built-in #[strong parallax] effect &amp; #[strong 3D rotation].#[br]
-        v-icon.pr-2(color="secondary") check
-        | Customizable bullets with or without numeric index.#[br]
-        v-icon.pr-2(color="secondary") check
-        | Navigate with #[strong keyboard arrows].#[br]
-        v-icon.pr-2(color="secondary") check
-        | Different settings per #[strong breakpoint].#[br]
-        v-icon.pr-2(color="secondary") check
-        | Slide content supports #[strong title &amp; description, inside OR outside] the current slide.#[br]
-        v-icon.pr-2(color="secondary") check
-        | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
-        v-icon.pr-2(color="secondary") check
-        | #[strong Events] for callbacks, etc...
+  vueper-slides.ex--hero(
+    lazy
+    lazy-load-on-drag
+    parallax
+    parallax-fixed-content
+    :breakpoints="{ 800: { fixedHeight: '300px' } }")
+    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
+      template(v-slot:content)
+        .vueperslide__title {{ slide.title }}
+        .vueperslide__content
+          | Photo by
+          a(:href="slide.link" target="_blank") {{ slide.content.substring(9) }}
+      template(v-slot:loader)
+        v-progress-circular(color="primary" indeterminate)
+        span.mt-3.primary--text.title Loading...
 
-    //- v-card.md3.coming-soon(align-center-center)
-      v-card-title.pb-0
-        div To do next...
-      v-card-text
-        v-layout(row)
-          v-layout(column)
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon(size="20") remove_circle
-              | Multiple items w/ infinite
-            v-chip(color="deep-orange lighten-1" text-color="white" small)
-              v-icon(size="20") remove_circle
-              | Lazy loading
+  h2
+    a(href="#features" v-scroll-to="'#features'") Features
+    a(id="features" name="features")
+  div.max-widthed.mb-5.features
+    v-icon.pr-2(color="secondary") check
+    | #[strong Fully responsive] and scales with its container.#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Accessibility friendly] &amp; keyboard navigation.#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Highly customizable].#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Lazy loading].#[br]
+    v-icon.pr-2(color="secondary") check
+    | Show multiple items per slides.#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
+    v-icon.pr-2(color="secondary") check
+    | Built-in #[strong parallax] effect &amp; #[strong 3D rotation].#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Breakpoints] with different configuration.#[br]
+    v-icon.pr-2(color="secondary") check
+    | Slide content supports #[strong title &amp; description, inside OR outside] the current slide.#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
+    v-icon.pr-2(color="secondary") check
+    | Uses #[strong CSS animations] &amp; comes with a minimum of styles (using the #[i BEM] convention).#[br]
+    v-icon.pr-2(color="secondary") check
+    | #[strong Emitted events] for callbacks, etc...
 
   .max-widthed.mt-8.mb-3.title Github project
   v-layout.max-widthed.mb-5(align-center shrink)
