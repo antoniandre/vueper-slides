@@ -58,8 +58,8 @@
       slot(name="fraction" :current="slides.current + 1" :total="slidesCount")
         | {{ `${slides.current + 1} / ${slidesCount}` }}
     .vueperslides__arrows(
-      :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }"
-      v-if="conf.arrows && canSlide && !disable")
+      v-if="conf.arrows && canSlide && !disable"
+      :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }")
       button.vueperslides__arrow.vueperslides__arrow--prev(
         @click="previous()"
         v-show="!arrowPrevDisabled"
@@ -194,7 +194,7 @@ export default {
     slides: {
       list: [],
       activeId: null,
-      current: 0,
+      current: 0, // Index of current slide.
       // Don't loose the focused slide when changing breakpoint & slideMultiple > 1.
       focus: 0
     },
@@ -213,8 +213,6 @@ export default {
     },
     transition: { currentTranslation: 0, speed: 0, animated: false },
     autoplayTimer: null,
-    arrowPrevDisabled: false,
-    arrowNextDisabled: false,
     nextSlideIsClone: false,
     breakpointsData: { list: [], current: null },
     parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false }
@@ -681,15 +679,7 @@ export default {
       }
 
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
-      if (this.isReady && !jumping && emit) {
-        this.emit('before-slide', true, nextSlide)
-      }
-
-      // Disable arrows if `disableArrowsOnEdges` is on and there is no slide to go to on that end.
-      if (this.conf.arrows && this.conf.disableArrowsOnEdges) {
-        this.arrowPrevDisabled = nextSlide === 0 || (nextSlide - this.conf.slideMultiple) < 0
-        this.arrowNextDisabled = nextSlide === this.slidesCount - 1 || (nextSlide + this.conf.slideMultiple) > this.slidesCount - 1
-      }
+      if (this.isReady && !jumping && emit) this.emit('before-slide', true, nextSlide)
 
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
@@ -972,6 +962,14 @@ export default {
     },
     bulletIndexes () {
       return Array(Math.ceil(this.slidesCount / this.conf.slideMultiple)).fill().map((v, i) => i * this.conf.slideMultiple)
+    },
+    arrowPrevDisabled () {
+      return !this.slides.current && this.conf.disableArrowsOnEdges
+    },
+    arrowNextDisabled () {
+      const { disableArrowsOnEdges, visibleSlides, slideMultiple } = this.conf
+      const lastSlide = this.slides.current + (slideMultiple > 1 && visibleSlides > 1 ? visibleSlides - 1 : 0)
+      return lastSlide === this.slidesCount - 1 && disableArrowsOnEdges
     }
   }
 }
