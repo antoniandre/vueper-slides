@@ -449,7 +449,7 @@
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"
-        :image="'images/' + slide.image"
+        :image="slide.image"
         :title="slide.title"
         :content="slide.content" /&gt;
     &lt;/vueper-slides&gt;
@@ -526,7 +526,7 @@
       &lt;vueper-slide
         v-for="(slide, i) in slides"
         :key="i"
-        :image="'images/' + slide.image"
+        :image="slide.image"
         :title="slide.title"
         :content="slide.content"
         :link="slide.link" /&gt;
@@ -1304,7 +1304,7 @@
     draggingDistance:         [Number],          default: null
     duration:                 [Number, String],  default: 4000
     fade:                     [Boolean],         default: false
-    fixedHeight:              [Boolean, Number], default: false
+    fixedHeight:              [Boolean, String], default: false
     fractions:                [Boolean],         default: false
     gap:                      [Number],          default: 0
     infinite:                 [Boolean],         default: true
