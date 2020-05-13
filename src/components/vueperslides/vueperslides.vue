@@ -61,6 +61,7 @@
       v-if="conf.arrows && canSlide && !disable"
       :class="{ 'vueperslides__arrows--outside': conf.arrowsOutside }")
       button.vueperslides__arrow.vueperslides__arrow--prev(
+        type="button"
         @click="previous()"
         v-show="!arrowPrevDisabled"
         aria-label="Previous"
@@ -70,6 +71,7 @@
           svg(viewBox="0 0 9 18")
             path(stroke-linecap="round" d="m8 1 l-7 8 7 8")
       button.vueperslides__arrow.vueperslides__arrow--next(
+        type="button"
         @click="next()"
         v-show="!arrowNextDisabled"
         aria-label="Next"
@@ -91,6 +93,7 @@
         :previous="previous"
         :next="next")
         button.vueperslides__bullet(
+          type="button"
           v-for="(slideIndex, i) in bulletIndexes"
           :key="i"
           :class="{ 'vueperslides__bullet--active': slides.current === slideIndex }"
@@ -116,6 +119,7 @@
       :previous="previous"
       :next="next")
       button.vueperslides__bullet(
+        type="button"
         v-for="(slideIndex, i) in bulletIndexes"
         :key="i"
         :class="{ 'vueperslides__bullet--active': slides.current === slideIndex }"
