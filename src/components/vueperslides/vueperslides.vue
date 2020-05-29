@@ -665,7 +665,7 @@ export default {
       if (this.conf.autoplay && autoPlaying) this.pauseAutoplay()
 
       this.transition.animated = animation
-      setTimeout(() => (this.transition.animated = false), this.transitionSpeed)
+      setTimeout(() => (this.transition.animated = true), this.transitionSpeed)
 
       // Get the next slide index and whether it's a clone.
       const { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index, autoPlaying)
@@ -741,6 +741,14 @@ export default {
 
     addSlide (newSlide) {
       this.slides.list.push(newSlide)
+      return this.slidesCount
+    },
+
+    addClone (newSlide) {
+      // On adding clone, directly go to the current slide again without transition, so no
+      // move is visible (case when starting in infinite mode with no slide until later loaded).
+      this.updateTrackTranslation()
+      this.goToSlide(this.slides.current, { animation: false })
       return this.slidesCount
     },
 
@@ -919,7 +927,8 @@ export default {
         'vueperslides--3d': this.conf['3d'],
         'vueperslides--slide-multiple': this.conf.slideMultiple > 1,
         'vueperslides--bullets-outside': this.conf.bulletsOutside,
-        'vueperslides--animated': this.transition.animated // While transitioning.
+        'vueperslides--animated': this.transition.animated, // While transitioning.
+        'vueperslides--no-animation': !this.isReady || !this.transition.animated
       }
     },
     vueperslidesStyles () {
@@ -942,8 +951,10 @@ export default {
       const styles = {}
       const { fade, '3d': threeD } = this.conf
 
-      // Prevent animation if VueperSlides is not yet ready (so that the first clone is not shown before ready).
-      styles.transitionDuration = (this.isReady ? this.transition.speed : 0) + 'ms'
+      // Always override default transition (in CSS) if any transition.speed. But when
+      // this.transition.animated is false, the class `no-animation` is added forcing
+      // transition-duration 0ms in CSS.
+      styles.transitionDuration = `${this.transition.speed}ms`
 
       if (threeD) {
         const rotation = this.transition.currentTranslation * 90 / 100
@@ -1041,9 +1052,13 @@ export default {
 
   &__track-inner {
     white-space: nowrap;
+    // Default transition, may be overridden by transition.speed.
     transition: 0.5s ease-in-out transform;
     height: 100%;
     display: flex;
+
+    // If forcing no animation (transition.animated = false), force the transition duration to 0ms.
+    .vueperslides--no-animation & {transition-duration: 0s !important;}
 
     .vueperslides--fade & {
       white-space: normal;
@@ -1051,9 +1066,8 @@ export default {
     }
 
     .vueperslides--3d & {transform-style: preserve-3d;}
-    .vueperslides__track--mousedown & {transition: 0.2s ease-in-out transform !important;}
+    .vueperslides__track--mousedown & {transition: 0.25s ease-in-out transform !important;}
     .vueperslides__track--dragging & {transition: none;}
-    .vueperslides__track--no-animation & {transition-duration: 0s;}
   }
 
   &__arrow {

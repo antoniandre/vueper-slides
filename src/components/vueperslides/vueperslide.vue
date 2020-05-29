@@ -72,7 +72,7 @@ export default {
   created () {
     this.imageSrc = this.conf.lazy ? '' : this.image
 
-    if (this.clone) return
+    if (this.clone) return this.$parent.addClone()
 
     this.$parent.addSlide({
       id: this._uid,
