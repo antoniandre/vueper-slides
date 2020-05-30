@@ -741,6 +741,10 @@ export default {
 
     addSlide (newSlide) {
       this.slides.list.push(newSlide)
+      // If the slideshow was initialized with no slides and with autoplay, resume the autoplay
+      // when the first slide is added.
+      if (this.isReady && this.slidesCount === 1 && this.conf.autoplay) this.resumeAutoplay()
+
       return this.slidesCount
     },
 
