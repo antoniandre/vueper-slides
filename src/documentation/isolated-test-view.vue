@@ -22,7 +22,7 @@ const allSlides = [
   { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Jesse_Moran_Resurrect.jpg' },
   { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Perez_Alonso%20Photography_Chocolate_Mountains.jpg' },
   { image: require('@/assets/images/easton-wa-usa.jpg') }
-];
+]
 
 export default {
   components: { VueperSlides, VueperSlide },
@@ -48,13 +48,13 @@ export default {
     allSlides.forEach((slide, i) => {
       setTimeout(() => {
         this.slides.push(slide)
-      }, (i + 1)* 2000)
+      }, (i + 1) * 2000)
     })
   },
 
   methods: {
-    log (param) {
-      console.log(param)
+    log (...param) {
+      console.log(...param)
     }
   }
 }
