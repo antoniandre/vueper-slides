@@ -222,8 +222,173 @@ export default {
     parallaxData: { translation: 0, slideshowOffsetTop: null, isVisible: false }
   }),
 
-  mounted () {
-    this.init()
+  computed: {
+    // this.conf needs to be reactive so user can change a Vueper Slides option and everything gets updated.
+    conf () {
+      // Read config from the props then check if breakpoints are defined.
+      // If so override the config with the breakpoint ones.
+      const conf = {
+        ...this.$props,
+        ...((this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current]) || {})
+      }
+
+      // Overrides: once config from breakpoints is imported, we can use the `conf` object
+      // and be sure all the options are up to date.
+      // ------------------------------- //
+      conf.slideMultiple = conf.slideMultiple ? conf.visibleSlides : 1
+
+      conf.gap = (this.gap && parseInt(this.gap)) || 0
+      // conf.gapPx = this.gap && this.gap.toString().includes('px')
+
+      if (conf.visibleSlides > 1) conf['3d'] = false
+
+      if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1 || conf['3d']) {
+        conf.infinite = false
+      }
+
+      // Place arrows & bullets outside by default if visibleSlides > 1.
+      if (conf.visibleSlides > 1 && conf.arrowsOutside === null) conf.arrowsOutside = true
+      if (conf.visibleSlides > 1 && conf.bulletsOutside === null) conf.bulletsOutside = true
+
+      if (this.touchEnabled !== conf.touchable) this.toggleTouchableOption(conf.touchable)
+
+      if (conf.parallax && conf.parallaxFixedContent) {
+        conf.slideContentOutside = 'top'
+        conf.slideContentOutsideClass = 'parallax-fixed-content'
+      }
+      // ------------------------------- //
+
+      return conf
+    },
+    slidesCount () {
+      return this.slides.list.length
+    },
+    gapsCount () {
+      const { fade, '3d': threeD, infinite, slideMultiple, gap } = this.conf
+      if (!gap || fade || threeD) return 0
+
+      if (this.multipleSlides1by1 && this.slides.current < this.preferredPosition) return 0
+      if (!this.slides.current && this.nextSlideIsClone) return this.slidesCount + 1
+
+      let gapsCount = (this.slides.current / slideMultiple + (infinite ? 1 : 0)) - this.preferredPosition
+      if (this.multipleSlides1by1 && this.slidePosAfterPreferred > 0) {
+        gapsCount -= this.slidePosAfterPreferred
+      }
+
+      return gapsCount
+    },
+    slidesAfterCurrent () {
+      return this.slidesCount - (this.slides.current + 1)
+    },
+    // When visibleSlides > 1, the preferred position is the most center slide amongst the visible ones.
+    // If visibleSlides is an odd number the preferred position can never be at the center,
+    // so take the closest on the left side.
+    preferredPosition () {
+      return this.multipleSlides1by1 ? Math.ceil(this.conf.visibleSlides / 2) - 1 : 0
+    },
+    slidePosAfterPreferred () {
+      return this.conf.visibleSlides - this.preferredPosition - this.slidesAfterCurrent - 1
+    },
+    multipleSlides1by1 () {
+      return this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1
+    },
+    touchEnabled: {
+      get () {
+        return this.slidesCount > 1 && this.touchable
+      },
+      set () {}
+    },
+    canSlide () {
+      return (this.slidesCount / this.conf.visibleSlides) > 1
+    },
+    firstSlide () {
+      const slide = this.slidesCount ? this.slides.list[0] : {}
+      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+      return slide
+    },
+    lastSlide () {
+      const slide = this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
+      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+      return slide
+    },
+    currentSlide () {
+      const currentSlide = (this.slidesCount && this.slides.list[this.slides.current]) || {}
+      if (this.slides.current < this.slidesCount && currentSlide.id !== this.slides.activeId) {
+        this.goToSlide(this.slides.current, { animation: false, autoPlaying: true })
+      }
+
+      return currentSlide
+    },
+    vueperslidesClasses () {
+      return {
+        'vueperslides--ready': this.isReady,
+        'vueperslides--fade': this.conf.fade,
+        'vueperslides--parallax': this.conf.parallax,
+        'vueperslides--slide-image-inside': this.conf.slideImageInside,
+        'vueperslides--touchable': this.touchEnabled && !this.disable,
+        'vueperslides--fixed-height': this.conf.fixedHeight,
+        'vueperslides--3d': this.conf['3d'],
+        'vueperslides--slide-multiple': this.conf.slideMultiple > 1,
+        'vueperslides--bullets-outside': this.conf.bulletsOutside,
+        'vueperslides--animated': this.transition.animated, // While transitioning.
+        'vueperslides--no-animation': !this.isReady || !this.transition.animated
+      }
+    },
+    vueperslidesStyles () {
+      return /^-?\d/.test(this.conf.fixedHeight) ? `height: ${this.conf.fixedHeight}` : null
+    },
+    trackStyles () {
+      const styles = {}
+
+      if (this.conf.parallax) {
+        styles.transform = `translate3d(0, ${this.parallaxData.translation}%, 0)`
+
+        // Increase browser optimizations by allocating more machine resource.
+        // ! \\ To be used wisely so deactivate when not needed.
+        styles.willChange = this.parallaxData.isVisible ? 'transform' : 'auto'
+      }
+
+      return styles
+    },
+    trackInnerStyles () {
+      const styles = {}
+      const { fade, '3d': threeD } = this.conf
+
+      // Always override default transition (in CSS) if any transition.speed. But when
+      // this.transition.animated is false, the class `no-animation` is added forcing
+      // transition-duration 0ms in CSS.
+      styles.transitionDuration = `${this.transition.speed}ms`
+
+      if (threeD) {
+        const rotation = this.transition.currentTranslation * 90 / 100
+        // Following calculation is equivalent to:
+        // 'translateZ(slideshowWidth / 2) rotateY(' + rotation + 'deg)'
+        // but does not require a fixed width.
+        styles.transform = `rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(${rotation}deg)`
+      }
+      else if (!fade) {
+        const translation = this.transition.currentTranslation
+
+        styles.transform = `translate3d(${translation}%, 0, 0)`
+
+        // Increase browser optimizations by allocating more machine resource.
+        // ! \\ To be used wisely so deactivate when not needed.
+        styles.willChange = this.touch.dragging || this.transition.animated ? 'transform' : 'auto'
+      }
+
+      return styles
+    },
+    bulletIndexes () {
+      return Array(Math.ceil(this.slidesCount / this.conf.slideMultiple)).fill().map((v, i) => i * this.conf.slideMultiple)
+    },
+    arrowPrevDisabled () {
+      return !this.slides.current && this.conf.disableArrowsOnEdges
+    },
+    arrowNextDisabled () {
+      const { disableArrowsOnEdges, visibleSlides, slideMultiple } = this.conf
+      const lastSlide = this.slides.current + (slideMultiple > 1 && visibleSlides > 1 ? visibleSlides - 1 : 0)
+      return lastSlide === this.slidesCount - 1 && disableArrowsOnEdges
+    }
   },
 
   methods: {
@@ -817,179 +982,14 @@ export default {
     }
   },
 
+  mounted () {
+    this.init()
+  },
+
   beforeDestroy () {
     this.removeEventListeners()
     document.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.onResize)
-  },
-
-  computed: {
-    // this.conf needs to be reactive so user can change a Vueper Slides option and everything gets updated.
-    conf () {
-      // Read config from the props then check if breakpoints are defined.
-      // If so override the config with the breakpoint ones.
-      const conf = {
-        ...this.$props,
-        ...((this.$props.breakpoints && this.$props.breakpoints[this.breakpointsData.current]) || {})
-      }
-
-      // Overrides: once config from breakpoints is imported, we can use the `conf` object
-      // and be sure all the options are up to date.
-      // ------------------------------- //
-      conf.slideMultiple = conf.slideMultiple ? conf.visibleSlides : 1
-
-      conf.gap = (this.gap && parseInt(this.gap)) || 0
-      // conf.gapPx = this.gap && this.gap.toString().includes('px')
-
-      if (conf.visibleSlides > 1) conf['3d'] = false
-
-      if (conf.fade || conf.disableArrowsOnEdges || conf.visibleSlides > 1 || conf['3d']) {
-        conf.infinite = false
-      }
-
-      // Place arrows & bullets outside by default if visibleSlides > 1.
-      if (conf.visibleSlides > 1 && conf.arrowsOutside === null) conf.arrowsOutside = true
-      if (conf.visibleSlides > 1 && conf.bulletsOutside === null) conf.bulletsOutside = true
-
-      if (this.touchEnabled !== conf.touchable) this.toggleTouchableOption(conf.touchable)
-
-      if (conf.parallax && conf.parallaxFixedContent) {
-        conf.slideContentOutside = 'top'
-        conf.slideContentOutsideClass = 'parallax-fixed-content'
-      }
-      // ------------------------------- //
-
-      return conf
-    },
-    slidesCount () {
-      return this.slides.list.length
-    },
-    gapsCount () {
-      const { fade, '3d': threeD, infinite, slideMultiple, gap } = this.conf
-      if (!gap || fade || threeD) return 0
-
-      if (this.multipleSlides1by1 && this.slides.current < this.preferredPosition) return 0
-      if (!this.slides.current && this.nextSlideIsClone) return this.slidesCount + 1
-
-      let gapsCount = (this.slides.current / slideMultiple + (infinite ? 1 : 0)) - this.preferredPosition
-      if (this.multipleSlides1by1 && this.slidePosAfterPreferred > 0) {
-        gapsCount -= this.slidePosAfterPreferred
-      }
-
-      return gapsCount
-    },
-    slidesAfterCurrent () {
-      return this.slidesCount - (this.slides.current + 1)
-    },
-    // When visibleSlides > 1, the preferred position is the most center slide amongst the visible ones.
-    // If visibleSlides is an odd number the preferred position can never be at the center,
-    // so take the closest on the left side.
-    preferredPosition () {
-      return this.multipleSlides1by1 ? Math.ceil(this.conf.visibleSlides / 2) - 1 : 0
-    },
-    slidePosAfterPreferred () {
-      return this.conf.visibleSlides - this.preferredPosition - this.slidesAfterCurrent - 1
-    },
-    multipleSlides1by1 () {
-      return this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1
-    },
-    touchEnabled: {
-      get () {
-        return this.slidesCount > 1 && this.touchable
-      },
-      set () {}
-    },
-    canSlide () {
-      return (this.slidesCount / this.conf.visibleSlides) > 1
-    },
-    firstSlide () {
-      const slide = this.slidesCount ? this.slides.list[0] : {}
-      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
-      return slide
-    },
-    lastSlide () {
-      const slide = this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
-      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
-      return slide
-    },
-    currentSlide () {
-      const currentSlide = (this.slidesCount && this.slides.list[this.slides.current]) || {}
-      if (this.slides.current < this.slidesCount && currentSlide.id !== this.slides.activeId) {
-        this.goToSlide(this.slides.current, { animation: false, autoPlaying: true })
-      }
-
-      return currentSlide
-    },
-    vueperslidesClasses () {
-      return {
-        'vueperslides--ready': this.isReady,
-        'vueperslides--fade': this.conf.fade,
-        'vueperslides--parallax': this.conf.parallax,
-        'vueperslides--slide-image-inside': this.conf.slideImageInside,
-        'vueperslides--touchable': this.touchEnabled && !this.disable,
-        'vueperslides--fixed-height': this.conf.fixedHeight,
-        'vueperslides--3d': this.conf['3d'],
-        'vueperslides--slide-multiple': this.conf.slideMultiple > 1,
-        'vueperslides--bullets-outside': this.conf.bulletsOutside,
-        'vueperslides--animated': this.transition.animated, // While transitioning.
-        'vueperslides--no-animation': !this.isReady || !this.transition.animated
-      }
-    },
-    vueperslidesStyles () {
-      return /^-?\d/.test(this.conf.fixedHeight) ? `height: ${this.conf.fixedHeight}` : null
-    },
-    trackStyles () {
-      const styles = {}
-
-      if (this.conf.parallax) {
-        styles.transform = `translate3d(0, ${this.parallaxData.translation}%, 0)`
-
-        // Increase browser optimizations by allocating more machine resource.
-        // ! \\ To be used wisely so deactivate when not needed.
-        styles.willChange = this.parallaxData.isVisible ? 'transform' : 'auto'
-      }
-
-      return styles
-    },
-    trackInnerStyles () {
-      const styles = {}
-      const { fade, '3d': threeD } = this.conf
-
-      // Always override default transition (in CSS) if any transition.speed. But when
-      // this.transition.animated is false, the class `no-animation` is added forcing
-      // transition-duration 0ms in CSS.
-      styles.transitionDuration = `${this.transition.speed}ms`
-
-      if (threeD) {
-        const rotation = this.transition.currentTranslation * 90 / 100
-        // Following calculation is equivalent to:
-        // 'translateZ(slideshowWidth / 2) rotateY(' + rotation + 'deg)'
-        // but does not require a fixed width.
-        styles.transform = `rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(${rotation}deg)`
-      }
-      else if (!fade) {
-        const translation = this.transition.currentTranslation
-
-        styles.transform = `translate3d(${translation}%, 0, 0)`
-
-        // Increase browser optimizations by allocating more machine resource.
-        // ! \\ To be used wisely so deactivate when not needed.
-        styles.willChange = this.touch.dragging || this.transition.animated ? 'transform' : 'auto'
-      }
-
-      return styles
-    },
-    bulletIndexes () {
-      return Array(Math.ceil(this.slidesCount / this.conf.slideMultiple)).fill().map((v, i) => i * this.conf.slideMultiple)
-    },
-    arrowPrevDisabled () {
-      return !this.slides.current && this.conf.disableArrowsOnEdges
-    },
-    arrowNextDisabled () {
-      const { disableArrowsOnEdges, visibleSlides, slideMultiple } = this.conf
-      const lastSlide = this.slides.current + (slideMultiple > 1 && visibleSlides > 1 ? visibleSlides - 1 : 0)
-      return lastSlide === this.slidesCount - 1 && disableArrowsOnEdges
-    }
   }
 }
 </script>
