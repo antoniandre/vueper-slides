@@ -15,19 +15,28 @@ div
 import { VueperSlides, VueperSlide } from '@/components/vueperslides/'
 import '@/components/vueperslides/styles.scss'
 
-const allSlides = [
-  { image: 'https://farm4.staticflickr.com/3364/3409068082_bbecd0b7cc_o.jpg' },
-  { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Ramon_Covelo_Sakrisoy%20Dreams.jpg' },
-  { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Alex_Noriega_Pure_Magic.jpg' },
-  { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Jesse_Moran_Resurrect.jpg' },
-  { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Perez_Alonso%20Photography_Chocolate_Mountains.jpg' },
-  { image: require('@/assets/images/easton-wa-usa.jpg') }
-]
-
 export default {
   components: { VueperSlides, VueperSlide },
   data: () => ({
     slides: [
+      {
+        title: 'El Teide Volcano, Spain',
+        content: 'Photo by Max Rive',
+        image: require('@/assets/images/el-teide-volcano-spain.jpg'),
+        link: 'https://www.maxrivephotography.com/index/C0000rU1RKCHdqwI/G0000X57AtIzuRX0/I0000Gvr9HqdtyXk'
+      },
+      {
+        title: 'Chernobyl, Ukraine',
+        content: 'Photo by Jesse Moran',
+        image: require('@/assets/images/chernobyl-ukraine.jpg'),
+        link: 'https://www.flickr.com/photos/jessemoran'
+      },
+      {
+        title: 'Crater Lake, Oregon, USA',
+        content: 'Photo by Jesse Moran',
+        image: require('@/assets/images/crater-lake-oregon-usa.jpg'),
+        link: 'https://flic.kr/p/2cxrCmp'
+      }
     ],
     breakpoints: {
       700: {
@@ -42,15 +51,6 @@ export default {
       }
     }
   }),
-
-  mounted () {
-    // Test adding slides after mounted, 1 by 1 every 2 sec.
-    allSlides.forEach((slide, i) => {
-      setTimeout(() => {
-        this.slides.push(slide)
-      }, (i + 1) * 2000)
-    })
-  },
 
   methods: {
     log (...param) {
