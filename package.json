@@ -17,6 +17,7 @@
   ],
   "dependencies": {},
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.1",
     "@vue/cli-plugin-babel": "^4.4.4",
     "@vue/cli-plugin-eslint": "^4.4.4",
     "@vue/cli-service": "^4.4.4",
