@@ -41,101 +41,6 @@ export default {
     loaded: false
   }),
 
-  methods: {
-    updateSlide (props) {
-      this.$parent.updateSlide(this._uid, props)
-    },
-
-    // Only for lazy loading, this method is called from the Vueperslides component.
-    loadImage () {
-      // Don't try to reload image if already loaded.
-      if (this.loading || this.loaded) return
-
-      this.loading = true
-
-      return new Promise((resolve, reject) => {
-        const img = document.createElement('img')
-        img.onload = () => {
-          this.imageSrc = this.image
-          this.loading = false
-          this.loaded = true
-          this.$nextTick(() => {
-            resolve({ image: this.imageSrc, style: ((this.$el.attributes || {}).style || {}).value })
-          })
-        }
-        img.onerror = (this.loading = false) || reject // Always call reject.
-        img.src = this.image
-      })
-    }
-  },
-
-  created () {
-    this.imageSrc = this.conf.lazy ? '' : this.image
-
-    if (this.clone) return this.$parent.addClone()
-
-    this.$parent.addSlide({
-      id: this._uid,
-      image: this.imageSrc,
-      title: this.title,
-      content: this.content,
-      contentSlot: this.$slots.content,
-      loaderSlot: this.$slots.loader, // For lazy loading.
-      link: this.link,
-      style: '',
-      // For lazy loading: pass the function to Vueperslides, it will call it before slide
-      // and on slide drag for each visible slide.
-      loadImage: this.loadImage,
-      duration: this.duration // Allow overriding the global autoplay slide duration.
-    })
-  },
-
-  mounted () {
-    if (this.clone) return
-
-    this.updateSlide({
-      contentSlot: this.$slots.content,
-      loaderSlot: this.$slots.loader, // For lazy loading.
-      style: ((this.$el.attributes || {}).style || {}).value
-    })
-  },
-
-  beforeUpdate () {
-    if (this.shouldSkipUpdate || !Object.values(this.$slots).length) return
-
-    this.updateSlide({
-      contentSlot: this.$slots.content,
-      loaderSlot: this.$slots.loader, // For lazy loading.
-      style: ((this.$el.attributes || {}).style || {}).value
-    })
-  },
-
-  watch: {
-    image () {
-      // If the image of the slide is changed on the fly, update the clones.
-      // If lazy loading, unset the image until this slide is requested.
-      this.imageSrc = this.conf.lazy && !this.isSlideVisible ? '' : this.image
-      if (!this.clone) this.updateSlide({ image: this.imageSrc })
-    },
-    title () {
-      if (!this.clone) this.updateSlide({ title: this.title })
-    },
-    content () {
-      if (!this.clone) this.updateSlide({ content: this.content })
-    },
-    link () {
-      if (!this.clone) this.updateSlide({ link: this.link })
-    },
-    lazyloaded () {
-      if (this.clone) this.loaded = this.lazyloaded
-    }
-  },
-
-  destroyed () {
-    // When removing a slide programmatically, remove it from the list of slides.
-    if (!this.clone) this.$parent.removeSlide(this._uid)
-  },
-
   computed: {
     conf () {
       return this.$parent.conf
@@ -206,6 +111,101 @@ export default {
         this.clone || !this.conf.infinite ||
         (!this.conf.slideContentOutside && !this.conf.alwaysRefreshClones)
       )
+    }
+  },
+
+  methods: {
+    updateSlide (props) {
+      this.$parent.updateSlide(this._uid, props)
+    },
+
+    // Only for lazy loading, this method is called from the Vueperslides component.
+    loadImage () {
+      // Don't try to reload image if already loaded.
+      if (this.loading || this.loaded) return
+
+      this.loading = true
+
+      return new Promise((resolve, reject) => {
+        const img = document.createElement('img')
+        img.onload = () => {
+          this.imageSrc = this.image
+          this.loading = false
+          this.loaded = true
+          this.$nextTick(() => {
+            resolve({ image: this.imageSrc, style: ((this.$el.attributes || {}).style || {}).value })
+          })
+        }
+        img.onerror = (this.loading = false) || reject // Always call reject.
+        img.src = this.image
+      })
+    }
+  },
+
+  created () {
+    this.imageSrc = this.conf.lazy ? '' : this.image
+
+    if (this.clone) return this.$parent.addClone()
+
+    this.$parent.addSlide({
+      id: this._uid,
+      image: this.imageSrc,
+      title: this.title,
+      content: this.content,
+      contentSlot: this.$slots.content,
+      loaderSlot: this.$slots.loader, // For lazy loading.
+      link: this.link,
+      style: '',
+      // For lazy loading: pass the function to Vueperslides, it will call it before slide
+      // and on slide drag for each visible slide.
+      loadImage: this.loadImage,
+      duration: this.duration // Allow overriding the global autoplay slide duration.
+    })
+  },
+
+  mounted () {
+    if (this.clone) return
+
+    this.updateSlide({
+      contentSlot: this.$slots.content,
+      loaderSlot: this.$slots.loader, // For lazy loading.
+      style: ((this.$el.attributes || {}).style || {}).value
+    })
+  },
+
+  beforeUpdate () {
+    if (this.shouldSkipUpdate || !Object.values(this.$slots).length) return
+
+    this.updateSlide({
+      contentSlot: this.$slots.content,
+      loaderSlot: this.$slots.loader, // For lazy loading.
+      style: ((this.$el.attributes || {}).style || {}).value
+    })
+  },
+
+  destroyed () {
+    // When removing a slide programmatically, remove it from the list of slides.
+    if (!this.clone) this.$parent.removeSlide(this._uid)
+  },
+
+  watch: {
+    image () {
+      // If the image of the slide is changed on the fly, update the clones.
+      // If lazy loading, unset the image until this slide is requested.
+      this.imageSrc = this.conf.lazy && !this.isSlideVisible ? '' : this.image
+      if (!this.clone) this.updateSlide({ image: this.imageSrc })
+    },
+    title () {
+      if (!this.clone) this.updateSlide({ title: this.title })
+    },
+    content () {
+      if (!this.clone) this.updateSlide({ content: this.content })
+    },
+    link () {
+      if (!this.clone) this.updateSlide({ link: this.link })
+    },
+    lazyloaded () {
+      if (this.clone) this.loaded = this.lazyloaded
     }
   }
 }
