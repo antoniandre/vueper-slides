@@ -1,7 +1,7 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides.no-shadow(ref="vuperslides" :slide-ratio="1 / 2" autoplay)
+  vueper-slides.no-shadow(:gap="5")
     vueper-slide(
       v-if="slides.length"
       v-for="(slide, i) in slides"
@@ -9,6 +9,12 @@ div
       :title="`Slide ${i + 1}`"
       :content="`Content ${i + 1}.`"
       :image="slide.image")
+    vueper-slide(
+      title="El Teide Volcano, Spain"
+      :image="getImage('el-teide-volcano-spain.jpg')")
+    vueper-slide(
+      title="Chernobyl, Ukraine"
+      :image="getImage('chernobyl-ukraine.jpg')")
 </template>
 
 <script>
@@ -37,31 +43,17 @@ export default {
         image: require('@/assets/images/crater-lake-oregon-usa.jpg'),
         link: 'https://flic.kr/p/2cxrCmp'
       }
-    ],
-    breakpoints: {
-      700: {
-        slideMultiple: 2,
-        visibleSlides: 2,
-        slideRatio: 1 / 3,
-        infinite: false
-      },
-      600: {
-        visibleSlides: 1,
-        slideRatio: 1 / 2
-      }
-    }
+    ]
   }),
 
   methods: {
     log (...param) {
       console.log(...param)
-    }
+    },
+    getImage: image => require(`@/assets/images/${image}`)
   }
 }
 </script>
 
 <style lang="scss">
-.vueperslide--loading .vueperslide__content-wrapper {
-  display: none !important;
-}
 </style>
