@@ -267,14 +267,17 @@ export default {
     slidesCount () {
       return this.slides.list.length
     },
+    // The total number of gaps to subtract for current track translation.
+    // i.e. all the gaps on the left of the current slide.
     gapsCount () {
       const { fade, '3d': threeD, infinite, slideMultiple, gap } = this.conf
       if (!gap || fade || threeD) return 0
 
       if (this.multipleSlides1by1 && this.slides.current < this.preferredPosition) return 0
-      if (!this.slides.current && this.nextSlideIsClone) return this.slidesCount + 1
+      if (!this.slides.current && this.nextSlideIsClone) return this.slidesCount
+      if (this.nextSlideIsClone === 0) return -1
 
-      let gapsCount = (this.slides.current / slideMultiple + (infinite ? 1 : 0)) - this.preferredPosition
+      let gapsCount = (this.slides.current / slideMultiple) - this.preferredPosition
       if (this.multipleSlides1by1 && this.slidePosAfterPreferred > 0) {
         gapsCount -= this.slidePosAfterPreferred
       }
@@ -686,12 +689,13 @@ export default {
       let translation = this.getBasicTranslation()
       const { infinite, visibleSlides, slideMultiple, gap, '3d': threeD, lazy, lazyLoadOnDrag } = this.conf
 
+      // nextSlideIsClone can be 0 or 1 or false.
       if (infinite && this.nextSlideIsClone !== false) {
-        translation = (this.nextSlideIsClone ? this.slidesCount + 1 : 0) / visibleSlides
+        translation = (this.nextSlideIsClone ? this.slidesCount : -1) / visibleSlides
       }
 
       // Add all the gaps to the translation except if current slide is first.
-      if (gap && this.nextSlideIsClone !== 0) {
+      if (gap) {
         translation += (this.gapsCount / (visibleSlides / slideMultiple)) * gap / 100
       }
 
@@ -855,11 +859,6 @@ export default {
       // immediately with no animation.
       // Same principle when going beyond first slide.
       if (nextSlideIsClone !== false) { // Gives clone id (0 or 1) or false.
-        // If going towards first clone, update the translation to 100% temporarily,
-        // before it snaps to real slide seemlessly.
-        if (nextSlideIsClone === 0) this.transition.currentTranslation = 1 * 100
-        if (nextSlideIsClone === 1) this.transition.currentTranslation = - this.slidesCount * 100
-
         setTimeout(() => {
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
@@ -883,7 +882,7 @@ export default {
       if (!breakpointChange) this.slides.focus = nextSlide
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
-      if (!this.conf.fade && nextSlideIsClone === false) this.updateTrackTranslation()
+      if (!this.conf.fade) this.updateTrackTranslation()
 
       this.slides.activeId = this.slides.list[this.slides.current].id
 
