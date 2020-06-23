@@ -68,7 +68,7 @@ $main-text: #888;
 
   i {
     font-size: 1.2em;
-    vertical-align: middle;
+    vertical-align: text-bottom;
     transition: 1s ease-out;
     cursor: pointer;
 
