@@ -33,7 +33,7 @@
               vnodes(:vnodes="lastSlide.contentSlot")
             template(v-if="conf.lazy && !lastSlide.loaded" slot="loader")
               vnodes(:vnodes="lastSlide.loaderSlot")
-          slot(:currentSlide="slides.current")
+          slot
           vueper-slide.vueperslide--clone(
             v-if="isReady && conf.infinite && canSlide && firstSlide"
             clone
