@@ -220,6 +220,13 @@ export default {
   width: 100%;
   position: relative;
 
+  &--clone-1 {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+  }
+
   &[href] {-webkit-user-drag: none;}
 
   &__image {

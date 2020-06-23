@@ -19,7 +19,11 @@
         :class="{ 'vueperslides__track--dragging': touch.dragging, 'vueperslides__track--mousedown': mouseDown }"
         :style="trackStyles")
         .vueperslides__track-inner(:style="trackInnerStyles")
-          vueper-slide.vueperslide--clone(
+          slot
+
+          //- The clones need to be appended after slots in case of multiple vueper-slide in slots.
+          //- Otherwise the first clone will not be appended at the right place.
+          vueper-slide.vueperslide--clone.vueperslide--clone-1(
             v-if="isReady && conf.infinite && canSlide && lastSlide"
             clone
             :title="lastSlide.title"
@@ -33,8 +37,8 @@
               vnodes(:vnodes="lastSlide.contentSlot")
             template(v-if="conf.lazy && !lastSlide.loaded" slot="loader")
               vnodes(:vnodes="lastSlide.loaderSlot")
-          slot
-          vueper-slide.vueperslide--clone(
+
+          vueper-slide.vueperslide--clone.vueperslide--clone-2(
             v-if="isReady && conf.infinite && canSlide && firstSlide"
             clone
             :title="firstSlide.title"
@@ -367,9 +371,7 @@ export default {
         styles.transform = `rotateY(-90deg) translateX(-50%) rotateY(90deg) rotateY(${rotation}deg)`
       }
       else if (!fade) {
-        const translation = this.transition.currentTranslation
-
-        styles.transform = `translate3d(${translation}%, 0, 0)`
+        styles.transform = `translate3d(${this.transition.currentTranslation}%, 0, 0)`
 
         // Increase browser optimizations by allocating more machine resource.
         // ! \\ To be used wisely so deactivate when not needed.
@@ -670,9 +672,6 @@ export default {
       const { visibleSlides, infinite } = this.conf
       let translation = this.slides.current / visibleSlides
 
-      // A clone is prepended to the slides track.
-      if (infinite && this.canSlide) translation += 1 / visibleSlides
-
       return translation
     },
 
@@ -680,7 +679,7 @@ export default {
      * Update the current translation of the slides track - for sliding slideshows.
      * The resulting translation will be set in percentage and negative value.
      *
-     * @param {null | float} currentDragX: whether the slide track is being dragged and if so
+     * @param {null | float} currentMouseX whether the slide track is being dragged and if so
      *                                     the value of the current drag.
      */
     updateTrackTranslation (currentMouseX = null) {
@@ -856,6 +855,11 @@ export default {
       // immediately with no animation.
       // Same principle when going beyond first slide.
       if (nextSlideIsClone !== false) { // Gives clone id (0 or 1) or false.
+        // If going towards first clone, update the translation to 100% temporarily,
+        // before it snaps to real slide seemlessly.
+        if (nextSlideIsClone === 0) this.transition.currentTranslation = 1 * 100
+        if (nextSlideIsClone === 1) this.transition.currentTranslation = - this.slidesCount * 100
+
         setTimeout(() => {
           // inside the callback, also check if it is not too late to apply next slide
           // (user may have slid fast multiple times) if so cancel callback.
@@ -879,7 +883,7 @@ export default {
       if (!breakpointChange) this.slides.focus = nextSlide
 
       // Only apply sliding transition when the slideshow animation type is `slide`.
-      if (!this.conf.fade) this.updateTrackTranslation()
+      if (!this.conf.fade && nextSlideIsClone === false) this.updateTrackTranslation()
 
       this.slides.activeId = this.slides.list[this.slides.current].id
 
