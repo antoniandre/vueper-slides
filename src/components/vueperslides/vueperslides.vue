@@ -270,10 +270,11 @@ export default {
     // The total number of gaps to subtract for current track translation.
     // i.e. all the gaps on the left of the current slide.
     gapsCount () {
-      const { fade, '3d': threeD, infinite, slideMultiple, gap } = this.conf
+      const { fade, '3d': threeD, slideMultiple, gap } = this.conf
       if (!gap || fade || threeD) return 0
 
       if (this.multipleSlides1by1 && this.slides.current < this.preferredPosition) return 0
+      // nextSlideIsClone can only be 0 or 1 with infinite option.
       if (!this.slides.current && this.nextSlideIsClone) return this.slidesCount
       if (this.nextSlideIsClone === 0) return -1
 
@@ -669,13 +670,10 @@ export default {
     },
 
     /**
-     * The translation of most cases, in other cases this can still be used as a base calc.
+     * The slides track translation of most cases, in other cases this can still be used as a base calc.
      */
     getBasicTranslation () {
-      const { visibleSlides, infinite } = this.conf
-      let translation = this.slides.current / visibleSlides
-
-      return translation
+      return this.slides.current / this.conf.visibleSlides
     },
 
     /**
