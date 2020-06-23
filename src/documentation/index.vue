@@ -1854,6 +1854,13 @@
 
   ul.max-widthed.mt-8
     li.mb-2
+      strong.mr-3 Version 2.9
+      ul
+        li.
+          Allow providing multiple different #[span.code &lt;vueper-slide&gt;] tags in slots, instead
+          of a #[span.code &lt;vueper-slide&gt;] with a #[span.code v-for] loop
+        li Remove the undesired first animation when slides are appearing.
+    li.mb-2
       strong.mr-3 Version 2.8
       | Added lazy loading feature
     li.mb-2
