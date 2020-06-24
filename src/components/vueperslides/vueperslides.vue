@@ -915,10 +915,9 @@ export default {
     },
 
     addClone (newSlide) {
-      // On adding clone, directly go to the current slide again without transition, so no
-      // move is visible (case when starting in infinite mode with no slide until later loaded).
+      // On adding clone, recalculate the current track translation.
+      // (case when starting in infinite mode with no slide until later loaded).
       this.updateTrackTranslation()
-      this.goToSlide(this.slides.current, { animation: false })
       return this.slidesCount
     },
 
