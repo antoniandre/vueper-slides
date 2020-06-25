@@ -311,12 +311,17 @@ export default {
     },
     firstSlide () {
       const slide = this.slidesCount ? this.slides.list[0] : {}
-      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+
+      if (slide.style && typeof slide.style === 'string') {
+        slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+      }
       return slide
     },
     lastSlide () {
       const slide = this.slidesCount ? this.slides.list[this.slidesCount - 1] : {}
-      if (slide.style) slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+      if (slide.style && typeof slide.style === 'string') {
+        slide.style = slide.style.replace(/width: ?\d+.*?;?/, '')
+      }
       return slide
     },
     currentSlide () {

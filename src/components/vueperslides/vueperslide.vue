@@ -190,10 +190,15 @@ export default {
 
   watch: {
     image () {
-      // If the image of the slide is changed on the fly, update the clones.
+      // If the image of the slide is changed on the fly, notify VueperSlides to update the clones.
       // If lazy loading, unset the image until this slide is requested.
       this.imageSrc = this.conf.lazy && !this.isSlideVisible ? '' : this.image
-      if (!this.clone) this.updateSlide({ image: this.imageSrc })
+      if (!this.clone) {
+        this.updateSlide({
+          image: this.imageSrc,
+          ...(!this.conf.slideImageInside && { style: this.slideStyles })
+        })
+      }
     },
     title () {
       if (!this.clone) this.updateSlide({ title: this.title })
