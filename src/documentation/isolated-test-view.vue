@@ -1,13 +1,12 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides.no-shadow(:gap="5")
+  vueper-slides.no-shadow
     vueper-slide(
       v-if="slides.length"
       v-for="(slide, i) in slides"
       :key="i"
-      :title="`Slide ${i + 1}`"
-      :content="`Content ${i + 1}.`"
+      :title="slide.title"
       :image="slide.image")
     vueper-slide(
       title="El Teide Volcano, Spain"
