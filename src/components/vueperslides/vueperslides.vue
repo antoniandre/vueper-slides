@@ -181,7 +181,7 @@ export default {
     lazyLoadOnDrag: { type: Boolean, default: false },
     pauseOnHover: { type: Boolean, default: true },
     parallax: { type: [Boolean, Number], default: false },
-    parallaxScrollingElement: { default: false },
+    parallaxScrollingElement: { type: String, default: '' },
     parallaxFixedContent: { type: Boolean, default: false },
     // This one is not modifiable through breakpoints: event handlers are added/removed.
     preventYScroll: { type: Boolean, default: false },
@@ -517,8 +517,14 @@ export default {
         // First render the onload translation.
         this.refreshParallax()
 
-        // then add event listener.
-        (this.parallaxScrollingElement || document).addEventListener('scroll', this.onScroll)
+        // Then add event listener.
+        // The scrolling DOM element may be a different element than the HTML document.
+        if (this.parallaxScrollingElement) {
+          // Store the found DOM element in variable for fast access in onScroll().
+          this.parallaxData.scrollingEl = document.querySelector(this.parallaxScrollingElement)
+          this.parallaxData.scrollingEl.addEventListener('scroll', this.onScroll)
+        }
+        else document.addEventListener('scroll', this.onScroll)
       }
     },
 
@@ -538,8 +544,11 @@ export default {
     },
 
     onScroll () {
+      const { scrollingEl } = this.parallaxData
       const doc = document.documentElement
-      const scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+      let scrollTop = 0
+      if (scrollingEl) scrollTop = scrollingEl.scrollTop
+      else scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
       const windowHeight = window.innerHeight || doc.clientHeight || document.body.clientHeight
       const slideshowHeight = this.container.clientHeight
       const slideshowTopOffset = this.getSlideshowOffsetTop()
@@ -994,7 +1003,11 @@ export default {
 
   beforeDestroy () {
     this.removeEventListeners()
-    (this.parallaxScrollingElement || document).removeEventListener('scroll', this.onScroll)
+    if (this.parallaxScrollingElement) {
+      document.querySelector(this.parallaxScrollingElement).removeEventListener('scroll', this.onScroll)
+    }
+    else document.removeEventListener('scroll', this.onScroll)
+    document.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.onResize)
   }
 }
