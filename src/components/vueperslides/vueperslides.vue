@@ -181,6 +181,7 @@ export default {
     lazyLoadOnDrag: { type: Boolean, default: false },
     pauseOnHover: { type: Boolean, default: true },
     parallax: { type: [Boolean, Number], default: false },
+    parallaxScrollingElement: { type: [Boolean, Number], default: false },
     parallaxFixedContent: { type: Boolean, default: false },
     // This one is not modifiable through breakpoints: event handlers are added/removed.
     preventYScroll: { type: Boolean, default: false },
@@ -517,7 +518,7 @@ export default {
         this.refreshParallax()
 
         // then add event listener.
-        document.addEventListener('scroll', this.onScroll)
+        (this.parallaxScrollingElement || document).addEventListener('scroll', this.onScroll)
       }
     },
 
@@ -993,7 +994,7 @@ export default {
 
   beforeDestroy () {
     this.removeEventListeners()
-    document.removeEventListener('scroll', this.onScroll)
+    (this.parallaxScrollingElement || document).removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.onResize)
   }
 }
