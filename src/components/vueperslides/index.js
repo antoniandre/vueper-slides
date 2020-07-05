@@ -1,5 +1,5 @@
-import VueperSlides from '@/components/vueperslides/vueperslides'
-import VueperSlide from '@/components/vueperslides/vueperslide'
+import VueperSlides from './vueperslides'
+import VueperSlide from './vueperslide'
 
 // Expose component to global scope.
 if (typeof window !== 'undefined' && window.Vue) {
