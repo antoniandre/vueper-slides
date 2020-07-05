@@ -181,7 +181,7 @@ export default {
     lazyLoadOnDrag: { type: Boolean, default: false },
     pauseOnHover: { type: Boolean, default: true },
     parallax: { type: [Boolean, Number], default: false },
-    parallaxScrollingElement: { type: [Boolean, Number], default: false },
+    parallaxScrollingElement: { default: false },
     parallaxFixedContent: { type: Boolean, default: false },
     // This one is not modifiable through breakpoints: event handlers are added/removed.
     preventYScroll: { type: Boolean, default: false },
