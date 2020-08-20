@@ -846,7 +846,7 @@ export default {
       if (this.conf.autoplay && autoPlaying) this.pauseAutoplay()
 
       this.transition.animated = animation
-      setTimeout(() => (this.transition.animated = true), this.transitionSpeed)
+      setTimeout(() => (this.transition.animated = false), this.transitionSpeed)
 
       // Get the next slide index and whether it's a clone.
       const { nextSlide, clone: nextSlideIsClone } = this.getSlideInRange(index, autoPlaying)
