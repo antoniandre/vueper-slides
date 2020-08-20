@@ -2174,7 +2174,7 @@ ul, ol {
 
 .code {font-family: monospace, sans-serif;}
 
-pre {
+.ssh-pre {
   padding: 0.5em;
   margin: 1.5em 0;
   border: 1px solid $lighter-text;
@@ -2192,7 +2192,7 @@ pre {
   align-items: center;
 }
 
-.max-widthed, h2, h3, h4, p, pre {
+.max-widthed, h2, h3, h4, p, .ssh-pre {
   max-width: $page-max-width;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -2219,7 +2219,7 @@ pre {
 }
 
 @media screen and (max-width: 1119px) {
-  .max-widthed, h2, h3, h4, p, pre {
+  .max-widthed, h2, h3, h4, p, .ssh-pre {
     margin-left: 10px !important;
     margin-right: 10px !important;
   }
