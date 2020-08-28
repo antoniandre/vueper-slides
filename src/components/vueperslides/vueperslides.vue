@@ -303,7 +303,7 @@ export default {
     },
     touchEnabled: {
       get () {
-        return this.slidesCount > 1 && this.touchable
+        return this.slidesCount > 1 && this.touch.enabled
       },
       set () {}
     },
@@ -978,6 +978,7 @@ export default {
       if (!track) return
 
       this.touchEnabled = isTouchable
+      this.touch.enabled = isTouchable
       const hasTouch = 'ontouchstart' in window
 
       // Touch enabled slideshow.

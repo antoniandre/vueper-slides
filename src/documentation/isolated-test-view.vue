@@ -1,7 +1,7 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides.no-shadow
+  vueper-slides.no-shadow(:breakpoints="breakpoints")
     vueper-slide(
       v-if="slides.length"
       v-for="(slide, i) in slides"
@@ -42,7 +42,27 @@ export default {
         image: require('@/assets/images/crater-lake-oregon-usa.jpg'),
         link: 'https://flic.kr/p/2cxrCmp'
       }
-    ]
+    ],
+    breakpoints: {
+      1200: {
+        slideRatio: 1 / 5,
+        touchable: true
+      },
+      1100: {
+        slideRatio: 1 / 4,
+        touchable: true
+      },
+      900: {
+        slideRatio: 1 / 3,
+        touchable: false
+      },
+      600: {
+        slideRatio: 1 / 2,
+        arrows: false,
+        bulletsOutside: true,
+        touchable: false
+      }
+    }
   }),
 
   methods: {
