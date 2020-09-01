@@ -32,9 +32,7 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           | API
         v-list-item(color="secondary" href="#vueper-slides--settings" v-scroll-to="'#vueper-slides--settings'")
           | Settings
-        v-list-item(color="secondary" href="#events" v-scroll-to="'#events'")
-          | Emitted Events
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
+        v-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
         v-divider
         v-list-item.heading
             v-icon(small).mr-2 code
@@ -61,34 +59,26 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
         v-list-item(color="secondary" href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever
         v-list-item(color="secondary" href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay
         v-list-item(color="secondary" href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets
-        v-list-item(color="secondary" href="#ex--fractions-and-progress" v-scroll-to="'#ex--fractions-and-progress'")
-          | Fractions &amp; Progress
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
+        v-list-item(color="secondary" href="#ex--fractions-and-progress" v-scroll-to="'#ex--fractions-and-progress'") Fractions &amp; Progress
         v-list-item(color="secondary" href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading
-        v-list-item(color="secondary" href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'")
-          | Lazy Loading
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
+        v-list-item(color="secondary" href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'") Lazy Loading
         v-list-item(color="secondary" href="#ex--link-on-the-whole-slide" v-scroll-to="'#ex--link-on-the-whole-slide'") Link on the Whole Slide
         v-list-item(color="secondary" href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
         v-list-item(color="secondary" href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content Inside/Outside
         v-list-item(color="secondary" href="#ex--add-remove-slides--disable" v-scroll-to="'#ex--add-remove-slides--disable'") Add / Remove Slides &amp; Disable
         v-list-item(color="secondary" href="#ex--center-mode" v-scroll-to="'#ex--center-mode'") Center Mode
-        v-list-item(color="secondary" href="#ex--events" v-scroll-to="'#ex--events'")
-          | Emitted Events
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
+        v-list-item(color="secondary" href="#ex--events" v-scroll-to="'#ex--events'") Emitted Events
         v-list-item(color="secondary" href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Breakpoints
         v-list-item(color="secondary" href="#ex--dragging-distance" v-scroll-to="'#ex--dragging-distance'") Dragging Distance
-        v-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'")
-          | Parallax
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
+        v-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax
         v-list-item(color="secondary" href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height
         v-list-item(color="secondary" href="#ex--slide-image-inside" v-scroll-to="'#ex--slide-image-inside'") Slide Image Inside
-        v-list-item(color="secondary" href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'")
-          | Show Multiple Slides &amp; Gap
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
+        v-list-item(color="secondary" href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap
         v-list-item(color="secondary" href="#ex--3d-rotation" v-scroll-to="'#ex--3d-rotation'") 3D Rotation
         v-list-item(color="secondary" href="#ex--external-controls" v-scroll-to="'#ex--external-controls'") External Controls
-        v-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances
+        v-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances (gallery)
+        //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
+        //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
 </template>
 
 <script>
