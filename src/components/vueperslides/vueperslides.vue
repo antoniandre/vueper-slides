@@ -270,7 +270,7 @@ export default {
       if (conf.visibleSlides > 1 && conf.arrowsOutside === null) conf.arrowsOutside = true
       if (conf.visibleSlides > 1 && conf.bulletsOutside === null) conf.bulletsOutside = true
 
-      if (this.touchEnabled !== conf.touchable) this.toggleTouchableOption(conf.touchable)
+      if (this.touch.enabled !== conf.touchable) this.toggleTouchableOption(conf.touchable)
 
       if (conf.parallax && conf.parallaxFixedContent) {
         conf.slideContentOutside = 'top'
@@ -321,7 +321,9 @@ export default {
       get () {
         return this.slidesCount > 1 && this.touch.enabled
       },
-      set () {}
+      set (value) {
+        this.touch.enabled = value
+      }
     },
     canSlide () {
       return (this.slidesCount / this.conf.visibleSlides) > 1
@@ -1003,7 +1005,6 @@ export default {
       if (!track) return
 
       this.touchEnabled = isTouchable
-      this.touch.enabled = isTouchable
       const hasTouch = 'ontouchstart' in window
 
       // Touch enabled slideshow.
