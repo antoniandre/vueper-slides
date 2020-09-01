@@ -155,6 +155,20 @@ export default {
     VueperSlide,
     vnodes: { functional: true, render: (h, ctx) => ctx.props.vnodes }
   },
+  provide: function () {
+    return {
+      // By design in Vue, provided variables are not reactive unless they are in an object.
+      // Objects.
+      conf: this.conf,
+      slides: this.slides,
+      touch: this.touch,
+      // Methods.
+      updateSlide: this.updateSlide,
+      addClone: this.addClone,
+      addSlide: this.addSlide,
+      removeSlide: this.removeSlide
+    }
+  },
   props: {
     alwaysRefreshClones: { type: Boolean, default: false },
     arrows: { type: Boolean, default: true },
@@ -205,7 +219,8 @@ export default {
       activeId: null,
       current: 0, // Index of current slide.
       // Don't loose the focused slide when changing breakpoint & slideMultiple > 1.
-      focus: 0
+      focus: 0,
+      firstVisible: 0 // The first visible slide on the left. Useful when visibleSlides > 1.
     },
     mouseDown: false,
     mouseOver: false,
@@ -302,9 +317,6 @@ export default {
     multipleSlides1by1 () {
       return this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1
     },
-    firstVisibleSlide () {
-      return this.getFirstVisibleSlide(this.slides.current)
-    },
     touchEnabled: {
       get () {
         return this.slidesCount > 1 && this.touch.enabled
@@ -349,7 +361,7 @@ export default {
         'vueperslides--slide-multiple': this.conf.slideMultiple > 1,
         'vueperslides--bullets-outside': this.conf.bulletsOutside,
         'vueperslides--animated': this.transition.animated, // While transitioning.
-        'vueperslides--no-animation': !this.isReady || !this.transition.animated
+        'vueperslides--no-animation': !this.isReady
       }
     },
     vueperslidesStyles () {
@@ -808,14 +820,15 @@ export default {
      */
     getFirstVisibleSlide (index) {
       const { slideMultiple, visibleSlides } = this.conf
-      let firstVisible = 0
+      let firstVisible = this.slides.current
 
-      if (slideMultiple === visibleSlides) {
+      if (visibleSlides > 1 && slideMultiple === visibleSlides) {
         firstVisible = Math.floor(index / visibleSlides) * visibleSlides
       }
       else if (this.multipleSlides1by1) {
         firstVisible = index - Math.min(index, this.preferredPosition) - Math.max(this.slidePosAfterPreferred, 0)
       }
+
       return firstVisible
     },
 
@@ -899,6 +912,7 @@ export default {
       }
 
       this.slides.current = nextSlide
+      this.slides.firstVisible = this.getFirstVisibleSlide(nextSlide)
 
       // Don't change the focus slide if calling goToSlide from breakpoint change.
       // The focused slide is to keep track which slide to snap to when switching

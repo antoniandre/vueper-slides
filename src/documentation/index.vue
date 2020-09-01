@@ -453,10 +453,6 @@
       :image="slide.image"
       :title="slide.title"
       :content="slide.content")
-      template(v-slot:content)
-        .vueperslide__content-wrapper
-          .vueperslide__title {{ slide.title }}
-          .vueperslide__content {{ slide.content }}
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides fade :touchable="false"&gt;
       &lt;vueper-slide
@@ -1079,7 +1075,7 @@
 
   h4 #[span.lightertext--text.headline #2. ] 3 visible slides, sliding 1 by 1, dragging distance of 70px
   p.
-    When the option [span.code slideMultiple] is set to false, and by default,
+    When the option #[span.code slideMultiple] is set to false, and by default,
     changing slide only move by 1 slide at a time.
   vueper-slides.no-shadow.ex--show-multiple-slides-and-gap.ex1(
     :visible-slides="3"

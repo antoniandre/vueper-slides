@@ -5,7 +5,7 @@
   :class="slideClasses"
   :face="slideFace3d"
   :style="slideStyles"
-  :aria-hidden="$parent.slides.activeId === _uid || isSlideVisible ? 'false' : 'true'"
+  :aria-hidden="slides.activeId === _uid || isSlideVisible ? 'false' : 'true'"
   @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouse-leave')")
   .vueperslide__image(v-if="imageSrc && conf.slideImageInside" :style="imageStyles")
@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  inject: ['conf', 'slides', 'touch', 'updateSlide', 'addClone', 'addSlide', 'removeSlide'],
   props: {
     clone: { type: Boolean, default: false },
     image: { type: String, default: '' },
@@ -42,12 +43,9 @@ export default {
   }),
 
   computed: {
-    conf () {
-      return this.$parent.conf
-    },
     slideClasses () {
       return {
-        'vueperslide--active': this.$parent.slides.activeId === this._uid,
+        'vueperslide--active': this.slides.activeId === this._uid,
         'vueperslide--previous-slide': this.isPreviousSlide,
         'vueperslide--next-slide': this.isNextSlide,
         'vueperslide--visible': this.isSlideVisible,
@@ -70,33 +68,32 @@ export default {
     slideFace3d () {
       if (!this.conf['3d']) return false
       const faces = ['front', 'right', 'back', 'left']
-      const prevSlideIndex = (this.$parent.slides.current - 1 + this.slidesCount) % this.slidesCount
-      const nextSlideIndex = (this.$parent.slides.current + 1) % this.slidesCount
+      const prevSlideIndex = (this.slides.current - 1 + this.slidesCount) % this.slidesCount
+      const nextSlideIndex = (this.slides.current + 1) % this.slidesCount
 
-      if (this.slideIndex === prevSlideIndex) return faces[(4 + this.$parent.slides.current - 1) % 4]
-      else if (this.slideIndex === nextSlideIndex) return faces[(this.$parent.slides.current + 1) % 4]
+      if (this.slideIndex === prevSlideIndex) return faces[(4 + this.slides.current - 1) % 4]
+      else if (this.slideIndex === nextSlideIndex) return faces[(this.slides.current + 1) % 4]
 
       return faces[this.slideIndex % 4]
     },
     isPreviousSlide () {
       if (!this.conf['3d']) return false
-      const prevSlideIndex = (this.$parent.slides.current - 1 + this.slidesCount) % this.slidesCount
-      return this._uid === this.$parent.slides.list[prevSlideIndex].id
+      const prevSlideIndex = (this.slides.current - 1 + this.slidesCount) % this.slidesCount
+      return this._uid === this.slides.list[prevSlideIndex].id
     },
     isNextSlide () {
       if (!this.conf['3d']) return false
-      const nextSlideIndex = (this.$parent.slides.current + 1) % this.slidesCount
-      return this._uid === this.$parent.slides.list[nextSlideIndex].id
+      const nextSlideIndex = (this.slides.current + 1) % this.slidesCount
+      return this._uid === this.slides.list[nextSlideIndex].id
     },
     isSlideVisible () {
-      const { firstVisibleSlide, slides } = this.$parent
-      const activeSlideUid = slides.activeId
-      const activeSlideIndex = this.slidesList.indexOf(activeSlideUid)
-
-      return this.slideIndex >= firstVisibleSlide && this.slideIndex < firstVisibleSlide + this.conf.visibleSlides
+      return (
+        this.slideIndex >= this.slides.firstVisible &&
+        this.slideIndex < this.slides.firstVisible + this.conf.visibleSlides
+      )
     },
     slidesList () {
-      return this.$parent.slides.list.map(slide => slide.id)
+      return this.slides.list.map(slide => slide.id)
     },
     slidesCount () {
       return this.slidesList.length
@@ -105,7 +102,7 @@ export default {
       return this.slidesList.indexOf(this._uid)
     },
     justDragged () {
-      return this.$parent.touch.justDragged
+      return this.touch.justDragged
     },
     shouldSkipUpdate () {
       return (
@@ -116,8 +113,9 @@ export default {
   },
 
   methods: {
-    updateSlide (props) {
-      this.$parent.updateSlide(this._uid, props)
+    updateThisSlide (props) {
+      // Injected method.
+      this.updateSlide(this._uid, props)
     },
 
     // Only for lazy loading, this method is called from the Vueperslides component.
@@ -146,9 +144,9 @@ export default {
   created () {
     this.imageSrc = this.conf.lazy ? '' : this.image
 
-    if (this.clone) return this.$parent.addClone()
+    if (this.clone) return this.addClone()
 
-    this.$parent.addSlide({
+    this.addSlide({
       id: this._uid,
       image: this.imageSrc,
       title: this.title,
@@ -167,7 +165,7 @@ export default {
   mounted () {
     if (this.clone) return
 
-    this.updateSlide({
+    this.updateThisSlide({
       contentSlot: this.$slots.content,
       loaderSlot: this.$slots.loader, // For lazy loading.
       style: ((this.$el.attributes || {}).style || {}).value
@@ -177,7 +175,7 @@ export default {
   beforeUpdate () {
     if (this.shouldSkipUpdate || !Object.values(this.$slots).length) return
 
-    this.updateSlide({
+    this.updateThisSlide({
       contentSlot: this.$slots.content,
       loaderSlot: this.$slots.loader, // For lazy loading.
       style: ((this.$el.attributes || {}).style || {}).value
@@ -186,7 +184,7 @@ export default {
 
   destroyed () {
     // When removing a slide programmatically, remove it from the list of slides.
-    if (!this.clone) this.$parent.removeSlide(this._uid)
+    if (!this.clone) this.removeSlide(this._uid)
   },
 
   watch: {
@@ -195,20 +193,20 @@ export default {
       // If lazy loading, unset the image until this slide is requested.
       this.imageSrc = this.conf.lazy && !this.isSlideVisible ? '' : this.image
       if (!this.clone) {
-        this.updateSlide({
+        this.updateThisSlide({
           image: this.imageSrc,
           ...(!this.conf.slideImageInside && { style: this.slideStyles })
         })
       }
     },
     title () {
-      if (!this.clone) this.updateSlide({ title: this.title })
+      if (!this.clone) this.updateThisSlide({ title: this.title })
     },
     content () {
-      if (!this.clone) this.updateSlide({ content: this.content })
+      if (!this.clone) this.updateThisSlide({ content: this.content })
     },
     link () {
-      if (!this.clone) this.updateSlide({ link: this.link })
+      if (!this.clone) this.updateThisSlide({ link: this.link })
     },
     lazyloaded () {
       if (this.clone) this.loaded = this.lazyloaded
