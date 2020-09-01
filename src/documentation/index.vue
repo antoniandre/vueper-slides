@@ -1629,7 +1629,7 @@
         See this setting live in the #[a(href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever] example.
 
       highlight.
-        The default threshold to change slides is the half of the slideshow track.#[br]
+        The default threshold to change slides is the half of the slideshow width.#[br]
         Start dragging from either end of the slide and as soon as you pass the half of
         the slideshow you can release the dragging to finish the slide change.
 
