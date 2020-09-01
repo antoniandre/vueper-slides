@@ -7,11 +7,14 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build-bundle": "vue-cli-service build --target lib --name vueperslides ./src/components/vueperslides/index.js --dest ./dist"
+    "build-bundle": "vue-cli-service build --target lib --name vueperslides ./src/components/vueperslides/index.js --dest ./dist && rm ./dist/demo.html"
   },
   "main": "dist/vueperslides.common.js",
   "unpkg": "dist/vueperslides.umd.min.js",
   "jsdelivr": "dist/vueperslides.umd.min.js",
+  "files": [
+    "dist/"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
