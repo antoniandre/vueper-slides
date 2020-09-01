@@ -294,3 +294,22 @@
   50% {background-position: 100% 50%}
   100% {background-position: 0% 50%}
 }
+
+.thumbnails {
+  margin: auto;
+  max-width: 300px;
+
+  .vueperslide {
+    box-sizing: border-box;
+    border: 1px solid #fff;
+    transition: 0.3s ease-in-out;
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  .vueperslide--active {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    border-color: #000;
+  }
+}

@@ -1275,9 +1275,9 @@
       :visible-slides="3"
       fixed-height="100px"&gt;
       &lt;vueper-slide
-      v-for="i in 8"
-      :key="i"
-      @click.native="$refs.vueperslides2 &amp;&amp; $refs.vueperslides2.goToSlide(i - 1)"&gt;
+        v-for="i in 8"
+        :key="i"
+        @click.native="$refs.vueperslides2 &amp;&amp; $refs.vueperslides2.goToSlide(i - 1)"&gt;
         &lt;template v-slot:content&gt;
           &lt;div class="vueperslide__content-wrapper" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
             &lt;div class="vueperslide__title"&gt;{{ '\{\{ i.toString() \}\}' }}&lt;/div&gt;
@@ -1285,6 +1285,95 @@
         &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
+
+  h4 Another real-life gallery example
+  p
+    a(href="https://codepen.io/antoniandre/pen/ZEGEydP" target="_blank")
+      | Edit this example in Codepen
+      v-icon.ml-1(small color="primary") open_in_new
+  vueper-slides(
+    ref="vueperslides3"
+    :touchable="false"
+    fade
+    :autoplay="false"
+    :bullets="false"
+    @slide="$refs.vueperslides4.goToSlide($event.currentSlide.index, { emit: false })"
+    fixed-height="400px")
+      vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
+  vueper-slides.no-shadow.mt-3.thumbnails(
+    ref="vueperslides4"
+    @slide="$refs.vueperslides3.goToSlide($event.currentSlide.index, { emit: false })"
+    :visible-slides="slides2.length"
+    fixed-height="75px"
+    :bullets="false"
+    :touchable="false"
+    :gap="2.5"
+    :arrows="false")
+    vueper-slide(
+      v-for="(slide, i) in slides2"
+      :key="i"
+      :image="slide.image"
+      @click.native="$refs.vueperslides4.goToSlide(i)")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides
+      ref="vueperslides1"
+      :touchable="false"
+      fade
+      :autoplay="false"
+      :bullets="false"
+      @slide="$refs.vueperslides2.goToSlide($event.currentSlide.index, { emit: false })"
+      fixed-height="400px"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="i"
+        :image="slide.image"&gt;
+      &lt;/vueper-slides&gt;
+    &lt;/vueper-slides&gt;
+
+    &lt;vueper-slides
+      class="no-shadow thumbnails"
+      ref="vueperslides2"
+      @slide="$refs.vueperslides1.goToSlide($event.currentSlide.index, { emit: false })"
+      :visible-slides="slides.length"
+      fixed-height="75px"
+      :bullets="false"
+      :touchable="false"
+      :gap="2.5"
+      :arrows="false"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="i"
+        :image="slide.image"
+        @click.native="$refs.vueperslides2.goToSlide(i)"&gt;
+      &lt;/vueper-slide&gt;
+    &lt;/vueper-slides&gt;
+  ssh-pre(language="js" label="Javascript").
+    data: () => ({
+      slides: [
+        { image: require('@/assets/images/el-teide-volcano-spain.jpg') },
+        { image: require('@/assets/images/chernobyl-ukraine.jpg') },
+        { image: require('@/assets/images/crater-lake-oregon-usa.jpg') }
+      ]
+    })
+  ssh-pre(language="css" label="CSS").
+    .thumbnails {
+      margin: auto;
+      max-width: 300px;
+    }
+
+    .thumbnails .vueperslide {
+      box-sizing: border-box;
+      border: 1px solid #fff;
+      transition: 0.3s ease-in-out;
+      opacity: 0.7;
+      cursor: pointer;
+    }
+
+    .thumbnails .vueperslide--active {
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+      opacity: 1;
+      border-color: #000;
+    }
 
   h2
     a(href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'") #[span.code &lt;vueper-slides&gt;] API
