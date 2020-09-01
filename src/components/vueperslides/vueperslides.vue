@@ -286,6 +286,7 @@ export default {
 
       return gapsCount
     },
+    // The number of slides remaining on the right of the current slide.
     slidesAfterCurrent () {
       return this.slidesCount - (this.slides.current + 1)
     },
@@ -300,6 +301,9 @@ export default {
     },
     multipleSlides1by1 () {
       return this.conf.visibleSlides > 1 && this.conf.slideMultiple === 1
+    },
+    firstVisibleSlide () {
+      return this.getFirstVisibleSlide(this.slides.current)
     },
     touchEnabled: {
       get () {
@@ -747,22 +751,19 @@ export default {
 
       // Special behavior if multiple visible slides and sliding 1 by 1:
       // The translation is modified as user slides just to look nicer.
-      if (visibleSlides > 1 && slideMultiple === 1) {
-        // If not infinite sliding.
-        if (!infinite) {
-          // The preferred position is the most center slide amongst the visible ones,
-          // if `visibleSlides` is an odd number the preferred position can never be at the center,
-          // so take the closest on the left side.
-          const preferredPositionIsPassed = this.slidePosAfterPreferred > 0
+      if (this.multipleSlides1by1 && !infinite) {
+        // The preferred position is the most center slide amongst the visible ones,
+        // if `visibleSlides` is an odd number the preferred position can never be at the center,
+        // so take the closest on the left side.
+        const preferredPositionIsPassed = this.slidePosAfterPreferred > 0
 
-          // Subtract the first slides without translation, until we reach the preferred position.
-          let subtractFromTranslation = Math.min(this.preferredPosition, this.slides.current)
+        // Subtract the first slides without translation, until we reach the preferred position.
+        let subtractFromTranslation = Math.min(this.preferredPosition, this.slides.current)
 
-          // From next position after the preferred position.
-          if (preferredPositionIsPassed) subtractFromTranslation += this.slidePosAfterPreferred
+        // From next position after the preferred position.
+        if (preferredPositionIsPassed) subtractFromTranslation += this.slidePosAfterPreferred
 
-          translation -= subtractFromTranslation / visibleSlides
-        }
+        translation -= subtractFromTranslation / visibleSlides
       }
 
       this.transition.currentTranslation = -translation * 100
@@ -799,13 +800,23 @@ export default {
     },
 
     /**
-     * When visibleSlides > 1 and slideMultiple > 1, get the first visible slide from given index.
+     * When visibleSlides > 1, get the first visible slide from given index.
+     * The first visible slide may be before the given index (on the left).
      *
      * @param {number} index the slide index where to get the next visible one from.
      * @return {number} the first visible slide index.
      */
     getFirstVisibleSlide (index) {
-      return Math.floor(index / this.conf.slideMultiple) * this.conf.slideMultiple
+      const { slideMultiple, visibleSlides } = this.conf
+      let firstVisible = 0
+
+      if (slideMultiple === visibleSlides) {
+        firstVisible = Math.floor(index / visibleSlides) * visibleSlides
+      }
+      else if (this.multipleSlides1by1) {
+        firstVisible = index - Math.min(index, this.preferredPosition) - Math.max(this.slidePosAfterPreferred, 0)
+      }
+      return firstVisible
     },
 
     getSlideInRange (index, autoPlaying) {

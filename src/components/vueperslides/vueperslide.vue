@@ -89,10 +89,11 @@ export default {
       return this._uid === this.$parent.slides.list[nextSlideIndex].id
     },
     isSlideVisible () {
-      const activeSlideUid = this.$parent.slides.activeId
+      const { firstVisibleSlide, slides } = this.$parent
+      const activeSlideUid = slides.activeId
       const activeSlideIndex = this.slidesList.indexOf(activeSlideUid)
 
-      return this.slideIndex >= activeSlideIndex && this.slideIndex < activeSlideIndex + this.conf.visibleSlides
+      return this.slideIndex >= firstVisibleSlide && this.slideIndex < firstVisibleSlide + this.conf.visibleSlides
     },
     slidesList () {
       return this.$parent.slides.list.map(slide => slide.id)
