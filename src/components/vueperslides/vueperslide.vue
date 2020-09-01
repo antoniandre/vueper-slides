@@ -9,7 +9,7 @@
   @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouse-leave')")
   .vueperslide__image(v-if="imageSrc && conf.slideImageInside" :style="imageStyles")
-  div(v-if="conf.slideContentOutside" v-show="!conf.slideContentOutside")
+  div(v-if="conf.slideContentOutside" v-show="false")
     slot(name="content")
       .vueperslide__content-wrapper
         .vueperslide__title(v-if="title" v-html="title")
@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  inject: ['conf', 'slides', 'touch', 'updateSlide', 'addClone', 'addSlide', 'removeSlide'],
+  inject: ['slides', 'touch', 'updateSlide', 'addClone', 'addSlide', 'removeSlide'],
   props: {
     clone: { type: Boolean, default: false },
     image: { type: String, default: '' },
@@ -43,6 +43,9 @@ export default {
   }),
 
   computed: {
+    conf () {
+      return this.$parent.conf
+    },
     slideClasses () {
       return {
         'vueperslide--active': this.slides.activeId === this._uid,
