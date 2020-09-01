@@ -11,6 +11,7 @@
   },
   "main": "dist/vueperslides.common.js",
   "unpkg": "dist/vueperslides.umd.min.js",
+  "jsdelivr": "dist/vueperslides.umd.min.js",
   "files": [
     "dist/",
     "src/"
