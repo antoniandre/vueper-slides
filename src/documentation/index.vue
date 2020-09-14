@@ -1959,6 +1959,11 @@
 
   ul.max-widthed.mt-8
     li.mb-2
+      strong.mr-3 Version 2.10.8
+      ul
+        li Prevent autoscroll on slide bullets focus.
+        li Renamed the #[span.code parallaxScrollingElement] option to #[span.code pageScrollingElement].
+    li.mb-2
       strong.mr-3 Version 2.9
       ul
         li.
