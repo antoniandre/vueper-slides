@@ -1409,6 +1409,7 @@
     initSlide:                [Number],          default: 1
     lazy:                     [Boolean],         default: false
     lazyLoadOnDrag:           [Boolean],         default: false
+    pageScrollingElement:     [String],          default: ""
     parallax:                 [Boolean, Number], default: false
     parallaxFixedContent:     [Boolean],         default: false
     pauseOnHover:             [Boolean],         default: true
@@ -1578,6 +1579,12 @@
       p.
         Lazy loads the next slide images while user is dragging towards that slide.#[br]
         The load of the next slide image will be triggered in the before-slide hook.
+
+    li
+      | #[code pageScrollingElement], #[strong.mr-1 Type:] #[span.code="[String]"], #[strong.mr-1 Default:] #[span.code '']
+      p.
+        When using parallax, the slides position is calculated from the scroll offset of the document.
+        Use this option to specify another DOM element selector if it's not the HTML document itself that is scrollable.
 
     li
       | #[code parallax], #[strong.mr-1 Type:] #[span.code="[Boolean, Number]"], #[strong.mr-1 Default:] #[span.code false]

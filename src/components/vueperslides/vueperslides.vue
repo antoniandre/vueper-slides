@@ -195,7 +195,7 @@ export default {
     lazyLoadOnDrag: { type: Boolean, default: false },
     pauseOnHover: { type: Boolean, default: true },
     parallax: { type: [Boolean, Number], default: false },
-    parallaxScrollingElement: { type: String, default: '' },
+    pageScrollingElement: { type: String, default: '' },
     parallaxFixedContent: { type: Boolean, default: false },
     // This one is not modifiable through breakpoints: event handlers are added/removed.
     preventYScroll: { type: Boolean, default: false },
@@ -537,9 +537,9 @@ export default {
 
         // Then add event listener.
         // The scrolling DOM element may be a different element than the HTML document.
-        if (this.parallaxScrollingElement) {
+        if (this.pageScrollingElement) {
           // Store the found DOM element in variable for fast access in onScroll().
-          this.parallaxData.scrollingEl = document.querySelector(this.parallaxScrollingElement)
+          this.parallaxData.scrollingEl = document.querySelector(this.pageScrollingElement)
           this.parallaxData.scrollingEl.addEventListener('scroll', this.onScroll)
         }
         else document.addEventListener('scroll', this.onScroll)
@@ -1030,8 +1030,8 @@ export default {
 
   beforeDestroy () {
     this.removeEventListeners()
-    if (this.parallaxScrollingElement) {
-      document.querySelector(this.parallaxScrollingElement).removeEventListener('scroll', this.onScroll)
+    if (this.pageScrollingElement) {
+      document.querySelector(this.pageScrollingElement).removeEventListener('scroll', this.onScroll)
     }
     else document.removeEventListener('scroll', this.onScroll)
     document.removeEventListener('scroll', this.onScroll)
