@@ -942,7 +942,14 @@ export default {
         if (this.isReady && this.conf.bullets && !autoPlaying && !jumping && this.$refs.bullets) {
           const bulletButtons = this.$refs.bullets.children
           const activeBulletButton = bulletButtons && bulletButtons[this.slides.current / this.conf.slideMultiple]
-          if (activeBulletButton && activeBulletButton.nodeName.toLowerCase() === 'button') activeBulletButton.focus()
+          if (activeBulletButton && activeBulletButton.nodeName.toLowerCase() === 'button') {
+            // Prevent auto-scrolling to a slideshow that is not in viewport on bullet focus.
+            let scrollingDomEl = document.documentElement
+            if (this.pageScrollingElement) scrollingDomEl = document.querySelector(this.pageScrollingElement)
+            const scrollTop = scrollingDomEl.scrollTop
+            activeBulletButton.focus({ preventScroll: true }) // Safari can't `preventScroll`, hence the scrollTop.
+            scrollingDomEl.scrollTop = scrollTop
+          }
         }
       }
     },
