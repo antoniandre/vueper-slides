@@ -1035,7 +1035,7 @@ export default {
     this.init()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.removeEventListeners()
     if (this.pageScrollingElement) {
       document.querySelector(this.pageScrollingElement).removeEventListener('scroll', this.onScroll)
