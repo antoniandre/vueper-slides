@@ -155,6 +155,7 @@ export default {
     VueperSlide,
     vnodes: { functional: true, render: (h, ctx) => ctx.props.vnodes }
   },
+
   provide: function () {
     return {
       // By design in Vue, provided variables are not reactive unless they are in an object.
@@ -169,6 +170,7 @@ export default {
       removeSlide: this.removeSlide
     }
   },
+
   props: {
     alwaysRefreshClones: { type: Boolean, default: false },
     arrows: { type: Boolean, default: true },
@@ -210,6 +212,11 @@ export default {
     visibleSlides: { type: Number, default: 1 },
     '3d': { type: Boolean, default: false }
   },
+
+  emits: [
+    'ready', 'next', 'previous', 'autoplay-pause', 'autoplay-resume',
+    'before-slide', 'slide', 'image-loaded', 'image-failed'
+  ],
 
   data: () => ({
     isReady: false,
