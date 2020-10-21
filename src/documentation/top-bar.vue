@@ -82,7 +82,7 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 // import VueScrollTo from 'vue-scrollto'
 // Vue.use(VueScrollTo)
 

@@ -5,7 +5,7 @@
   :class="slideClasses"
   :face="slideFace3d"
   :style="slideStyles"
-  :aria-hidden="slides.activeId === _uid || isSlideVisible ? 'false' : 'true'"
+  :aria-hidden="slides.activeId === _.uid || isSlideVisible ? 'false' : 'true'"
   @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouse-leave')")
   .vueperslide__image(v-if="imageSrc && conf.slideImageInside" :style="imageStyles")
@@ -49,7 +49,7 @@ export default {
     },
     slideClasses () {
       return {
-        'vueperslide--active': this.slides.activeId === this._uid,
+        'vueperslide--active': this.slides.activeId === this._.uid,
         'vueperslide--previous-slide': this.isPreviousSlide,
         'vueperslide--next-slide': this.isNextSlide,
         'vueperslide--visible': this.isSlideVisible,
@@ -83,12 +83,12 @@ export default {
     isPreviousSlide () {
       if (!this.conf['3d']) return false
       const prevSlideIndex = (this.slides.current - 1 + this.slidesCount) % this.slidesCount
-      return this._uid === this.slides.list[prevSlideIndex].id
+      return this._.uid === this.slides.list[prevSlideIndex].id
     },
     isNextSlide () {
       if (!this.conf['3d']) return false
       const nextSlideIndex = (this.slides.current + 1) % this.slidesCount
-      return this._uid === this.slides.list[nextSlideIndex].id
+      return this._.uid === this.slides.list[nextSlideIndex].id
     },
     isSlideVisible () {
       return (
@@ -103,7 +103,7 @@ export default {
       return this.slidesList.length
     },
     slideIndex () {
-      return this.slidesList.indexOf(this._uid)
+      return this.slidesList.indexOf(this._.uid)
     },
     justDragged () {
       return this.touch.justDragged
@@ -119,7 +119,7 @@ export default {
   methods: {
     updateThisSlide (props) {
       // Injected method.
-      this.updateSlide(this._uid, props)
+      this.updateSlide(this._.uid, props)
     },
 
     // Only for lazy loading, this method is called from the Vueperslides component.
@@ -151,7 +151,7 @@ export default {
     if (this.clone) return this.addClone()
 
     this.addSlide({
-      id: this._uid,
+      id: this._.uid,
       image: this.imageSrc,
       title: this.title,
       content: this.content,
@@ -186,9 +186,9 @@ export default {
     })
   },
 
-  destroyed () {
+  beforeUnmount () {
     // When removing a slide programmatically, remove it from the list of slides.
-    if (!this.clone) this.removeSlide(this._uid)
+    if (!this.clone) this.removeSlide(this._.uid)
   },
 
   watch: {
