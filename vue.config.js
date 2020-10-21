@@ -10,14 +10,14 @@ module.exports = {
   },
   chainWebpack: config => {
     // Preserve whitespaces for ssh-pre component.
-    config.module
-      .rule('vue')
-      .use('vue-loader')
-      .loader('vue-loader')
-      .tap(options => {
-        options.compilerOptions.whitespace = 'preserve'
-        return options
-      })
+    // config.module
+    //   .rule('vue')
+    //   .use('vue-loader')
+    //   .loader('vue-loader')
+    //   .tap(options => {
+    //     options.compilerOptions.whitespace = 'preserve'
+    //     return options
+    //   })
   },
-  transpileDependencies: ['vuetify']
+  // transpileDependencies: ['vuetify']
 }
