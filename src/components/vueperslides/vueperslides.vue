@@ -7,7 +7,7 @@
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-top(
     v-if="slidesCount && conf.slideContentOutside === 'top'"
     :class="conf.slideContentOutsideClass")
-    vnodes(v-if="currentSlide.contentSlot" :vnodes="currentSlide.contentSlot")
+    vnodes(v-if="currentSlide.contentSlot" :vnodes="currentSlide.contentSlot()")
     template(v-else)
       .vueperslide__title(v-if="currentSlide.title" v-html="currentSlide.title")
       .vueperslide__content(v-if="currentSlide.content" v-html="currentSlide.content")
@@ -33,10 +33,10 @@
             :style="lastSlide.style"
             :lazyloaded="lastSlide.loaded"
             aria-hidden="true")
-            template(v-if="lastSlide.contentSlot" slot="content")
-              vnodes(:vnodes="lastSlide.contentSlot")
-            template(v-if="conf.lazy && !lastSlide.loaded" slot="loader")
-              vnodes(:vnodes="lastSlide.loaderSlot")
+            template(#content v-if="lastSlide.contentSlot")
+              vnodes(:vnodes="lastSlide.contentSlot()")
+            template(#loader v-if="conf.lazy && !lastSlide.loaded")
+              vnodes(:vnodes="lastSlide.loaderSlot()")
 
           vueper-slide.vueperslide--clone.vueperslide--clone-2(
             v-if="isReady && conf.infinite && canSlide && firstSlide"
@@ -48,10 +48,10 @@
             :style="firstSlide.style"
             :lazyloaded="firstSlide.loaded"
             aria-hidden="true")
-            template(v-if="firstSlide.contentSlot" slot="content")
-              vnodes(:vnodes="firstSlide.contentSlot")
-            template(v-if="conf.lazy && !firstSlide.loaded" slot="loader")
-              vnodes(:vnodes="firstSlide.loaderSlot")
+            template(#content v-if="firstSlide.contentSlot")
+              vnodes(:vnodes="firstSlide.contentSlot()")
+            template(#loader v-if="conf.lazy && !firstSlide.loaded")
+              vnodes(:vnodes="firstSlide.loaderSlot()")
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
       slot(name="pause")
@@ -139,13 +139,14 @@
   .vueperslide__content-wrapper.vueperslide__content-wrapper--outside-bottom(
     v-if="slidesCount && conf.slideContentOutside === 'bottom'"
     :class="conf.slideContentOutsideClass")
-    vnodes(v-if="currentSlide.contentSlot" :vnodes="currentSlide.contentSlot")
+    vnodes(v-if="currentSlide.contentSlot" :vnodes="currentSlide.contentSlot()")
     template(v-else)
       .vueperslide__title(v-if="currentSlide.title" v-html="currentSlide.title")
       .vueperslide__content(v-if="currentSlide.content" v-html="currentSlide.content")
 </template>
 
 <script>
+import { h } from 'vue'
 import VueperSlide from './vueperslide'
 import './styles.scss'
 
@@ -153,7 +154,11 @@ export default {
   name: 'vueper-slides',
   components: {
     VueperSlide,
-    vnodes: { functional: true, render: (h, ctx) => ctx.props.vnodes }
+    vnodes: {
+      render () {
+        return this.$attrs.vnodes
+      }
+    }
   },
 
   provide: function () {
@@ -939,6 +944,7 @@ export default {
 
       if (this.slidesCount) {
         // First use of goToSlide is while init, so should not propagate an event.
+        // eslint-disable-next-line vue/require-slots-as-functions
         if (this.$slots.default[this.slides.current] && this.isReady && !jumping && emit) {
           this.emit('slide')
         }
