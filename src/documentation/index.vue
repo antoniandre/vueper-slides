@@ -45,7 +45,9 @@
     v-icon.pr-2(color="secondary") check
     | Uses #[strong CSS animations] &amp; comes with a minimum of styles (using the #[i BEM] convention).#[br]
     v-icon.pr-2(color="secondary") check
-    | #[strong Emitted events] for callbacks, etc...
+    | #[strong Emitted events] for callbacks, etc...#[br]
+    v-icon.pr-2(color="secondary") check
+    .subtitle-1 SUPPORTS VUE 3
 
   .max-widthed.mt-8.mb-3.title Github project
   v-layout.max-widthed.mb-5(align-center shrink)
@@ -54,30 +56,39 @@
 
   v-layout.max-widthed.my-8(align-center)
     v-icon.mr-4(size="50" color="pink lighten-3") favorite
-    v-alert.ma-0.px-6(dense border="left" text color="pink" style="width: 100%;max-width: 480px")
+    v-alert.ma-0.pl-5(dense border="left" text color="pink" style="width: 100%;max-width: 620px")
       | If you like Vueper Slides, you can
-      a.pink--text.ml-2(href="https://www.paypal.me/antoniandre1" target="_blank" style="text-decoration: underline") #[strong Support the project]!
-      div Thank you to all the supporters! :)
+      a.pink--text.mx-2(
+        href="https://www.paypal.me/antoniandre1"
+        target="_blank"
+        style="text-decoration: underline") #[strong Support the project]
+      | or
+      a.pink--text.ml-2(
+        href="https://github.com/sponsors/antoniandre"
+        target="_blank"
+        style="text-decoration: underline") #[strong Sponsor the author]
+      | !
+      div Thank you so much to all the supporters! #[span.headline.ml-1 🙏]
 
   v-layout.max-widthed.my-8(align-center)
     svg.mr-4.blue--text.text--lighten-1(viewBox="0 0 725 477" style="width: 50px;stroke: #497ca2;stroke-width: 5px")
       path(fill="#497ca2" d="M449 0c-78 5-152 39-217 82-19 13-37 26-54 40-39 1-77 15-110 34-34 21-53 60-61 99-11 52-8 108 6 159 7 23 16 46 33 63 4-4 13-4 13-11-1-5-7-8-9-14-27-48-32-108-11-159 13-32 36-63 68-77 19-9 42-7 58 6 6 7 18 4 24-2 6-4 11-10 19-10-24 25-39 60-38 95 1 15 3 31 8 45 16 36 41 69 76 89 5 2 10 6 16 7 5-2 14-5 14-12-4-9-14-12-21-18-27-23-56-48-67-82-9-29-1-60 8-88 7-15 21-32 39-29 15 1 28 13 43 8 11-5 13-17 16-27 5-17 3-38-10-51-16-18-40-23-62-25l-11-2c23-19 53-26 81-31 21-3 43-5 64-2 18 3 28 21 42 31-33 47-57 102-56 159a170 170 0 0086 149c6-1 13-7 10-14-5-11-17-16-25-25-33-30-52-75-50-121 1-29 11-58 24-84 12-25 25-52 47-71 9-8 22-13 33-7 20 8 42 14 63 13-35 27-55 70-64 113-9 44-7 91 12 133 15 37 45 68 81 85 32 16 67 24 101 27 18 1 36 2 53-4 4-1 6-7 2-9-13-6-28-4-42-6-45-5-92-16-127-45-34-28-54-71-60-114-5-47 7-97 34-137 11-15 26-31 45-34 14-1 25 12 31 23 6 12 16 24 29 28 20-10 40-26 43-50 2-17-6-34-14-49-15-25-40-43-69-48-20-5-41-2-61-6-22-21-54-24-83-24zm6 21c22 0 48 5 62 25 4 7 8 16 8 24-1 10-10 22-21 19-9-7-18-14-30-16-14-4-31-1-43 8-6 6-17 8-24 2-9-6-17-15-28-17-27-7-54 1-81 6a364 364 0 01157-51zm117 29c33 0 66 25 72 58 3 12 3 28-8 35-3 2-6 4-8 1-8-12-12-27-23-37-3-7-12-8-19-9-13-2-26 0-39-4 7-7 6-17 4-25l-3-16 24-3zm-372 92l46 2c18 2 33 16 34 34 1 7 1 17-6 21-6 0-12-4-18-6-21-8-46-14-67-3-6 2-11 9-17 5-10-4-18-14-30-12-30 1-56 21-77 42-16 17-30 37-43 56 0-39 17-80 49-104 26-22 61-30 94-34l35-1z")
-    v-alert.ma-0.body-1(dense border="left" text color="#1471b8" style="width: 100%;max-width: 480px;line-height: 1.25")
-      span.title.d-block.pb-1 A great wave is coming!#[br]
-      strong Check out my new UI framework for Vue!
-      a.ml-2(
-        href="https://antoniandre.github.io/wave-ui/why-wave-ui"
-        target="_blank"
-        style="width: 50px;color: #497ca2;text-decoration: underline")
-        | #[strong Wave UI]
-      | #[br]Star it and share it!
+    v-alert.ma-0.pl-5(dense border="left" text color="#1471b8" style="width: 100%;max-width: 620px")
+      strong
+        | Check out my new UI framework for Vue &amp; Vue 3!
+        a.headline.ml-4(
+          href="https://antoniandre.github.io/wave-ui"
+          target="_blank"
+          style="width: 50px;color: #1471b8;text-decoration: underline")
+            strong Wave UI
 
   h2
     a(href="#installation" v-scroll-to="'#installation'") Installation
     a(id="installation" name="installation")
   p You have two options: #[em.mr-1 NPM] or #[span.ml-1.code &lt;script&gt;] tag.
-  h3 Via NPM
-  ssh-pre(language="shell" label="Shell") npm i --S vueperslides
+  h3.mt-12 Via NPM
+  ssh-pre(language="shell") npm i vueperslides # Vue 2.x.
+  ssh-pre(language="shell") npm i vueperslides@next # Vue 3.
   p Then import the 2 components and use it:
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
@@ -90,7 +101,7 @@
       ...
     }
 
-  h3 Via #[span.code &lt;script&gt;] tag
+  h3.mt-12 Via #[span.code &lt;script&gt;] tag
   p Include the Vueper Slides script in your document #[span.code &lt;head&gt;] as follows:
   ssh-pre(language="html" label="HTML").
     &lt;head&gt;
@@ -601,11 +612,13 @@
     In this example the content is set in a slot (refer to #[a(href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content]
     for more details) and uses interpreted mustaches #[span.code(v-pre) {{ }} and Vuetify components like #[span.code v-layout] &amp; #[span.code v-icon]].
 
-  highlight(type="tips").
-    The only thing that does not keep updated by default - as more costly, is the slides clones
-    (1 prepended, 1 appended to slides list when infinite mode).#[br]
-    But you have an option to keep it always updated using #[span.code always-refresh-clones] like in this example.#[br]
-    This is only for particular cases like this clock and you usually don't need this as the slides are copied from original content on mounted.
+  highlight(type="tips")
+    strong.red--text WARNING: The following tip does not apply to Vue 3. Vue 3 resolves this internally.
+    p.
+      The only thing that does not keep updated by default - as more costly, is the slides clones
+      (1 prepended, 1 appended to slides list when infinite mode).#[br]
+      But you have an option to keep it always updated using #[span.code always-refresh-clones] like in this example.#[br]
+      This is only for particular cases like this clock and you usually don't need this as the slides are copied from original content on mounted.
   v-layout.max-widthed.mb-4(align-center wrap)
     v-layout.shrink.mr-4(align-center wrap)
       v-btn.mt-2.mr-2(color="primary" @click="toggleSlidesTime" small)
@@ -1428,7 +1441,9 @@
   ul.max-widthed.settings-list
     li
       | #[code alwaysRefreshClones], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
-      p.
+      div.mt-2
+        strong.red--text WARNING: Don't use in Vue 3. Vue 3 resolves this internally and you don't need this option anymore.
+      div.
         With the #[span.code infinite] mode, the clones (#[a(href="#what-are-clones" v-scroll-to="'#what-are-clones'" @click="onWhatAreClonesClick") What are clones?])
         are created with a copy of content in the mounted Vue.js lifecycle hook.#[br]
         If you modify the content of the slides after it's mounted, the option #[span.code alwaysRefreshClones] will
@@ -1958,6 +1973,10 @@
     possible breaking changes.
 
   ul.max-widthed.mt-8
+    li.mb-5
+      .title.mr-3 Version 3.0
+      | Supports Vue 3. This version is not compatible with Vue 2.x.
+
     li.mb-2
       strong.mr-3 Version 2.10.8
       ul
