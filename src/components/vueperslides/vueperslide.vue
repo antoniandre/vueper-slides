@@ -107,12 +107,6 @@ export default {
     },
     justDragged () {
       return this.touch.justDragged
-    },
-    shouldSkipUpdate () {
-      return (
-        this.clone || !this.conf.infinite ||
-        (!this.conf.slideContentOutside && !this.conf.alwaysRefreshClones)
-      )
     }
   },
 
@@ -176,15 +170,8 @@ export default {
     })
   },
 
-  beforeUpdate () {
-    if (this.shouldSkipUpdate || !Object.values(this.$slots).length) return
-
-    this.updateThisSlide({
-      contentSlot: this.$slots.content,
-      loaderSlot: this.$slots.loader, // For lazy loading.
-      style: ((this.$el.attributes || {}).style || {}).value
-    })
-  },
+  // NOT NEEDED IN VUE 3! Already fully reacting to changes.
+  // beforeUpdate () {},
 
   beforeUnmount () {
     // When removing a slide programmatically, remove it from the list of slides.
