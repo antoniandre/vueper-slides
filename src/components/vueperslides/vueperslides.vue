@@ -146,7 +146,6 @@
 </template>
 
 <script>
-import { h } from 'vue'
 import VueperSlide from './vueperslide'
 import './styles.scss'
 
@@ -161,7 +160,7 @@ export default {
     }
   },
 
-  provide: function () {
+  provide () {
     return {
       // By design in Vue, provided variables are not reactive unless they are in an object.
       // Objects.
