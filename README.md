@@ -5,13 +5,22 @@
 [![npm](https://img.shields.io/npm/dt/vueperslides.svg)](https://www.npmjs.com/package/vueperslides)
 [![npm](https://img.shields.io/npm/dw/vueperslides.svg)](https://www.npmjs.com/package/vueperslides)
 
-> A touch ready and responsive slideshow / carousel for Vue JS.
+> A touch ready and responsive slideshow / carousel for Vue and Vue 3.
 
 ## Installation
 
 ```
-npm install vueperslides --save
+npm install vueperslides
 ```
+
+**Vue 3**
+
+```
+npm install vueperslides@next
+```
+
+___
+
 
 ## Demo & Documentation
 > [https://antoniandre.github.io/vueper-slides](https://antoniandre.github.io/vueper-slides)
@@ -19,10 +28,13 @@ npm install vueperslides --save
 ## Try it yourself
 > [https://codepen.io/antoniandre/pen/jevjoQ](https://codepen.io/antoniandre/pen/jevjoQ)
 
+___
+
+
 ## Browser Support
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png) |
 --- | --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | 10+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | 11+ ✔ |
 
 
 ___
@@ -30,11 +42,13 @@ ___
 
 ## Donation
 
-If you want to support the project, you can buy me a beer!
+If you want to support the project, you can buy me a beer or [become a sponsor](https://github.com/sponsors/antoniandre)!
 
 [![paypal](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/antoniandre1)
 Thank you!
 
+If you are using this library for profit business, please consider [backing me](https://github.com/sponsors/antoniandre)!
+It ensures that the project your products rely on keeps being actively maintained. :)
 
 ___
 
@@ -49,6 +63,7 @@ ___
 
 ## Release Notes
 
+- __Version 3.0__ Supports Vue 3. This version is not compatible with Vue 2.x.
 - __Version 2.8__ Added lazy loading feature
 - __Version 2.7__ Added `duration` option on `&lt;vueper-slide&gt;` tag
 - __Version 2.6__ Added `progress` option
