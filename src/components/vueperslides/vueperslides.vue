@@ -35,7 +35,7 @@
             aria-hidden="true")
             template(#content v-if="lastSlide.contentSlot")
               vnodes(:vnodes="lastSlide.contentSlot()")
-            template(#loader v-if="conf.lazy && !lastSlide.loaded")
+            template(#loader v-if="conf.lazy && !lastSlide.loaded && lastSlide.loaderSlot")
               vnodes(:vnodes="lastSlide.loaderSlot()")
 
           vueper-slide.vueperslide--clone.vueperslide--clone-2(
@@ -50,7 +50,7 @@
             aria-hidden="true")
             template(#content v-if="firstSlide.contentSlot")
               vnodes(:vnodes="firstSlide.contentSlot()")
-            template(#loader v-if="conf.lazy && !firstSlide.loaded")
+            template(#loader v-if="conf.lazy && !firstSlide.loaded && firstSlide.loaderSlot")
               vnodes(:vnodes="firstSlide.loaderSlot()")
 
     .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
@@ -945,9 +945,7 @@ export default {
       if (this.slidesCount) {
         // First use of goToSlide is while init, so should not propagate an event.
         // eslint-disable-next-line vue/require-slots-as-functions
-        if (this.$slots.default[this.slides.current] && this.isReady && !jumping && emit) {
-          this.emit('slide')
-        }
+        if (this.isReady && !jumping && emit) this.emit('slide')
 
         // Focus the current bullet for accessibility.
         // First get the ref on bullets list then try to find buttons.
