@@ -156,7 +156,7 @@ export default {
     vnodes: { functional: true, render: (h, ctx) => ctx.props.vnodes }
   },
 
-  provide: function () {
+  provide () {
     return {
       // By design in Vue, provided variables are not reactive unless they are in an object.
       // Objects.
