@@ -1,5 +1,5 @@
 <template lang="pug">
-.vueperslide(
+component.vueperslide(
   :is="link ? 'a' : 'div'"
   :href="link && !justDragged ? link : false"
   :class="slideClasses"
