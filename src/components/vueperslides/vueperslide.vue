@@ -234,6 +234,7 @@ export default {
     bottom: 0;
     right: 100%;
   }
+  .vueperslides--rtl &--clone-1 {right: auto;left: 100%;}
 
   &[href] {-webkit-user-drag: none;}
 

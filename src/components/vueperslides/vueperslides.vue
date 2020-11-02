@@ -69,21 +69,21 @@
         @click="previous()"
         v-show="!arrowPrevDisabled"
         aria-label="Previous"
-        @keyup.left="previous()"
-        @keyup.right="next()")
-        slot(name="arrow-left")
+        @keyup.left="conf.rtl ? next() : previous()"
+        @keyup.right="conf.rtl ? previous() : next()")
+        slot(name="arrow-prev")
           svg(viewBox="0 0 9 18")
-            path(stroke-linecap="round" d="m8 1 l-7 8 7 8")
+            path(stroke-linecap="round" :d="conf.rtl ? 'm1 1 l7 8 -7 8' : 'm8 1 l-7 8 7 8'")
       button.vueperslides__arrow.vueperslides__arrow--next(
         type="button"
         @click="next()"
         v-show="!arrowNextDisabled"
         aria-label="Next"
-        @keyup.left="previous()"
-        @keyup.right="next()")
-        slot(name="arrow-right")
+        @keyup.left="conf.rtl ? next() : previous()"
+        @keyup.right="conf.rtl ? previous() : next()")
+        slot(name="arrow-next")
           svg(viewBox="0 0 9 18")
-            path(stroke-linecap="round" d="m1 1 l7 8 -7 8")
+            path(stroke-linecap="round" :d="conf.rtl ? 'm8 1 l-7 8 7 8' : 'm1 1 l7 8 -7 8'")
     .vueperslides__bullets(
       v-if="conf.bullets && canSlide && !disable && !conf.bulletsOutside"
       ref="bullets"
@@ -104,8 +104,8 @@
           role="tab"
           :aria-label="`Slide ${i + 1}`"
           @click="goToSlide(slideIndex)"
-          @keyup.left="previous()"
-          @keyup.right="next()")
+          @keyup.left="conf.rtl ? next() : previous()"
+          @keyup.right="conf.rtl ? previous() : next()")
           slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
             .default
               span {{ i + 1 }}
@@ -210,7 +210,8 @@ export default {
     touchable: { type: Boolean, default: true },
     transitionSpeed: { type: [Number, String], default: 600 },
     visibleSlides: { type: Number, default: 1 },
-    '3d': { type: Boolean, default: false }
+    '3d': { type: Boolean, default: false },
+    rtl: { type: Boolean, default: false }
   },
 
   emits: [
@@ -361,6 +362,7 @@ export default {
     vueperslidesClasses () {
       return {
         'vueperslides--ready': this.isReady,
+        'vueperslides--rtl': this.conf.rtl,
         'vueperslides--fade': this.conf.fade,
         'vueperslides--parallax': this.conf.parallax,
         'vueperslides--slide-image-inside': this.conf.slideImageInside,
@@ -784,10 +786,10 @@ export default {
         // From next position after the preferred position.
         if (preferredPositionIsPassed) subtractFromTranslation += this.slidePosAfterPreferred
 
-        translation -= subtractFromTranslation / visibleSlides
+        translation -= subtractFromTranslation / visibleSlides * (this.conf.rtl ? -1 : 1)
       }
 
-      this.transition.currentTranslation = -translation * 100
+      this.transition.currentTranslation = -translation * 100 * (this.conf.rtl ? -1 : 1)
     },
 
     pauseAutoplay () {

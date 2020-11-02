@@ -1,19 +1,13 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  vueper-slides.no-shadow(:breakpoints="breakpoints")
+  vueper-slides.no-shadow(:breakpoints="breakpoints" rtl)
     vueper-slide(
       v-if="slides.length"
       v-for="(slide, i) in slides"
       :key="i"
-      :title="slide.title"
+      :title="`${slide.title} - slide #${i + 1}`"
       :image="slide.image")
-    vueper-slide(
-      title="El Teide Volcano, Spain"
-      :image="getImage('el-teide-volcano-spain.jpg')")
-    vueper-slide(
-      title="Chernobyl, Ukraine"
-      :image="getImage('chernobyl-ukraine.jpg')")
 </template>
 
 <script>
@@ -75,4 +69,5 @@ export default {
 </script>
 
 <style lang="scss">
+html {direction: rtl;}
 </style>
