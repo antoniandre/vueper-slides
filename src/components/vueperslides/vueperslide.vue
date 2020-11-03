@@ -62,8 +62,8 @@ export default {
       return {
         ...(!slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")` }),
         ...(visibleSlides > 1 && { width: (100 - (gap ? gap * (visibleSlides - 1) : 0)) / visibleSlides + '%' }),
-        ...(visibleSlides > 1 && fade && { left: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
-        ...(gap && { marginRight: gap + (gapPx ? 'px' : '%') })
+        ...(visibleSlides > 1 && fade && { [this.conf.rtl ? 'right' : 'left']: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
+        ...(gap && { [this.conf.rtl ? 'marginLeft' : 'marginRight']: gap + (gapPx ? 'px' : '%') })
       }
     },
     imageStyles () {

@@ -787,7 +787,7 @@ export default {
         // From next position after the preferred position.
         if (preferredPositionIsPassed) subtractFromTranslation += this.slidePosAfterPreferred
 
-        translation -= subtractFromTranslation / visibleSlides * (this.conf.rtl ? -1 : 1)
+        translation -= subtractFromTranslation / visibleSlides
       }
 
       this.transition.currentTranslation = -translation * 100 * (this.conf.rtl ? -1 : 1)
