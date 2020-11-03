@@ -37,9 +37,9 @@
   }
 
   &__arrows--outside &__arrow--prev,
-  &__arrows--outside.vueperslides--rtl &__arrow--next {right: auto;left: -3.5em;}
+  &--rtl &__arrows--outside &__arrow--next {right: auto;left: -3.5em;}
   &__arrows--outside &__arrow--next,
-  &__arrows--outside.vueperslides--rtl &__arrow--prev {left: auto;right: -3.5em;}
+  &--rtl &__arrows--outside &__arrow--prev {left: auto;right: -3.5em;}
 
   &__paused {
     top: 0.7em;

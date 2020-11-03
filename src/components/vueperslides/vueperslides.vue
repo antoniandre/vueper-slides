@@ -130,8 +130,8 @@
         role="tab"
         :aria-label="`Slide ${i + 1}`"
         @click="goToSlide(slideIndex)"
-        @keyup.left="previous()"
-        @keyup.right="next()")
+        @keyup.left="conf.rtl ? next() : previous()"
+        @keyup.right="conf.rtl ? previous() : next()")
         slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
           .default
             span {{ i + 1 }}
@@ -661,7 +661,8 @@ export default {
       const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
       const dragPercentageNow = (this.touch.dragNowX - this.container.offsetLeft) / this.container.clientWidth
       const dragPercentage = ((dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow) * 100
-      const forwards = (dragAmount || dragPercentage) > 0
+      let forwards = (dragAmount || dragPercentage) > 0
+      if (this.conf.rtl) forwards = !forwards
 
       const reasonsToCancelSliding = [
         // Dragging distance conf is set & drag amount is lesser than dragging distance conf.
@@ -754,7 +755,7 @@ export default {
         }
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
-        translation += dragPercentage
+        translation += dragPercentage * (this.conf.rtl ? -1 : 1)
 
         if (lazy && lazyLoadOnDrag && !this.touch.lazyloadTriggered) {
           this.touch.lazyloadTriggered = true
