@@ -202,6 +202,7 @@ export default {
     // This one is not modifiable through breakpoints: event handlers are added/removed.
     preventYScroll: { type: Boolean, default: false },
     progress: { type: Boolean, default: false },
+    rtl: { type: Boolean, default: false },
     slideContentOutside: { type: [Boolean, String], default: false },
     slideContentOutsideClass: { type: String, default: '' },
     slideImageInside: { type: Boolean, default: false },
@@ -210,8 +211,7 @@ export default {
     touchable: { type: Boolean, default: true },
     transitionSpeed: { type: [Number, String], default: 600 },
     visibleSlides: { type: Number, default: 1 },
-    '3d': { type: Boolean, default: false },
-    rtl: { type: Boolean, default: false }
+    '3d': { type: Boolean, default: false }
   },
 
   emits: [

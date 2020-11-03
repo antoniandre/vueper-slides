@@ -1428,6 +1428,7 @@
     pauseOnHover:             [Boolean],         default: true
     preventYScroll:           [Boolean],         default: false
     progress:                 [Boolean],         default: false
+    rtl:                      [Boolean],         default: false
     slideContentOutside:      [Boolean, String], default: false
     slideContentOutsideClass: [String],          default: ""
     slideImageInside:         [Boolean],         default: false
@@ -1643,6 +1644,10 @@
       p.
         Disable or enable the top linear progress bar.#[br]
         You can override this via the #[span.code progress] slot.
+
+    li
+      | #[code rtl], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code false]
+      p Sets the slideshow to an RTL direction (right to left).
 
     li
       | #[code slideContentOutside], #[strong.mr-1 Type:] #[span.code="[Boolean, String]"], #[strong.mr-1 Default:] #[span.code false], #[strong Values:] #[span.code [false, 'top', 'bottom']]
@@ -1977,6 +1982,10 @@
       .title.mr-3 Version 3.0
       | Supports Vue 3. This version is not compatible with Vue 2.x.
 
+    li.mb-2
+      strong.mr-3 Version 2.11
+      ul
+        li Added the RTL option.
     li.mb-2
       strong.mr-3 Version 2.10.8
       ul
