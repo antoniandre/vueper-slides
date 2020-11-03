@@ -62,8 +62,8 @@ export default {
       return {
         ...(!slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")` }),
         ...(visibleSlides > 1 && { width: (100 - (gap ? gap * (visibleSlides - 1) : 0)) / visibleSlides + '%' }),
-        ...(visibleSlides > 1 && fade && { left: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
-        ...(gap && { marginRight: gap + (gapPx ? 'px' : '%') })
+        ...(visibleSlides > 1 && fade && { [this.conf.rtl ? 'right' : 'left']: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
+        ...(gap && { [this.conf.rtl ? 'marginLeft' : 'marginRight']: gap + (gapPx ? 'px' : '%') })
       }
     },
     imageStyles () {
@@ -74,11 +74,17 @@ export default {
       const faces = ['front', 'right', 'back', 'left']
       const prevSlideIndex = (this.slides.current - 1 + this.slidesCount) % this.slidesCount
       const nextSlideIndex = (this.slides.current + 1) % this.slidesCount
+      let face = 'front'
 
-      if (this.slideIndex === prevSlideIndex) return faces[(4 + this.slides.current - 1) % 4]
-      else if (this.slideIndex === nextSlideIndex) return faces[(this.slides.current + 1) % 4]
+      if (this.slideIndex === prevSlideIndex) face = faces[(4 + this.slides.current - 1) % 4]
+      else if (this.slideIndex === nextSlideIndex) face = faces[(this.slides.current + 1) % 4]
 
-      return faces[this.slideIndex % 4]
+      face = faces[this.slideIndex % 4]
+
+      if (this.conf.rtl && face === 'left') face = 'right'
+      else if (this.conf.rtl && face === 'right') face = 'left'
+
+      return face
     },
     isPreviousSlide () {
       if (!this.conf['3d']) return false
@@ -221,6 +227,7 @@ export default {
     bottom: 0;
     right: 100%;
   }
+  .vueperslides--rtl &--clone-1 {right: auto;left: 100%;}
 
   &[href] {-webkit-user-drag: none;}
 
@@ -257,7 +264,7 @@ export default {
     right: 0;
     bottom: 0;
     opacity: 0;
-    transition: .8s ease-in-out opacity;
+    transition: ease-in-out opacity;
     transition-duration: inherit;
 
     &--active, &--visible {

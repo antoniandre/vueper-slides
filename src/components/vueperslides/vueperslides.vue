@@ -69,21 +69,21 @@
         @click="previous()"
         v-show="!arrowPrevDisabled"
         aria-label="Previous"
-        @keyup.left="previous()"
-        @keyup.right="next()")
-        slot(name="arrow-left")
+        @keyup.left="conf.rtl ? next() : previous()"
+        @keyup.right="conf.rtl ? previous() : next()")
+        slot(name="arrow-prev")
           svg(viewBox="0 0 9 18")
-            path(stroke-linecap="round" d="m8 1 l-7 8 7 8")
+            path(stroke-linecap="round" :d="conf.rtl ? 'm1 1 l7 8 -7 8' : 'm8 1 l-7 8 7 8'")
       button.vueperslides__arrow.vueperslides__arrow--next(
         type="button"
         @click="next()"
         v-show="!arrowNextDisabled"
         aria-label="Next"
-        @keyup.left="previous()"
-        @keyup.right="next()")
-        slot(name="arrow-right")
+        @keyup.left="conf.rtl ? next() : previous()"
+        @keyup.right="conf.rtl ? previous() : next()")
+        slot(name="arrow-next")
           svg(viewBox="0 0 9 18")
-            path(stroke-linecap="round" d="m1 1 l7 8 -7 8")
+            path(stroke-linecap="round" :d="conf.rtl ? 'm8 1 l-7 8 7 8' : 'm1 1 l7 8 -7 8'")
     .vueperslides__bullets(
       v-if="conf.bullets && canSlide && !disable && !conf.bulletsOutside"
       ref="bullets"
@@ -104,8 +104,8 @@
           role="tab"
           :aria-label="`Slide ${i + 1}`"
           @click="goToSlide(slideIndex)"
-          @keyup.left="previous()"
-          @keyup.right="next()")
+          @keyup.left="conf.rtl ? next() : previous()"
+          @keyup.right="conf.rtl ? previous() : next()")
           slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
             .default
               span {{ i + 1 }}
@@ -130,8 +130,8 @@
         role="tab"
         :aria-label="`Slide ${i + 1}`"
         @click="goToSlide(slideIndex)"
-        @keyup.left="previous()"
-        @keyup.right="next()")
+        @keyup.left="conf.rtl ? next() : previous()"
+        @keyup.right="conf.rtl ? previous() : next()")
         slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
           .default
             span {{ i + 1 }}
@@ -206,6 +206,7 @@ export default {
     // This one is not modifiable through breakpoints: event handlers are added/removed.
     preventYScroll: { type: Boolean, default: false },
     progress: { type: Boolean, default: false },
+    rtl: { type: Boolean, default: false },
     slideContentOutside: { type: [Boolean, String], default: false },
     slideContentOutsideClass: { type: String, default: '' },
     slideImageInside: { type: Boolean, default: false },
@@ -365,6 +366,7 @@ export default {
     vueperslidesClasses () {
       return {
         'vueperslides--ready': this.isReady,
+        'vueperslides--rtl': this.conf.rtl,
         'vueperslides--fade': this.conf.fade,
         'vueperslides--parallax': this.conf.parallax,
         'vueperslides--slide-image-inside': this.conf.slideImageInside,
@@ -663,7 +665,8 @@ export default {
       const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
       const dragPercentageNow = (this.touch.dragNowX - this.container.offsetLeft) / this.container.clientWidth
       const dragPercentage = ((dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow) * 100
-      const forwards = (dragAmount || dragPercentage) > 0
+      let forwards = (dragAmount || dragPercentage) > 0
+      if (this.conf.rtl) forwards = !forwards
 
       const reasonsToCancelSliding = [
         // Dragging distance conf is set & drag amount is lesser than dragging distance conf.
@@ -756,7 +759,7 @@ export default {
         }
 
         dragPercentage = (dragPercentageStart < 0.5 ? 0 : 1) - dragPercentageNow
-        translation += dragPercentage
+        translation += dragPercentage * (this.conf.rtl ? -1 : 1)
 
         if (lazy && lazyLoadOnDrag && !this.touch.lazyloadTriggered) {
           this.touch.lazyloadTriggered = true
@@ -791,7 +794,7 @@ export default {
         translation -= subtractFromTranslation / visibleSlides
       }
 
-      this.transition.currentTranslation = -translation * 100
+      this.transition.currentTranslation = -translation * 100 * (this.conf.rtl ? -1 : 1)
     },
 
     pauseAutoplay () {
