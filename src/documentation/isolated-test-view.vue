@@ -21,19 +21,19 @@ export default {
       {
         title: 'El Teide Volcano, Spain',
         content: 'Photo by Max Rive',
-        image: require('@/assets/images/el-teide-volcano-spain.jpg'),
+        image: `${process.env.BASE_URL}images/el-teide-volcano-spain.jpg`,
         link: 'https://www.maxrivephotography.com/index/C0000rU1RKCHdqwI/G0000X57AtIzuRX0/I0000Gvr9HqdtyXk'
       },
       {
         title: 'Chernobyl, Ukraine',
         content: 'Photo by Jesse Moran',
-        image: require('@/assets/images/chernobyl-ukraine.jpg'),
+        image: `${process.env.BASE_URL}images/chernobyl-ukraine.jpg`,
         link: 'https://www.flickr.com/photos/jessemoran'
       },
       {
         title: 'Crater Lake, Oregon, USA',
         content: 'Photo by Jesse Moran',
-        image: require('@/assets/images/crater-lake-oregon-usa.jpg'),
+        image: `${process.env.BASE_URL}images/crater-lake-oregon-usa.jpg`,
         link: 'https://flic.kr/p/2cxrCmp'
       }
     ],
@@ -63,7 +63,7 @@ export default {
     log (...param) {
       console.log(...param)
     },
-    getImage: image => require(`@/assets/images/${image}`)
+    getImage: image => `${process.env.BASE_URL}/images/${image}`
   }
 }
 </script>
