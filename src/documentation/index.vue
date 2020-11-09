@@ -21,6 +21,9 @@
     a(id="features" name="features")
   div.max-widthed.mb-5.features
     v-icon.pr-2(color="secondary") check
+    strong Supports Vue 3.
+    br
+    v-icon.pr-2(color="secondary") check
     | #[strong Fully responsive] and scales with its container.#[br]
     v-icon.pr-2(color="secondary") check
     | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
