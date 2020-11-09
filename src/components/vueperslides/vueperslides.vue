@@ -1189,6 +1189,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: inherit;
 
     &::-moz-focus-inner {border: 0;}
   }
