@@ -902,6 +902,16 @@ export default {
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady && !jumping && emit) this.emit('before-slide', true, nextSlide)
 
+      // First pause all the videos.
+      // this.slides.list.forEach(slide => slide.video && slide.video.pause())
+
+      const nextSlideObj = this.slides.list[nextSlide]
+      if (this.isReady && nextSlideObj.video) {
+        const currSlideObj = this.slides.list[this.slides.current]
+        if (currSlideObj.video) currSlideObj.video.pause()
+        nextSlideObj.video.play()
+      }
+
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
       // shows up, when the animation ends the real change to the first slide is done
