@@ -267,6 +267,16 @@
   .vueperslides__arrow--next {right: -6.2em;}
 }
 
+// Videos.
+// ===================================
+.ex--videos {
+  .vueperslide__content-wrapper {
+    position: absolute;
+    top: 55%;
+    height: auto !important;
+  }
+}
+
 // Synced instances.
 // ===================================
 .ex--synced-instances-2 {

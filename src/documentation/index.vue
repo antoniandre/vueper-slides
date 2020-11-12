@@ -1399,7 +1399,26 @@
     a(id="ex--videos" name="ex--videos")
   p.
     The video feature is usable through the #[span.code video] prop and is completely customizable.#[br]
-    A lot of parameters are available and can produce many different results.#[br]
+    When changing slides, leaving a video slide will pause it, and moving to a video slide will play/resume it.#[br]
+    You can use videos in slides in addition to: title, content and image.
+
+  h4 > The #[strong.code video] prop accepted formats.#[br]
+  p.
+    The #[span.code video] prop can be either a string to a video URL, if you don't need more
+    parameters, or an object.#[br]
+  ul.max-widthed
+    li If a string is passed an &lt;iframe&gt; will be used and the URL will be used in the &lt;iframe&gt; src attribute.
+    li
+      | If an object is passed, the following attributes are allowed:
+      ul
+        li [String] #[code webm], #[code mp4], #[code ogv], #[code avi]: if at least one these attributes is defined, a &lt;video&gt; tag will be used and the given sources will be added.
+        li [String] #[code url]: if defined, an &lt;iframe&gt; tag will be used, this string will be used in the &lt;iframe&gt; src attribute.
+        li [Object] #[code props]: an object containing all the attributes that you want to add to the &lt;iframe&gt; or &lt;video&gt; tag.
+        li [String] #[code alt]: The alternative text to display when the browser cannot render the &lt;video&gt; tag.
+        li [Boolean] #[code pointerEvents]: If set to false, the &lt;iframe&gt; or &lt;video&gt; tag will not be clickable (can be convenient to allow slides dragging).
+
+  p.mt-4.
+    Whether you are using the &lt;video&gt; tag or Youtube videos via &lt;iframe&gt; tag, a lot of parameters are available and can produce many different results.#[br]
     You can check all the parameters on these pages:
   ul.max-widthed
     li
@@ -1415,7 +1434,7 @@
       with the page.#[br]
       Some allow autoplaying if the video is muted.
 
-  h4 #1. Embedded videos - using &lt;video&gt; tag.
+  h4 Example #1. Embedded videos - using &lt;video&gt; tag.
   p In this example the first video is muted to be autoplayed in most browsers, but the video does not have sound.
 
   vueper-slides.mt-4.ex--videos(bullets-outside :dragging-distance="50")
@@ -1439,26 +1458,92 @@
   ssh-pre(language="js" label="Javascript").
     // In your component's data.
     // If using `${process.env.BASE_URL}` your images must be in the `public` folder.
-    {
-      title: 'Blossoming flower',
-      content: 'This video is autoplayed, played in loop, has no controls and is not reacting to user interactions.<br>(The video has no sound)',
-      image: `${process.env.BASE_URL}images/flower.jpg`,
-      video: {
-        webm: `${process.env.BASE_URL}images/flower.webm`,
-        mp4: `${process.env.BASE_URL}images/flower.mp4`,
-        props: { autoplay: true, loop: true, controls: false, muted: true }
+    slides: [
+      {
+        title: 'Blossoming flower',
+        content: 'This video is autoplayed, played in loop, has no controls and is not reacting to user interactions.',
+        image: `${process.env.BASE_URL}images/flower.jpg`,
+        video: {
+          webm: `${process.env.BASE_URL}images/flower.webm`,
+          mp4: `${process.env.BASE_URL}images/flower.mp4`,
+          props: { autoplay: true, loop: true, controls: false, muted: true }
+        }
+      },
+      {
+        title: 'Blossoming flower',
+        content: 'This video is played once, has controls and is reacting to user interactions.',
+        image: `${process.env.BASE_URL}images/flower.jpg`,
+        video: {
+          webm: `${process.env.BASE_URL}images/flower.webm`,
+          mp4: `${process.env.BASE_URL}images/flower.mp4`
+        }
       }
-    },
-    {
-      title: 'Blossoming flower',
-      content: 'This video is played once, has controls and is reacting to user interactions.<br>(The video has no sound)',
-      image: `${process.env.BASE_URL}images/flower.jpg`,
-      video: {
-        webm: `${process.env.BASE_URL}images/flower.webm`,
-        mp4: `${process.env.BASE_URL}images/flower.mp4`
+    ]
+
+  h4 Example #2. URL videos - using &lt;iframe&gt; tag.
+  p.
+    In this example the first Youtube video is not muted and autoplayed to save your data!
+    But you could easily do so by adding #[code autoplay=1&amp;mute=1] to the URL.#[br]
+    This special first video allows dragging the content of the video to rotate the view to 360
+    degrees (amazing!).#[br]
+    That demonstrates that this slide will not be draggable or swipeable to go to the next slide.
+    To allow dragging and swiping to the next slide, you can add #[code pointerEvents: false] to
+    the #[code video] prop which will prevent interactions with the video.
+
+  p
+    | All the Youtube parameters are passed via the URL (to be set in the #[code video.url] attribute).#[br]
+    | See all the
+    a.ml-1(href="https://developers.google.com/youtube/player_parameters" target="blank") Youtube parameters.
+
+  p.
+    The width and height of Youtube videos are set by the video format. But you can use the
+    #[code slideRatio] prop to get close to the ratio set in the Youtube video.
+
+  vueper-slides.mt-4.ex--videos(bullets-outside :dragging-distance="50")
+    vueper-slide(
+      v-for="(slide, i) in videoSlides2"
+      :key="i"
+      :title="slide.title"
+      :content="slide.content"
+      :image="slide.image"
+      :video="slide.video")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides bullets-outside :dragging-distance="50"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="i"
+        :image="slide.image"
+        :title="slide.title"
+        :content="slide.content" /&gt;
+    &lt;/vueper-slides&gt;
+
+  ssh-pre(language="js" label="Javascript").
+    // In your component's data.
+    slides: [
+      {
+        title: 'Aurora Borealis',
+        content: 'This Youtube video has params in the URL and extra attributes on the iframe.',
+        image: 'https://i.ytimg.com/vi_webp/ehJg_OlcjpE/maxresdefault.webp',
+        video: {
+          url: 'https://www.youtube.com/embed/ehJg_OlcjpE?rel=0&amp;showinfo=0&amp;controls=0&amp;fs=0&amp;modestbranding=1&amp;color=white&amp;iv_load_policy=3&amp;autohide=1&amp;enablejsapi=1',
+          props: {
+            allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+          }
+        }
+      },
+      {
+        title: 'Fjords',
+        content: 'This video can\'t be interacted with.',
+        image: 'https://i.ytimg.com/vi/2sr9MGkkeks/maxresdefault.jpg',
+        video: {
+          url: 'https://www.youtube.com/embed/2sr9MGkkeks?controls=0&amp;fs=0&amp;modestbranding=1&amp;color=white&amp;iv_load_policy=3&amp;autohide=1&amp;enablejsapi=1',
+          props: {
+            allow: 'autoplay'
+          },
+          pointerEvents: false
+        }
       }
-    }
-  h4 #2. URL videos - using &lt;iframe&gt; tag.
+    ]
 
   h2
     a(href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'") #[span.code &lt;vueper-slides&gt;] API
@@ -2307,7 +2392,7 @@ export default {
     videoSlides1: [
       {
         title: 'Blossoming flower',
-        content: 'This video is autoplayed, played in loop, has no controls and is not reacting to user interactions.<br>(The video has no sound)',
+        content: 'This video is autoplayed, played in loop, has no controls and is not reacting to user interactions.',
         image: `${process.env.BASE_URL}images/flower.jpg`,
         video: {
           webm: `${process.env.BASE_URL}images/flower.webm`,
@@ -2317,11 +2402,33 @@ export default {
       },
       {
         title: 'Blossoming flower',
-        content: 'This video is played once, has controls and is reacting to user interactions.<br>(The video has no sound)',
+        content: 'This video is played once, has controls and is reacting to user interactions.',
         image: `${process.env.BASE_URL}images/flower.jpg`,
         video: {
           webm: `${process.env.BASE_URL}images/flower.webm`,
           mp4: `${process.env.BASE_URL}images/flower.mp4`
+        }
+      }
+    ],
+    videoSlides2: [
+      {
+        title: 'Aurora Borealis',
+        content: 'This Youtube video has params in the URL and extra attributes on the iframe.',
+        image: 'https://i.ytimg.com/vi_webp/ehJg_OlcjpE/maxresdefault.webp',
+        video: {
+          url: 'https://www.youtube.com/embed/ehJg_OlcjpE?rel=0&showinfo=0&controls=0&fs=0&modestbranding=1&color=white&iv_load_policy=3&autohide=1&enablejsapi=1',
+          props: {
+            allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+          }
+        }
+      },
+      {
+        title: 'Fjords',
+        content: 'This video can\'t be interacted with.',
+        image: 'https://i.ytimg.com/vi/2sr9MGkkeks/maxresdefault.jpg',
+        video: {
+          url: 'https://www.youtube.com/embed/2sr9MGkkeks?controls=0&fs=0&modestbranding=1&color=white&iv_load_policy=3&autohide=1&enablejsapi=1',
+          pointerEvents: false
         }
       }
     ]
