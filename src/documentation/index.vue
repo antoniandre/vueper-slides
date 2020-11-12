@@ -24,6 +24,9 @@
     strong Supports Vue 3.
     br
     v-icon.pr-2(color="secondary") check
+    strong Supports Videos with customizable attributes.
+    br
+    v-icon.pr-2(color="secondary") check
     | #[strong Fully responsive] and scales with its container.#[br]
     v-icon.pr-2(color="secondary") check
     | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
@@ -1391,6 +1394,72 @@
       border-color: #000;
     }
 
+  h3
+    a(href="#ex--videos" v-scroll-to="'#ex--videos'") Videos
+    a(id="ex--videos" name="ex--videos")
+  p.
+    The video feature is usable through the #[span.code video] prop and is completely customizable.#[br]
+    A lot of parameters are available and can produce many different results.#[br]
+    You can check all the parameters on these pages:
+  ul.max-widthed
+    li
+      strong.mr-2 Embedded Videos (using &lt;video&gt; tag):
+      a(href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video" target="blank") //developer.mozilla.org/en-US/docs/Web/HTML/Element/video
+    li
+      strong.mr-2 Youtube parameters (using &lt;iframe&gt; tag):
+      a(href="https://developers.google.com/youtube/player_parameters" target="blank") //developers.google.com/youtube/player_parameters
+
+  p.mt-4
+    strong.
+      Note: Most of the recent browsers do not allow autoplaying videos before the user interacted
+      with the page.#[br]
+      Some allow autoplaying if the video is muted.
+
+  h4 #1. Embedded videos - using &lt;video&gt; tag.
+  p In this example the first video is muted to be autoplayed in most browsers, but the video does not have sound.
+
+  vueper-slides.mt-4.ex--videos(bullets-outside :dragging-distance="50")
+    vueper-slide(
+      v-for="(slide, i) in videoSlides1"
+      :key="i"
+      :title="slide.title"
+      :content="slide.content"
+      :image="slide.image"
+      :video="slide.video")
+  ssh-pre(language="html-vue" label="HTML Vue Template").
+    &lt;vueper-slides bullets-outside :dragging-distance="50"&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="i"
+        :image="slide.image"
+        :title="slide.title"
+        :content="slide.content" /&gt;
+    &lt;/vueper-slides&gt;
+
+  ssh-pre(language="js" label="Javascript").
+    // In your component's data.
+    // If using `${process.env.BASE_URL}` your images must be in the `public` folder.
+    {
+      title: 'Blossoming flower',
+      content: 'This video is autoplayed, played in loop, has no controls and is not reacting to user interactions.<br>(The video has no sound)',
+      image: `${process.env.BASE_URL}images/flower.jpg`,
+      video: {
+        webm: `${process.env.BASE_URL}images/flower.webm`,
+        mp4: `${process.env.BASE_URL}images/flower.mp4`,
+        props: { autoplay: true, loop: true, controls: false, muted: true }
+      }
+    },
+    {
+      title: 'Blossoming flower',
+      content: 'This video is played once, has controls and is reacting to user interactions.<br>(The video has no sound)',
+      image: `${process.env.BASE_URL}images/flower.jpg`,
+      video: {
+        webm: `${process.env.BASE_URL}images/flower.webm`,
+        mp4: `${process.env.BASE_URL}images/flower.mp4`
+      }
+    }
+  h4 #2. URL videos - using &lt;iframe&gt; tag.
+
   h2
     a(href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'") #[span.code &lt;vueper-slides&gt;] API
     a(id="vueper-slides--api" name="vueper-slides--api")
@@ -1986,6 +2055,11 @@
       | Supports Vue 3. This version is not compatible with Vue 2.x.
 
     li.mb-2
+      strong.mr-3 Version 2.12
+      ul
+        li Added support for embedded videos and URL videos like Youtube.
+
+    li.mb-2
       strong.mr-3 Version 2.11
       ul
         li Added the RTL option.
@@ -2229,6 +2303,27 @@ export default {
       { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Jesse_Moran_Resurrect.jpg' },
       { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Perez_Alonso%20Photography_Chocolate_Mountains.jpg' },
       { image: `${process.env.BASE_URL}images/easton-wa-usa.jpg` }
+    ],
+    videoSlides1: [
+      {
+        title: 'Blossoming flower',
+        content: 'This video is autoplayed, played in loop, has no controls and is not reacting to user interactions.<br>(The video has no sound)',
+        image: `${process.env.BASE_URL}images/flower.jpg`,
+        video: {
+          webm: `${process.env.BASE_URL}images/flower.webm`,
+          mp4: `${process.env.BASE_URL}images/flower.mp4`,
+          props: { autoplay: true, loop: true, controls: false, muted: true }
+        }
+      },
+      {
+        title: 'Blossoming flower',
+        content: 'This video is played once, has controls and is reacting to user interactions.<br>(The video has no sound)',
+        image: `${process.env.BASE_URL}images/flower.jpg`,
+        video: {
+          webm: `${process.env.BASE_URL}images/flower.webm`,
+          mp4: `${process.env.BASE_URL}images/flower.mp4`
+        }
+      }
     ]
   }),
   methods: {
