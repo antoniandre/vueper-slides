@@ -193,8 +193,6 @@ export default {
     },
 
     pauseVideo () {
-      console.log('pausing video', this.title)
-
       if (!this.videoObj) return
 
       if (this.videoObj.url) {
