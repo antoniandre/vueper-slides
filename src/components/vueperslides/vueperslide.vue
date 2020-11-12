@@ -11,8 +11,6 @@ component.vueperslide(
   template(v-if="videoObj")
     video.vueperslide__video(
       v-if="videoObj.webm || videoObj.mp4"
-      controlslist="nodownload"
-      controls
       width="100%"
       height="100%"
       v-bind="videoObj.props || {}")
@@ -76,6 +74,8 @@ export default {
         'vueperslide--next-slide': this.isNextSlide,
         'vueperslide--visible': this.isSlideVisible,
         'vueperslide--loading': this.conf.lazy && !this.loaded,
+        'vueperslide--has-video': this.videoObj,
+        'vueperslide--has-image-inside': this.conf.slideImageInside,
         'vueperslide--no-pointer-events': this.videoObj && this.videoObj.pointerEvents === false
       }
     },
@@ -91,7 +91,7 @@ export default {
     },
     videoObj () {
       if (!this.video) return null
-      let video = { url: '', alt: '' }
+      let video = { url: '', alt: '', props: { controls: true } }
       if (typeof this.video === 'object') video = Object.assign(video, this.video)
       else if (typeof this.video === 'string') video.url = this.video
       return video

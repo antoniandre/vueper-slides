@@ -97,7 +97,9 @@
     text-align: center;
   }
 
-  &__content-wrapper.parallax-fixed-content {
+  &__content-wrapper.parallax-fixed-content,
+  &--has-image-inside &__content-wrapper,
+  &--has-video &__content-wrapper {
     position: absolute;
     z-index: 2;
     top: 0;
