@@ -21,7 +21,7 @@
     a(id="features" name="features")
   div.max-widthed.mb-5.features
     v-icon.pr-2(color="secondary") check
-    strong Supports Vue 3.
+    strong SUPPORTS VUE 3.
     br
     v-icon.pr-2(color="secondary") check
     strong Supports Videos with customizable attributes.
@@ -53,7 +53,7 @@
     v-icon.pr-2(color="secondary") check
     | #[strong Emitted events] for callbacks, etc...#[br]
     v-icon.pr-2(color="secondary") check
-    .subtitle-1 SUPPORTS VUE 3
+    | #[strong Supports RTL] direction
 
   .max-widthed.mt-8.mb-3.title Github project
   v-layout.max-widthed.mb-5(align-center shrink)
