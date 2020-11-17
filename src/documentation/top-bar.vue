@@ -77,6 +77,9 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
         v-list-item(color="secondary" href="#ex--3d-rotation" :v-scroll-to="'#ex--3d-rotation'") 3D Rotation
         v-list-item(color="secondary" href="#ex--external-controls" :v-scroll-to="'#ex--external-controls'") External Controls
         v-list-item(color="secondary" href="#ex--synced-instances" :v-scroll-to="'#ex--synced-instances'") Sync 2 instances (gallery)
+        v-list-item(color="secondary" href="#ex--videos" :v-scroll-to="'#ex--videos'")
+          | Videos
+          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
         //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
         //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
 </template>

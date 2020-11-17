@@ -8,6 +8,25 @@ component.vueperslide(
   :aria-hidden="slides.activeId === _.uid || isSlideVisible ? 'false' : 'true'"
   @mouseenter="$emit('mouse-enter', { slideIndex, title, content, image, link }, $el)"
   @mouseleave="$emit('mouse-leave')")
+  template(v-if="videoObj")
+    video.vueperslide__video(
+      v-if="videoObj.webm || videoObj.mp4"
+      width="100%"
+      height="100%"
+      v-bind="videoObj.props || {}")
+      source(v-if="videoObj.webm" :src="videoObj.webm" type="video/webm")
+      source(v-if="videoObj.mp4" :src="videoObj.mp4" type="video/mp4")
+      source(v-if="videoObj.ogv" :src="videoObj.ogv" type="video/ogg")
+      source(v-if="videoObj.avi" :src="videoObj.avi" type="video/avi")
+      | {{ videoObj.alt || "Sorry, your browser doesn't support embedded videos." }}
+    iframe.vueperslide__video(
+      v-else-if="videoObj.url"
+      :src="videoObj.url"
+      type="text/html"
+      frameborder="0"
+      width="100%"
+      height="100%"
+      v-bind="videoObj.props || {}")
   .vueperslide__image(v-if="imageSrc && conf.slideImageInside" :style="imageStyles")
   div(v-if="conf.slideContentOutside" v-show="false")
     slot(name="content")
@@ -28,6 +47,7 @@ export default {
   props: {
     clone: { type: Boolean, default: false },
     image: { type: String, default: '' },
+    video: { type: [String, Object], default: '' },
     title: { type: String, default: '' },
     content: { type: String, default: '' },
     link: { type: String, default: '' },
@@ -53,7 +73,10 @@ export default {
         'vueperslide--previous-slide': this.isPreviousSlide,
         'vueperslide--next-slide': this.isNextSlide,
         'vueperslide--visible': this.isSlideVisible,
-        'vueperslide--loading': this.conf.lazy && !this.loaded
+        'vueperslide--loading': this.conf.lazy && !this.loaded,
+        'vueperslide--has-video': this.videoObj,
+        'vueperslide--has-image-inside': this.conf.slideImageInside,
+        'vueperslide--no-pointer-events': this.videoObj && this.videoObj.pointerEvents === false
       }
     },
     slideStyles () {
@@ -65,6 +88,16 @@ export default {
         ...(visibleSlides > 1 && fade && { [this.conf.rtl ? 'right' : 'left']: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
         ...(gap && { [this.conf.rtl ? 'marginLeft' : 'marginRight']: gap + (gapPx ? 'px' : '%') })
       }
+    },
+    videoObj () {
+      if (!this.video) return null
+      let video = { url: '', alt: '', props: { controls: true } }
+      if (typeof this.video === 'object') video = Object.assign(video, this.video)
+      else if (typeof this.video === 'string') video.url = this.video
+      return video
+    },
+    youtubeVideo () {
+      return /youtube\.|youtu\.be/.test(this.videoObj.url)
     },
     imageStyles () {
       return { ...(this.conf.slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")` }) }
@@ -142,6 +175,24 @@ export default {
         img.onerror = (this.loading = false) || reject // Always call reject.
         img.src = this.image
       })
+    },
+
+    playVideo () {
+      if (!this.videoObj) return
+
+      if (this.videoObj.url) {
+        this.$el.querySelector('iframe').contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*')
+      }
+      else this.$el.querySelector('video').play()
+    },
+
+    pauseVideo () {
+      if (!this.videoObj) return
+
+      if (this.videoObj.url) {
+        this.$el.querySelector('iframe').contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*')
+      }
+      else this.$el.querySelector('video').pause()
     }
   },
 
@@ -153,6 +204,7 @@ export default {
     this.addSlide({
       id: this._.uid,
       image: this.imageSrc,
+      video: this.videoObj && { ...this.videoObj, play: this.playVideo, pause: this.pauseVideo },
       title: this.title,
       content: this.content,
       contentSlot: this.$slots.content,

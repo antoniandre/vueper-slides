@@ -71,7 +71,7 @@
         aria-label="Previous"
         @keyup.left="conf.rtl ? next() : previous()"
         @keyup.right="conf.rtl ? previous() : next()")
-        slot(name="arrow-prev")
+        slot(:name="`arrow-${conf.rtl ? 'right' : 'left'}`")
           svg(viewBox="0 0 9 18")
             path(stroke-linecap="round" :d="conf.rtl ? 'm1 1 l7 8 -7 8' : 'm8 1 l-7 8 7 8'")
       button.vueperslides__arrow.vueperslides__arrow--next(
@@ -81,7 +81,7 @@
         aria-label="Next"
         @keyup.left="conf.rtl ? next() : previous()"
         @keyup.right="conf.rtl ? previous() : next()")
-        slot(name="arrow-next")
+        slot(:name="`arrow-${conf.rtl ? 'left' : 'right'}`")
           svg(viewBox="0 0 9 18")
             path(stroke-linecap="round" :d="conf.rtl ? 'm8 1 l-7 8 7 8' : 'm1 1 l7 8 -7 8'")
     .vueperslides__bullets(
@@ -906,6 +906,16 @@ export default {
       // Emit event. First use of `goToSlide` is while init, so should not propagate an event.
       if (this.isReady && !jumping && emit) this.emit('before-slide', true, nextSlide)
 
+      // First pause all the videos.
+      // this.slides.list.forEach(slide => slide.video && slide.video.pause())
+
+      const nextSlideObj = this.slides.list[nextSlide]
+      if (this.isReady && nextSlideObj.video) {
+        const currSlideObj = this.slides.list[this.slides.current]
+        if (currSlideObj.video) currSlideObj.video.pause()
+        nextSlideObj.video.play()
+      }
+
       // Infinite sliding with cloned slides:
       // When reaching last slide and going next the cloned slide of the first slide
       // shows up, when the animation ends the real change to the first slide is done
@@ -1192,6 +1202,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: inherit;
 
     &::-moz-focus-inner {border: 0;}
   }
