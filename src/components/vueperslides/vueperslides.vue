@@ -71,7 +71,7 @@
         aria-label="Previous"
         @keyup.left="conf.rtl ? next() : previous()"
         @keyup.right="conf.rtl ? previous() : next()")
-        slot(name="arrow-prev")
+        slot(:name="`arrow-${conf.rtl ? 'right' : 'left'}`")
           svg(viewBox="0 0 9 18")
             path(stroke-linecap="round" :d="conf.rtl ? 'm1 1 l7 8 -7 8' : 'm8 1 l-7 8 7 8'")
       button.vueperslides__arrow.vueperslides__arrow--next(
@@ -81,7 +81,7 @@
         aria-label="Next"
         @keyup.left="conf.rtl ? next() : previous()"
         @keyup.right="conf.rtl ? previous() : next()")
-        slot(name="arrow-next")
+        slot(:name="`arrow-${conf.rtl ? 'left' : 'right'}`")
           svg(viewBox="0 0 9 18")
             path(stroke-linecap="round" :d="conf.rtl ? 'm8 1 l-7 8 7 8' : 'm1 1 l7 8 -7 8'")
     .vueperslides__bullets(
