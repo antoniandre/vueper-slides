@@ -556,8 +556,7 @@
       :image="slide.image"
       :title="slide.title"
       :content="slide.content"
-      :link="slide.link"
-      :open-in-new="!i")
+      :link="slide.link")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :dragging-distance="50"&gt;
       &lt;vueper-slide
@@ -1463,7 +1462,8 @@
         :key="i"
         :image="slide.image"
         :title="slide.title"
-        :content="slide.content" /&gt;
+        :content="slide.content"
+        :video="slide.video" /&gt;
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
@@ -2063,6 +2063,7 @@
     content:   [String], default: ''
     link:      [String], default: ''
     openInNew: [Boolean], default: false // Open a link in a new tab.
+    video:     [String, Object], default: '' // Add a video on a slide.
     duration:  [Number], default: 0 // Override the global slide duration when autoplaying.
   h3
     a(href="#vueper-slide--events" v-scroll-to="'#vueper-slide--events'") Events
