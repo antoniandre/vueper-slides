@@ -2,6 +2,7 @@
 component.vueperslide(
   :is="link ? 'a' : 'div'"
   :href="link && !justDragged ? link : false"
+  :target="link && openInNew ? '_blank' : '_self'"
   :class="slideClasses"
   :face="slideFace3d"
   :style="slideStyles"
@@ -45,14 +46,15 @@ component.vueperslide(
 export default {
   inject: ['slides', 'touch', 'updateSlide', 'addClone', 'addSlide', 'removeSlide'],
   props: {
-    clone: { type: Boolean, default: false },
+    clone: { type: Boolean },
     image: { type: String, default: '' },
     video: { type: [String, Object], default: '' },
     title: { type: String, default: '' },
     content: { type: String, default: '' },
     link: { type: String, default: '' },
     duration: { type: Number, default: 0 },
-    lazyloaded: { type: Boolean, default: false }
+    lazyloaded: { type: Boolean },
+    openInNew: { type: Boolean }
   },
   emits: ['mouse-enter', 'mouse-leave'],
 
