@@ -2,7 +2,7 @@
 component.vueperslide(
   :is="link ? 'a' : 'div'"
   :href="link && !justDragged ? link : false"
-  :target="link && openInNew ? '_blank' : '_self'"
+  :target="link && openInNew ? (typeof openInNew === 'boolean' ? '_blank' : openInNew) : '_self'"
   :class="slideClasses"
   :face="slideFace3d"
   :style="slideStyles"
@@ -54,7 +54,7 @@ export default {
     link: { type: String, default: '' },
     duration: { type: Number, default: 0 },
     lazyloaded: { type: Boolean },
-    openInNew: { type: Boolean }
+    openInNew: { type: [Boolean, String] }
   },
   emits: ['mouse-enter', 'mouse-leave'],
 

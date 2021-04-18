@@ -2062,7 +2062,7 @@
     title:     [String], default: ''
     content:   [String], default: ''
     link:      [String], default: ''
-    openInNew: [Boolean], default: false // Open a link in a new tab.
+    openInNew: [Boolean, String], default: false // Open a link in a new tab and support custom target.
     video:     [String, Object], default: '' // Add a video on a slide.
     duration:  [Number], default: 0 // Override the global slide duration when autoplaying.
   h3
