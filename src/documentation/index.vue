@@ -2162,7 +2162,7 @@
       | Supports Vue 3. This version is not compatible with Vue 2.x.
 
     li.mb-2
-      strong.mr-3 Version 2.13
+      strong.mr-3 Version 2.15
       ul
         li Added the #[span.code pauseOnTouch] option (only for autoplay) and enables it by default.
         li.
