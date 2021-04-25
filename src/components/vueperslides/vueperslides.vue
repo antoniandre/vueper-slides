@@ -716,7 +716,6 @@ export default {
       this.resumeAutoplay()
     },
 
-
     // Check if dragging just happened - also for external use.
     justDragged () {
       return this.touch.justDragged
