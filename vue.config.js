@@ -19,5 +19,5 @@ module.exports = {
         return options
       })
   },
-  transpileDependencies: ['vuetify']
+  // transpileDependencies: ['vuetify']
 }
