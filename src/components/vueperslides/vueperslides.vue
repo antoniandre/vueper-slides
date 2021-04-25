@@ -53,7 +53,7 @@
             template(v-if="conf.lazy && !firstSlide.loaded" slot="loader")
               vnodes(:vnodes="firstSlide.loaderSlot")
 
-    .vueperslides__paused(v-if="conf.pauseOnHover && $slots.pause")
+    .vueperslides__paused(v-if="(conf.pauseOnHover || conf.pauseOnTouch) && $slots.pause")
       slot(name="pause")
     .vueperslides__progress(v-if="conf.progress")
       slot(name="progress" :current="slides.current + 1" :total="slidesCount")
@@ -196,6 +196,7 @@ export default {
     lazy: { type: Boolean, default: false },
     lazyLoadOnDrag: { type: Boolean, default: false },
     pauseOnHover: { type: Boolean, default: true },
+    pauseOnTouch: { type: Boolean, default: true },
     parallax: { type: [Boolean, Number], default: false },
     pageScrollingElement: { type: String, default: '' },
     parallaxFixedContent: { type: Boolean, default: false },
@@ -528,10 +529,17 @@ export default {
       // Allow mouse or touch dragging slides.
       if (this.touchEnabled) this.toggleTouchableOption(true)
 
-      // Pause autoplay on mouseover.
-      if (this.conf.pauseOnHover && !hasTouch && this.conf.autoplay) {
-        this.container.addEventListener('mouseover', this.onMouseIn)
-        this.container.addEventListener('mouseout', this.onMouseOut)
+      // Pause autoplay on mouseover or touch.
+      if (this.conf.autoplay) {
+        if (this.conf.pauseOnHover && !hasTouch) {
+          this.container.addEventListener('mouseover', this.onMouseIn)
+          this.container.addEventListener('mouseout', this.onMouseOut)
+        }
+        else if (this.conf.pauseOnTouch && hasTouch) {
+          document.addEventListener('touchstart', e => {
+            this[this.$el.contains(e.target) ? 'onSlideshowTouch' : 'onOustideTouch']()
+          })
+        }
       }
 
       // Breakpoints or parallax need a resize event.
@@ -697,6 +705,17 @@ export default {
 
       this.touch.lazyloadTriggered = false // Reinit for the next drag.
     },
+
+    onSlideshowTouch () {
+      this.mouseOver = true
+      this.pauseAutoplay()
+    },
+
+    onOustideTouch () {
+      this.mouseOver = false
+      this.resumeAutoplay()
+    },
+
 
     // Check if dragging just happened - also for external use.
     justDragged () {
@@ -983,7 +1002,7 @@ export default {
       return this.slidesCount
     },
 
-    addClone (newSlide) {
+    addClone () {
       // On adding clone, recalculate the current track translation.
       // (case when starting in infinite mode with no slide until later loaded).
       this.updateTrackTranslation()
@@ -1048,6 +1067,12 @@ export default {
       this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: !this.preventYScroll })
       document.removeEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
       document.removeEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp, { passive: true })
+
+      this.container.removeEventListener('mouseover', this.onMouseIn)
+      this.container.removeEventListener('mouseout', this.onMouseOut)
+      document.removeEventListener('touchstart', e => {
+        this[this.$el.contains(e.target) ? 'onSlideshowTouch' : 'onOustideTouch']()
+      })
     }
   },
 
