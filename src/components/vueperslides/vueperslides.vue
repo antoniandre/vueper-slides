@@ -222,6 +222,7 @@ export default {
 
   data: () => ({
     isReady: false,
+    isPaused: false, // When autoplay is true, whether the slideshow in a playing or paused state.
     container: null,
     slides: {
       list: [],
@@ -532,8 +533,8 @@ export default {
       // Pause autoplay on mouseover or touch.
       if (this.conf.autoplay) {
         if (this.conf.pauseOnHover && !hasTouch) {
-          this.container.addEventListener('mouseover', this.onMouseIn)
-          this.container.addEventListener('mouseout', this.onMouseOut)
+          this.container.addEventListener('mouseenter', this.onMouseEnter)
+          this.container.addEventListener('mouseleave', this.onMouseLeave)
         }
         else if (this.conf.pauseOnTouch && hasTouch) {
           document.addEventListener('touchstart', e => {
@@ -616,16 +617,19 @@ export default {
       if (this.conf.parallax) this.getSlideshowOffsetTop(true)
     },
 
-    onMouseIn () {
+    // Not on touch device.
+    onMouseEnter () {
       this.mouseOver = true
-      if (this.conf.pauseOnHover && this.conf.autoplay) this.pauseAutoplay()
+      if (this.conf.pauseOnHover && this.conf.autoplay) this.isPaused = true
     },
 
-    onMouseOut () {
+    // Not on touch device.
+    onMouseLeave () {
       this.mouseOver = false
-      if (this.conf.pauseOnHover && this.conf.autoplay) this.resumeAutoplay()
+      if (this.conf.pauseOnHover && this.conf.autoplay) this.isPaused = false
     },
 
+    // Both on desktop and touch device.
     onMouseDown (e) {
       if (!this.touchEnabled || this.disable) return
       if (!e.touches && this.preventYScroll) e.preventDefault()
@@ -638,8 +642,10 @@ export default {
       if (!this.conf.draggingDistance) this.updateTrackTranslation(this.touch.dragStartX)
     },
 
+    // Both on desktop and touch device.
     onMouseMove (e) {
       if (this.mouseDown || this.touch.dragging) {
+        if (this.conf.autoplay) this.isPaused = true // Pause any autoplay while dragging.
         if (this.preventYScroll) e.preventDefault()
         this.mouseDown = false
         this.touch.dragging = true
@@ -658,11 +664,24 @@ export default {
       }
     },
 
+    // Both on desktop and touch device.
+    // Note: on touch device, the e.target is the same target as the one you start dragging.
     onMouseUp (e) {
       this.mouseDown = false
 
       // If no mouse move there is nothing to do so don't go further.
       if (!this.touch.dragging) return this.cancelSlideChange()
+
+      else if (this.conf.autoplay) {
+        // Since the autoplay is always paused while dragging, resume autoplay if:
+        // - not touch device and not hover slideshow
+        // - touch device and pauseOnTouch is set to false.
+
+        const hasTouch = 'ontouchstart' in window
+        if (!hasTouch && !this.mouseOver) this.isPaused = false
+        // On touch device if pauseOnTouch is false, resume the autoplay on release of a slide dragging.
+        else if (!this.conf.pauseOnTouch) this.isPaused = false
+      }
 
       this.touch.dragging = false
       const dragAmount = this.conf.draggingDistance ? -this.touch.dragAmount : 0
@@ -707,13 +726,11 @@ export default {
     },
 
     onSlideshowTouch () {
-      this.mouseOver = true
-      this.pauseAutoplay()
+      this.isPaused = true
     },
 
     onOustideTouch () {
-      this.mouseOver = false
-      this.resumeAutoplay()
+      this.isPaused = false
     },
 
     // Check if dragging just happened - also for external use.
@@ -812,16 +829,22 @@ export default {
     },
 
     pauseAutoplay () {
+      this.isPaused = true
       clearTimeout(this.autoplayTimer)
       this.autoplayTimer = 0
       this.emit('autoplay-pause')
     },
 
     resumeAutoplay () {
+      this.isPaused = false
+      this.doAutoplay()
+      this.emit('autoplay-resume')
+    },
+
+    doAutoplay () {
       this.autoplayTimer = setTimeout(() => {
         this.goToSlide(this.slides.current + this.conf.slideMultiple, { autoPlaying: true })
       }, this.currentSlide.duration || this.conf.duration)
-      this.emit('autoplay-resume')
     },
 
     previous (emit = true) {
@@ -897,7 +920,11 @@ export default {
     goToSlide (index, { animation = true, autoPlaying = false, jumping = false, breakpointChange = false, emit = true } = {}) {
       if (!this.slidesCount || this.disable) return
 
-      if (this.conf.autoplay && autoPlaying) this.pauseAutoplay()
+      // When autoplay is on and user slides via kbd arrows but not mouse hovering, reset the timer.
+      if (this.conf.autoplay && !autoPlaying && !this.isPaused) {
+        this.isPaused = true
+        this.$nextTick(() => (this.isPaused = false))
+      }
 
       this.transition.animated = animation
       setTimeout(() => (this.transition.animated = false), this.transitionSpeed)
@@ -964,9 +991,7 @@ export default {
 
       this.slides.activeId = this.slides.list[this.slides.current].id
 
-      if (this.conf.autoplay && autoPlaying && !(this.conf.pauseOnHover && this.mouseOver)) {
-        this.resumeAutoplay()
-      }
+      if (this.conf.autoplay && autoPlaying && !this.isPaused) this.doAutoplay()
 
       if (this.slidesCount) {
         // First use of goToSlide is while init, so should not propagate an event.
@@ -996,7 +1021,9 @@ export default {
       this.slides.list.push(newSlide)
       // If the slideshow was initialized with no slides and with autoplay, resume the autoplay
       // when the first slide is added.
-      if (this.isReady && this.slidesCount === 1 && this.conf.autoplay) this.resumeAutoplay()
+      if (this.isReady && this.slidesCount === 1 && this.conf.autoplay && this.isPaused) {
+        this.isPaused = false
+      }
 
       return this.slidesCount
     },
@@ -1066,12 +1093,12 @@ export default {
       this.$refs.track.removeEventListener(hasTouch ? 'touchstart' : 'mousedown', this.onMouseDown, { passive: !this.preventYScroll })
       document.removeEventListener(hasTouch ? 'touchmove' : 'mousemove', this.onMouseMove, { passive: !this.preventYScroll })
       document.removeEventListener(hasTouch ? 'touchend' : 'mouseup', this.onMouseUp, { passive: true })
+    }
+  },
 
-      this.container.removeEventListener('mouseover', this.onMouseIn)
-      this.container.removeEventListener('mouseout', this.onMouseOut)
-      document.removeEventListener('touchstart', e => {
-        this[this.$el.contains(e.target) ? 'onSlideshowTouch' : 'onOustideTouch']()
-      })
+  watch: {
+    isPaused (bool) {
+      this[bool ? 'pauseAutoplay' : 'resumeAutoplay']()
     }
   },
 
@@ -1081,12 +1108,19 @@ export default {
 
   beforeDestroy () {
     this.removeEventListeners()
+
     if (this.pageScrollingElement) {
       document.querySelector(this.pageScrollingElement).removeEventListener('scroll', this.onScroll)
     }
     else document.removeEventListener('scroll', this.onScroll)
     document.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.onResize)
+    document.removeEventListener('touchstart', e => {
+      this[this.$el.contains(e.target) ? 'onSlideshowTouch' : 'onOustideTouch']()
+    })
+
+    this.container.removeEventListener('mouseenter', this.onMouseEnter)
+    this.container.removeEventListener('mouseleave', this.onMouseLeave)
   }
 }
 </script>
