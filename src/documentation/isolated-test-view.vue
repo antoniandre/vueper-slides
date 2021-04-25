@@ -4,7 +4,6 @@ div
   p autoplaying: {{internalAutoPlaying}}
   vueper-slides.no-shadow(
     autoplay
-    :pause-on-hover="true"
     @autoplay-pause="internalAutoPlaying = false"
     @autoplay-resume="internalAutoPlaying = true")
     vueper-slide(
