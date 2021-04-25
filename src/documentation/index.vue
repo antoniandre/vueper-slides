@@ -545,8 +545,18 @@
   p.
     By default, you can put a link on the title or the description of the slide.#[br]
     But if you need to, you can also wrap the whole slide into a link using the #[span.code link] attribute of the #[span.code &lt;vueperslide&gt;] component.
+
+  highlight(type="info").
+    You can also open the link in a new tab with the option: #[code open-in-new] that you can add on
+    each #[span.code &lt;vueper-slide&gt;] tag.
   vueper-slides.text-center.my-4.ex--link-on-the-whole-slide(:dragging-distance="50")
-    vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image" :title="slide.title" :content="slide.content" :link="slide.link")
+    vueper-slide(
+      v-for="(slide, i) in slides2"
+      :key="i"
+      :image="slide.image"
+      :title="slide.title"
+      :content="slide.content"
+      :link="slide.link")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :dragging-distance="50"&gt;
       &lt;vueper-slide
@@ -1452,7 +1462,8 @@
         :key="i"
         :image="slide.image"
         :title="slide.title"
-        :content="slide.content" /&gt;
+        :content="slide.content"
+        :video="slide.video" /&gt;
     &lt;/vueper-slides&gt;
 
   ssh-pre(language="js" label="Javascript").
@@ -2047,11 +2058,13 @@
     a(id="vueper-slide--settings" name="vueper-slide--settings")
   p The following options can be applied to every #[span.code &lt;vueper-slide&gt;] tag.
   ssh-pre(language="js").
-    image:    [String], default: ''
-    title:    [String], default: ''
-    content:  [String], default: ''
-    link:     [String], default: ''
-    duration: [Number], default: 0 // Override the global slide duration when autoplaying.
+    image:     [String], default: ''
+    title:     [String], default: ''
+    content:   [String], default: ''
+    link:      [String], default: ''
+    openInNew: [Boolean, String], default: false // Open a link in a new tab and support custom target.
+    video:     [String, Object], default: '' // Add a video on a slide.
+    duration:  [Number], default: 0 // Override the global slide duration when autoplaying.
   h3
     a(href="#vueper-slide--events" :v-scroll-to="'#vueper-slide--events'") Events
     a(id="vueper-slide--events" name="vueper-slide--events")
