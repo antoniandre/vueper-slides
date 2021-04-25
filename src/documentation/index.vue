@@ -1594,6 +1594,7 @@
     parallax:                 [Boolean, Number], default: false
     parallaxFixedContent:     [Boolean],         default: false
     pauseOnHover:             [Boolean],         default: true
+    pauseOnTouch:             [Boolean],         default: true
     preventYScroll:           [Boolean],         default: false
     progress:                 [Boolean],         default: false
     rtl:                      [Boolean],         default: false
@@ -1797,8 +1798,16 @@
     li
       | #[code pauseOnHover], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
       p.
-        If #[span.code autoplay] is on, setting #[span.code pauseOnHover]  stops the autoplay
+        If #[span.code autoplay] is on, setting #[span.code pauseOnHover] stops the autoplay
         while hovering then resets to the defined #[span.code duration] when you stop hovering.#[br]
+        See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
+
+    li
+      | #[code pauseOnTouch], #[strong.mr-1 Type:] #[span.code="[Boolean]"], #[strong.mr-1 Default:] #[span.code true]
+      p.
+        If #[span.code autoplay] is on, setting #[span.code pauseOnTouch] stops the autoplay
+        as soon as you touch any element contained in the slideshow.#[br]
+        When you touch outside of the slideshow, the autoplay resumes.#[br]
         See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
@@ -2151,6 +2160,11 @@
     li.mb-5
       .title.mr-3 Version 3.0
       | Supports Vue 3. This version is not compatible with Vue 2.x.
+
+    li.mb-2
+      strong.mr-3 Version 2.13
+      ul
+        li Added the #[span.code pauseOnTouch] option (only for autoplay) and enables it by default.
 
     li.mb-2
       strong.mr-3 Version 2.12
