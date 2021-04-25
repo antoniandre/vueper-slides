@@ -2165,6 +2165,9 @@
       strong.mr-3 Version 2.13
       ul
         li Added the #[span.code pauseOnTouch] option (only for autoplay) and enables it by default.
+        li.
+          Always prevent the autoplay while dragging a slide and reset the autoplay timer on release.
+          Both on desktop and touch devices.
 
     li.mb-2
       strong.mr-3 Version 2.12
