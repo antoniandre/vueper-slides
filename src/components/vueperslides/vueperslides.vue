@@ -846,6 +846,7 @@ export default {
     },
 
     doAutoplay () {
+      clearTimeout(this.autoplayTimer)
       this.autoplayTimer = setTimeout(() => {
         this.goToSlide(this.slides.current + this.conf.slideMultiple, { autoPlaying: true })
       }, this.currentSlide.duration || this.conf.duration)
