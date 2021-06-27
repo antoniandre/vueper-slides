@@ -169,7 +169,7 @@
     v-btn.ml-2(
       small
       color="primary"
-      @click="$refs.exBasic[`${autoPlaying ? 'pause' : 'resume'}Autoplay`]();autoPlaying = !autoPlaying;pauseOnHover = false")
+      @click="toggleAutoplay")
       v-icon.mr-1 {{ autoPlaying ? 'pause_circle_outline' : 'play_circle_outline' }}
       | {{ autoPlaying ? 'Pause' : 'Resume' }}
     v-btn.ml-2(small color="primary" :outlined="!pauseOnHover" @click="pauseOnHover = !pauseOnHover")
@@ -2470,6 +2470,11 @@ export default {
     },
     logEvents (eventName, params) {
       this.logs.push({ eventName, params })
+    },
+    toggleAutoplay () {
+      this.$refs.exBasic[`${this.autoPlaying ? 'pause' : 'resume'}Autoplay`]()
+      this.autoPlaying = !this.autoPlaying
+      this.pauseOnHover = false
     },
     appendSlide () {
       this.slides3.push({
