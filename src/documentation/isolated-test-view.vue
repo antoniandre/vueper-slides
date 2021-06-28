@@ -1,7 +1,7 @@
 <template lang="pug">
 //- This is an isolated test view. Just for testing purpose.
 div
-  p autoplaying: {{internalAutoPlaying}}
+  p autoplaying: {{ internalAutoPlaying }}
   vueper-slides.no-shadow(
     autoplay
     @autoplay-pause="internalAutoPlaying = false"
