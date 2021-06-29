@@ -38,12 +38,10 @@
     "sass-loader": "^10.2.0",
     "simple-syntax-highlighter": "^1.4.8",
     "vue": "^2.6.14",
-    "vue-cli-plugin-vuetify": "^2.4.1",
     "vue-router": "^3.5.2",
     "vue-scrollto": "^2.20.0",
     "vue-template-compiler": "^2.6.14",
-    "vuetify": "^2.5.5",
-    "vuetify-loader": "^1.7.2"
+    "wave-ui": "^1.36.1"
   },
   "keywords": [
     "carousel",
