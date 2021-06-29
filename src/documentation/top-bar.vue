@@ -11,7 +11,7 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
       span.intro A Vue Super Slideshow / Carousel
   .spacer
   .top-bar__items
-    w-menu(offset-y open-on-hover left attach transition="slide-y-transition")
+    w-menu(offset-y open-on-hover left attach transition="slide-down")
       template(v-slot:activator="{ on }")
         w-button(text color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'" v-on="on")
           w-icon school
@@ -19,14 +19,14 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
           span Doc
       w-list.text-no-wrap
         w-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
-          w-icon(small).mr2 build
+          w-icon.mr2 build
           | Installation
         w-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
-          w-icon(small).mr2 help_outline
+          w-icon.mr2 help_outline
           | How To Use
         w-divider
         w-list-item.heading
-            w-icon(small).mr2 code
+            w-icon.mr2 code
             | Vueper-slides
             span.ml1.grey--text.text--lighten-1 (wrapper)
         w-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
@@ -36,7 +36,7 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
         w-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
         w-divider
         w-list-item.heading
-            w-icon(small).mr2 code
+            w-icon.mr2 code
             | Vueper-slide
             span.ml1.grey--text.text--lighten-1 (slide)
         w-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
@@ -45,12 +45,12 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
           | Settings
         w-divider
         w-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
-          w-icon(small).mr2 color_lens
+          w-icon.mr2 color_lens
           | Styling
         w-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
-          w-icon(small).mr2 format_list_numbered
+          w-icon.mr2 format_list_numbered
           | Notable Version Changes
-    w-menu(offset-y open-on-hover left attach transition="slide-y-transition")
+    w-menu(offset-y open-on-hover left attach transition="slide-down")
       template(v-slot:activator="{ on }")
         w-button(text color="secondary" href="#examples" v-scroll-to="'#examples'" slot="activator" v-on="on")
           w-icon apps
@@ -80,8 +80,8 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
         w-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances (gallery)
         w-list-item(color="secondary" href="#ex--videos" v-scroll-to="'#ex--videos'")
           | Videos
-          w-tag.w-tag--x-small.ml2.px0.white--text(color="primary" outlined) NEW
-        //- w-tag.w-tag--x-small.ml2.px0.white--text(color="secondary" outlined) updated
+          w-tag.w-tag--sm.ml2.px0.white--text(color="primary" outlined) NEW
+        //- w-tag.w-tag--sm.ml2.px0.white--text(color="secondary" outlined) updated
 </template>
 
 <script>
@@ -194,7 +194,7 @@ export default {
     &.heading {padding-left: 8px;color: #666 !important;}
   }
 
-  .w-tag.w-tag--x-small {
+  .w-tag.w-tag--sm {
     font-size: 10px;
     height: 18px;
     line-height: 18px;

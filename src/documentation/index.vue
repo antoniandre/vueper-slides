@@ -58,7 +58,7 @@
   .max-widthed.mt8.mb3.title Github project
   w-flex.max-widthed.mb5(align-center shrink)
     w-icon.pr5.lightgrey--text(size="46") fab fa-github
-    a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[w-icon(small color="primary") open_in_new]
+    a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[w-icon(color="primary") open_in_new]
 
   w-flex.max-widthed.my8(align-center)
     w-icon.mr4(size="50" color="pink lighten-3") favorite
@@ -148,7 +148,7 @@
   h2
     a(href="#examples" v-scroll-to="'#examples'") Examples of Use
     a(id="examples" name="examples")
-  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/jevjoQ" target="_blank") codepen.io #[w-icon(small color="primary") open_in_new]].
+  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/jevjoQ" target="_blank") codepen.io #[w-icon(color="primary") open_in_new]].
 
   h3
     a(href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever
@@ -183,7 +183,7 @@
     @autoplay-pause="internalAutoPlaying = false"
     @autoplay-resume="internalAutoPlaying = true")
     template(v-slot:pause)
-      w-icon(large color="white") pause_circle_outline
+      w-icon(lg color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
   p.subtitle-1.mt6 Basic autoplay (with pause on mouseover) source code:
@@ -266,9 +266,9 @@
 
   vueper-slides.ex--arrows-and-bullets-2.no-shadow(:infinite="false" :slide-ratio="0.22" :bullets="false")
     template(v-slot:arrow-left)
-      w-icon(color="white" x-large) undo
+      w-icon(color="white" xl) undo
     template(v-slot:arrow-right)
-      w-icon(color="white" x-large) redo
+      w-icon(color="white" xl) redo
     vueper-slide(
       v-for="i in 5"
       :key="i"
@@ -840,7 +840,7 @@
       div.grey--text(v-if="logs")
         strong // event-name:
         span.ml2 params
-      w-button(color="primary" x-small outlined @click="logs = []")
+      w-button(color="primary" sm outlined @click="logs = []")
         w-icon.mr1(small) close
         | Clear logs
     div(v-for="(log, i) in logs")
@@ -1205,7 +1205,7 @@
   p.
     This example demonstrates how to control Vueper Slides from wherever you want.
     ...In your code, not wherever on Earth.#[br]
-    By using a #[a(href="https://vuejs.org/v2/api/#ref" target="_blank") Vue JS reference #[w-icon(small color="primary") open_in_new]] on your slideshow, you can access any method it
+    By using a #[a(href="https://vuejs.org/v2/api/#ref" target="_blank") Vue JS reference #[w-icon(color="primary") open_in_new]] on your slideshow, you can access any method it
     contains from outside.#[br]
     Now that you have the power, here is a list of methods you may find useful:
   ul.max-widthed.mb3
@@ -1902,7 +1902,7 @@
         Sets the slideshow ratio so it will naturally stay ratio-ed on different browser width.#[br]
         See the #[a(href="#ex--events" v-scroll-to="'#ex--events'") Events] example or #[a(href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Using Breakpoints] example.
         #[br]More examples are available in a
-        #[a(href="https://codepen.io/antoniandre/pen/KBXWPP" target="_blank") Codepen demo #[w-icon(small color="primary") open_in_new]].
+        #[a(href="https://codepen.io/antoniandre/pen/KBXWPP" target="_blank") Codepen demo #[w-icon(color="primary") open_in_new]].
       highlight.
         Setting the ratio avoids heavier javascript width and height calculations on resize.#[br]
         But thanks to the default value, Vueper Slides' got your back if you don't set any.
@@ -2119,7 +2119,7 @@
     a(href="#available-css-classes" v-scroll-to="'#available-css-classes'") Available CSS Classes
     a(id="available-css-classes" name="available-css-classes")
   p.
-    Vueper Slides uses the #[a(href="http://getbem.com/naming/" target="_blank") BEM #[w-icon(small color="primary") open_in_new]]
+    Vueper Slides uses the #[a(href="http://getbem.com/naming/" target="_blank") BEM #[w-icon(color="primary") open_in_new]]
     naming convention. Styling any element should be quite simple and straightforward.#[br]
 
   ul.max-widthed
