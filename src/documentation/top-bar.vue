@@ -14,19 +14,19 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
     w-menu(offset-y open-on-hover left attach transition="slide-down")
       template(v-slot:activator="{ on }")
         w-button(text color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'" v-on="on")
-          w-icon school
+          w-icon material-icons school
           | &nbsp;
           span Doc
       w-list.text-no-wrap
         w-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
-          w-icon.mr2 build
+          w-icon.mr2 material-icons build
           | Installation
         w-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
-          w-icon.mr2 help_outline
+          w-icon.mr2 material-icons help_outline
           | How To Use
         w-divider
         w-list-item.heading
-            w-icon.mr2 code
+            w-icon.mr2 material-icons code
             | Vueper-slides
             span.ml1.grey--text.text--lighten-1 (wrapper)
         w-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
@@ -36,7 +36,7 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
         w-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
         w-divider
         w-list-item.heading
-            w-icon.mr2 code
+            w-icon.mr2 material-icons code
             | Vueper-slide
             span.ml1.grey--text.text--lighten-1 (slide)
         w-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
@@ -45,15 +45,15 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
           | Settings
         w-divider
         w-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
-          w-icon.mr2 color_lens
+          w-icon.mr2 material-icons color_lens
           | Styling
         w-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
-          w-icon.mr2 format_list_numbered
+          w-icon.mr2 material-icons format_list_numbered
           | Notable Version Changes
     w-menu(offset-y open-on-hover left attach transition="slide-down")
       template(v-slot:activator="{ on }")
         w-button(text color="secondary" href="#examples" v-scroll-to="'#examples'" slot="activator" v-on="on")
-          w-icon apps
+          w-icon material-icons apps
           | &nbsp;
           span Examples
       w-list.text-no-wrap(allow-overflow)

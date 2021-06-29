@@ -5,7 +5,7 @@ import 'wave-ui/dist/wave-ui.css'
 Vue.use(WaveUI)
 
 export default new WaveUI({
-  iconsLigature: 'md',
+  iconsLigature: 'material-icons',
   colors: {
     primary: '#ff5252',
     secondary: '#42b983',

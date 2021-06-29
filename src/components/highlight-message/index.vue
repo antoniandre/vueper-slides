@@ -1,6 +1,6 @@
 <template lang="pug">
   component(:class="`highlight highlight--${type}`" :is="tag")
-    w-icon(v-if="!noIcon") {{ icon }}
+    w-icon(v-if="!noIcon") material-icons {{ icon }}
     slot
 </template>
 

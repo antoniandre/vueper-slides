@@ -6,14 +6,14 @@ w-app(:class="{ ready }" v-scroll="onScroll")
   w-transition-twist
     w-button(color="primary" fixed bottom right round v-show="!goTopHidden" v-scroll-to="'#top'")
       //- Width to prevent ugly first load animation when icon is not yet ready.
-      w-icon(color="white" size="26" style="width: 24px") md keyboard_arrow_up
+      w-icon(color="white" size="26" style="width: 24px") material-icons keyboard_arrow_up
 
   footer.py2(color="white")
     w-flex.max-widthed(wrap justify-center)
       .xs12.sm6.text-center.text-sm-left.copyright.
         Copyright © {{ (new Date()).getFullYear() }} Antoni André, all rights reserved.
       .xs12.sm6.text-center.text-sm-right.made-with
-        .mb1 This documentation is made with #[w-icon fab fa-vuejs], #[w-icon fab fa-html5], #[w-icon fab fa-css3], #[w-icon fab fa-sass] &amp; #[w-icon.heart md favorite]
+        .mb1 This documentation is made with #[w-icon fab fa-vuejs], #[w-icon fab fa-html5], #[w-icon fab fa-css3], #[w-icon fab fa-sass] &amp; #[w-icon.heart material-icons favorite]
         | View this project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") #[w-icon fab fa-github] Github].
 </template>
 
