@@ -13,56 +13,56 @@
           | Photo by
           a(:href="slide.link" target="_blank") {{ slide.content.substring(9) }}
       template(v-slot:loader)
-        v-progress-circular(color="primary" indeterminate)
+        w-progress(circle color="primary" indeterminate)
         span.mt-3.primary--text.title Loading...
 
   h2
     a(href="#features" v-scroll-to="'#features'") Features
     a(id="features" name="features")
   div.max-widthed.mb-5.features
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     strong SUPPORTS VUE 3.
     br
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     strong Supports Videos with customizable attributes.
     br
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Fully responsive] and scales with its container.#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Accessibility friendly] &amp; keyboard navigation.#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Highly customizable].#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Lazy loading].#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | Show multiple items per slides.#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | Built-in #[strong parallax] effect &amp; #[strong 3D rotation].#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Breakpoints] with different configuration.#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | Slide content supports #[strong title &amp; description, inside OR outside] the current slide.#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | Uses #[strong CSS animations] &amp; comes with a minimum of styles (using the #[i BEM] convention).#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Emitted events] for callbacks, etc...#[br]
-    v-icon.pr-2(color="secondary") check
+    w-icon.pr-2(color="secondary") check
     | #[strong Supports RTL] direction
 
   .max-widthed.mt-8.mb-3.title Github project
-  v-layout.max-widthed.mb-5(align-center shrink)
-    v-icon.pr-5.lightgrey--text(size="46") fab fa-github
-    a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[v-icon(small color="primary") open_in_new]
+  w-flex.max-widthed.mb-5(align-center shrink)
+    w-icon.pr-5.lightgrey--text(size="46") fab fa-github
+    a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[w-icon(small color="primary") open_in_new]
 
-  v-layout.max-widthed.my-8(align-center)
-    v-icon.mr-4(size="50" color="pink lighten-3") favorite
-    v-alert.ma-0.pl-5(dense border="left" text color="pink" style="width: 100%;max-width: 620px")
+  w-flex.max-widthed.my-8(align-center)
+    w-icon.mr-4(size="50" color="pink lighten-3") favorite
+    w-alert.ma-0.pl-5(border="left" text color="pink" style="width: 100%;max-width: 620px")
       | If you like Vueper Slides, you can
       a.pink--text.mx-2(
         href="https://www.paypal.me/antoniandre1"
@@ -76,10 +76,10 @@
       | !
       div Thank you so much to all the supporters! #[span.headline.ml-1 🙏]
 
-  v-layout.max-widthed.my-8(align-center)
+  w-flex.max-widthed.my-8(align-center)
     svg.mr-4.blue--text.text--lighten-1(viewBox="0 0 725 477" style="width: 50px;stroke: #497ca2;stroke-width: 5px")
       path(fill="#497ca2" d="M449 0c-78 5-152 39-217 82-19 13-37 26-54 40-39 1-77 15-110 34-34 21-53 60-61 99-11 52-8 108 6 159 7 23 16 46 33 63 4-4 13-4 13-11-1-5-7-8-9-14-27-48-32-108-11-159 13-32 36-63 68-77 19-9 42-7 58 6 6 7 18 4 24-2 6-4 11-10 19-10-24 25-39 60-38 95 1 15 3 31 8 45 16 36 41 69 76 89 5 2 10 6 16 7 5-2 14-5 14-12-4-9-14-12-21-18-27-23-56-48-67-82-9-29-1-60 8-88 7-15 21-32 39-29 15 1 28 13 43 8 11-5 13-17 16-27 5-17 3-38-10-51-16-18-40-23-62-25l-11-2c23-19 53-26 81-31 21-3 43-5 64-2 18 3 28 21 42 31-33 47-57 102-56 159a170 170 0 0086 149c6-1 13-7 10-14-5-11-17-16-25-25-33-30-52-75-50-121 1-29 11-58 24-84 12-25 25-52 47-71 9-8 22-13 33-7 20 8 42 14 63 13-35 27-55 70-64 113-9 44-7 91 12 133 15 37 45 68 81 85 32 16 67 24 101 27 18 1 36 2 53-4 4-1 6-7 2-9-13-6-28-4-42-6-45-5-92-16-127-45-34-28-54-71-60-114-5-47 7-97 34-137 11-15 26-31 45-34 14-1 25 12 31 23 6 12 16 24 29 28 20-10 40-26 43-50 2-17-6-34-14-49-15-25-40-43-69-48-20-5-41-2-61-6-22-21-54-24-83-24zm6 21c22 0 48 5 62 25 4 7 8 16 8 24-1 10-10 22-21 19-9-7-18-14-30-16-14-4-31-1-43 8-6 6-17 8-24 2-9-6-17-15-28-17-27-7-54 1-81 6a364 364 0 01157-51zm117 29c33 0 66 25 72 58 3 12 3 28-8 35-3 2-6 4-8 1-8-12-12-27-23-37-3-7-12-8-19-9-13-2-26 0-39-4 7-7 6-17 4-25l-3-16 24-3zm-372 92l46 2c18 2 33 16 34 34 1 7 1 17-6 21-6 0-12-4-18-6-21-8-46-14-67-3-6 2-11 9-17 5-10-4-18-14-30-12-30 1-56 21-77 42-16 17-30 37-43 56 0-39 17-80 49-104 26-22 61-30 94-34l35-1z")
-    v-alert.ma-0.pl-5(dense border="left" text color="#1471b8" style="width: 100%;max-width: 620px")
+    w-alert.ma-0.pl-5(border="left" text color="#1471b8" style="width: 100%;max-width: 620px")
       strong
         | Check out my new UI framework for Vue &amp; Vue 3!
         a.headline.ml-4(
@@ -148,7 +148,7 @@
   h2
     a(href="#examples" v-scroll-to="'#examples'") Examples of Use
     a(id="examples" name="examples")
-  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/jevjoQ" target="_blank") codepen.io #[v-icon(small color="primary") open_in_new]].
+  p Here is a list of useful examples, but you can also try it yourself on #[a(href="https://codepen.io/antoniandre/pen/jevjoQ" target="_blank") codepen.io #[w-icon(small color="primary") open_in_new]].
 
   h3
     a(href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever
@@ -166,14 +166,14 @@
   p
     | The autoplay circles between all the slides and goes back to the begining after the last slide.#[br]
     | You can also pause and resume the autoplay from an external button using Vue refs like this:
-    v-btn.ml-2(
+    w-button.ml-2(
       small
       color="primary"
       @click="$refs.exBasic[`${autoPlaying ? 'pause' : 'resume'}Autoplay`]();autoPlaying = !autoPlaying;pauseOnHover = false")
-      v-icon.mr-1 {{ autoPlaying ? 'pause_circle_outline' : 'play_circle_outline' }}
+      w-icon.mr-1 {{ autoPlaying ? 'pause_circle_outline' : 'play_circle_outline' }}
       | {{ autoPlaying ? 'Pause' : 'Resume' }}
-    v-btn.ml-2(small color="primary" :outlined="!pauseOnHover" @click="pauseOnHover = !pauseOnHover")
-      v-icon.mr-1(v-if="pauseOnHover") check
+    w-button.ml-2(small color="primary" :outlined="!pauseOnHover" @click="pauseOnHover = !pauseOnHover")
+      w-icon.mr-1(v-if="pauseOnHover") check
       | Pause on mouseover
     code.ml-2 Currently {{ internalAutoPlaying ? 'playing' : 'paused' }}
   vueper-slides.ex2(
@@ -183,7 +183,7 @@
     @autoplay-pause="internalAutoPlaying = false"
     @autoplay-resume="internalAutoPlaying = true")
     template(v-slot:pause)
-      v-icon(large color="white") pause_circle_outline
+      w-icon(large color="white") pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
   p.subtitle-1.mt-6 Basic autoplay (with pause on mouseover) source code:
@@ -266,9 +266,9 @@
 
   vueper-slides.ex--arrows-and-bullets-2.no-shadow(:infinite="false" :slide-ratio="0.22" :bullets="false")
     template(v-slot:arrow-left)
-      v-icon(color="white" x-large) undo
+      w-icon(color="white" x-large) undo
     template(v-slot:arrow-right)
-      v-icon(color="white" x-large) redo
+      w-icon(color="white" x-large) redo
     vueper-slide(
       v-for="i in 5"
       :key="i"
@@ -340,7 +340,7 @@
       :title="i.toString()"
       :style="'background-color: ' + colors[(i + 1) % 4]")
     template(v-slot:bullet="{ active, slideIndex, index }")
-      v-icon.mr-1(:color="colors[(index + 1) % 4]") {{ active ? 'check_circle' : 'radio_button_unchecked' }}
+      w-icon.mr-1(:color="colors[(index + 1) % 4]") {{ active ? 'check_circle' : 'radio_button_unchecked' }}
       strong(:style="`color: ${colors[(index + 1) % 4]}`") Slide \#{{ index }}
 
   p.mb-0 When using the #[span.code bullet] slot, 3 variables are accessible:
@@ -382,7 +382,7 @@
         @click="goToSlide(slideIndex)"
         @keyup.left="previous()"
         @keyup.right="next()")
-        v-icon(:color="colors[(i + 2) % 4]")
+        w-icon(:color="colors[(i + 2) % 4]")
           | {{ currentSlide === slideIndex ? 'check_circle' : 'radio_button_unchecked' }}
 
   p.mb-0 When using the #[span.code bullets] slot, 5 variables are accessible:
@@ -521,7 +521,7 @@
   vueper-slides.ex--lazyloading(lazy lazy-load-on-drag)
     vueper-slide(v-for="(slide, i) in lazyloadSlides" :key="i" :image="slide.image")
       template(v-slot:loader)
-        v-progress-circular(color="primary" indeterminate)
+        w-progress(circle color="primary" indeterminate)
         span.mt-3.primary--text.title Loading...
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -597,7 +597,7 @@
       template(v-slot:content)
         .vueperslide__content-wrapper
           .subtitle-1
-            v-icon.mr-2(color="white") check
+            w-icon.mr-2(color="white") check
             | Complex content {{ i.toString() }} with Vue.js
             | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
             | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
@@ -626,7 +626,7 @@
 
     The content can be placed inside the slides (default) or outside above or bellow the slideshow.#[br]
     In this example the content is set in a slot (refer to #[a(href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content]
-    for more details) and uses interpreted mustaches #[span.code(v-pre) {{ }} and Vuetify components like #[span.code v-layout] &amp; #[span.code v-icon]].
+    for more details) and uses interpreted mustaches #[span.code(v-pre) {{ }} and Vuetify components like #[span.code w-flex] &amp; #[span.code w-icon]].
 
   highlight(type="tips")
     strong.red--text WARNING: The following tip does not apply to Vue 3. Vue 3 resolves this internally.
@@ -635,16 +635,16 @@
       (1 prepended, 1 appended to slides list when infinite mode).#[br]
       But you have an option to keep it always updated using #[span.code always-refresh-clones] like in this example.#[br]
       This is only for particular cases like this clock and you usually don't need this as the slides are copied from original content on mounted.
-  v-layout.max-widthed.mb-4(align-center wrap)
-    v-layout.shrink.mr-4(align-center wrap)
-      v-btn.mt-2.mr-2(color="primary" @click="toggleSlidesTime" small)
-        v-icon.pr-2 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
+  w-flex.max-widthed.mb-4(align-center wrap)
+    w-flex.shrink.mr-4(align-center wrap)
+      w-button.mt-2.mr-2(color="primary" @click="toggleSlidesTime" small)
+        w-icon.pr-2 {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
         | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
-      v-expand-x-transition
-        v-chip.mt-2(v-if="slidesTimeTimerId === 0" small outlined) CPU says THANK YOU!
-    v-layout(align-center wrap)
-      v-btn.mt-2.mx-2(color="primary" @click="contentPositionChange" small)
-        v-icon swap_vert
+      w-transition-expand(x)
+        w-tag.mt-2(v-if="slidesTimeTimerId === 0" small outlined) CPU says THANK YOU!
+    w-flex(align-center wrap)
+      w-button.mt-2.mx-2(color="primary" @click="contentPositionChange" small)
+        w-icon swap_vert
         | &nbsp;Move content position
       strong.mt-2.code {{ contentPosition === 'false' ? ':' : '' }}slide-content-outside="#[span.primary--text {{ contentPosition }}]"
   vueper-slides.ex--updating-content(
@@ -656,7 +656,7 @@
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       template(v-slot:content)
         .vueperslide__content-wrapper(style="flex-direction: row")
-          v-icon.pr-3(color="white" size="5em") access_time
+          w-icon.pr-3(color="white" size="5em") access_time
           span(style="font-size: 3.7em") {{ slide.title }}
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -711,14 +711,14 @@
   p
     | This example illustrates how to add or remove slides on the fly from a running Vueper Slides instance.#[br]
     | You can also completely freeze the slideshow and unfreeze when you want to.#[br]
-    v-btn.ma-1(color="primary" @click="appendSlide" small)
-      v-icon add
+    w-button.ma-1(color="primary" @click="appendSlide" small)
+      w-icon add
       | &nbsp; Add Slide
-    v-btn.ma-1(color="primary" @click="removeSlide" small)
-      v-icon remove
+    w-button.ma-1(color="primary" @click="removeSlide" small)
+      w-icon remove
       | &nbsp; Remove Slide
-    v-btn.ma-1(color="secondary" @click="toggleSlideshow" small)
-      v-icon {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
+    w-button.ma-1(color="secondary" @click="toggleSlideshow" small)
+      w-icon {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
   highlight Note that the slideshow disables controls if you have only 1 slide or none.
   p The arrows are also disabled on edges in this example.
@@ -737,13 +737,13 @@
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;button @click="appendSlide" small&gt;
-      &lt;v-icon&gt;add&lt;/v-icon&gt; Add Slide
+      &lt;w-icon&gt;add&lt;/w-icon&gt; Add Slide
     &lt;/button&gt;
     &lt;button @click="removeSlide" small&gt;
-      &lt;v-icon&gt;remove&lt;/v-icon&gt; Remove Slide
+      &lt;w-icon&gt;remove&lt;/w-icon&gt; Remove Slide
     &lt;/button&gt;
     &lt;button @click="toggleSlideshow" small&gt;
-      &lt;v-icon&gt; {{ "\{\{ slideshowDisabled ? 'check_circle' : 'highlight_off'\}\}" }}&lt;/v-icon&gt; {{ "\{\{ slideshowDisabled ? 'Enable' : 'Disable' \}\}" }} Slideshow
+      &lt;w-icon&gt; {{ "\{\{ slideshowDisabled ? 'check_circle' : 'highlight_off'\}\}" }}&lt;/w-icon&gt; {{ "\{\{ slideshowDisabled ? 'Enable' : 'Disable' \}\}" }} Slideshow
     &lt;/button&gt;
 
     &lt;vueper-slides
@@ -836,12 +836,12 @@
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
 
   pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
-    v-layout.justify-space-between.mb-2
+    w-flex.justify-space-between.mb-2
       div.grey--text(v-if="logs")
         strong // event-name:
         span.ml-2 params
-      v-btn(color="primary" x-small outlined @click="logs = []")
-        v-icon.mr-1(small) close
+      w-button(color="primary" x-small outlined @click="logs = []")
+        w-icon.mr-1(small) close
         | Clear logs
     div(v-for="(log, i) in logs")
       strong.mr-2 {{ log.eventName }}:
@@ -965,14 +965,14 @@
     for a standard or reversed effect.#[br]
     You might also want to set a fixed content on top of the moving background using
     the #[span.code parallax-fixed-content] option.
-  v-layout.max-widthed.mb-4(align-center wrap)
-    v-btn.my-1.mr-2(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
-      v-icon sync
+  w-flex.max-widthed.mb-4(align-center wrap)
+    w-button.my-1.mr-2(small color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
+      w-icon sync
       | &nbsp; Reverse parallax effect
     strong.code.mr-4 :parallax="#[span.primary--text {{ parallax.toString() }}]"
 
-    v-btn.my-1.mr-2(small color="primary" @click="parallaxFixedContent = !parallaxFixedContent")
-      v-icon {{ parallaxFixedContent ? 'close' : 'remove_from_queue' }}
+    w-button.my-1.mr-2(small color="primary" @click="parallaxFixedContent = !parallaxFixedContent")
+      w-icon {{ parallaxFixedContent ? 'close' : 'remove_from_queue' }}
       | &nbsp; Add a fix content
     strong.code :parallax-fixed-content="#[span.primary--text {{ parallaxFixedContent.toString() }}]"
   vueper-slides.ex--parallax(ref="exParallax" :parallax="parallax" :parallax-fixed-content="parallaxFixedContent")
@@ -1205,7 +1205,7 @@
   p.
     This example demonstrates how to control Vueper Slides from wherever you want.
     ...In your code, not wherever on Earth.#[br]
-    By using a #[a(href="https://vuejs.org/v2/api/#ref" target="_blank") Vue JS reference #[v-icon(small color="primary") open_in_new]] on your slideshow, you can access any method it
+    By using a #[a(href="https://vuejs.org/v2/api/#ref" target="_blank") Vue JS reference #[w-icon(small color="primary") open_in_new]] on your slideshow, you can access any method it
     contains from outside.#[br]
     Now that you have the power, here is a list of methods you may find useful:
   ul.max-widthed.mb-3
@@ -1225,14 +1225,14 @@
       refer to the #[a(href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax Effect] example.
 
   div.text-center.mb-3
-    v-btn.ma-1(color="primary" small @click="$refs.myVueperSlides.previous()")
-      v-icon arrow_back
+    w-button.ma-1(color="primary" small @click="$refs.myVueperSlides.previous()")
+      w-icon arrow_back
       | &nbsp; Previous
-    v-btn.ma-1(color="primary" small @click="$refs.myVueperSlides.goToSlide(5)")
-      v-icon call_made
+    w-button.ma-1(color="primary" small @click="$refs.myVueperSlides.goToSlide(5)")
+      w-icon call_made
       | &nbsp; Go to slide 6
-    v-btn.ma-1(color="primary" small @click="$refs.myVueperSlides.next()")
-      v-icon arrow_forward
+    w-button.ma-1(color="primary" small @click="$refs.myVueperSlides.next()")
+      w-icon arrow_forward
       | &nbsp; Next
   vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
@@ -1319,7 +1319,7 @@
   p
     a(href="https://codepen.io/antoniandre/pen/ZEGEydP" target="_blank")
       | Edit this example in Codepen
-      v-icon.ml-1(small color="primary") open_in_new
+      w-icon.ml-1(small color="primary") open_in_new
   vueper-slides(
     ref="vueperslides3"
     :touchable="false"
@@ -1902,7 +1902,7 @@
         Sets the slideshow ratio so it will naturally stay ratio-ed on different browser width.#[br]
         See the #[a(href="#ex--events" v-scroll-to="'#ex--events'") Events] example or #[a(href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Using Breakpoints] example.
         #[br]More examples are available in a
-        #[a(href="https://codepen.io/antoniandre/pen/KBXWPP" target="_blank") Codepen demo #[v-icon(small color="primary") open_in_new]].
+        #[a(href="https://codepen.io/antoniandre/pen/KBXWPP" target="_blank") Codepen demo #[w-icon(small color="primary") open_in_new]].
       highlight.
         Setting the ratio avoids heavier javascript width and height calculations on resize.#[br]
         But thanks to the default value, Vueper Slides' got your back if you don't set any.
@@ -2119,7 +2119,7 @@
     a(href="#available-css-classes" v-scroll-to="'#available-css-classes'") Available CSS Classes
     a(id="available-css-classes" name="available-css-classes")
   p.
-    Vueper Slides uses the #[a(href="http://getbem.com/naming/" target="_blank") BEM #[v-icon(small color="primary") open_in_new]]
+    Vueper Slides uses the #[a(href="http://getbem.com/naming/" target="_blank") BEM #[w-icon(small color="primary") open_in_new]]
     naming convention. Styling any element should be quite simple and straightforward.#[br]
 
   ul.max-widthed
@@ -2590,7 +2590,7 @@ ul, ol {
   padding-left: 2.2em;
   position: relative;
 
-  .v-icon {
+  .w-icon {
     line-height: 0.8;
     position: absolute;
     left: 0;
@@ -2601,11 +2601,11 @@ ul, ol {
 .coming-soon {
   font-style: italic;
 
-  .v-card__title {font-size: 1.2em;}
-  .v-chip {margin: 2px 0;}
+  .w-card__title {font-size: 1.2em;}
+  .w-tag {margin: 2px 0;}
 }
 
-.v-chip i.v-icon {
+.w-tag i.w-icon {
   position: relative;
   color: rgba(0, 0, 0, .25) !important;
   margin: 0 7px 0 -7px;

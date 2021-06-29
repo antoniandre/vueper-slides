@@ -126,8 +126,8 @@
 
 .ex--arrows-and-bullets-4 {
   .vueperslides__bullets button {
-    .v-icon {position: relative;}
-    & .v-icon:before {
+    .w-icon {position: relative;}
+    & .w-icon:before {
       position: absolute;
       content: '';
       top: 0;
@@ -137,7 +137,7 @@
       transition: 0.3s;
       border-radius: 100%;
     }
-    &:focus .v-icon:before {
+    &:focus .w-icon:before {
       opacity: 0.4;
       box-shadow: 0 0 0 4px currentColor;
     }

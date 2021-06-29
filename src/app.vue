@@ -1,21 +1,20 @@
 <template lang="pug">
-  v-app(:class="{ ready: ready }" v-scroll="onScroll")
-    v-container.px-0(fluid)
-      top-bar(:offset-top="offsetTop")
-      router-view
+w-app(:class="{ ready }" v-scroll="onScroll")
+  top-bar(:offset-top="offsetTop")
+  router-view
 
-    v-fab-transition
-      v-btn(color="primary" fixed bottom right fab v-show="!goTopHidden" small v-scroll-to="'#top'")
-        //- Width to prevent ugly first load animation when icon is not yet ready.
-        v-icon(color="white" size="26" style="width: 24px") keyboard_arrow_up
+  w-transition-twist
+    w-button(color="primary" fixed bottom right fab v-show="!goTopHidden" small v-scroll-to="'#top'")
+      //- Width to prevent ugly first load animation when icon is not yet ready.
+      w-icon(color="white" size="26" style="width: 24px") md keyboard_arrow_up
 
-    v-footer.px-0.py-2(color="white")
-      v-layout.max-widthed(wrap justify-center)
-        v-flex.xs12.sm6.text-center.text-sm-left.copyright.
-          Copyright © {{ (new Date()).getFullYear() }} Antoni André, all rights reserved.
-        v-flex.xs12.sm6.text-center.text-sm-right.made-with
-          .mb-1 This documentation is made with #[v-icon fab fa-vuejs], #[v-icon fab fa-html5], #[v-icon fab fa-css3], #[v-icon fab fa-sass] &amp; #[v-icon.heart favorite]
-          | View this project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") #[v-icon fab fa-github] Github].
+  footer.px-0.py-2(color="white")
+    w-flex.max-widthed(wrap justify-center)
+      .xs12.sm6.text-center.text-sm-left.copyright.
+        Copyright © {{ (new Date()).getFullYear() }} Antoni André, all rights reserved.
+      .xs12.sm6.text-center.text-sm-right.made-with
+        .mb-1 This documentation is made with #[w-icon fab fa-vuejs], #[w-icon fab fa-html5], #[w-icon fab fa-css3], #[w-icon fab fa-sass] &amp; #[w-icon.heart md favorite]
+        | View this project on #[a(href="https://github.com/antoniandre/vueper-slides" target="_blank") #[w-icon fab fa-github] Github].
 </template>
 
 <script>
@@ -55,7 +54,7 @@ $main-text: #888;
   height: 650px;
 }
 
-.v-card {box-shadow: none;}
+.w-card {box-shadow: none;}
 
 // FOOTER
 //=================================================//

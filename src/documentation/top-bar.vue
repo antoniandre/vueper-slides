@@ -1,6 +1,6 @@
 <template lang="pug">
-v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-center :class="{ scrolled: offsetTop > 104 }")
-  v-toolbar-title.top-bar__title
+w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :class="{ scrolled: offsetTop > 104 }")
+  .top-bar__title
     h1.primary--text
       a.top-bar__logo-link(href="#top" v-scroll-to="'#top'")
         svg.top-bar__logo(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 442 442")
@@ -9,78 +9,79 @@ v-app-bar.top-bar.elevation-0(app light color="white" dense text fixed align-cen
           path(d="M439.6 137L362 47a10 10 0 0 0-7.6-3.6h-267a10 10 0 0 0-7.6 3.5L2.4 137a10 10 0 0 0 0 13l211 245.2a10 10 0 0 0 15.2 0l211-245.1a10 10 0 0 0 0-13zM221 373.1L23.2 143.4l68.9-80h257.8l69 80L221 373.2z")
         .top-bar__logo-title Vueper Slides&nbsp;
       span.intro A Vue Super Slideshow / Carousel
-  v-toolbar-items.top-bar__items
-    v-menu(offset-y open-on-hover left attach transition="slide-y-transition")
+  .spacer
+  .top-bar__items
+    w-menu(offset-y open-on-hover left attach transition="slide-y-transition")
       template(v-slot:activator="{ on }")
-        v-btn(text color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'" v-on="on")
-          v-icon school
+        w-button(text color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'" v-on="on")
+          w-icon school
           | &nbsp;
           span Doc
-      v-list(dense).text-no-wrap
-        v-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
-          v-icon(small).mr-2 build
+      w-list.text-no-wrap
+        w-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
+          w-icon(small).mr-2 build
           | Installation
-        v-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
-          v-icon(small).mr-2 help_outline
+        w-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
+          w-icon(small).mr-2 help_outline
           | How To Use
-        v-divider
-        v-list-item.heading
-            v-icon(small).mr-2 code
+        w-divider
+        w-list-item.heading
+            w-icon(small).mr-2 code
             | Vueper-slides
             span.ml-1.grey--text.text--lighten-1 (wrapper)
-        v-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
+        w-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
           | API
-        v-list-item(color="secondary" href="#vueper-slides--settings" v-scroll-to="'#vueper-slides--settings'")
+        w-list-item(color="secondary" href="#vueper-slides--settings" v-scroll-to="'#vueper-slides--settings'")
           | Settings
-        v-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
-        v-divider
-        v-list-item.heading
-            v-icon(small).mr-2 code
+        w-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
+        w-divider
+        w-list-item.heading
+            w-icon(small).mr-2 code
             | Vueper-slide
             span.ml-1.grey--text.text--lighten-1 (slide)
-        v-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
+        w-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
           | API
-        v-list-item(color="secondary" href="#vueper-slide--settings" v-scroll-to="'#vueper-slide--settings'")
+        w-list-item(color="secondary" href="#vueper-slide--settings" v-scroll-to="'#vueper-slide--settings'")
           | Settings
-        v-divider
-        v-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
-          v-icon(small).mr-2 color_lens
+        w-divider
+        w-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
+          w-icon(small).mr-2 color_lens
           | Styling
-        v-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
-          v-icon(small).mr-2 format_list_numbered
+        w-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
+          w-icon(small).mr-2 format_list_numbered
           | Notable Version Changes
-    v-menu(offset-y open-on-hover left attach transition="slide-y-transition")
+    w-menu(offset-y open-on-hover left attach transition="slide-y-transition")
       template(v-slot:activator="{ on }")
-        v-btn(text color="secondary" href="#examples" v-scroll-to="'#examples'" slot="activator" v-on="on")
-          v-icon apps
+        w-button(text color="secondary" href="#examples" v-scroll-to="'#examples'" slot="activator" v-on="on")
+          w-icon apps
           | &nbsp;
           span Examples
-      v-list.text-no-wrap(dense allow-overflow)
-        v-list-item(color="secondary" href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever
-        v-list-item(color="secondary" href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay
-        v-list-item(color="secondary" href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets
-        v-list-item(color="secondary" href="#ex--fractions-and-progress" v-scroll-to="'#ex--fractions-and-progress'") Fractions &amp; Progress
-        v-list-item(color="secondary" href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading
-        v-list-item(color="secondary" href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'") Lazy Loading
-        v-list-item(color="secondary" href="#ex--link-on-the-whole-slide" v-scroll-to="'#ex--link-on-the-whole-slide'") Link on the Whole Slide
-        v-list-item(color="secondary" href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
-        v-list-item(color="secondary" href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content Inside/Outside
-        v-list-item(color="secondary" href="#ex--add-remove-slides--disable" v-scroll-to="'#ex--add-remove-slides--disable'") Add / Remove Slides &amp; Disable
-        v-list-item(color="secondary" href="#ex--center-mode" v-scroll-to="'#ex--center-mode'") Center Mode
-        v-list-item(color="secondary" href="#ex--events" v-scroll-to="'#ex--events'") Emitted Events
-        v-list-item(color="secondary" href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Breakpoints
-        v-list-item(color="secondary" href="#ex--dragging-distance" v-scroll-to="'#ex--dragging-distance'") Dragging Distance
-        v-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax
-        v-list-item(color="secondary" href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height
-        v-list-item(color="secondary" href="#ex--slide-image-inside" v-scroll-to="'#ex--slide-image-inside'") Slide Image Inside
-        v-list-item(color="secondary" href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap
-        v-list-item(color="secondary" href="#ex--3d-rotation" v-scroll-to="'#ex--3d-rotation'") 3D Rotation
-        v-list-item(color="secondary" href="#ex--external-controls" v-scroll-to="'#ex--external-controls'") External Controls
-        v-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances (gallery)
-        v-list-item(color="secondary" href="#ex--videos" v-scroll-to="'#ex--videos'")
+      w-list.text-no-wrap(allow-overflow)
+        w-list-item(color="secondary" href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever
+        w-list-item(color="secondary" href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay
+        w-list-item(color="secondary" href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets
+        w-list-item(color="secondary" href="#ex--fractions-and-progress" v-scroll-to="'#ex--fractions-and-progress'") Fractions &amp; Progress
+        w-list-item(color="secondary" href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading
+        w-list-item(color="secondary" href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'") Lazy Loading
+        w-list-item(color="secondary" href="#ex--link-on-the-whole-slide" v-scroll-to="'#ex--link-on-the-whole-slide'") Link on the Whole Slide
+        w-list-item(color="secondary" href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
+        w-list-item(color="secondary" href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content Inside/Outside
+        w-list-item(color="secondary" href="#ex--add-remove-slides--disable" v-scroll-to="'#ex--add-remove-slides--disable'") Add / Remove Slides &amp; Disable
+        w-list-item(color="secondary" href="#ex--center-mode" v-scroll-to="'#ex--center-mode'") Center Mode
+        w-list-item(color="secondary" href="#ex--events" v-scroll-to="'#ex--events'") Emitted Events
+        w-list-item(color="secondary" href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Breakpoints
+        w-list-item(color="secondary" href="#ex--dragging-distance" v-scroll-to="'#ex--dragging-distance'") Dragging Distance
+        w-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax
+        w-list-item(color="secondary" href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height
+        w-list-item(color="secondary" href="#ex--slide-image-inside" v-scroll-to="'#ex--slide-image-inside'") Slide Image Inside
+        w-list-item(color="secondary" href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap
+        w-list-item(color="secondary" href="#ex--3d-rotation" v-scroll-to="'#ex--3d-rotation'") 3D Rotation
+        w-list-item(color="secondary" href="#ex--external-controls" v-scroll-to="'#ex--external-controls'") External Controls
+        w-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances (gallery)
+        w-list-item(color="secondary" href="#ex--videos" v-scroll-to="'#ex--videos'")
           | Videos
-          v-chip.v-chip--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
-        //- v-chip.v-chip--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
+          w-tag.w-tag--x-small.ml-2.px-0.white--text(color="primary" outlined) NEW
+        //- w-tag.w-tag--x-small.ml-2.px-0.white--text(color="secondary" outlined) updated
 </template>
 
 <script>
@@ -110,7 +111,7 @@ export default {
     top: 0;
   }
 
-  .v-toolbar__content {
+  .w-toolbar__content {
     padding-left: 0;
     padding-right: 0;
   }
@@ -185,7 +186,7 @@ export default {
   }
 
   .v-menu__content {max-height: 90vh;}
-  .v-menu__content .v-list-item {
+  .v-menu__content .w-list-item {
     height: 30px;
     font-size: 1em;
     padding-left: 32px;
@@ -193,12 +194,12 @@ export default {
     &.heading {padding-left: 8px;color: #666 !important;}
   }
 
-  .v-chip.v-chip--x-small {
+  .w-tag.w-tag--x-small {
     font-size: 10px;
     height: 18px;
     line-height: 18px;
 
-    .v-chip__content {
+    .w-tag__content {
       padding: 0 6px;
     }
   }
@@ -270,12 +271,12 @@ export default {
 }
 
 @media screen and (max-width: 449px) {
-  .top-bar__items .v-btn {
+  .top-bar__items .w-button {
     min-width: 50px !important;
     padding: 0 !important;
   }
 
-  .top-bar__items a .v-btn__content span {
+  .top-bar__items a .w-button__content span {
     display: none;
   }
 }
