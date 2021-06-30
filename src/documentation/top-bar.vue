@@ -80,8 +80,8 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
         w-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances (gallery)
         w-list-item(color="secondary" href="#ex--videos" v-scroll-to="'#ex--videos'")
           | Videos
-          w-tag.w-tag--sm.ml2.px0.white--text(color="primary" outlined) NEW
-        //- w-tag.w-tag--sm.ml2.px0.white--text(color="secondary" outlined) updated
+          w-tag.w-tag--sm.ml2.px0.white--text(color="primary" outline) NEW
+        //- w-tag.w-tag--sm.ml2.px0.white--text(color="secondary" outline) updated
 </template>
 
 <script>
