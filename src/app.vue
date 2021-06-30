@@ -54,11 +54,9 @@ $main-text: #888;
   height: 650px;
 }
 
-.w-card {box-shadow: none;}
-
 // FOOTER
 //=================================================//
-.v-application--wrap footer.v-footer {
+footer {
   background: none;
   font-style: italic;
   color: $main-text;

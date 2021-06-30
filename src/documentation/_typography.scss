@@ -1,15 +1,13 @@
 body {
-  font: 13px Roboto, Tahoma, Geneva, sans-serif;
-  color: $main-text;
-}
-
-.application.theme--light,
-.application .theme--light.w-card, .theme--light .w-card {
-  color: inherit;
+  font: 13px 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: 8em;
+  color: rgba(0,0,0,.87);
 }
 
 h1, h2, h3, h4 {
-  font-weight: normal;
+  font-weight: 400;
   margin-bottom: 0.5em;
 }
 

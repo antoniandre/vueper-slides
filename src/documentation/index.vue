@@ -14,48 +14,48 @@
           a(:href="slide.link" target="_blank") {{ slide.content.substring(9) }}
       template(v-slot:loader)
         w-progress(circle color="primary" indeterminate)
-        span.mt3.primary--text.title Loading...
+        span.mt3.primary--text.title2 Loading...
 
   h2
     a(href="#features" v-scroll-to="'#features'") Features
     a(id="features" name="features")
   div.max-widthed.mb5.features
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     strong SUPPORTS VUE 3.
     br
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     strong Supports Videos with customizable attributes.
     br
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Fully responsive] and scales with its container.#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Touch ready] &amp; mouse dragging for desktop.#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Accessibility friendly] &amp; keyboard navigation.#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Highly customizable].#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Lazy loading].#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | Show multiple items per slides.#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Infinite looping], customizable arrows or disable arrow on a slideshow end, autoplay.#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | Built-in #[strong parallax] effect &amp; #[strong 3D rotation].#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Breakpoints] with different configuration.#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | Slide content supports #[strong title &amp; description, inside OR outside] the current slide.#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Add or remove slides] on the fly, #[strong disable or enable the slideshow].#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | Uses #[strong CSS animations] &amp; comes with a minimum of styles (using the #[i BEM] convention).#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Emitted events] for callbacks, etc...#[br]
-    w-icon.pr2(color="secondary") material-icons check
+    w-icon.pr2(color="secondary" lg) material-icons check
     | #[strong Supports RTL] direction
 
-  .max-widthed.mt8.mb3.title Github project
+  .max-widthed.mt8.mb3.title2 Github project
   w-flex.max-widthed.mb5(align-center shrink)
     w-icon.pr5.lightgrey--text(size="46") fab fa-github
     a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[w-icon(color="primary") material-icons open_in_new]
@@ -522,7 +522,7 @@
     vueper-slide(v-for="(slide, i) in lazyloadSlides" :key="i" :image="slide.image")
       template(v-slot:loader)
         w-progress(circle color="primary" indeterminate)
-        span.mt3.primary--text.title Loading...
+        span.mt3.primary--text.title2 Loading...
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides lazy lazy-load-on-drag&gt;
@@ -2158,7 +2158,7 @@
 
   ul.max-widthed.mt8
     li.mb5
-      .title.mr3 Version 3.0
+      .title2.mr3 Version 3.0
       | Supports Vue 3. This version is not compatible with Vue 2.x.
 
     li.mb2
@@ -2519,6 +2519,7 @@ export default {
 //=================================================//
 a {
   text-decoration: none;
+  color: #ff5252;
 
   &[name] {
     position: relative;
@@ -2560,15 +2561,8 @@ ul, ol {
 
 // APPLICATION
 //=================================================//
-.v-application {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #fff !important;
-  padding-top: 8em;
-}
 
-.v-application--wrap {
+.w-app {
   padding-top: 12em;
   overflow-x: hidden;
 }
