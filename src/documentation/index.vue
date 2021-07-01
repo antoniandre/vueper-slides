@@ -14,7 +14,7 @@
           a(:href="slide.link" target="_blank") {{ slide.content.substring(9) }}
       template(#loader)
         w-progress(circle color="primary" indeterminate)
-        span.mt3.primary--text.title2 Loading...
+        span.mt3.primary.title2 Loading...
 
   h2
     a(href="#features" v-scroll-to="'#features'") Features
@@ -57,19 +57,19 @@
 
   .max-widthed.mt8.mb3.title2 Github project
   w-flex.max-widthed.mb5(align-center shrink)
-    w-icon.mr5.lightgrey--text(size="46") fab fa-github
+    w-icon.mr5.lightgrey(size="46") fab fa-github
     a(href="https://github.com/antoniandre/vueper-slides" target="_blank") //github.com/antoniandre/vueper-slides #[w-icon(color="primary") material-icons open_in_new]
 
   w-flex.max-widthed.my8(align-center)
     w-icon.mr4(size="50" color="pink lighten-3") material-icons favorite
     w-alert.ma0.pl5(border="left" text color="pink" style="width: 100%;max-width: 620px")
       | If you like Vueper Slides, you can
-      a.pink--text.mx2(
+      a.pink.mx2(
         href="https://www.paypal.me/antoniandre1"
         target="_blank"
         style="text-decoration: underline") #[strong Support the project]
       | or
-      a.pink--text.ml2(
+      a.pink.ml2(
         href="https://github.com/sponsors/antoniandre"
         target="_blank"
         style="text-decoration: underline") #[strong Sponsor the author]
@@ -77,7 +77,7 @@
       div Thank you so much to all the supporters! #[span.headline.ml1 🙏]
 
   w-flex.max-widthed.my8(align-center)
-    svg.mr4.blue--text.text--lighten-1(viewBox="0 0 725 477" style="width: 50px;stroke: #497ca2;stroke-width: 5px")
+    svg.mr4.blue-light1(viewBox="0 0 725 477" style="width: 50px;stroke: #497ca2;stroke-width: 5px")
       path(fill="#497ca2" d="M449 0c-78 5-152 39-217 82-19 13-37 26-54 40-39 1-77 15-110 34-34 21-53 60-61 99-11 52-8 108 6 159 7 23 16 46 33 63 4-4 13-4 13-11-1-5-7-8-9-14-27-48-32-108-11-159 13-32 36-63 68-77 19-9 42-7 58 6 6 7 18 4 24-2 6-4 11-10 19-10-24 25-39 60-38 95 1 15 3 31 8 45 16 36 41 69 76 89 5 2 10 6 16 7 5-2 14-5 14-12-4-9-14-12-21-18-27-23-56-48-67-82-9-29-1-60 8-88 7-15 21-32 39-29 15 1 28 13 43 8 11-5 13-17 16-27 5-17 3-38-10-51-16-18-40-23-62-25l-11-2c23-19 53-26 81-31 21-3 43-5 64-2 18 3 28 21 42 31-33 47-57 102-56 159a170 170 0 0086 149c6-1 13-7 10-14-5-11-17-16-25-25-33-30-52-75-50-121 1-29 11-58 24-84 12-25 25-52 47-71 9-8 22-13 33-7 20 8 42 14 63 13-35 27-55 70-64 113-9 44-7 91 12 133 15 37 45 68 81 85 32 16 67 24 101 27 18 1 36 2 53-4 4-1 6-7 2-9-13-6-28-4-42-6-45-5-92-16-127-45-34-28-54-71-60-114-5-47 7-97 34-137 11-15 26-31 45-34 14-1 25 12 31 23 6 12 16 24 29 28 20-10 40-26 43-50 2-17-6-34-14-49-15-25-40-43-69-48-20-5-41-2-61-6-22-21-54-24-83-24zm6 21c22 0 48 5 62 25 4 7 8 16 8 24-1 10-10 22-21 19-9-7-18-14-30-16-14-4-31-1-43 8-6 6-17 8-24 2-9-6-17-15-28-17-27-7-54 1-81 6a364 364 0 01157-51zm117 29c33 0 66 25 72 58 3 12 3 28-8 35-3 2-6 4-8 1-8-12-12-27-23-37-3-7-12-8-19-9-13-2-26 0-39-4 7-7 6-17 4-25l-3-16 24-3zm-372 92l46 2c18 2 33 16 34 34 1 7 1 17-6 21-6 0-12-4-18-6-21-8-46-14-67-3-6 2-11 9-17 5-10-4-18-14-30-12-30 1-56 21-77 42-16 17-30 37-43 56 0-39 17-80 49-104 26-22 61-30 94-34l35-1z")
     w-alert.ma0.pl5(border="left" text color="pale-blue" style="width: 100%;max-width: 620px")
       strong
@@ -242,14 +242,14 @@
     a(href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Custom Arrows &amp; Bullets
     a(id="ex--arrows-and-bullets" name="ex--arrows-and-bullets")
 
-  h4.primary--text Common to arrows and bullets
+  h4.primary Common to arrows and bullets
   ul.max-widthed
     li.
       #[strong Inside or outside of the slideshow:] #[span.code arrows-outside],
       #[span.code bullets-outside].
     li #[strong Disable:] #[span.code :arrows="false"], #[span.code :bullets="false"].
 
-  h4.primary--text Arrows
+  h4.primary Arrows
   p.
     You can easily customize the default arrows, for instance the color
     #[span.code.grey.lighten-3 .vueperslides__arrow {color: yellow}], and thickness:
@@ -288,7 +288,7 @@
       &lt;vueper-slide v-for="i in 5" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
-  h4.primary--text Bullets
+  h4.primary Bullets
   p.
     The bullets don't show numeric indexes by default, but they are there in case you need it,
     like in this example.#[br]
@@ -522,7 +522,7 @@
     vueper-slide(v-for="(slide, i) in lazyloadSlides" :key="i" :image="slide.image")
       template(#loader)
         w-progress(circle color="primary" indeterminate)
-        span.mt3.primary--text.title2 Loading...
+        span.mt3.primary.title2 Loading...
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides lazy lazy-load-on-drag&gt;
@@ -629,7 +629,7 @@
     for more details) and uses interpreted mustaches #[span.code(v-pre) {{ }} and Vuetify components like #[span.code v-layout] &amp; #[span.code v-icon]].
 
   highlight(type="tips")
-    strong.red--text WARNING: The following tip does not apply to Vue 3. Vue 3 resolves this internally.
+    strong.red WARNING: The following tip does not apply to Vue 3. Vue 3 resolves this internally.
     p.
       The only thing that does not keep updated by default - as more costly, is the slides clones
       (1 prepended, 1 appended to slides list when infinite mode).#[br]
@@ -646,7 +646,7 @@
       w-button.mt2.mx2(bg-color="primary" @click="contentPositionChange" small)
         w-icon material-icons swap_vert
         | &nbsp;Move content position
-      strong.mt2.code {{ contentPosition === 'false' ? ':' : '' }}slide-content-outside="#[span.primary--text {{ contentPosition }}]"
+      strong.mt2.code {{ contentPosition === 'false' ? ':' : '' }}slide-content-outside="#[span.primary {{ contentPosition }}]"
   vueper-slides.ex--updating-content(
     :slide-ratio="1 / 4"
     autoplay
@@ -837,7 +837,7 @@
 
   pre.ssh-pre.events-box(data-label="Event box" style="min-height: 120px")
     w-flex.justify-space-between.mb2
-      div.grey--text(v-if="logs")
+      div.grey(v-if="logs")
         strong // event-name:
         span.ml2 params
       w-button(bg-color="primary" sm outline @click="logs = []")
@@ -969,12 +969,12 @@
     w-button.my1.mr2(small bg-color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
       w-icon material-icons sync
       | &nbsp; Reverse parallax effect
-    strong.code.mr4 :parallax="#[span.primary--text {{ parallax.toString() }}]"
+    strong.code.mr4 :parallax="#[span.primary {{ parallax.toString() }}]"
 
     w-button.my1.mr2(small bg-color="primary" @click="parallaxFixedContent = !parallaxFixedContent")
       w-icon material-icons {{ parallaxFixedContent ? 'close' : 'remove_from_queue' }}
       | &nbsp; Add a fix content
-    strong.code :parallax-fixed-content="#[span.primary--text {{ parallaxFixedContent.toString() }}]"
+    strong.code :parallax-fixed-content="#[span.primary {{ parallaxFixedContent.toString() }}]"
   vueper-slides.ex--parallax(ref="exParallax" :parallax="parallax" :parallax-fixed-content="parallaxFixedContent")
     vueper-slide(
       v-for="(slide, i) in slides2"
@@ -1004,7 +1004,7 @@
       parallaxFixedContent: false
     })
   highlight(type="tips")
-    strong.darktext--text.
+    strong.darktext.
       The parallax position is constantly recalculated while you scroll, or after a
       resize event.#[br]
       If for some reason you need to manually refresh the parallax position
@@ -1023,7 +1023,7 @@
     a(id="ex--fixed-height" name="ex--fixed-height")
   p.
     This example demonstrates how to set a fixed height on the slideshow.#[br]
-    The attribute #[strong.darktext--text.code fixed-height]
+    The attribute #[strong.darktext.code fixed-height]
     #[strong accepts either a Boolean or a String].
     Refer to the #[a(href="#vueper-slides-settings--fixed-height" v-scroll-to="'#vueper-slides-settings--fixed-height'") settings &gt; fixed height] for more details.
   br
@@ -1034,7 +1034,7 @@
     &lt;vueper-slides :slide-ratio="1 / 2" fixed-height="500px"&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image" /&gt;
     &lt;/vueper-slides&gt;
-  p #[strong.darktext--text You only need this CSS if you use #[span.code :fixed-height="true"]:]
+  p #[strong.darktext You only need this CSS if you use #[span.code :fixed-height="true"]:]
   ssh-pre(language="css" label="CSS").
     /* You only need this if you use :fixed-height="true". */
     .vueperslides--fixed-height { height: 500px; }
@@ -1075,7 +1075,7 @@
       Please Read more about Multiple Slides in the
       #[a(href="#vueper-slides-settings--slide-multiple" v-scroll-to="'#vueper-slides-settings--slide-multiple'") Settings &gt; slide-multiple] details.
 
-  h4 #[span.lightertext--text.headline #1. ] 3 visible slides, sliding 3 by 3, dragging distance of 200px
+  h4 #[span.lightertext.headline #1. ] 3 visible slides, sliding 3 by 3, dragging distance of 200px
   p.
     In this example a #[span.code gap] of 3% is applied between the slides and the option
     #[span.code slideMultiple] is set to #[span.code true], allowing to slide all the visible
@@ -1102,7 +1102,7 @@
       &lt;vueper-slide v-for="i in 10" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #2. ] 3 visible slides, sliding 1 by 1, dragging distance of 70px
+  h4 #[span.lightertext.headline #2. ] 3 visible slides, sliding 1 by 1, dragging distance of 70px
   p.
     When the option #[span.code slideMultiple] is set to false, and by default,
     changing slide only move by 1 slide at a time.
@@ -1120,7 +1120,7 @@
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #3. ] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
+  h4 #[span.lightertext.headline #3. ] 6 visible slides, sliding 1 by 1, full-width, no arrows, dragging distance of 70px
   vueper-slides.no-shadow.ex--show-multiple-slides-and-gap.ex2(
     :visible-slides="6"
     :arrows="false"
@@ -1139,7 +1139,7 @@
       &lt;vueper-slide v-for="i in 9" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #4. ] 2 visible slides, full-width, sliding 2 by 2, with arrows inside and a 5% gap
+  h4 #[span.lightertext.headline #4. ] 2 visible slides, full-width, sliding 2 by 2, with arrows inside and a 5% gap
   vueper-slides.no-shadow(
     :visible-slides="2"
     slide-multiple
@@ -1162,7 +1162,7 @@
       &lt;vueper-slide v-for="i in 6" :key="i" :title="i.toString()" /&gt;
     &lt;/vueper-slides&gt;
 
-  h4 #[span.lightertext--text.headline #5. ] 3 visible slides, fading.
+  h4 #[span.lightertext.headline #5. ] 3 visible slides, fading.
   vueper-slides(
     fade
     :visible-slides="3"
@@ -1209,18 +1209,18 @@
     contains from outside.#[br]
     Now that you have the power, here is a list of methods you may find useful:
   ul.max-widthed.mb3
-    li #[strong.darktext--text.code previous()]: go to the previous slide,
-    li #[strong.darktext--text.code next()]: go to the next slide.
+    li #[strong.darktext.code previous()]: go to the previous slide,
+    li #[strong.darktext.code next()]: go to the next slide.
     li.
-      #[strong.darktext--text.code getSlideData(index)]: returns all the available
+      #[strong.darktext.code getSlideData(index)]: returns all the available
       information on a slide given its index.
     li.
-      #[strong.darktext--text.code= 'goToSlide(index [, options])']: go to a slide
+      #[strong.darktext.code= 'goToSlide(index [, options])']: go to a slide
       given its index.#[br]You can also call
-      #[strong.darktext--text.code goToSlide(index, { animation: false })]
+      #[strong.darktext.code goToSlide(index, { animation: false })]
       to disable the animation.
     li.
-      #[strong.darktext--text.code refreshParallax()]: recalculates the parallax
+      #[strong.darktext.code refreshParallax()]: recalculates the parallax
       position if you are using a parallax effect.#[br]
       refer to the #[a(href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax Effect] example.
 
@@ -1569,7 +1569,7 @@
     a(id="vueper-slides--settings" name="vueper-slides--settings")
   p.
     Here is the list of all the parameters you can define on a #[span.code &lt;vueper-slides&gt;] tag.
-    #[br]#[span.grey--text.text--lighten-1 Reminder: To use in HTML Replace #[span.code CamelCase] with #[span.code kebab-case].]
+    #[br]#[span.grey-light1 Reminder: To use in HTML Replace #[span.code CamelCase] with #[span.code kebab-case].]
   ssh-pre(language="js").
     alwaysRefreshClones:      [Boolean],         default: false
     arrows:                   [Boolean],         default: true
@@ -1612,7 +1612,7 @@
     li
       | #[code alwaysRefreshClones], #[strong.mr1 Type:] #[span.code="[Boolean]"], #[strong.mr1 Default:] #[span.code false]
       div.mt2
-        strong.red--text WARNING: Don't use in Vue 3. Vue 3 resolves this internally and you don't need this option anymore.
+        strong.red WARNING: Don't use in Vue 3. Vue 3 resolves this internally and you don't need this option anymore.
       div.
         With the #[span.code infinite] mode, the clones (#[a(href="#what-are-clones" v-scroll-to="'#what-are-clones'" @click="onWhatAreClonesClick") What are clones?])
         are created with a copy of content in the mounted Vue.js lifecycle hook.#[br]
@@ -1700,20 +1700,20 @@
       a(id="vueper-slides-settings--fixed-height" name="vueper-slides-settings--fixed-height")
       | #[code fixedHeight], #[strong.mr1 Type:] #[span.code="[Boolean, String]"], #[strong.mr1 Default:] #[span.code false]
       p.
-        The attribute #[strong.darktext--text.code fixed-height]
+        The attribute #[strong.darktext.code fixed-height]
         #[strong accepts either a Boolean or a String]:
       ul
         li.
-          #[strong.darktext--text A string] made of the height amount and the CSS unit
+          #[strong.darktext A string] made of the height amount and the CSS unit
           will set the height directly.#[br]
-          E.g. #[span.darktext--text.code "200px"], #[span.darktext--text.code "200vh"],
-          #[span.darktext--text.code "200%"].#[br]
+          E.g. #[span.darktext.code "200px"], #[span.darktext.code "200vh"],
+          #[span.darktext.code "200%"].#[br]
           #[strong It will not work if you don't provide a unit].
         li.
-          #[strong.darktext--text A boolean] #[span.darktext--text.code true] value will
+          #[strong.darktext A boolean] #[span.darktext.code true] value will
           let you set the height from your CSS.#[br]
-          E.g. #[strong.darktext--text.code :fixed-height="true"], or just
-          #[strong.darktext--text.code fixed-height].
+          E.g. #[strong.darktext.code :fixed-height="true"], or just
+          #[strong.darktext.code fixed-height].
 
       p See this setting live in the #[a(href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height] example.
 
@@ -1860,7 +1860,7 @@
       p See this setting live in the #[a(href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap] example.
 
       highlight(type="warning")
-        strong.black--text.
+        strong.black.
           WARNING#[br]
           The #[span.code infinite] mode is not supported with the #[span.code visible-slides] option for now.
       highlight
@@ -1876,7 +1876,7 @@
             strong Arrows &amp; bullets outside by default:
             div.
               In most cases you will want to have the arrows and bullets outside, so if
-              #[span.code.black--text visible-slides] is set, arrows and bullets will be outside
+              #[span.code.black visible-slides] is set, arrows and bullets will be outside
               by default.#[br]
               You can override this by explicitly setting #[span.code :arrows-outside="false"],
               or #[span.code :bullets-outside="false"].
@@ -1887,7 +1887,7 @@
               If you try to change slides 1 by 1 #[span.code :slide-multiple="false"] with multiple visible slides, you should use the #[span.code slide] transition instead.
       highlight(type="success")
         p.mb2.
-          When the #[span.code.black--text infinite] &amp; #[span.code.black--text slide-multiple]
+          When the #[span.code.black infinite] &amp; #[span.code.black slide-multiple]
           options are off, Vueper Slides will keep the active slide at the most middle
           position as possible while you slide, unless it would create a blank
           space (like if active slide is on a side).#[br]E.g.
@@ -1957,7 +1957,7 @@
         and the #[span.code no-shadow] CSS class.
 
       highlight(type="warning")
-        strong.black--text.
+        strong.black.
           WARNING#[br]
           The #[span.code 3d] mode is not compatible with infinite sliding, fade,
           slide-multiple, visible-slides &amp; parallax features.
@@ -2079,7 +2079,7 @@
     a(id="vueper-slide--events" name="vueper-slide--events")
   p.
     Here is the list of all the available events on the
-    #[span.code.black--text name="vueper-slide"] tag.
+    #[span.code.black name="vueper-slide"] tag.
   ul.max-widthed
     li
       h4
@@ -2280,23 +2280,23 @@
       strong Version 1.11.0
       ul
         li.
-          Class #[span.code vueperslides__slide] is replaced with #[span.darktext--text.code vueperslide]
+          Class #[span.code vueperslides__slide] is replaced with #[span.darktext.code vueperslide]
           as it concerns the #[span.code &lt;vueperslide&gt;] tag only.#[br]
         li.
           The class #[span.code vueperslides__slide--active] is replaced with
-          #[span.darktext--text.code vueperslide--active].
+          #[span.darktext.code vueperslide--active].
         li.
           The class #[span.code vueperslides__slide--clone] is replaced with
-          #[span.darktext--text.code vueperslide--clone].
+          #[span.darktext.code vueperslide--clone].
         li.
           The class #[span.code vueperslides__slide-content] is replaced with
-          #[span.darktext--text.code vueperslide__content-wrapper].
+          #[span.darktext.code vueperslide__content-wrapper].
         li.
           The class #[span.code slide-title] is replaced with
-          #[span.darktext--text.code vueperslide__title].
+          #[span.darktext.code vueperslide__title].
         li.
           The class #[span.code slide-content] is replaced with
-          #[span.darktext--text.code vueperslide__content].#[br]#[br]
+          #[span.darktext.code vueperslide__content].#[br]#[br]
 
     li
       strong Version 1.6.0
