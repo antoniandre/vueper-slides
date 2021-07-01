@@ -4,7 +4,7 @@ w-app(:class="{ ready }" v-scroll="onScroll")
   router-view
 
   w-transition-twist
-    w-button(
+    w-button.go-top(
       v-show="!goTopHidden"
       bg-color="primary"
       icon="material-icons keyboard_arrow_up"
@@ -12,7 +12,6 @@ w-app(:class="{ ready }" v-scroll="onScroll")
       bottom
       right
       round
-      xl
       v-scroll-to="'#top'")
       //- Width to prevent ugly first load animation when icon is not yet ready.
       //- w-icon(color="white" size="26" style="width: 24px")

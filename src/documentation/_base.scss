@@ -26,13 +26,14 @@ ul, ol {
 
 code, .code {
   font-family: monospace, sans-serif;
-  border-radius: 4px;
-  font-size: 90%;
-  font-weight: 400;
-  color: currentColor;
-  padding: .15em .4em;
+  font-size: 0.9em;
 }
-code {background-color: rgba(0,0,0,.05);}
+code {
+  padding: .15em .4em;
+  background-color: rgba(0,0,0,.05);
+  color: #dc163c;
+  border-radius: 4px;
+}
 
 p {margin-bottom: 16px;}
 
@@ -126,10 +127,17 @@ p {margin-bottom: 16px;}
   }
 
   code {
-    font-size: 1.1em;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    font-size: 0.95em;
+    display: inline-flex;
+    margin-bottom: 4px;
   }
+}
+
+.w-app .go-top {
+  width: 1.8em;
+  height: 1.8em;
+  font-size: 1.5em;
+  box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
 }
 
 // Footer.
