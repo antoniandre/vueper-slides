@@ -20,6 +20,7 @@ w-app(:class="{ ready }" v-scroll="onScroll")
 <script>
 import Documentation from '@/documentation'
 import TopBar from '@/documentation/top-bar'
+import '@/documentation/_base.scss'
 
 export default {
   name: 'app',
@@ -37,39 +38,16 @@ export default {
       this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
       this.goTopHidden = this.offsetTop < 200
     }
+  },
+  directives: {
+    scroll: {
+      inserted: (el, binding) => {
+        const f = evt => {
+          if (binding.value(evt, el)) window.removeEventListener('scroll', f)
+        }
+        window.addEventListener('scroll', f)
+      }
+    }
   }
 }
 </script>
-
-<style lang="scss">
-$main-text: #888;
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-.main-content {
-  max-width: 800px;
-  height: 650px;
-}
-
-// FOOTER
-//=================================================//
-footer {
-  background: none;
-  font-style: italic;
-  color: $main-text;
-  font-size: 0.9em;
-  margin: 3em 0 5em;
-
-  i {
-    font-size: 1.2em;
-    vertical-align: text-bottom;
-    transition: 1s ease-out;
-    cursor: pointer;
-
-    &.heart:hover {animation: pulse 1.8s ease-out infinite;}
-  }
-}
-</style>

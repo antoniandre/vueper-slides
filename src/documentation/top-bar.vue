@@ -1,7 +1,7 @@
 <template lang="pug">
-w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :class="{ scrolled: offsetTop > 104 }")
+w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
   .top-bar__title
-    h1.primary--text
+    h1
       a.top-bar__logo-link(href="#top" v-scroll-to="'#top'")
         svg.top-bar__logo(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 442 442")
           path(d="M166.6 225.2c4 16 27.3 26.3 59.5 26.3 24 0 39.3-8.8 45.6-17a19.7 19.7 0 0 0 3.5-18c-3.6-13-22.4-19.3-52.8-28.2l-8.5-2.5c-31-9-66.3-19.3-73.7-46.2a43.3 43.3 0 0 1 8.5-39.8 10 10 0 0 0-7.8-16.4h-35a10 10 0 0 0-7.7 3.5l-43 50a10 10 0 0 0 0 13l74.3 86.4a10 10 0 0 0 17.5-7.7 10 10 0 0 1 19.6-3.4zm-16.9-26.7c-6.9 1.7-12.7 5.7-16.8 11.1l-57-66.2 34.5-40h13a62.7 62.7 0 0 0-2.5 41.6c10.5 37.6 53.1 50 87.4 60l8.5 2.5c8.5 2.5 18.1 5.3 26 8.3a45.3 45.3 0 0 1 13 6.5c-2.8 3.7-13 9.2-29.7 9.2-27.2 0-39-8.3-40-11a30 30 0 0 0-36.4-22zM263.2 264.5a97 97 0 0 1-37.1 7c-18.8 0-35.8-3.2-49.1-9.3a10 10 0 0 0-11.8 15.6l48.2 56a10 10 0 0 0 15.2 0l46-53.5a10 10 0 0 0-11.4-15.8zM221 312l-19-22a167.4 167.4 0 0 0 37.2 1l-18.2 21z")
@@ -9,79 +9,73 @@ w-toolbar.top-bar.elevation-0(app light color="white" text fixed align-center :c
           path(d="M439.6 137L362 47a10 10 0 0 0-7.6-3.6h-267a10 10 0 0 0-7.6 3.5L2.4 137a10 10 0 0 0 0 13l211 245.2a10 10 0 0 0 15.2 0l211-245.1a10 10 0 0 0 0-13zM221 373.1L23.2 143.4l68.9-80h257.8l69 80L221 373.2z")
         .top-bar__logo-title Vueper Slides&nbsp;
       span.intro A Vue Super Slideshow / Carousel
-  .spacer
-  .top-bar__items
-    w-menu(offset-y open-on-hover left attach transition="slide-down")
-      template(v-slot:activator="{ on }")
-        w-button(text color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'" v-on="on")
-          w-icon material-icons school
-          | &nbsp;
+
+  .top-bar__items.fill-height
+    w-menu(open-on-hover left attach transition="slide-down")
+      template(#activator="{ on }")
+        w-button(
+          v-on="on"
+          text
+          tile
+          color="secondary"
+          href="#vueper-slides--api"
+          v-scroll-to="'#vueper-slides--api'"
+          height="100%")
+          w-icon.mr2(lg) material-icons school
           span Doc
-      w-list.text-no-wrap
-        w-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
+
+      w-list(:items="docs")
+        //- w-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
           w-icon.mr2 material-icons build
           | Installation
-        w-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
+        //- w-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
           w-icon.mr2 material-icons help_outline
           | How To Use
         w-divider
-        w-list-item.heading
+        //- w-list-item.heading
             w-icon.mr2 material-icons code
             | Vueper-slides
-            span.ml1.grey--text.text--lighten-1 (wrapper)
-        w-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
+            span.ml1.grey.text--lighten-1 (wrapper)
+        //- w-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
           | API
-        w-list-item(color="secondary" href="#vueper-slides--settings" v-scroll-to="'#vueper-slides--settings'")
+        //- w-list-item(color="secondary" href="#vueper-slides--settings" v-scroll-to="'#vueper-slides--settings'")
           | Settings
-        w-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
+        //- w-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
         w-divider
-        w-list-item.heading
+        //- w-list-item.heading
             w-icon.mr2 material-icons code
             | Vueper-slide
-            span.ml1.grey--text.text--lighten-1 (slide)
-        w-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
+            span.ml1.grey.text--lighten-1 (slide)
+        //- w-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
           | API
-        w-list-item(color="secondary" href="#vueper-slide--settings" v-scroll-to="'#vueper-slide--settings'")
+        //- w-list-item(color="secondary" href="#vueper-slide--settings" v-scroll-to="'#vueper-slide--settings'")
           | Settings
         w-divider
-        w-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
+        //- w-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
           w-icon.mr2 material-icons color_lens
           | Styling
-        w-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
+        //- w-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
           w-icon.mr2 material-icons format_list_numbered
           | Notable Version Changes
-    w-menu(offset-y open-on-hover left attach transition="slide-down")
-      template(v-slot:activator="{ on }")
-        w-button(text color="secondary" href="#examples" v-scroll-to="'#examples'" slot="activator" v-on="on")
-          w-icon material-icons apps
-          | &nbsp;
+
+    w-menu(open-on-hover left attach transition="slide-down")
+      template(#activator="{ on }")
+        w-button(
+          v-on="on"
+          text
+          tile
+          color="secondary"
+          href="#examples"
+          v-scroll-to="'#examples'"
+          height="100%")
+          w-icon.mr2(lg) material-icons apps
           span Examples
-      w-list.text-no-wrap(allow-overflow)
-        w-list-item(color="secondary" href="#ex--simplest-ever" v-scroll-to="'#ex--simplest-ever'") Simplest Ever
-        w-list-item(color="secondary" href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay
-        w-list-item(color="secondary" href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets
-        w-list-item(color="secondary" href="#ex--fractions-and-progress" v-scroll-to="'#ex--fractions-and-progress'") Fractions &amp; Progress
-        w-list-item(color="secondary" href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading
-        w-list-item(color="secondary" href="#ex--lazyloading" v-scroll-to="'#ex--lazyloading'") Lazy Loading
-        w-list-item(color="secondary" href="#ex--link-on-the-whole-slide" v-scroll-to="'#ex--link-on-the-whole-slide'") Link on the Whole Slide
-        w-list-item(color="secondary" href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
-        w-list-item(color="secondary" href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content Inside/Outside
-        w-list-item(color="secondary" href="#ex--add-remove-slides--disable" v-scroll-to="'#ex--add-remove-slides--disable'") Add / Remove Slides &amp; Disable
-        w-list-item(color="secondary" href="#ex--center-mode" v-scroll-to="'#ex--center-mode'") Center Mode
-        w-list-item(color="secondary" href="#ex--events" v-scroll-to="'#ex--events'") Emitted Events
-        w-list-item(color="secondary" href="#ex--breakpoints" v-scroll-to="'#ex--breakpoints'") Breakpoints
-        w-list-item(color="secondary" href="#ex--dragging-distance" v-scroll-to="'#ex--dragging-distance'") Dragging Distance
-        w-list-item(color="secondary" href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax
-        w-list-item(color="secondary" href="#ex--fixed-height" v-scroll-to="'#ex--fixed-height'") Fixed Height
-        w-list-item(color="secondary" href="#ex--slide-image-inside" v-scroll-to="'#ex--slide-image-inside'") Slide Image Inside
-        w-list-item(color="secondary" href="#ex--show-multiple-slides-and-gap" v-scroll-to="'#ex--show-multiple-slides-and-gap'") Show Multiple Slides &amp; Gap
-        w-list-item(color="secondary" href="#ex--3d-rotation" v-scroll-to="'#ex--3d-rotation'") 3D Rotation
-        w-list-item(color="secondary" href="#ex--external-controls" v-scroll-to="'#ex--external-controls'") External Controls
-        w-list-item(color="secondary" href="#ex--synced-instances" v-scroll-to="'#ex--synced-instances'") Sync 2 instances (gallery)
-        w-list-item(color="secondary" href="#ex--videos" v-scroll-to="'#ex--videos'")
-          | Videos
-          w-tag.w-tag--sm.ml2.px0.white--text(color="primary" outline) NEW
-        //- w-tag.w-tag--sm.ml2.px0.white--text(color="secondary" outline) updated
+      w-list(nav :items="examples")
+        template(#item="{ item }")
+          a(color="secondary" :href="item.href" v-scroll-to="`${item.href}`")
+            | {{ item.label }}
+            w-tag.w-tag--sm.ml2.px0(v-if="item.new" color="primary" outline) NEW
+            w-tag.w-tag--sm.ml2.px0(v-if="item.updated" color="secondary" outline) updated
 </template>
 
 <script>
@@ -93,7 +87,37 @@ Vue.use(VueScrollTo)
 export default {
   props: {
     offsetTop: { type: Number, default: 0 }
-  }
+  },
+
+  data: () => ({
+    docs: [
+
+    ],
+    examples: [
+      { href: '#ex--simplest-ever', label: 'Simplest Ever' },
+      { href: '#ex--basic', label: 'Basic with Autoplay' },
+      { href: '#ex--arrows-and-bullets', label: 'Arrows &amp; Bullets' },
+      { href: '#ex--fractions-and-progress', label: 'Fractions &amp; Progress' },
+      { href: '#ex--images-and-fading', label: 'Images &amp; Fading' },
+      { href: '#ex--lazyloading', label: 'Lazy Loading' },
+      { href: '#ex--link-on-the-whole-slide', label: 'Link on the Whole Slide' },
+      { href: '#ex--complex-slide-title-and-content', label: 'Complex Slide Title &amp; Content' },
+      { href: '#ex--updating-content', label: 'Updating Content Inside/Outside' },
+      { href: '#ex--add-remove-slides--disable', label: 'Add / Remove Slides &amp; Disable' },
+      { href: '#ex--center-mode', label: 'Center Mode' },
+      { href: '#ex--events', label: 'Emitted Events' },
+      { href: '#ex--breakpoints', label: 'Breakpoints' },
+      { href: '#ex--dragging-distance', label: 'Dragging Distance' },
+      { href: '#ex--parallax', label: 'Parallax' },
+      { href: '#ex--fixed-height', label: 'Fixed Height' },
+      { href: '#ex--slide-image-inside', label: 'Slide Image Inside' },
+      { href: '#ex--show-multiple-slides-and-gap', label: 'Show Multiple Slides &amp; Gap' },
+      { href: '#ex--3d-rotation', label: '3D Rotation' },
+      { href: '#ex--external-controls', label: 'External Controls' },
+      { href: '#ex--synced-instances', label: 'Sync 2 instances (gallery)' },
+      { href: '#ex--videos', label: 'Videos' }
+    ]
+  })
 }
 </script>
 
@@ -102,19 +126,13 @@ export default {
 
 .top-bar {
   box-sizing: content-box;
-
-  &.v-app-bar--fixed {
-    z-index: 100;
-    position: absolute;
-    border-bottom: 1px solid transparent !important;
-    transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
-    top: 0;
-  }
-
-  .w-toolbar__content {
-    padding-left: 0;
-    padding-right: 0;
-  }
+  z-index: 100;
+  position: absolute;
+  border-bottom: 1px solid transparent;
+  transition: 0.3s ease-in-out all, 0.1s 0s ease-in-out border-color;
+  top: 0;
+  left: 0;
+  right: 0;
 
   &__title {
     position: relative;
@@ -232,11 +250,9 @@ export default {
   }
 
   &.scrolled {
-    &.v-app-bar--fixed {
-      transition: 0.6s ease-in-out all, 0.3s 0.5s ease-in-out border-color;
-      border-bottom-color: $lighter-text !important;
-      position: fixed;
-    }
+    transition: 0.6s ease-in-out all, 0.3s 0.5s ease-in-out border-color;
+    border-bottom-color: $lighter-text !important;
+    position: fixed;
 
     & .top-bar__title {
       width: 100%;
