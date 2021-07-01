@@ -264,7 +264,7 @@ export default {
     }
 
     & .top-bar__logo-title {
-      font-size: 0.7em;
+      font-size: 0.65em;
     }
 
     & .top-bar__logo-title:after {
