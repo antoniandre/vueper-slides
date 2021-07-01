@@ -7,12 +7,12 @@
     parallax-fixed-content
     :breakpoints="{ 800: { fixedHeight: '300px' } }")
     vueper-slide(v-for="(slide, i) in slides2" :key="i" :image="slide.image")
-      template(v-slot:content)
+      template(#content)
         .vueperslide__title {{ slide.title }}
         .vueperslide__content
           | Photo by
           a(:href="slide.link" target="_blank") {{ slide.content.substring(9) }}
-      template(v-slot:loader)
+      template(#loader)
         w-progress(circle color="primary" indeterminate)
         span.mt3.primary--text.title2 Loading...
 
@@ -182,7 +182,7 @@
     :pause-on-hover="pauseOnHover"
     @autoplay-pause="internalAutoPlaying = false"
     @autoplay-resume="internalAutoPlaying = true")
-    template(v-slot:pause)
+    template(#pause)
       w-icon(lg color="white") material-icons pause_circle_outline
     vueper-slide(v-for="(slide, i) in slides1" :key="slide.id" :title="slide.title" :content="slide.content" :style="'background-color: ' + colors[i % 4]")
 
@@ -194,7 +194,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]" /&gt;
-      &lt;template v-slot:pause&gt;
+      &lt;template #pause&gt;
         &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
       &lt;/template&gt;
     &lt;/vueper-slides&gt;
@@ -219,7 +219,7 @@
         :title="slide.title"
         :content="slide.content"
         :style="'background-color: ' + colors[i % 4]" /&gt;
-      &lt;template v-slot:pause&gt;
+      &lt;template #pause&gt;
         &lt;i class="icon pause_circle_outline"&gt;&lt;/i&gt;
       &lt;/template&gt;
     &lt;/vueper-slides&gt;
@@ -256,18 +256,18 @@
 
   vueper-slides.ex--arrows-and-bullets-1.no-shadow(:infinite="false" :slide-ratio="0.22" :bullets="false")
     vueper-slide(v-for="i in 2" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
-      template(v-slot:content)
+      template(#content)
         .vueperslide__content-wrapper
           div You can increase default arrows thickness just with:
           strong.code .vueperslides__arrow svg {stroke-width: 2}
   p.mt4.
-    Or you can put your own arrows icons via the #[span.code v-slot:arrow-left] and
-    #[span.code v-slot:arrow-right] slots.
+    Or you can put your own arrows icons via the #[span.code #arrow-left] and
+    #[span.code #arrow-right] slots.
 
   vueper-slides.ex--arrows-and-bullets-2.no-shadow(:infinite="false" :slide-ratio="0.22" :bullets="false")
-    template(v-slot:arrow-left)
+    template(#arrow-left)
       w-icon(color="white" xl) material-icons undo
-    template(v-slot:arrow-right)
+    template(#arrow-right)
       w-icon(color="white" xl) material-icons redo
     vueper-slide(
       v-for="i in 5"
@@ -277,11 +277,11 @@
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides :infinite="false" :bullets="false"&gt;
-      &lt;template v-slot:arrow-left&gt;
+      &lt;template #arrow-left&gt;
         &lt;i class="icon icon-arrow-left" /&gt;
       &lt;/template&gt;
 
-      &lt;template v-slot:arrow-right&gt;
+      &lt;template #arrow-right&gt;
         &lt;i class="icon icon-arrow-right" /&gt;
       &lt;/template&gt;
 
@@ -322,11 +322,11 @@
 
   p.mt4.
     You can even put your own bullets, using the appropriate slot.#[br]
-    #[span.code v-slot:bullets] will allow you to override the full list of bullets,
-    whereas #[span.code v-slot:bullet] only lets you customize the content of each bullet.
+    #[span.code #bullets] will allow you to override the full list of bullets,
+    whereas #[span.code #bullet] only lets you customize the content of each bullet.
 
   p.
-    #[strong • Using #[span.code v-slot:bullet]]#[br]
+    #[strong • Using #[span.code #bullet]]#[br]
     It should be enough in almost all the cases, and you don't have to bother with accessibility compliance
     or triggering events.
   vueper-slides.ex--arrows-and-bullets-3.no-shadow(
@@ -339,7 +339,7 @@
       :key="i"
       :title="i.toString()"
       :style="'background-color: ' + colors[(i + 1) % 4]")
-    template(v-slot:bullet="{ active, slideIndex, index }")
+    template(#bullet="{ active, slideIndex, index }")
       w-icon.mr1(:color="colors[(index + 1) % 4]") material-icons {{ active ? 'check_circle' : 'radio_button_unchecked' }}
       strong(:style="`color: ${colors[(index + 1) % 4]}`") Slide \#{{ index }}
 
@@ -353,13 +353,13 @@
     &lt;vueper-slides :infinite="false" :arrows="false"&gt;
       &lt;vueper-slide v-for="i in 4" :key="i" :title="i.toString()" /&gt;
 
-      &lt;template v-slot:bullet="{ active, slideIndex, index }"&gt;
+      &lt;template #bullet="{ active, slideIndex, index }"&gt;
         &lt;i class="icon"&gt;{{ "\{\{ active ? 'check_circle' : 'radio_button_unchecked' \}\}" }}&lt;/i&gt;
       &lt;/template&gt;
     &lt;/vueper-slides&gt;
 
   p.
-    #[strong • Using #[span.code v-slot:bullets]]#[br]
+    #[strong • Using #[span.code #bullets]]#[br]
     If you want more control on events and button wrapper.
     The drawback is that you have to handle more things yourself.
   vueper-slides.ex--arrows-and-bullets-4.no-shadow(
@@ -372,7 +372,7 @@
       :key="i"
       :title="i.toString()"
       :style="'background-color: ' + colors[(i + 1) % 4]")
-    template(v-slot:bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }")
+    template(#bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }")
       button.px1.py3(
         v-for="(slideIndex, i) in bulletIndexes"
         :key="i"
@@ -399,7 +399,7 @@
 
   p.mt4.mb0 Let's see a simple working example first:
   ssh-pre.mt3(language="html-vue" label="Quick way").
-    &lt;template v-slot:bullets="{ bulletIndexes, goToSlide, currentSlide }"&gt;
+    &lt;template #bullets="{ bulletIndexes, goToSlide, currentSlide }"&gt;
       &lt;span
         v-for="(slideIndex, i) in bulletIndexes" :key="i"
         :class="{ 'active': currentSlide === slideIndex }"
@@ -421,7 +421,7 @@
     When you drag the slide (mousemove or touchmove) the current slide bullet will also be focused.
 
   ssh-pre(language="html-vue" label="Accessibility compliant way").
-    &lt;template v-slot:bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }"&gt;
+    &lt;template #bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }"&gt;
       &lt;button
         v-for="(slideIndex, i) in bulletIndexes" :key="i"
         :class="{ 'active': currentSlide === slideIndex }"
@@ -520,14 +520,14 @@
 
   vueper-slides.ex--lazyloading(lazy lazy-load-on-drag)
     vueper-slide(v-for="(slide, i) in lazyloadSlides" :key="i" :image="slide.image")
-      template(v-slot:loader)
+      template(#loader)
         w-progress(circle color="primary" indeterminate)
         span.mt3.primary--text.title2 Loading...
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides lazy lazy-load-on-drag&gt;
       &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :image="slide.image"&gt;
-        &lt;template v-slot:loader&gt;
+        &lt;template #loader&gt;
           &lt;i class="icon icon-loader spinning"&gt;&lt;/i&gt;
           &lt;span&gt;Loading...&lt;/span&gt;
         &lt;/template&gt;
@@ -594,7 +594,7 @@
       v-for="i in 4"
       :key="i"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
-      template(v-slot:content)
+      template(#content)
         .vueperslide__content-wrapper
           .subtitle-1
             w-icon.mr2(color="white") material-icons check
@@ -607,7 +607,7 @@
         v-for="i in 4"
         :key="i"
         :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
-        &lt;template v-slot:content&gt;
+        &lt;template #content&gt;
          &lt;i class="icon icon-check"&gt;&lt;/i&gt;
          Complex content with Vue.js {{ "\{\{ 1 === 1 ? 'interpreted' : 'non-interpreted' \}\}" }} compilable content &amp; &lt;span v-pre&gt;{{ '\{\{ mustaches \}\}' }}&lt;/span&gt;.
         &lt;/template&gt;
@@ -615,7 +615,7 @@
     &lt;/vueper-slides&gt;
   highlight(type="info")
     ul.my0
-      li if both #[span.code :content="..."] and #[span.code v-slot:content] are provided, the content slot will be displayed.
+      li if both #[span.code :content="..."] and #[span.code #content] are provided, the content slot will be displayed.
 
   h3
     a(href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content Inside/Outside
@@ -654,7 +654,7 @@
     :slide-content-outside="contentPosition === 'false' ? false : contentPosition"
     slide-content-outside-class="text-center py4")
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
-      template(v-slot:content)
+      template(#content)
         .vueperslide__content-wrapper(style="flex-direction: row")
           w-icon.pr3(color="white" size="5em") material-icons access_time
           span(style="font-size: 3.7em") {{ slide.title }}
@@ -667,7 +667,7 @@
         v-for="(slide, i) in slides"
         :key="i"
         :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]"&gt;
-        &lt;template v-slot:content&gt;
+        &lt;template #content&gt;
           &lt;div class="vueperslide__content-wrapper" style="flex-direction: row"&gt;
             &lt;i class="material-icons"&gt;access_time&lt;/i&gt;
             &lt;span&gt;{{ '\{\{ slide.title \}\}' }}&lt;/span&gt;
@@ -1278,7 +1278,7 @@
       v-for="i in 8"
       :key="i"
       @click.native="$refs.vueperslides2 && $refs.vueperslides2.goToSlide(i - 1)")
-      template(v-slot:content)
+      template(#content)
         .vueperslide__content-wrapper(:style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
           .vueperslide__title {{ i.toString() }}
 
@@ -1307,7 +1307,7 @@
         v-for="i in 8"
         :key="i"
         @click.native="$refs.vueperslides2 &amp;&amp; $refs.vueperslides2.goToSlide(i - 1)"&gt;
-        &lt;template v-slot:content&gt;
+        &lt;template #content&gt;
           &lt;div class="vueperslide__content-wrapper" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]"&gt;
             &lt;div class="vueperslide__title"&gt;{{ '\{\{ i.toString() \}\}' }}&lt;/div&gt;
           &lt;/div&gt;
@@ -2224,7 +2224,7 @@
           | horizontally and vertically align center:
           ssh-pre(language="html-vue" label="HTML Vue Template").
             &lt;vueper-slide v-for="i in 8" :key="i"&gt;
-              &lt;template v-slot:content&gt;
+              &lt;template #content&gt;
                 &lt;div class="vueperslide__content-wrapper"&gt;
                   &lt;div class="vueperslide__title"&gt;{{ '\{\{ i.toString() \}\}' }}&lt;/div&gt;
                 &lt;/div&gt;
@@ -2322,6 +2322,7 @@ export default {
     SshPre,
     Highlight
   },
+
   data: () => ({
     autoPlaying: true,
     internalAutoPlaying: true,
@@ -2463,6 +2464,7 @@ export default {
       }
     ]
   }),
+
   methods: {
     onWhatAreClonesClick () {
       this.highlightWhatAreClones = true
