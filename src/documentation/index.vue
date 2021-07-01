@@ -167,13 +167,12 @@
     | The autoplay circles between all the slides and goes back to the begining after the last slide.#[br]
     | You can also pause and resume the autoplay from an external button using Vue refs like this:
     w-button.ml2(
-      small
       bg-color="primary"
       @click="$refs.exBasic[`${autoPlaying ? 'pause' : 'resume'}Autoplay`]();autoPlaying = !autoPlaying;pauseOnHover = false")
-      w-icon.mr1(md) material-icons {{ autoPlaying ? 'pause_circle_outline' : 'play_circle_outline' }}
+      w-icon.mr1(lg) material-icons {{ autoPlaying ? 'pause_circle_outline' : 'play_circle_outline' }}
       | {{ autoPlaying ? 'Pause' : 'Resume' }}
-    w-button.ml2(small bg-color="primary" :outline="!pauseOnHover" @click="pauseOnHover = !pauseOnHover")
-      w-icon.mr1(v-if="pauseOnHover" md) material-icons check
+    w-button.ml2(bg-color="primary" :outline="!pauseOnHover" @click="pauseOnHover = !pauseOnHover")
+      w-icon.mr1(v-if="pauseOnHover" lg) material-icons check
       | Pause on mouseover
     code.ml2 Currently {{ internalAutoPlaying ? 'playing' : 'paused' }}
   vueper-slides.ex2(
@@ -340,7 +339,7 @@
       :title="i.toString()"
       :style="'background-color: ' + colors[(i + 1) % 4]")
     template(#bullet="{ active, slideIndex, index }")
-      w-icon.mr1(:color="colors[(index + 1) % 4]") material-icons {{ active ? 'check_circle' : 'radio_button_unchecked' }}
+      w-icon.mr1(:style="'color: ' + colors[(index + 1) % 4]" lg) material-icons {{ active ? 'check_circle' : 'radio_button_unchecked' }}
       strong(:style="`color: ${colors[(index + 1) % 4]}`") Slide \#{{ index }}
 
   p.mb0 When using the #[span.code bullet] slot, 3 variables are accessible:
@@ -373,7 +372,7 @@
       :title="i.toString()"
       :style="'background-color: ' + colors[(i + 1) % 4]")
     template(#bullets="{ bulletIndexes, goToSlide, previous, next, currentSlide }")
-      button.px1.py3(
+      button.px1.py3.transparent--bg.bd0(
         v-for="(slideIndex, i) in bulletIndexes"
         :key="i"
         :class="{ 'active': currentSlide === slideIndex }"
@@ -382,7 +381,7 @@
         @click="goToSlide(slideIndex)"
         @keyup.left="previous()"
         @keyup.right="next()")
-        w-icon(:color="colors[(i + 2) % 4]")
+        w-icon(:style="'color: ' + colors[(i + 2) % 4]" lg)
           | material-icons {{ currentSlide === slideIndex ? 'check_circle' : 'radio_button_unchecked' }}
 
   p.mb0 When using the #[span.code bullets] slot, 5 variables are accessible:
@@ -597,7 +596,7 @@
       template(#content)
         .vueperslide__content-wrapper
           .subtitle-1
-            w-icon.mr2(color="white") material-icons check
+            w-icon.mr2(color="white" lg) material-icons check
             | Complex content {{ i.toString() }} with Vue.js
             | {{ 1 === 1 ? 'interpreted' : 'non-interpreted' }} compilable content like
             | components &amp; #[span(v-pre) {{&nbsp;mustaches&nbsp;}}].
@@ -613,9 +612,8 @@
         &lt;/template&gt;
       &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
-  highlight(type="info")
-    ul.my0
-      li if both #[span.code :content="..."] and #[span.code #content] are provided, the content slot will be displayed.
+  highlight.pl6(type="info").
+    If both #[span.code :content="..."] and #[span.code #content] are provided, the content slot will be displayed.
 
   h3
     a(href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content Inside/Outside
@@ -628,7 +626,7 @@
     In this example the content is set in a slot (refer to #[a(href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content]
     for more details) and uses interpreted mustaches #[span.code(v-pre) {{ }} and Vuetify components like #[span.code v-layout] &amp; #[span.code v-icon]].
 
-  highlight(type="tips")
+  highlight.mt4(type="tips")
     strong.red WARNING: The following tip does not apply to Vue 3. Vue 3 resolves this internally.
     p.
       The only thing that does not keep updated by default - as more costly, is the slides clones
@@ -637,14 +635,14 @@
       This is only for particular cases like this clock and you usually don't need this as the slides are copied from original content on mounted.
   w-flex.max-widthed.mb4(align-center wrap)
     w-flex.shrink.mr4(align-center wrap)
-      w-button.mt2.mr2(bg-color="primary" @click="toggleSlidesTime" small)
-        w-icon.pr2 material-icons {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
+      w-button.mt2.mr2(bg-color="primary" @click="toggleSlidesTime")
+        w-icon.pr2(lg) material-icons {{ slidesTimeTimerId ? 'highlight_off' : 'access_time' }}
         | {{ slidesTimeTimerId ? 'Stop' : 'Keep' }} updating time
       w-transition-expand(x)
-        w-tag.mt2(v-if="slidesTimeTimerId === 0" small outline) CPU says THANK YOU!
+        w-tag.mt2.grey.text-nowrap(v-if="slidesTimeTimerId === 0" outline) CPU says THANK YOU!
     w-flex(align-center wrap)
-      w-button.mt2.mx2(bg-color="primary" @click="contentPositionChange" small)
-        w-icon material-icons swap_vert
+      w-button.mt2.mx2(bg-color="primary" @click="contentPositionChange")
+        w-icon(lg) material-icons swap_vert
         | &nbsp;Move content position
       strong.mt2.code {{ contentPosition === 'false' ? ':' : '' }}slide-content-outside="#[span.primary {{ contentPosition }}]"
   vueper-slides.ex--updating-content(
@@ -656,7 +654,7 @@
     vueper-slide(v-for="(slide, i) in slides4" :key="i" :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]")
       template(#content)
         .vueperslide__content-wrapper(style="flex-direction: row")
-          w-icon.pr3(color="white" size="5em") material-icons access_time
+          w-icon.mr4(color="white" size="5em" lg) material-icons access_time
           span(style="font-size: 3.7em") {{ slide.title }}
 
   ssh-pre(language="html-vue" label="HTML Vue Template").
@@ -711,14 +709,14 @@
   p
     | This example illustrates how to add or remove slides on the fly from a running Vueper Slides instance.#[br]
     | You can also completely freeze the slideshow and unfreeze when you want to.#[br]
-    w-button.ma1(bg-color="primary" @click="appendSlide" small)
-      w-icon material-icons add
+    w-button.ma1(bg-color="primary" @click="appendSlide" )
+      w-icon(lg) material-icons add
       | &nbsp; Add Slide
-    w-button.ma1(bg-color="primary" @click="removeSlide" small)
-      w-icon material-icons remove
+    w-button.ma1(bg-color="primary" @click="removeSlide" )
+      w-icon(lg) material-icons remove
       | &nbsp; Remove Slide
-    w-button.ma1(bg-color="secondary" @click="toggleSlideshow" small)
-      w-icon material-icons {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
+    w-button.ma1(bg-color="secondary" @click="toggleSlideshow" )
+      w-icon(lg) material-icons {{ slideshowDisabled ? 'check_circle' : 'highlight_off'}}
       | &nbsp; {{ slideshowDisabled ? 'Enable' : 'Disable' }} Slideshow
   highlight Note that the slideshow disables controls if you have only 1 slide or none.
   p The arrows are also disabled on edges in this example.
@@ -736,13 +734,13 @@
       :content="slide.content"
       :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
   ssh-pre(language="html-vue" label="HTML Vue Template").
-    &lt;button @click="appendSlide" small&gt;
+    &lt;button @click="appendSlide" &gt;
       &lt;i class="icon material-icons"&gt;add&lt;/i&gt; Add Slide
     &lt;/button&gt;
-    &lt;button @click="removeSlide" small&gt;
+    &lt;button @click="removeSlide" &gt;
       &lt;i class="icon material-icons"&gt;remove&lt;/i&gt; Remove Slide
     &lt;/button&gt;
-    &lt;button @click="toggleSlideshow" small&gt;
+    &lt;button @click="toggleSlideshow" &gt;
       &lt;i class="icon material-icons"&gt; {{ "\{\{ slideshowDisabled ? 'check_circle' : 'highlight_off'\}\}" }}&lt;/i&gt; {{ "\{\{ slideshowDisabled ? 'Enable' : 'Disable' \}\}" }} Slideshow
     &lt;/button&gt;
 
@@ -840,8 +838,8 @@
       div.grey(v-if="logs")
         strong // event-name:
         span.ml2 params
-      w-button(bg-color="primary" sm outline @click="logs = []")
-        w-icon.mr1(small) material-icons close
+      w-button(color="primary" sm outline @click="logs = []")
+        w-icon.mr1() material-icons close
         | Clear logs
     div(v-for="(log, i) in logs")
       strong.mr2 {{ log.eventName }}:
@@ -878,7 +876,7 @@
       padding: 4px 25px;
       background: orange;
       color: #fff;
-      font-size: 10px;
+      font-size: 11px;
       transform: translateX(30%) rotate(45deg);
       transform-origin: 0 0;
       box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
@@ -966,13 +964,13 @@
     You might also want to set a fixed content on top of the moving background using
     the #[span.code parallax-fixed-content] option.
   w-flex.max-widthed.mb4(align-center wrap)
-    w-button.my1.mr2(small bg-color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
-      w-icon material-icons sync
+    w-button.my1.mr2( bg-color="primary" @click="parallax *= -1;$refs.exParallax.refreshParallax()")
+      w-icon(lg) material-icons sync
       | &nbsp; Reverse parallax effect
     strong.code.mr4 :parallax="#[span.primary {{ parallax.toString() }}]"
 
-    w-button.my1.mr2(small bg-color="primary" @click="parallaxFixedContent = !parallaxFixedContent")
-      w-icon material-icons {{ parallaxFixedContent ? 'close' : 'remove_from_queue' }}
+    w-button.my1.mr2( bg-color="primary" @click="parallaxFixedContent = !parallaxFixedContent")
+      w-icon(lg) material-icons {{ parallaxFixedContent ? 'close' : 'remove_from_queue' }}
       | &nbsp; Add a fix content
     strong.code :parallax-fixed-content="#[span.primary {{ parallaxFixedContent.toString() }}]"
   vueper-slides.ex--parallax(ref="exParallax" :parallax="parallax" :parallax-fixed-content="parallaxFixedContent")
@@ -1225,14 +1223,14 @@
       refer to the #[a(href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax Effect] example.
 
   div.text-center.mb3
-    w-button.ma1(bg-color="primary" small @click="$refs.myVueperSlides.previous()")
-      w-icon material-icons arrow_back
+    w-button.ma1(bg-color="primary"  @click="$refs.myVueperSlides.previous()")
+      w-icon(lg) material-icons arrow_back
       | &nbsp; Previous
-    w-button.ma1(bg-color="primary" small @click="$refs.myVueperSlides.goToSlide(5)")
-      w-icon material-icons call_made
+    w-button.ma1(bg-color="primary"  @click="$refs.myVueperSlides.goToSlide(5)")
+      w-icon(lg) material-icons call_made
       | &nbsp; Go to slide 6
-    w-button.ma1(bg-color="primary" small @click="$refs.myVueperSlides.next()")
-      w-icon material-icons arrow_forward
+    w-button.ma1(bg-color="primary"  @click="$refs.myVueperSlides.next()")
+      w-icon(lg) material-icons arrow_forward
       | &nbsp; Next
   vueper-slides(:slide-ratio="1/5" ref="myVueperSlides")
     vueper-slide(v-for="i in 10" :key="i" :title="i.toString()" :style="'background-color: ' + ['#ff5252', '#42b983'][i % 2]")
@@ -1319,7 +1317,7 @@
   p
     a(href="https://codepen.io/antoniandre/pen/ZEGEydP" target="_blank")
       | Edit this example in Codepen
-      w-icon.ml1(small color="primary") material-icons open_in_new
+      w-icon.ml1( color="primary") material-icons open_in_new
   vueper-slides(
     ref="vueperslides3"
     :touchable="false"

@@ -24,7 +24,15 @@ ul, ol {
   padding-left: 1.3em;
 }
 
-.code {font-family: monospace, sans-serif;}
+code, .code {
+  font-family: monospace, sans-serif;
+  border-radius: 4px;
+  font-size: 90%;
+  font-weight: 400;
+  color: currentColor;
+  padding: .15em .4em;
+}
+code {background-color: rgba(0,0,0,.05);}
 
 p {margin-bottom: 16px;}
 
@@ -36,6 +44,8 @@ p {margin-bottom: 16px;}
   border-radius: 4px;
   display: block;
   box-shadow: none;
+  font-size: 0.9em;
+  line-height: 1.4;
 }
 
 .page__title {
@@ -58,8 +68,8 @@ p {margin-bottom: 16px;}
   text-transform: uppercase;
   font-weight: 500;
 
-  &.size--md {
-    height: 30px;
+  &.size--md:not(.w-button--round) {
+    height: 28px;
     padding-left: 12px;
     padding-right: 12px;
   }
