@@ -13,8 +13,6 @@ w-app(:class="{ ready }" v-scroll="onScroll")
       right
       round
       v-scroll-to="'#top'")
-      //- Width to prevent ugly first load animation when icon is not yet ready.
-      //- w-icon(color="white" size="26" style="width: 24px")
 
   footer.py2(color="white")
     w-flex.max-widthed(wrap justify-center)

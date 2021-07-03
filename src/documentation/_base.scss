@@ -24,18 +24,19 @@ ul, ol {
   padding-left: 1.3em;
 }
 
-code, .code {
+p {margin-bottom: 16px;}
+
+code, .code:not(.w-icon) {
   font-family: monospace, sans-serif;
   font-size: 0.9em;
 }
+
 code {
   padding: .15em .4em;
   background-color: rgba(0,0,0,.05);
   color: #dc163c;
   border-radius: 4px;
 }
-
-p {margin-bottom: 16px;}
 
 .ssh-pre {
   padding: 0.5em;
