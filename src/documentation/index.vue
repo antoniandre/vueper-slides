@@ -2314,7 +2314,7 @@ import Highlight from '@/components/highlight-message/index'
 
 import '@/components/vueperslides/styles.scss'
 import 'simple-syntax-highlighter/dist/sshpre.css'
-import './examples.scss'
+import '@/scss/examples.scss'
 
 export default {
   components: {

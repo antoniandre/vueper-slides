@@ -26,7 +26,7 @@ w-app(:class="{ ready }" v-scroll="onScroll")
 <script>
 import Documentation from '@/documentation'
 import TopBar from '@/documentation/top-bar'
-import '@/documentation/_base.scss'
+import '@/scss/index.scss'
 
 export default {
   name: 'app',
