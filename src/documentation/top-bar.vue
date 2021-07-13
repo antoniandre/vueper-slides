@@ -11,54 +11,44 @@ w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
       span.intro A Vue Super Slideshow / Carousel
 
   .top-bar__items.fill-height
-    w-menu(open-on-hover left attach transition="slide-down")
+    w-menu(
+      show-on-hover
+      hide-on-menu-click
+      align-right
+      transition="slide-fade-down"
+      menu-class="mt0"
+      detach-to=".top-bar__items"
+      custom)
       template(#activator="{ on }")
         w-button(
           v-on="on"
           text
           tile
           color="secondary"
-          href="#vueper-slides--api"
+          route="#vueper-slides--api"
           v-scroll-to="'#vueper-slides--api'"
           height="100%")
           w-icon.mr2(lg) material-icons school
           span Doc
 
-      w-list(:items="docs")
-        //- w-list-item.heading(color="secondary" href="#installation" v-scroll-to="'#installation'")
-          w-icon.mr2 material-icons build
-          | Installation
-        //- w-list-item.heading(color="secondary" href="#how-to-use" v-scroll-to="'#how-to-use'")
-          w-icon.mr2 material-icons help_outline
-          | How To Use
-        w-divider
-        //- w-list-item.heading
-            w-icon.mr2 material-icons code
-            | Vueper-slides
-            span.ml1.grey.text--lighten-1 (wrapper)
-        //- w-list-item(color="secondary" href="#vueper-slides--api" v-scroll-to="'#vueper-slides--api'")
-          | API
-        //- w-list-item(color="secondary" href="#vueper-slides--settings" v-scroll-to="'#vueper-slides--settings'")
-          | Settings
-        //- w-list-item(color="secondary" href="#events" v-scroll-to="'#events'") Emitted Events
-        w-divider
-        //- w-list-item.heading
-            w-icon.mr2 material-icons code
-            | Vueper-slide
-            span.ml1.grey.text--lighten-1 (slide)
-        //- w-list-item(color="secondary" href="#vueper-slide--api" v-scroll-to="'#vueper-slide--api'")
-          | API
-        //- w-list-item(color="secondary" href="#vueper-slide--settings" v-scroll-to="'#vueper-slide--settings'")
-          | Settings
-        w-divider
-        //- w-list-item.heading(color="secondary" href="#styling" v-scroll-to="'#styling'")
-          w-icon.mr2 material-icons color_lens
-          | Styling
-        //- w-list-item.heading(color="secondary" href="#notable-version-changes" v-scroll-to="'#notable-version-changes'")
-          w-icon.mr2 material-icons format_list_numbered
-          | Notable Version Changes
+      w-list.mt0.pa0.sh2.white--bg.bdrs1(nav :items="docs" item-route-key="href")
+        template(#item="{ item }")
+          w-divider.grow(v-if="item.class === 'w-divider'" color="grey-light1")
+          a.grow(v-else-if="item.href" :href="item.href" v-scroll-to="`${item.href}`")
+            w-icon.mr2(v-if="item.icon") {{ item.icon }}
+            span(:class="{ 'ml6': !item.icon }") {{ item.label }}
+          span(v-else :class="item.class || null")
+            w-icon.mr2(v-if="item.icon") {{ item.icon }}
+            span(v-html="item.label")
 
-    w-menu(open-on-hover left attach transition="slide-down")
+    w-menu(
+      show-on-hover
+      hide-on-menu-click
+      align-right
+      transition="slide-fade-down"
+      menu-class="mt0"
+      detach-to=".top-bar__items"
+      custom)
       template(#activator="{ on }")
         w-button(
           v-on="on"
@@ -70,9 +60,9 @@ w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
           height="100%")
           w-icon.mr2(lg) material-icons apps
           span Examples
-      w-list(nav :items="examples")
+      w-list.mt0.pa0.sh2.white--bg.bdrs1(nav :items="examples" item-route-key="href" style="max-height: 90vh;overflow: auto;white-space: nowrap")
         template(#item="{ item }")
-          a(color="secondary" :href="item.href" v-scroll-to="`${item.href}`")
+          a.grow.px5(:href="item.href" v-scroll-to="`${item.href}`")
             | {{ item.label }}
             w-tag.w-tag--sm.ml2.px0(v-if="item.new" color="primary" outline) NEW
             w-tag.w-tag--sm.ml2.px0(v-if="item.updated" color="secondary" outline) updated
@@ -91,19 +81,32 @@ export default {
 
   data: () => ({
     docs: [
-
+      { class: 'heading', href: '#installation', icon: 'material-icons build', label: 'Installation' },
+      { class: 'heading', href: '#how-to-use', icon: 'material-icons help_outline', label: 'How To Use' },
+      { class: 'w-divider' },
+      { class: 'heading', icon: 'material-icons code', label: 'Vueper-slides <span class="ml1 grey text--lighten-1">(wrapper)</span>' },
+      { class: '', href: '#vueper-slides--api', icon: '', label: 'API' },
+      { class: '', href: '#vueper-slides--settings', icon: '', label: 'Settings' },
+      { class: '', href: '#events', icon: '', label: 'Emitted Events' },
+      { class: 'w-divider' },
+      { class: 'heading', icon: 'material-icons code', label: 'Vueper-slide <span class="ml1 grey text--lighten-1">(slide)</span>' },
+      { class: '', href: '#vueper-slide--api', icon: '', label: 'API' },
+      { class: '', href: '#vueper-slide--settings', icon: '', label: 'Settings' },
+      { class: 'w-divider' },
+      { class: 'heading', href: '#styling', icon: 'material-icons color_lens', label: 'Styling' },
+      { class: 'heading', href: '#notable-version-changes', icon: 'material-icons format_list_numbered', label: 'Notable Version Changes' }
     ],
     examples: [
       { href: '#ex--simplest-ever', label: 'Simplest Ever' },
       { href: '#ex--basic', label: 'Basic with Autoplay' },
-      { href: '#ex--arrows-and-bullets', label: 'Arrows &amp; Bullets' },
-      { href: '#ex--fractions-and-progress', label: 'Fractions &amp; Progress' },
-      { href: '#ex--images-and-fading', label: 'Images &amp; Fading' },
+      { href: '#ex--arrows-and-bullets', label: 'Arrows & Bullets' },
+      { href: '#ex--fractions-and-progress', label: 'Fractions & Progress' },
+      { href: '#ex--images-and-fading', label: 'Images & Fading' },
       { href: '#ex--lazyloading', label: 'Lazy Loading' },
       { href: '#ex--link-on-the-whole-slide', label: 'Link on the Whole Slide' },
-      { href: '#ex--complex-slide-title-and-content', label: 'Complex Slide Title &amp; Content' },
+      { href: '#ex--complex-slide-title-and-content', label: 'Complex Slide Title & Content' },
       { href: '#ex--updating-content', label: 'Updating Content Inside/Outside' },
-      { href: '#ex--add-remove-slides--disable', label: 'Add / Remove Slides &amp; Disable' },
+      { href: '#ex--add-remove-slides--disable', label: 'Add / Remove Slides & Disable' },
       { href: '#ex--center-mode', label: 'Center Mode' },
       { href: '#ex--events', label: 'Emitted Events' },
       { href: '#ex--breakpoints', label: 'Breakpoints' },
@@ -111,7 +114,7 @@ export default {
       { href: '#ex--parallax', label: 'Parallax' },
       { href: '#ex--fixed-height', label: 'Fixed Height' },
       { href: '#ex--slide-image-inside', label: 'Slide Image Inside' },
-      { href: '#ex--show-multiple-slides-and-gap', label: 'Show Multiple Slides &amp; Gap' },
+      { href: '#ex--show-multiple-slides-and-gap', label: 'Show Multiple Slides & Gap' },
       { href: '#ex--3d-rotation', label: '3D Rotation' },
       { href: '#ex--external-controls', label: 'External Controls' },
       { href: '#ex--synced-instances', label: 'Sync 2 instances (gallery)' },
@@ -122,8 +125,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './variables';
-
 .top-bar {
   box-sizing: content-box;
   z-index: 100;
@@ -217,9 +218,7 @@ export default {
     height: 18px;
     line-height: 18px;
 
-    .w-tag__content {
-      padding: 0 6px;
-    }
+    .w-tag__content {padding: 0 6px;}
   }
 
   .intro {
@@ -243,10 +242,8 @@ export default {
     padding-top: 3px;
     opacity: 0.6;
     transition: 0.3s;
-  }
 
-  .intro em:hover {
-    opacity: 0.9;
+    &:hover {opacity: 0.9;}
   }
 
   &.scrolled {
