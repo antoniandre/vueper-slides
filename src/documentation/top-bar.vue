@@ -31,13 +31,17 @@ w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
           w-icon.mr2(lg) material-icons school
           span Doc
 
-      w-list.mt0.pa0.sh2.white--bg.bdrs1(nav :items="docs" item-route-key="href")
+      w-list.mt0.pa0.sh2.white--bg.bdrs1(
+        nav
+        :items="docs"
+        item-route-key="href"
+        item-class="pa0")
         template(#item="{ item }")
           w-divider.grow(v-if="item.class === 'w-divider'" color="grey-light1")
-          a.grow(v-else-if="item.href" :href="item.href" v-scroll-to="`${item.href}`")
+          .w-flex.grow.px6.py2(v-else-if="item.href" :href="item.href" v-scroll-to="`${item.href}`")
             w-icon.mr2(v-if="item.icon") {{ item.icon }}
             span(:class="{ 'ml6': !item.icon }") {{ item.label }}
-          span(v-else :class="item.class || null")
+          span.px6.py2(v-else :class="item.class || null")
             w-icon.mr2(v-if="item.icon") {{ item.icon }}
             span(v-html="item.label")
 
@@ -60,9 +64,14 @@ w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
           height="100%")
           w-icon.mr2(lg) material-icons apps
           span Examples
-      w-list.mt0.pa0.sh2.white--bg.bdrs1(nav :items="examples" item-route-key="href" style="max-height: 90vh;overflow: auto;white-space: nowrap")
+      w-list.mt0.pa0.sh2.white--bg.bdrs1(
+        nav
+        :items="examples"
+        item-route-key="href"
+        item-class="pa0"
+        style="max-height: 90vh;overflow: auto;white-space: nowrap")
         template(#item="{ item }")
-          a.grow.px5(:href="item.href" v-scroll-to="`${item.href}`")
+          span.d-flex.grow.px6.py2(:href="item.href" v-scroll-to="`${item.href}`")
             | {{ item.label }}
             w-tag.w-tag--sm.ml2.px0(v-if="item.new" color="primary" outline) NEW
             w-tag.w-tag--sm.ml2.px0(v-if="item.updated" color="secondary" outline) updated
