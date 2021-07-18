@@ -1,6 +1,6 @@
 {
   "name": "vueperslides",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "A touch ready and responsive slideshow for Vue and Vue 3.",
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
   "scripts": {
