@@ -3,18 +3,28 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
 import { createApp, h } from 'vue'
-import WaveUI from './plugins/wave-ui'
-
-import '@fortawesome/fontawesome-free/css/fontawesome.css'
-import '@fortawesome/fontawesome-free/css/brands.css'
+import WaveUI from 'wave-ui'
+import 'wave-ui/dist/wave-ui.css'
 
 import App from './app'
 import router from './router/'
 
-Vue.config.productionTip = false
+import '@fortawesome/fontawesome-free/css/fontawesome.css'
+import '@fortawesome/fontawesome-free/css/brands.css'
 
-new Vue({
-  router,
-  WaveUI,
-  render: h => h(App)
-}).$mount('#app')
+const app = createApp(App).use(router)
+
+// eslint-disable-next-line no-new
+new WaveUI(app, {
+  iconsLigature: 'material-icons',
+  colors: {
+    primary: '#ff5252',
+    secondary: '#42b983',
+    maintext: '#999',
+    darktext: '#444',
+    lightertext: '#ccc',
+    lightgrey: '#eee'
+  }
+})
+
+app.mount('#app')
