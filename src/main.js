@@ -2,7 +2,7 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
-import { createApp, h } from 'vue'
+import { createApp } from 'vue'
 import WaveUI from 'wave-ui'
 import 'wave-ui/dist/wave-ui.css'
 
