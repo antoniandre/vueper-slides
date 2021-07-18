@@ -41,7 +41,8 @@
     "simple-syntax-highlighter": "^2.0.6",
     "vue": "^3.1.5",
     "vue-router": "^4.0.10",
-    "vue-scrollto": "^2.19.1"
+    "vue-scrollto": "^2.19.1",
+    "wave-ui": "^2.22.0"
   },
   "keywords": [
     "carousel",
