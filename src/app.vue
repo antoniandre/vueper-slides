@@ -12,7 +12,7 @@ w-app(:class="{ ready }" v-scroll="onScroll")
       bottom
       right
       round
-      v-scroll-to="'#top'")
+      :v-scroll-to="'#top'")
 
   footer.py2(color="white")
     w-flex.max-widthed(wrap justify-center)

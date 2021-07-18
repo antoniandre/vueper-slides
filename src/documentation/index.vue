@@ -587,7 +587,7 @@
     a(href="#ex--complex-slide-title-and-content" :v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content
     a(id="ex--complex-slide-title-and-content" name="ex--complex-slide-title-and-content")
   p.
-    This example (and the next one #[a(href="#ex--updating-content" v-scroll-to="'#ex--updating-content'") Updating Content]) shows how to use a complex html content with interpreted Vue.js keywords inside your slides.#[br]
+    This example (and the next one #[a(href="#ex--updating-content" :v-scroll-to="'#ex--updating-content'") Updating Content]) shows how to use a complex html content with interpreted Vue.js keywords inside your slides.#[br]
     The #[code &lt;vueper-slide&gt;] tag accepts 2 slots called #[code title] &amp; #[code content]
     if using the html attributes #[code :title="..."] &amp; #[code :content="..."] is too restrictive for your content.
 
@@ -626,7 +626,7 @@
     itself (where the content slot resides) and in an auto-playing slideshow.#[br]
 
     The content can be placed inside the slides (default) or outside above or bellow the slideshow.#[br]
-    In this example the content is set in a slot (refer to #[a(href="#ex--complex-slide-title-and-content" v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content]
+    In this example the content is set in a slot (refer to #[a(href="#ex--complex-slide-title-and-content" :v-scroll-to="'#ex--complex-slide-title-and-content'") Complex Slide Title &amp; Content]
     for more details) and uses interpreted mustaches #[code(v-pre) {{ }}] and components like Vuetify's #[code v-icon] for instance.
 
   highlight.mt4(type="tips")
@@ -1406,7 +1406,7 @@
     }
 
   h3
-    a(href="#ex--videos" v-scroll-to="'#ex--videos'") Videos
+    a(href="#ex--videos" :v-scroll-to="'#ex--videos'") Videos
     a(id="ex--videos" name="ex--videos")
   p.
     The video feature is usable through the #[code video] prop and is completely customizable.#[br]
@@ -1615,7 +1615,7 @@
       div.mt2
         strong.red WARNING: Don't use in Vue 3. Vue 3 resolves this internally and you don't need this option anymore.
       div.
-        With the #[code infinite] mode, the clones (#[a(href="#what-are-clones" v-scroll-to="'#what-are-clones'" @click="onWhatAreClonesClick") What are clones?])
+        With the #[code infinite] mode, the clones (#[a(href="#what-are-clones" :v-scroll-to="'#what-are-clones'" @click="onWhatAreClonesClick") What are clones?])
         are created with a copy of content in the mounted Vue.js lifecycle hook.#[br]
         If you modify the content of the slides after it's mounted, the option #[code alwaysRefreshClones] will
         make sure to always keep the clones up to date.#[br]
@@ -1627,7 +1627,7 @@
         Disable or enable the navigation arrows.#[br]
         You can also override the arrows by providing them in the html content of the
         #[code &lt;vueper-slides&gt;].#[br]
-        See this setting live in the #[a(href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets] example.
+        See this setting live in the #[a(href="#ex--arrows-and-bullets" :v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets] example.
 
     li
       | #[code arrowsOutside], #[strong.mr1 Type:] #[code="[Boolean]"], #[strong.mr1 Default:] #[code false]
@@ -1642,7 +1642,7 @@
       p.
         Plays a slideshow automatically. Changing slide after a defined amount
         of time (set in #[code duration]).#[br]
-        See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
+        See this setting live in the #[a(href="#ex--basic" :v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
       | #[code breakpoints], #[strong.mr1 Type:] #[code="[Object]"], #[strong.mr1 Default:] #[code {}]
@@ -1659,7 +1659,7 @@
       | #[code bulletsOutside], #[strong.mr1 Type:] #[code="[Boolean]"], #[strong.mr1 Default:] #[code false]
       p.
         If bullets is set to #[code true], place the slides index inside or outside the slideshow track.#[br]
-        See this setting live in the #[a(href="#ex--arrows-and-bullets" v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets] example.
+        See this setting live in the #[a(href="#ex--arrows-and-bullets" :v-scroll-to="'#ex--arrows-and-bullets'") Arrows &amp; Bullets] example.
 
     li
       | #[code disable], #[strong.mr1 Type:] #[code="[Boolean]"], #[strong.mr1 Default:] #[code false]
@@ -1695,7 +1695,7 @@
         Sets the transition type to fade when changing slide.#[br]
         By default the slideshow slides when changing slide (and so #[code fade] is set to
         #[code false]).#[br]
-        See this setting live in the #[a(href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading] example.
+        See this setting live in the #[a(href="#ex--images-and-fading" :v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading] example.
 
     li
       a(id="vueper-slides-settings--fixed-height" name="vueper-slides-settings--fixed-height")
@@ -1777,7 +1777,7 @@
       p.
         When set to #[code true], #[code 1] or #[code -1], adds a parallax effect on the slideshow.#[br]
         If #[code -1] is given, the parallax effect is reversed and the image will go in the opposite way of the scrolling direction.#[br]
-        See this setting live in the #[a(href="#ex--parallax" v-scroll-to="'#ex--parallax'") Parallax Effect] example.
+        See this setting live in the #[a(href="#ex--parallax" :v-scroll-to="'#ex--parallax'") Parallax Effect] example.
 
       highlight(type="success" tag="div")
         | The parallax algorythm is smart and has 2 advantages in comparison to #[em Vuetify]'s #[code v-parallax] for instance:
@@ -1801,7 +1801,7 @@
       p.
         If #[code autoplay] is on, setting #[code pauseOnHover] stops the autoplay
         while hovering then resets to the defined #[code duration] when you stop hovering.#[br]
-        See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
+        See this setting live in the #[a(href="#ex--basic" :v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
       | #[code pauseOnTouch], #[strong.mr1 Type:] #[code="[Boolean]"], #[strong.mr1 Default:] #[code true]
@@ -1809,7 +1809,7 @@
         If #[code autoplay] is on, setting #[code pauseOnTouch] stops the autoplay
         as soon as you touch any element contained in the slideshow.#[br]
         When you touch outside of the slideshow, the autoplay resumes.#[br]
-        See this setting live in the #[a(href="#ex--basic" v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
+        See this setting live in the #[a(href="#ex--basic" :v-scroll-to="'#ex--basic'") Basic with Autoplay] example.
 
     li
       | #[code preventYScroll], #[strong.mr1 Type:] #[code="[Boolean]"], #[strong.mr1 Default:] #[code false]
@@ -1833,7 +1833,7 @@
         Display the current slide title &amp; content outside the slide.#[br]
         You can position the content above or under the slideshow with the keywords
         #[code top] &amp; #[code bottom].#[br]
-        See this setting live in the #[a(href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading] example.
+        See this setting live in the #[a(href="#ex--images-and-fading" :v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading] example.
 
     li
       | #[code slideContentOutsideClass], #[strong.mr1 Type:] #[code="[String]"], #[strong.mr1 Default:] #[code ""]
@@ -2114,7 +2114,7 @@
     #[strong="If you choose to include vueperslides.css but don't want the default inner shadow"]
     a '#[code no-shadow]' class is here for that, to be placed on the
     #[code &lt;vueperslides&gt;] tag.#[br]
-    An example is visible on the #[a(href="#ex--center-mode" v-scroll-to="'#ex--center-mode'") Center Mode] slideshow.
+    An example is visible on the #[a(href="#ex--center-mode" :v-scroll-to="'#ex--center-mode'") Center Mode] slideshow.
 
   h3
     a(href="#available-css-classes" :v-scroll-to="'#available-css-classes'") Available CSS Classes
@@ -2144,7 +2144,7 @@
         li.
           #[a(href="#ex--events" :v-scroll-to="'#ex--events'") Events example] for custom styles on the current slide.
         li.
-          #[a(href="#ex--images-and-fading" v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading example] for transition style on
+          #[a(href="#ex--images-and-fading" :v-scroll-to="'#ex--images-and-fading'") Images &amp; Fading example] for transition style on
           the content using #[code vueperslides--animated].
 
   h2
@@ -2276,7 +2276,7 @@
       strong Version 1.16.0
       p.
         The Vueper Slides CSS file has been renamed from #[code import 'vueperslides/dist/vueperslides.min.css'] to #[code import 'vueperslides/dist/vueperslides.css']
-        (refer to #[a(href="#external-css" v-scroll-to="'#external-css'") External CSS]).
+        (refer to #[a(href="#external-css" :v-scroll-to="'#external-css'") External CSS]).
     li
       strong Version 1.11.0
       ul
@@ -2303,7 +2303,7 @@
       strong Version 1.6.0
       p.
         You now need to include Vueper Slides CSS file for default styles
-        (refer to #[a(href="#external-css" v-scroll-to="'#external-css'") External CSS]).#[br]
+        (refer to #[a(href="#external-css" :v-scroll-to="'#external-css'") External CSS]).#[br]
         #[code import 'vueperslides/dist/vueperslides.css']
 </template>
 
