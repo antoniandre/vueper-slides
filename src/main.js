@@ -3,7 +3,7 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
 import { createApp, h } from 'vue'
-// import vuetify from './plugins/vuetify'
+import WaveUI from './plugins/wave-ui'
 
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
 import '@fortawesome/fontawesome-free/css/brands.css'
@@ -11,7 +11,10 @@ import '@fortawesome/fontawesome-free/css/brands.css'
 import App from './app'
 import router from './router/'
 
-createApp({
-  // vuetify,
-  render: () => h(App)
-}).use(router).mount('#app')
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  WaveUI,
+  render: h => h(App)
+}).$mount('#app')

@@ -19,5 +19,11 @@ module.exports = {
     //     return options
     //   })
   },
-  // transpileDependencies: ['vuetify']
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: '@import "@/scss/_variables.scss";'
+      }
+    }
+  }
 }
