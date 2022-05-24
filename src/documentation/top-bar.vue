@@ -17,7 +17,7 @@ w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
       align-right
       transition="slide-fade-down"
       menu-class="mt0"
-      detach-to=".top-bar__items"
+      append-to=".top-bar__items"
       custom)
       template(#activator="{ on }")
         w-button(
@@ -51,7 +51,7 @@ w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
       align-right
       transition="slide-fade-down"
       menu-class="mt0"
-      detach-to=".top-bar__items"
+      append-to=".top-bar__items"
       custom)
       template(#activator="{ on }")
         w-button(
@@ -146,8 +146,8 @@ export default {
   &__title {
     position: relative;
     overflow: visible;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-left: auto;
+    margin-right: auto;
     width: 23em;
     transition: 0.3s ease-in-out;
     font-size: 1em;
@@ -210,15 +210,6 @@ export default {
     transition: 0.3s ease-in-out;
     transform: translateX(100%);
     opacity: 0;
-  }
-
-  .v-menu__content {max-height: 90vh;}
-  .v-menu__content .w-list-item {
-    height: 30px;
-    font-size: 1em;
-    padding-left: 32px;
-
-    &.heading {padding-left: 8px;color: #666 !important;}
   }
 
   .w-tag.w-tag--sm {

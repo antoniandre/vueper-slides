@@ -6,7 +6,6 @@ w-app(:class="{ ready }" v-scroll="onScroll")
   w-transition-twist
     w-button.go-top(
       v-show="!goTopHidden"
-      bg-color="primary"
       icon="material-icons keyboard_arrow_up"
       fixed
       bottom
@@ -14,7 +13,7 @@ w-app(:class="{ ready }" v-scroll="onScroll")
       round
       :v-scroll-to="'#top'")
 
-  footer.py2(color="white")
+  footer.py2
     w-flex.max-widthed(wrap justify-center)
       .xs12.sm6.text-center.smu-text-left.copyright.
         Copyright © {{ (new Date()).getFullYear() }} Antoni André, all rights reserved.
@@ -47,7 +46,7 @@ export default {
   },
   directives: {
     scroll: {
-      inserted: (el, binding) => {
+      mounted: (el, binding) => {
         const f = evt => {
           if (binding.value(evt, el)) window.removeEventListener('scroll', f)
         }
