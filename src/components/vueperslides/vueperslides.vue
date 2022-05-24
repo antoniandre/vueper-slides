@@ -780,8 +780,7 @@ export default {
       }
 
       // If dragging.
-      if (infinite && this.nextSlideIsClone !== false) {}
-      else if (this.touch.dragStartX && currentMouseX) {
+      if (this.touch.dragStartX && currentMouseX && !(infinite && this.nextSlideIsClone !== false)) {
         let dragPercentage = 0
         const dragPercentageStart = (this.touch.dragStartX - this.container.offsetLeft) / this.container.clientWidth
         let dragPercentageNow = (currentMouseX - this.container.offsetLeft) / this.container.clientWidth
