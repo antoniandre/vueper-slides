@@ -11,7 +11,7 @@ w-app(:class="{ ready }" v-scroll="onScroll")
       bottom
       right
       round
-      :v-scroll-to="'#top'")
+      @click="scrollToTop")
 
   footer.py2
     w-flex.max-widthed(wrap justify-center)
@@ -42,6 +42,9 @@ export default {
     onScroll () {
       this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
       this.goTopHidden = this.offsetTop < 200
+    },
+    scrollToTop () {
+      document.documentElement.scrollTo({ top: 0, behavior: 'smooth' })
     }
   },
   directives: {
