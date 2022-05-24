@@ -40,7 +40,6 @@
     "simple-syntax-highlighter": "^2.2.0",
     "vue": "^3.2.36",
     "vue-router": "^4.0.15",
-    "vue-scrollto": "^2.19.1",
     "wave-ui": "^2.39.1"
   },
   "keywords": [
