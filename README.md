@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/dt/vueperslides.svg)](https://www.npmjs.com/package/vueperslides)
 [![npm](https://img.shields.io/npm/dw/vueperslides.svg)](https://www.npmjs.com/package/vueperslides)
 
-> A touch ready and responsive slideshow / carousel for Vue and Vue 3.
+> A touch ready and responsive slideshow / carousel for Vue 3 and 2.
 
 ## Installation
 
