@@ -1,16 +1,12 @@
 module.exports = {
+  root: true,
   env: {
-    browser: true,
-    es2021: true,
     node: true
   },
   extends: [
-    'plugin:vue/vue3-essential',
-    '@vue/standard'
+    'plugin:vue/vue3-essential'
   ],
   parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module',
     parser: 'babel-eslint'
   },
   plugins: [
@@ -18,9 +14,7 @@ module.exports = {
   ],
   rules: {
     'brace-style': [2, 'stroustrup', { allowSingleLine: true }],
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
-  },
-
-  root: true
+    'no-console': import.meta.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': import.meta.env.NODE_ENV === 'production' ? 'warn' : 'off'
+  }
 }
