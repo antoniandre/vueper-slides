@@ -5,9 +5,9 @@
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base /vueperslides/",
-    "build-bundle": "BUNDLE=true vite build",
-    "serve": "vite preview --root docs --base /vueperslides/",
+    "build": "vite build --base=/vueperslides/",
+    "build-bundle": "BUNDLE=true vite build && mv dist/style.css dist/vueperslides.css",
+    "serve": "vite preview --base=/vueperslides/",
     "lint": "vite lint"
   },
   "main": "dist/vueperslides.common.js",
@@ -32,6 +32,7 @@
     "postcss": "^8.4.14",
     "pug": "^3.0.2",
     "rollup": "^2.74.1",
+    "rollup-plugin-delete": "^2.0.0",
     "sass": "1.49.8",
     "simple-syntax-highlighter": "^2.2.0",
     "vite": "^2.9.9",
