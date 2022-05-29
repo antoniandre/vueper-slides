@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import VueperSlide from './vueperslide'
+import VueperSlide from './vueperslide.vue'
 import './styles.scss'
 
 export default {

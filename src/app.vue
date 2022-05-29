@@ -23,13 +23,12 @@ w-app(:class="{ ready }" v-scroll="onScroll")
 </template>
 
 <script>
-import Documentation from '@/documentation'
-import TopBar from '@/documentation/top-bar'
+import TopBar from '@/documentation/top-bar.vue'
 import '@/scss/index.scss'
 
 export default {
   name: 'app',
-  components: { Documentation, TopBar },
+  components: { TopBar },
   data: () => ({
     ready: false,
     offsetTop: 0,

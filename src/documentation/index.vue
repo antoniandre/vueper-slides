@@ -2310,9 +2310,9 @@
 </template>
 
 <script>
-import { VueperSlides, VueperSlide } from '@/components/vueperslides/'
 import SshPre from 'simple-syntax-highlighter'
-import Highlight from '@/components/highlight-message/index'
+import { VueperSlides, VueperSlide } from '@/components/vueperslides/index'
+import Highlight from '@/components/highlight-message/index.vue'
 
 import '@/components/vueperslides/styles.scss'
 import 'simple-syntax-highlighter/dist/sshpre.css'
@@ -2391,19 +2391,19 @@ export default {
       {
         title: 'El Teide Volcano, Spain',
         content: 'Photo by Max Rive',
-        image: `${process.env.BASE_URL}images/el-teide-volcano-spain.jpg`,
+        image: `${import.meta.env.BASE_URL}images/el-teide-volcano-spain.jpg`,
         link: 'https://www.maxrivephotography.com/index/C0000rU1RKCHdqwI/G0000X57AtIzuRX0/I0000Gvr9HqdtyXk'
       },
       {
         title: 'Chernobyl, Ukraine',
         content: 'Photo by Jesse Moran',
-        image: `${process.env.BASE_URL}images/chernobyl-ukraine.jpg`,
+        image: `${import.meta.env.BASE_URL}images/chernobyl-ukraine.jpg`,
         link: 'https://www.flickr.com/photos/jessemoran'
       },
       {
         title: 'Crater Lake, Oregon, USA',
         content: 'Photo by Jesse Moran',
-        image: `${process.env.BASE_URL}images/crater-lake-oregon-usa.jpg`,
+        image: `${import.meta.env.BASE_URL}images/crater-lake-oregon-usa.jpg`,
         link: 'https://flic.kr/p/2cxrCmp'
       }
     ],
@@ -2421,26 +2421,26 @@ export default {
       { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Alex_Noriega_Pure_Magic.jpg' },
       { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Jesse_Moran_Resurrect.jpg' },
       { image: 'https://combo.staticflickr.com/ap/build/images/sohp/2019-top-25/Perez_Alonso%20Photography_Chocolate_Mountains.jpg' },
-      { image: `${process.env.BASE_URL}images/easton-wa-usa.jpg` }
+      { image: `${import.meta.env.BASE_URL}images/easton-wa-usa.jpg` }
     ],
     videoSlides1: [
       {
         title: 'Blossoming flower',
         content: 'This video is autoplayed, played in loop, has no controls and is not reacting to user interactions.',
-        image: `${process.env.BASE_URL}images/flower.jpg`,
+        image: `${import.meta.env.BASE_URL}images/flower.jpg`,
         video: {
-          webm: `${process.env.BASE_URL}images/flower.webm`,
-          mp4: `${process.env.BASE_URL}images/flower.mp4`,
+          webm: `${import.meta.env.BASE_URL}images/flower.webm`,
+          mp4: `${import.meta.env.BASE_URL}images/flower.mp4`,
           props: { autoplay: true, loop: true, controls: false, muted: true }
         }
       },
       {
         title: 'Blossoming flower',
         content: 'This video is played once, has controls and is reacting to user interactions.',
-        image: `${process.env.BASE_URL}images/flower.jpg`,
+        image: `${import.meta.env.BASE_URL}images/flower.jpg`,
         video: {
-          webm: `${process.env.BASE_URL}images/flower.webm`,
-          mp4: `${process.env.BASE_URL}images/flower.mp4`
+          webm: `${import.meta.env.BASE_URL}images/flower.webm`,
+          mp4: `${import.meta.env.BASE_URL}images/flower.mp4`
         }
       }
     ],

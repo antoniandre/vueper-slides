@@ -1,13 +1,9 @@
-// Polyfill.
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
-
 import { createApp } from 'vue'
 import WaveUI from 'wave-ui'
 import 'wave-ui/dist/wave-ui.css'
 
-import App from './app'
-import router from './router/'
+import App from '@/app.vue'
+import router from '@/router/index'
 
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
 import '@fortawesome/fontawesome-free/css/brands.css'

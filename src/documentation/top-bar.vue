@@ -83,10 +83,6 @@ w-toolbar.top-bar.pa0(:class="{ scrolled: offsetTop > 104 }")
 </template>
 
 <script>
-// import Vue from 'vue'
-// import VueScrollTo from 'vue-scrollto'
-// Vue.use(VueScrollTo)
-
 export default {
   props: {
     offsetTop: { type: Number, default: 0 }

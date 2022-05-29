@@ -15,7 +15,7 @@ div
 </template>
 
 <script>
-import { VueperSlides, VueperSlide } from '@/components/vueperslides/'
+import { VueperSlides, VueperSlide } from '@/components/vueperslides/index'
 import '@/components/vueperslides/styles.scss'
 
 export default {
@@ -26,19 +26,19 @@ export default {
       {
         title: 'El Teide Volcano, Spain',
         content: 'Photo by Max Rive',
-        image: `${process.env.BASE_URL}images/el-teide-volcano-spain.jpg`,
+        image: `${import.meta.env.BASE_URL}images/el-teide-volcano-spain.jpg`,
         link: 'https://www.maxrivephotography.com/index/C0000rU1RKCHdqwI/G0000X57AtIzuRX0/I0000Gvr9HqdtyXk'
       },
       {
         title: 'Chernobyl, Ukraine',
         content: 'Photo by Jesse Moran',
-        image: `${process.env.BASE_URL}images/chernobyl-ukraine.jpg`,
+        image: `${import.meta.env.BASE_URL}images/chernobyl-ukraine.jpg`,
         link: 'https://www.flickr.com/photos/jessemoran'
       },
       {
         title: 'Crater Lake, Oregon, USA',
         content: 'Photo by Jesse Moran',
-        image: `${process.env.BASE_URL}images/crater-lake-oregon-usa.jpg`,
+        image: `${import.meta.env.BASE_URL}images/crater-lake-oregon-usa.jpg`,
         link: 'https://flic.kr/p/2cxrCmp'
       }
     ],
@@ -68,7 +68,7 @@ export default {
     log (...param) {
       console.log(...param)
     },
-    getImage: image => `${process.env.BASE_URL}/images/${image}`
+    getImage: image => `${import.meta.env.BASE_URL}/images/${image}`
   }
 }
 </script>

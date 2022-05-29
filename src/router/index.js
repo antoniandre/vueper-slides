@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Documentation from '@/documentation/'
+import Documentation from '@/documentation/index.vue'
 
 export default createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
