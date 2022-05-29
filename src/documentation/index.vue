@@ -1471,7 +1471,9 @@
 
   ssh-pre(language="js" label="Javascript").
     // In your component's data.
-    // If using `${process.env.BASE_URL}` your images must be in the `public` folder.
+    // If using `{{ 'process.env' }}.BASE_URL` (for Vue CLI),
+    // or `{{ 'import.meta.env' }}.BASE_URL` (for Vite),
+    // your images must be in the `public` folder.
     slides: [
       {
         title: 'Blossoming flower',
