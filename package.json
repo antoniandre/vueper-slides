@@ -10,9 +10,18 @@
     "serve": "vite preview --base=/vueperslides/",
     "lint": "vite lint"
   },
-  "main": "dist/vueperslides.common.js",
-  "unpkg": "dist/vueperslides.umd.min.js",
-  "jsdelivr": "dist/vueperslides.umd.min.js",
+  "main": "./dist/vueperslides.umd.js",
+  "unpkg": "./dist/vueperslides.umd.js",
+  "jsdelivr": "./dist/vueperslides.umd.js",
+  "module": "./dist/vueperslides.es.js",
+  "exports": {
+    "./dist/vueperslides.css": "./dist/vueperslides.css",
+    "./dist/vueperslides.cjs.js": "./dist/vueperslides.cjs.js",
+    ".": {
+      "import": "./dist/vueperslides.es.js",
+      "require": "./dist/vueperslides.umd.js"
+    }
+  },
   "files": [
     "dist/"
   ],
