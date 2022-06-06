@@ -133,19 +133,40 @@
     Check the #[a(href="#examples" :v-scroll-to="'#examples'") examples] &amp; #[a(href="#vueper-slides--api" :v-scroll-to="'#vueper-slides--api'") API] sections to know more.
   ssh-pre(language="html-vue" label="HTML Vue Template").
     &lt;vueper-slides&gt;
-      &lt;vueper-slide v-for="(slide, i) in slides" :key="i" :title="slide.title" :content="slide.content" /&gt;
+      &lt;vueper-slide
+        v-for="(slide, i) in slides"
+        :key="i"
+        :title="slide.title"
+        :content="slide.content"&gt;
+      &lt;/vueper-slide&gt;
     &lt;/vueper-slides&gt;
 
-  ssh-pre(language="js" label="Javascript").
-    // In your Vue.js component.
-    data: () => ({
-      slides: [
+  w-flex
+    ssh-pre.grow(language="js" label="Using Vue 3 <script setup>").
+      const slides = [
         {
           title: 'Slide #1',
-          content: 'Slide content.'
+          content: 'Slide 1 content.'
+        },
+        {
+          title: 'Slide #2',
+          content: 'Slide 2 content.'
         }
       ]
-    })
+    w-divider or
+    ssh-pre.grow(language="js" label="Vue 2 or Vue 3 without composition API").
+      data: () => ({
+        slides: [
+          {
+            title: 'Slide #1',
+            content: 'Slide 1 content.'
+          },
+          {
+            title: 'Slide #2',
+            content: 'Slide 2 content.'
+          }
+        ]
+      })
 
   h2
     a(href="#examples" :v-scroll-to="'#examples'") Examples of Use
