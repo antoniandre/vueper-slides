@@ -5,9 +5,9 @@
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/vueperslides/",
+    "build": "vite build --base=/vueper-slides/",
     "build-bundle": "BUNDLE=true vite build && mv dist/style.css dist/vueperslides.css",
-    "serve": "vite preview --base=/vueperslides/",
+    "serve": "vite preview --base=/vueper-slides/",
     "lint": "vite lint"
   },
   "main": "./dist/vueperslides.umd.js",
