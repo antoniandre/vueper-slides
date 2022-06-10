@@ -93,10 +93,10 @@
     a(id="installation" name="installation")
   p You have two options: #[em.mr1 NPM] or #[span.ml1.code &lt;script&gt;] tag.
   h3.mt12 Via NPM
-  .mt6.w-flex.align-center.mt2.xs-column.xs-align-start
-    ssh-pre.my0(language="shell") npm i vueperslides # Vue 3.
+  p.w-flex.align-center.mt6.xs-column.xs-align-start.shrink
+    ssh-pre.ma0(language="shell") npm i vueperslides # Vue 3.
     span.mx6 or
-    ssh-pre.my0(language="shell") npm i vueperslides@legacy # Vue 2.
+    ssh-pre.ma0(language="shell") npm i vueperslides@legacy # Vue 2.
   p.mt4 Then import the 2 components and use it:
   ssh-pre(language="js" label="Javascript").
     // In your Vue.js component.
