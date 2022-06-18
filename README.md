@@ -9,14 +9,15 @@
 
 ## Installation
 
+**Vue 3**
 ```
 npm install vueperslides
 ```
 
-**Vue 3**
+**Vue 2**
 
 ```
-npm install vueperslides@next
+npm install vueperslides@legacy
 ```
 
 ___
