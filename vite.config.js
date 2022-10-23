@@ -7,7 +7,6 @@ const build = process.env.BUNDLE ? {
   lib: {
     entry: resolve(__dirname, '/src/components/vueperslides/index.js'),
     name: 'vueperslides',
-    fileName: 'vueperslides',
     formats: ['es', 'umd', 'cjs']
   },
   rollupOptions: {
@@ -20,9 +19,9 @@ const build = process.env.BUNDLE ? {
     external: ['vue'],
     output: {
       // Provide global variables to use in the UMD build for externalized deps.
-      globals: {
-        vue: 'Vue'
-      }
+      globals: { vue: 'Vue' },
+      entryFileNames: 'vueperslides.[format].js',
+      chunkFileNames: '[name].js'
     }
   }
 } : {
