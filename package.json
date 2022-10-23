@@ -3,19 +3,30 @@
   "version": "2.15.3",
   "description": "A touch ready and responsive slideshow for Vue and Vue 3.",
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build-bundle": "vue-cli-service build --target lib --name vueperslides ./src/components/vueperslides/index.js --dest ./dist && rm ./dist/demo.html"
-  },
+  "homepage": "https://antoniandre.github.io/vueper-slides",
+  "repository": "https://github.com/antoniandre/vueper-slides",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antoniandre",
   "main": "dist/vueperslides.common.js",
   "unpkg": "dist/vueperslides.umd.min.js",
   "jsdelivr": "dist/vueperslides.umd.min.js",
   "files": [
     "dist/"
   ],
-  "dependencies": {},
+  "keywords": [
+    "carousel",
+    "slideshow",
+    "vue",
+    "vue3",
+    "vuejs",
+    "ui"
+  ],
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build-bundle": "vue-cli-service build --target lib --name vueperslides ./src/components/vueperslides/index.js --dest ./dist && rm ./dist/demo.html"
+  },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@vue/cli-plugin-babel": "^4.5.13",
@@ -43,14 +54,7 @@
     "vue-template-compiler": "^2.6.14",
     "wave-ui": "^1.37.1"
   },
-  "keywords": [
-    "carousel",
-    "slideshow",
-    "vue",
-    "vue3",
-    "vuejs",
-    "ui"
-  ],
-  "license": "MIT",
-  "repository": "https://github.com/antoniandre/vueper-slides"
+  "peerDependencies": {
+    "vue": "^2.6.14 || ^3.2.0"
+  }
 }
