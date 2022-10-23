@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import Delete from 'rollup-plugin-delete'
+import autoprefixer from 'autoprefixer'
 
 const build = process.env.BUNDLE ? {
   lib: {
@@ -48,6 +49,9 @@ export default defineConfig({
       scss: {
         additionalData: '@import "@/scss/_variables.scss";'
       }
+    },
+    postcss: {
+      plugins: [autoprefixer]
     }
   },
   build
