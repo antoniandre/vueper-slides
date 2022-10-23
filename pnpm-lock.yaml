@@ -16,12 +16,12 @@ specifiers:
   pug: ^3.0.2
   rollup: ^3.2.3
   rollup-plugin-delete: ^2.0.0
-  sass: ^1.49.8
+  sass: ^1.55.0
   simple-syntax-highlighter: ^2.2.3
   vite: ^3.1.8
   vue: ^3.2.41
   vue-router: ^4.1.5
-  wave-ui: ^2.43.0
+  wave-ui: ^2.43.1
 
 devDependencies:
   '@babel/core': 7.19.6
@@ -39,12 +39,12 @@ devDependencies:
   pug: 3.0.2
   rollup: 3.2.3
   rollup-plugin-delete: 2.0.0
-  sass: 1.49.8
+  sass: 1.55.0
   simple-syntax-highlighter: 2.2.3_vue@3.2.41
-  vite: 3.1.8_sass@1.49.8
+  vite: 3.1.8_sass@1.55.0
   vue: 3.2.41
   vue-router: 4.1.5_vue@3.2.41
-  wave-ui: 2.43.0
+  wave-ui: 2.43.1
 
 packages:
 
@@ -415,7 +415,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.1.8_sass@1.49.8
+      vite: 3.1.8_sass@1.55.0
       vue: 3.2.41
     dev: true
 
@@ -2280,8 +2280,8 @@ packages:
       is-regex: 1.1.4
     dev: true
 
-  /sass/1.49.8:
-    resolution: {integrity: sha512-NoGOjvDDOU9og9oAxhRnap71QaTjjlzrvLnKecUJ3GxhaQBrV6e7gPuSPF28u1OcVAArVojPAe4ZhOXwwC4tGw==}
+  /sass/1.55.0:
+    resolution: {integrity: sha512-Pk+PMy7OGLs9WaxZGJMn7S96dvlyVBwwtToX895WmCpAOr5YiJYEUJfiJidMuKb613z2xNWcXCHEuOvjZbqC6A==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
@@ -2473,7 +2473,7 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /vite/3.1.8_sass@1.49.8:
+  /vite/3.1.8_sass@1.55.0:
     resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -2496,7 +2496,7 @@ packages:
       postcss: 8.4.18
       resolve: 1.22.1
       rollup: 2.78.1
-      sass: 1.49.8
+      sass: 1.55.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -2543,8 +2543,8 @@ packages:
       '@vue/shared': 3.2.41
     dev: true
 
-  /wave-ui/2.43.0:
-    resolution: {integrity: sha512-r1VcYFbCRvDMu7O31NuowUH37c4GPXfUIJIeLGEdbIYlUdTE64cD7RePAh2UqBU0EE4AUrbhD7WSZKMl+Elcuw==}
+  /wave-ui/2.43.1:
+    resolution: {integrity: sha512-s6INgeC4YMwIVbglhXEdjVeyOk7MxUN7pa9e7MJT03b8zA7UUtY32ObjlzPtKo+m1GGYL1Q7yjpMchUqkz561g==}
     dev: true
 
   /which-boxed-primitive/1.0.2:

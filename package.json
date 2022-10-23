@@ -53,12 +53,12 @@
     "pug": "^3.0.2",
     "rollup": "^3.2.3",
     "rollup-plugin-delete": "^2.0.0",
-    "sass": "^1.49.8",
+    "sass": "^1.55.0",
     "simple-syntax-highlighter": "^2.2.3",
     "vite": "^3.1.8",
     "vue": "^3.2.41",
     "vue-router": "^4.1.5",
-    "wave-ui": "^2.43.0"
+    "wave-ui": "^2.43.1"
   },
   "peerDependencies": {
     "vue": "^2.6.14 || ^3.2.0"
