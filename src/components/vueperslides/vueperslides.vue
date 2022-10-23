@@ -106,7 +106,11 @@
           @click="goToSlide(slideIndex)"
           @keyup.left="conf.rtl ? next() : previous()"
           @keyup.right="conf.rtl ? previous() : next()")
-          slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
+          slot(
+            name="bullet"
+            :active="slides.current === slideIndex"
+            :slide-index="slideIndex"
+            :index="i + 1")
             .default
               span {{ i + 1 }}
 
@@ -132,7 +136,11 @@
         @click="goToSlide(slideIndex)"
         @keyup.left="conf.rtl ? next() : previous()"
         @keyup.right="conf.rtl ? previous() : next()")
-        slot(name="bullet" :active="slides.current === slideIndex" :slide-index="slideIndex" :index="i + 1")
+        slot(
+          name="bullet"
+          :active="slides.current === slideIndex"
+          :slide-index="slideIndex"
+          :index="i + 1")
           .default
             span {{ i + 1 }}
 
@@ -553,19 +561,7 @@ export default {
       }
 
       // Parallax slideshow.
-      if (this.conf.parallax) {
-        // First render the onload translation.
-        this.refreshParallax()
-
-        // Then add event listener.
-        // The scrolling DOM element may be a different element than the HTML document.
-        if (this.pageScrollingElement) {
-          // Store the found DOM element in variable for fast access in onScroll().
-          this.parallaxData.scrollingEl = document.querySelector(this.pageScrollingElement)
-          this.parallaxData.scrollingEl.addEventListener('scroll', this.onScroll)
-        }
-        else document.addEventListener('scroll', this.onScroll)
-      }
+      if (this.conf.parallax) this.enableParallax()
     },
 
     // Recursively sum all the offsetTop values from current element up the tree until body.
@@ -581,6 +577,29 @@ export default {
       }
 
       return this.parallaxData.slideshowOffsetTop
+    },
+
+    enableParallax () {
+      // First render the onload translation.
+      this.refreshParallax()
+
+      // Then add event listener.
+      // The scrolling DOM element may be a different element than the HTML document.
+      if (this.pageScrollingElement) {
+        // Store the found DOM element in variable for fast access in onScroll().
+        this.parallaxData.scrollingEl = document.querySelector(this.pageScrollingElement)
+        this.parallaxData.scrollingEl.addEventListener('scroll', this.onScroll)
+      }
+      else document.addEventListener('scroll', this.onScroll)
+    },
+
+    disableParallax () {
+      const scrollingElement = this.pageScrollingElement ? document.querySelector(this.pageScrollingElement) : document
+      scrollingElement.removeEventListener('scroll', this.onScroll)
+      this.parallaxData.scrollingEl = null
+      this.parallaxData.isVisible = false
+      this.parallaxData.translation = 0
+      this.parallaxData.slideshowOffsetTop = null
     },
 
     onScroll () {
@@ -1102,6 +1121,9 @@ export default {
   watch: {
     isPaused (bool) {
       this[bool ? 'pauseAutoplay' : 'resumeAutoplay']()
+    },
+    parallax (bool) {
+      this[bool ? 'enableParallax' : 'disableParallax']()
     }
   },
 
@@ -1112,11 +1134,7 @@ export default {
   beforeUnmount () {
     this.removeEventListeners()
 
-    if (this.pageScrollingElement) {
-      document.querySelector(this.pageScrollingElement).removeEventListener('scroll', this.onScroll)
-    }
-    else document.removeEventListener('scroll', this.onScroll)
-    document.removeEventListener('scroll', this.onScroll)
+    if (this.conf.parallax) this.disableParallax()
     window.removeEventListener('resize', this.onResize)
     document.removeEventListener('touchstart', e => {
       this[this.$el.contains(e.target) ? 'onSlideshowTouch' : 'onOustideTouch']()
