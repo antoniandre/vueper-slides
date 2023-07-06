@@ -971,12 +971,10 @@ export default {
       if (this.isReady && !jumping && emit) this.emit('before-slide', true, nextSlide)
 
       // First pause all the videos.
-      // this.slides.list.forEach(slide => slide.video && slide.video.pause())
+      this.slides.list.forEach(slide => slide.video && slide.video.pause())
 
       const nextSlideObj = this.slides.list[nextSlide]
-      if (this.isReady && nextSlideObj.video) {
-        const currSlideObj = this.slides.list[this.slides.current]
-        if (currSlideObj.video) currSlideObj.video.pause()
+      if (this.isReady && nextSlideObj?.video?.props?.autoplay) {
         nextSlideObj.video.play()
       }
 
@@ -1083,6 +1081,8 @@ export default {
     loadSlide (slide, index) {
       slide.loadImage()
         .then(response => {
+          if (!response) return
+
           const { image, style } = response
           slide.loaded = true
           slide.image = image

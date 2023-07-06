@@ -12,8 +12,6 @@ component.vueperslide(
   template(v-if="videoObj")
     video.vueperslide__video(
       v-if="videoObj.webm || videoObj.mp4"
-      width="100%"
-      height="100%"
       v-bind="videoObj.props || {}")
       source(v-if="videoObj.webm" :src="videoObj.webm" type="video/webm")
       source(v-if="videoObj.mp4" :src="videoObj.mp4" type="video/mp4")
@@ -85,7 +83,7 @@ export default {
       const { visibleSlides, fade, slideImageInside, gap, gapPx } = this.conf
 
       return {
-        ...(!slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")` }),
+        ...(!slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")`, backgroundRepeat: 'no-repeat' }),
         ...(visibleSlides > 1 && { width: (100 - (gap ? gap * (visibleSlides - 1) : 0)) / visibleSlides + '%' }),
         ...(visibleSlides > 1 && fade && { [this.conf.rtl ? 'right' : 'left']: ((this.slideIndex % visibleSlides) / visibleSlides) * 100 + '%' }),
         ...(gap && { [this.conf.rtl ? 'marginLeft' : 'marginRight']: gap + (gapPx ? 'px' : '%') })
@@ -102,7 +100,10 @@ export default {
       return /youtube\.|youtu\.be/.test(this.videoObj.url)
     },
     imageStyles () {
-      return { ...(this.conf.slideImageInside && this.imageSrc && { backgroundImage: `url("${this.imageSrc}")` }) }
+      if (!this.conf.slideImageInside || !this.imageSrc) {
+        return {}
+      }
+      return { backgroundImage: `url("${this.imageSrc}")`, backgroundRepeat: 'no-repeat' }
     },
     slideFace3d () {
       if (!this.conf['3d']) return false
@@ -159,12 +160,14 @@ export default {
 
     // Only for lazy loading, this method is called from the Vueperslides component.
     loadImage () {
-      // Don't try to reload image if already loaded.
-      if (this.loading || this.loaded) return
-
-      this.loading = true
-
       return new Promise((resolve, reject) => {
+        // Don't try to reload image if already loaded.
+        if (this.loading || this.loaded || !this.image?.length) {
+          this.loaded = true
+          return resolve(null)
+        }
+
+        this.loading = true
         const img = document.createElement('img')
         img.onload = () => {
           this.imageSrc = this.image
