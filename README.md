@@ -64,6 +64,7 @@ ___
 
 ## Release Notes
 
+- __Version 3.6__ Supports ES modules and default to it.
 - __Version 3.0__ Supports Vue 3. This version is not compatible with Vue 2.x.
 - __Version 2.8__ Added lazy loading feature
 - __Version 2.7__ Added `duration` option on `&lt;vueper-slide&gt;` tag
