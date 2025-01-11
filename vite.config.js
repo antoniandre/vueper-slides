@@ -4,7 +4,7 @@ import { resolve } from 'path'
 import Delete from 'rollup-plugin-delete'
 import autoprefixer from 'autoprefixer'
 
-const build = process.env.BUNDLE ? {
+const build = {
   lib: {
     entry: resolve(__dirname, '/src/components/vueperslides/index.js'),
     name: 'vueperslides',
@@ -25,8 +25,6 @@ const build = process.env.BUNDLE ? {
       chunkFileNames: '[name].js'
     }
   }
-} : {
-  outDir: 'docs'
 }
 
 export default defineConfig({
@@ -47,12 +45,13 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "@/scss/_variables.scss";'
+        api: 'modern-compiler',
+        additionalData: '@use "@/scss/variables" as *;'
       }
     },
     postcss: {
       plugins: [autoprefixer]
     }
   },
-  build
+  build: process.env.BUNDLE ? bundlingConf : { outDir: 'docs' }
 })
