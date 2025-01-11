@@ -8,19 +8,22 @@ import router from '@/router/index'
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
 import '@fortawesome/fontawesome-free/css/brands.css'
 
-const app = createApp(App).use(router)
+const app = createApp(App)
 
-// eslint-disable-next-line no-new
-new WaveUI(app, {
+app.use(router)
+app.use(WaveUI, {
   iconsLigature: 'material-icons',
   colors: {
-    primary: '#ff5252',
-    secondary: '#42b983',
-    maintext: '#999',
-    darktext: '#444',
-    lightertext: '#ccc',
-    lightgrey: '#eee'
-  }
+    light: {
+      primary: '#ff5252',
+      secondary: '#42b983',
+      maintext: '#999',
+      darktext: '#444',
+      lightertext: '#ccc',
+      lightgrey: '#eee'
+    }
+  },
+  theme: 'light'
 })
 
 app.mount('#app')

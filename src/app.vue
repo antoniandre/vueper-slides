@@ -1,5 +1,5 @@
 <template lang="pug">
-w-app(:class="{ ready }" v-scroll="onScroll")
+div(:class="{ ready }" v-scroll="onScroll")
   top-bar(:offset-top="offsetTop")
   router-view
 
