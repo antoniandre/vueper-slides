@@ -4,11 +4,12 @@ import { resolve } from 'path'
 import Delete from 'rollup-plugin-delete'
 import autoprefixer from 'autoprefixer'
 
-const build = {
+const bundlingConf = {
+  minify: true,
   lib: {
     entry: resolve(__dirname, '/src/components/vueperslides/index.js'),
     name: 'vueperslides',
-    formats: ['es', 'umd', 'cjs']
+    fileName: format => `vueperslides.${format}.js` // Output filename pattern
   },
   rollupOptions: {
     plugins: [
@@ -19,15 +20,20 @@ const build = {
     // Make sure to externalize deps that shouldn't be bundled into library.
     external: ['vue'],
     output: {
-      // Provide global variables to use in the UMD build for externalized deps.
-      globals: { vue: 'Vue' },
-      entryFileNames: 'vueperslides.[format].js',
-      chunkFileNames: '[name].js'
+      globals: {
+        vue: 'Vue' // Vue should be treated as external and available as a global variable
+      }
     }
   }
 }
 
 export default defineConfig({
+  define: {
+    'process.env': {
+      ...process.env,
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false
+    }
+  },
   plugins: [
     Vue({
       template: {

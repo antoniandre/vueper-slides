@@ -7,7 +7,7 @@
   "repository": "https://github.com/antoniandre/vueper-slides",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antoniandre",
-  "main": "./dist/vueperslides.umd.js",
+  "main": "./dist/vueperslides.es.js",
   "unpkg": "./dist/vueperslides.umd.js",
   "jsdelivr": "./dist/vueperslides.umd.js",
   "module": "./dist/vueperslides.es.js",
@@ -22,6 +22,12 @@
     "./package.json": "./package.json",
     "./dist/*": "./dist/*"
   },
+  "type": "module",
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "*.vue"
+  ],
   "keywords": [
     "carousel",
     "slideshow",
@@ -38,11 +44,8 @@
     "lint": "vite lint"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/eslint-parser": "^7.26.5",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@vitejs/plugin-vue": "^3.2.0",
-    "@vue/compiler-sfc": "^3.5.13",
+    "@vitejs/plugin-vue": "^5.2.1",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.31.0",
@@ -51,16 +54,19 @@
     "eslint-plugin-vue": "^9.32.0",
     "postcss": "^8.4.49",
     "pug": "^3.0.3",
-    "rollup": "^3.29.5",
     "rollup-plugin-delete": "^2.1.0",
     "sass": "^1.83.1",
     "simple-syntax-highlighter": "^2.2.5",
-    "vite": "^3.2.11",
+    "vite": "^6.0.7",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "wave-ui": "^3.18.0"
   },
   "peerDependencies": {
-    "vue": "^2.6.14 || ^3.2.0"
+    "vue": "^3.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "pnpm": ">=8.0.0"
   }
 }
