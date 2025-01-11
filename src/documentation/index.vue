@@ -1560,9 +1560,9 @@
       {
         title: 'Aurora Borealis',
         content: 'This Youtube video has params in the URL and extra attributes on the iframe.',
-        image: 'https://i.ytimg.com/vi_webp/ehJg_OlcjpE/maxresdefault.webp',
+        image: 'https://i.ytimg.com/vi_webp/T75IKSXVXlc/maxresdefault.webp',
         video: {
-          url: 'https://www.youtube.com/embed/ehJg_OlcjpE?rel=0&amp;showinfo=0&amp;controls=0&amp;fs=0&amp;modestbranding=1&amp;color=white&amp;iv_load_policy=3&amp;autohide=1&amp;enablejsapi=1',
+          url: 'https://www.youtube.com/embed/T75IKSXVXlc?rel=0&amp;showinfo=0&amp;controls=0&amp;fs=0&amp;modestbranding=1&amp;color=white&amp;iv_load_policy=3&amp;autohide=1&amp;enablejsapi=1',
           props: {
             allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
           }
@@ -2471,9 +2471,9 @@ export default {
       {
         title: 'Aurora Borealis',
         content: 'This Youtube video has params in the URL and extra attributes on the iframe.',
-        image: 'https://i.ytimg.com/vi_webp/ehJg_OlcjpE/maxresdefault.webp',
+        image: 'https://i.ytimg.com/vi_webp/T75IKSXVXlc/maxresdefault.webp',
         video: {
-          url: 'https://www.youtube.com/embed/ehJg_OlcjpE?rel=0&showinfo=0&controls=0&fs=0&modestbranding=1&color=white&iv_load_policy=3&autohide=1&enablejsapi=1',
+          url: 'https://www.youtube.com/embed/T75IKSXVXlc?rel=0&showinfo=0&controls=0&fs=0&modestbranding=1&color=white&iv_load_policy=3&autohide=1&enablejsapi=1',
           props: {
             allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
           }
